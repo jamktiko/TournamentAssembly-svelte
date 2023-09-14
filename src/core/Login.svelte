@@ -1,14 +1,17 @@
 <script>
-  import Button from "./Button.svelte";
+  import {push} from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+
 </script>
 
 <main>
   <div id="container">
-    <Button>Create new Tournament as guest</Button>
+    <Button on:cClick={() => push("/header")}>Create new Tournament as guest</Button>
     <h2>or</h2>
     <div id="login-sign">
       <Button>Log in</Button>
       <Button>Sign up</Button>
+
     </div>
   </div>
 </main>
