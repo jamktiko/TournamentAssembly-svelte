@@ -3,9 +3,7 @@
 
   const dp = createEventDispatcher();
 
-  function customBtnClick() {
-    dp("cClick");
-  }
+  const customBtnClick = () => dp("cClick");
 </script>
 
 <button on:click={customBtnClick}>
