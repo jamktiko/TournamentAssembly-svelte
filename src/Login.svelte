@@ -33,8 +33,4 @@
     display: flex;
     flex-direction: column;
   }
-
-  Button {
-    margin: 10px;
-  }
 </style>

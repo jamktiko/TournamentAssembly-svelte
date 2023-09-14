@@ -12,4 +12,16 @@
   <slot />
 </button>
 
-<style></style>
+<style>
+  button {
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #444444;
+    color: whitesmoke;
+  }
+
+  button:active {
+    background-color: whitesmoke;
+    color: #444444;
+  }
+</style>
