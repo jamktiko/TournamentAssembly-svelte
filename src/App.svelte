@@ -1,11 +1,10 @@
 <script>
-  import Login from "./Login.svelte";
-  import Header from "./Header.svelte";
+  import Router from "./utils/Router.svelte";
+  import Header from "./core/Header.svelte";
 </script>
 
-<Header />
-
-<Login />
+  <Header />
+  <Router />
 
 <style>
 </style>
