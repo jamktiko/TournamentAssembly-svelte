@@ -1,7 +1,11 @@
 <script>
+  import Login from "./Login.svelte";
+  import Header from "./Header.svelte";
 </script>
 
-<main />
+<Header />
+
+<Login />
 
 <style>
 </style>
