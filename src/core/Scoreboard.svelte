@@ -2,7 +2,7 @@
   let gridData = [
     { name: '', columns: [''] },
   ];
-
+  
   function addRow() {
   const numColumns = gridData[0].columns.length;
   const newRow = {
@@ -19,8 +19,16 @@
     gridData = [...gridData]
   }
 
+
+
   function removeRow(index) {
-    gridData = gridData.filter((_, i) => i !== index);
+    const numRows = gridData.length;
+    if (numRows > 1){
+      gridData = gridData.filter((_, i) => i !== index);
+    }
+    
+    
+
   }
 
   function removeColumn(index) {
@@ -91,6 +99,7 @@
         {/each}
         <td>{calculateRowTotal(row)}</td>
         <td><button class="remove-button" on:click={() => removeRow(rowIdx)}>Remove</button></td>
+        
       </tr>
     {/each}
   </tbody>
