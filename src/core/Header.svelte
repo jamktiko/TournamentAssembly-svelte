@@ -1,7 +1,7 @@
 <script></script>
 
 <header>
-  <img id="logo" src="./build/images/TourAssLogo.png" alt="..." />
+  <img id="logo" src="./images/TourAssLogo.png" alt="..." />
 </header>
 
 <style>
