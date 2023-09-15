@@ -1,11 +1,12 @@
 <script>
-  import Header from './Header.svelte';
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
+  import App from '../App.svelte';
 
   import stateController from '../utils/stateStore';
 
   import { onDestroy } from 'svelte';
+
 
   let stateLocal;
   const unsub = stateController.subscribe((state) => (stateLocal = state));
@@ -17,6 +18,7 @@
   function loginAsGuest() {
     stateController.loginAsGuest();
     console.log(stateLocal);
+    push("/selection");
   }
 </script>
 
@@ -30,11 +32,11 @@
     </p>
   </div>
   <div id="container">
-    <Button on:cClick={loginAsGuest}>CREATE A TOURNAMENT A GUEST</Button>
+    <Button on:cClick={loginAsGuest}>CREATE A TOURNAMENT AS GUEST</Button>
     <h2>OR</h2>
     <div id="login-sign">
-      <Button>LOG IN</Button>
-      <Button>SIGN UP</Button>
+      <Button on:cClick={() => push('/LoginUser')}>LOG IN</Button>
+      <Button on:cClick={() => push('/Signup')}>SIGN UP</Button>
     </div>
   </div>
   <img id="background" src="./images/BackgroundBrackets.png" alt="..." />
