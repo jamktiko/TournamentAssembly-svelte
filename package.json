@@ -22,5 +22,9 @@
     "sirv-cli": "^2.0.0",
     "svelte-navigator": "^3.2.2",
     "svelte-spa-router": "^3.3.0"
-  }
+  },
+  "description": "---",
+  "main": "rollup.config.js",
+  "author": "Jani H.",
+  "license": "ISC"
 }
