@@ -1,10 +1,14 @@
 <script>
   import Router from './utils/Router.svelte';
   import Header from './core/Header.svelte';
+  import Selection from './core/Selection.svelte';
 </script>
 
 <Header />
-<Router />
+
+<Selection />
+
+<!--<Router />-->
 
 <style>
 </style>
