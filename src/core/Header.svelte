@@ -1,4 +1,5 @@
-<script></script>
+<script>
+</script>
 
 <header>
   <img id="logo" src="./images/TourAssLogo.png" alt="..." />
@@ -6,8 +7,8 @@
 
 <style>
   #logo {
-    margin-top: 10em;
-    margin-bottom: 10em;
+    margin-top: 5em;
+    margin-bottom: 5em;
     width: 1000px;
     border-radius: 50%;
 

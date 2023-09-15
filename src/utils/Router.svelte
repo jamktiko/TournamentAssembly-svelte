@@ -4,12 +4,18 @@
   import Selection from "../core/Selection.svelte";
   import Profile from "../core/Profile.svelte";
   import Group from "../core/Group.svelte";
+  import LoginUser from "../reusable/LoginUser.svelte";
+  import Signup from "../reusable/Signup.svelte";
+  import Scoreboard from "../core/Scoreboard.svelte";
 
   const routes = {
     "/": Login,
     "/profile": Profile,
     "/selection": Selection,
     "/group": Group,
+    "/loginuser": LoginUser,
+    "/signup": Signup,
+    "/scoreboard": Scoreboard,
   };
 </script>
 
