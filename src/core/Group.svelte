@@ -1,15 +1,43 @@
 <script>
   import Button from "../reusable/Button.svelte";
 
-  const groups = ["Group A", "Group B", "Group C"];
+  const groups = [
+    { id: 0, name: "Group A", participants: ["Pertti"] },
+    { id: 1, name: "Group B", participants: ["Jorma", "Nakki", "Makkara"] },
+    { id: 2, name: "Group C", participants: ["Seppo", "Ismo"] },
+  ];
+
+  $: selected = null;
+
+  function selectGroup(group) {
+    selected = group;
+  }
 </script>
 
 <main>
   <div id="group-manage">
     {#each groups as group}
-      <h2>{group}</h2>
-      <Button>Click to manage group</Button>
+      <h2>{group.name}</h2>
+      <Button on:cClick={() => selectGroup(group)}>Click to manage group</Button
+      >
     {/each}
+  </div>
+  <div id="group-view">
+    {#if selected}
+      <div id="group">
+        <h2>{selected.name}</h2>
+        <table>
+          <tr>
+            <th> Name </th>
+          </tr>
+          {#each selected.participants as participant}
+            <tr>
+              {participant}
+            </tr>
+          {/each}
+        </table>
+      </div>
+    {/if}
   </div>
 </main>
 
@@ -24,5 +52,9 @@
   #group-manage {
     grid-column: 1;
     margin-left: 20px;
+  }
+
+  #group-view {
+    grid-column: 2;
   }
 </style>
