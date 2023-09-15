@@ -1,10 +1,11 @@
 <script>
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
 
-  import stateController from "../utils/stateStore";
+  import stateController from '../utils/stateStore';
 
-  import { onDestroy } from "svelte";
+  import { onDestroy } from 'svelte';
+  import App from '../App.svelte';
 
   let stateLocal;
   const unsub = stateController.subscribe((state) => (stateLocal = state));
@@ -24,8 +25,8 @@
     <Button on:cClick={loginAsGuest}>Create new Tournament as guest</Button>
     <h2>or</h2>
     <div id="login-sign">
-      <Button>Log in</Button>
-      <Button>Sign up</Button>
+      <Button on:cClick={() => push('/LoginUser')}>Log in</Button>
+      <Button on:cClick={() => push('/Signup')}>Sign up</Button>
     </div>
   </div>
 </main>
