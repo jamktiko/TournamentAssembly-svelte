@@ -17,6 +17,7 @@
   function loginAsGuest() {
     stateController.loginAsGuest();
     console.log(stateLocal);
+    push("/selection");
   }
 </script>
 
