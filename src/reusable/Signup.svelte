@@ -6,21 +6,22 @@
 <div class="backdrop" />
 
 <div class="modal">
-  <Button on:cClick={() => push('/')}>
-    <svg
-      class="closeButton"
-      xmlns="http://www.w3.org/2000/svg"
-      height="24"
-      viewBox="0 -960 960 960"
-      width="24"
-      ><path
-        d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
-      /></svg
-    ></Button
-  >
+  <div class="closeButton">
+    <Button on:cClick={() => push('/')}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24"
+        viewBox="0 -960 960 960"
+        width="24"
+        ><path
+          d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+        /></svg
+      ></Button
+    >
+  </div>
 
   <div class="signup-input">
-    <h1>Sign Up</h1>
+    <h1>SIGN UP</h1>
     <h2>Username</h2>
     <input placeholder="Username" />
     <h2>Password</h2>
@@ -41,22 +42,32 @@
   }
 
   .modal {
+    margin: auto;
+    display: flex;
+    color: #ffffff;
     padding: 1rem;
-    position: fixed;
-    top: 10vh;
-    left: 10vw;
-    width: 80%;
+    position: relative;
+    width: 50%;
     max-height: 80vh;
-    background: white;
-    border-radius: 5px;
+    background: linear-gradient(
+      129deg,
+      rgb(11, 11, 52) 0%,
+      rgba(24, 0, 23, 0.285) 100%
+    );
+    border-radius: 40px;
     z-index: 100;
+    border: solid 1px #ffffff3f;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   }
 
-  h1,
-  h2,
-  input {
-    color: black;
+  h1 {
+    margin-bottom: 1em;
+    font-size: 3em;
+  }
+  h2 {
+    font-size: 2em;
+    margin-bottom: 0.2em;
+    color: rgb(255, 255, 255);
   }
 
   ::placeholder {
@@ -64,6 +75,13 @@
   }
 
   input {
+    color: rgb(255, 255, 255);
+    margin-bottom: 1em;
+    font-size: 1.3em;
+    padding: 0.5em 2em;
+    border-radius: 20px;
+    background-color: rgb(21, 21, 21);
+    color: #ffffff;
     text-align: center;
   }
 
@@ -72,9 +90,13 @@
     display: flex;
     margin: auto;
     flex-direction: column;
+    justify-content: space-around;
   }
 
   .closeButton {
+    scale: 0.6;
+    position: absolute;
+    top: 0;
     fill: rgb(255, 255, 255);
   }
 </style>
