@@ -9,6 +9,22 @@
     { id: 4, name: 'Insinööripallo', score: 4, wins: 12, losses: 8 },
     { id: 5, name: 'Vitun Spede', score: 5, wins: 15, losses: 1 },
   ];
+
+  let sortBy = '';
+  let sortOrder = 1;
+
+  function toggleSortOrder(column) {
+    if (sortBy === column) {
+      sortOrder *= -1;
+    } else {
+      sortBy = column;
+      sortOrder = 1;
+    }
+
+    teams = teams.sort((a, b) => {
+      return sortOrder * (a[column] > b[column] ? 1 : -1);
+    });
+  }
 </script>
 
 <div class="league-content">
@@ -29,10 +45,10 @@
   <table>
     <thead>
       <tr>
-        <th>Team Name</th>
-        <th>Score</th>
-        <th>W</th>
-        <th>L</th>
+        <th on:click={() => toggleSortOrder('name')}>Team Name</th>
+        <th on:click={() => toggleSortOrder('score')}>Score</th>
+        <th on:click={() => toggleSortOrder('wins')}>W</th>
+        <th on:click={() => toggleSortOrder('losses')}>L</th>
       </tr>
     </thead>
     <tbody>
