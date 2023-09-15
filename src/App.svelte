@@ -7,7 +7,7 @@
 
 <Header />
 
-<!--<Router />-->
+<Router />
 
 <!--<Footer />-->
 
