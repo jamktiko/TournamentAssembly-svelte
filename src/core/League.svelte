@@ -22,14 +22,24 @@
     }
 
     teams = teams.sort((a, b) => {
-      return sortOrder * (a[column] > b[column] ? 1 : -1);
+      return sortOrder * (a[column] < b[column] ? 1 : -1);
     });
   }
 
   $: newPlayerName = null;
   let playerNameInputVisible = false;
-
+  let nameInvalid = false;
+  /**
+   * Add player to the league, gets contestants name from an input and adds to an object to create the contestant
+   */
   function addPlayer() {
+    console.log(!newPlayerName);
+    if (!newPlayerName) {
+      nameInvalid = true;
+      setTimeout(() => (nameInvalid = false), 2000);
+      return;
+    }
+
     const newPlayer = {
       id: calcId(),
       name: newPlayerName,
@@ -41,13 +51,29 @@
 
     newPlayerName = null;
   }
-
+  /**
+   * Adds player from the league to a match, match can only hold two players simultaneously
+   */
   function addToMatch(id) {
-    if (match.length < 2) {
+    if (match.length < 2 && match[0] ? match[0].id !== id : true) {
       match = [...match, teams.find((team) => team.id === id)];
     }
   }
+  /**
+   * Fires when a match is resolved, increments the winner and losers stats and sort board based on the highest score
+   * @param ce custom event received from Match-component, contains the winner and loser
+   */
+  function resolve(ce) {
+    ce.detail.winner.wins++;
+    ce.detail.winner.score += config.pointsPerWin;
+    ce.detail.loser.losses++;
+    match = [];
 
+    teams = teams.sort((a, b) => b.score - a.score);
+  }
+  /**
+   * Calculates new ID based on the highest existing ID in the array, if array is empty returns 0
+   */
   function calcId() {
     if (teams.length != 0) return Math.max(...teams.map((team) => team.id)) + 1;
     return 0;
@@ -100,6 +126,9 @@
         >Accept</Button
       >
       <Button on:cClick={() => (playerNameInputVisible = false)}>Close</Button>
+      {#if nameInvalid}
+        <p>Player needs to have a name!</p>
+      {/if}
     {:else}
       <Button on:cClick={() => (playerNameInputVisible = true)}
         >Add new Player</Button
@@ -107,7 +136,8 @@
     {/if}
   </table>
   {#if match[0] && match[1]}
-    <Match {match} />
+    <Button on:cClick={() => (match = [])}>X</Button>
+    <Match {match} on:winnerevent={resolve} />
   {/if}
 </div>
 
