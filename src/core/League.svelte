@@ -1,4 +1,5 @@
 <script>
+  import chc from "../utils/cache";
   import { push } from "svelte-spa-router";
   import Button from "../reusable/Button.svelte";
   import Match from "../reusable/Match.svelte";
@@ -78,6 +79,13 @@
     if (teams.length != 0) return Math.max(...teams.map((team) => team.id)) + 1;
     return 0;
   }
+
+  function save() {
+    chc.loadToCache("test", teams);
+  }
+  function load() {
+    console.log(chc.getFromCache("test"));
+  }
 </script>
 
 <div class="back-arrow-container">
@@ -139,6 +147,9 @@
     <Button on:cClick={() => (match = [])}>X</Button>
     <Match {match} on:winnerevent={resolve} />
   {/if}
+
+  <Button on:cClick={save}>Save</Button>
+  <Button on:cClick={load}>load</Button>
 </div>
 
 <style>
