@@ -1,10 +1,15 @@
 export default {
   loadToCache(key, value) {
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, this.tokenify(value));
   },
   getFromCache(key) {
-    return localStorage.getItem(key);
+    return this.detokenify(localStorage.getItem(key));
   },
+  /**
+   * Turns an array of objects in to a string
+   * @param {Array} arr An array of objects to be tokenified, turns into a string
+   * @returns String
+   */
   tokenify(arr) {
     let output = "";
     for (let obj of arr) {
@@ -17,7 +22,11 @@ export default {
     console.log(output);
     return output;
   },
-
+  /**
+   * Turns a string in to an array of objects
+   * @param {String} token string to be turned in to an object
+   * @returns Object
+   */
   detokenify(token) {
     const reconstruction = [];
 

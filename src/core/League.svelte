@@ -81,7 +81,10 @@
   }
 
   function save() {
-    console.log(chc.detokenify(chc.tokenify(teams)));
+    chc.loadToCache("test", teams);
+  }
+  function load() {
+    console.log(chc.getFromCache("test"));
   }
 </script>
 
@@ -146,6 +149,7 @@
   {/if}
 
   <Button on:cClick={save}>Save</Button>
+  <Button on:cClick={load}>load</Button>
 </div>
 
 <style>
