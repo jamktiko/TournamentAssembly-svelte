@@ -1,46 +1,46 @@
 <script>
-  import Button from '../reusable/Button.svelte';
+  import Button from "../reusable/Button.svelte";
   export let params;
 
-  let selectedMenu = 'groups';
+  let selectedMenu = params.id;
 
   const numberGroups = [4];
-  const tournamentDeciders = ['Goal Difference'];
+  const tournamentDeciders = ["Goal Difference"];
   const teamsGroups = [6];
   const pointsPerWin = [3];
   const pointsForDraw = [1];
 
   const numberRounds = [3, 5];
-  const deciderTypes = ['Round High Score'];
+  const deciderTypes = ["Round High Score"];
 
-  let selectedGroups = '';
-  let selectedTournamentDecider = '';
-  let selectedTeamGroups = '';
-  let selectedPointsPerWin = '';
-  let selectedPointsForDraw = '';
+  let selectedGroups = "";
+  let selectedTournamentDecider = "";
+  let selectedTeamGroups = "";
+  let selectedPointsPerWin = "";
+  let selectedPointsForDraw = "";
 
-  let selectedRounds = '';
-  let selectedDecider = '';
+  let selectedRounds = "";
+  let selectedDecider = "";
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case 'groups':
+      case "groups":
         selectedGroups = value;
         break;
-      case 'tournamentDecider':
+      case "tournamentDecider":
         selectedTournamentDecider = value;
         break;
-      case 'teamgroups':
+      case "teamgroups":
         selectedTeamGroups = value;
         break;
-      case 'pointsperwin':
+      case "pointsperwin":
         selectedPointsPerWin = value;
         break;
-      case 'pointsfordraw':
+      case "pointsfordraw":
         selectedPointsForDraw = value;
         break;
-      case 'decider':
+      case "decider":
         selectedDecider = value;
         break;
       default:
@@ -51,7 +51,7 @@
 
 <main>
   <div class="customizer-content">
-    {#if selectedMenu == 'groups'}
+    {#if selectedMenu == "groups"}
       <div class="customizer-header">
         <h1>Customize your tournament</h1>
       </div>
@@ -123,7 +123,7 @@
         </div>
       </div>
     {/if}
-    {#if selectedMenu == 'playoffs'}
+    {#if selectedMenu == "playoffs"}
       <div class="customizer-header">
         <h1>Customize your scoreboard!</h1>
       </div>
