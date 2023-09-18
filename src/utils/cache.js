@@ -5,6 +5,9 @@ export default {
   getFromCache(key) {
     return this.detokenify(localStorage.getItem(key));
   },
+  isInCache(key) {
+    return localStorage.getItem(key) ? true : false;
+  },
   /**
    * Turns an array of objects in to a string
    * @param {Array} arr An array of objects to be tokenified, turns into a string
