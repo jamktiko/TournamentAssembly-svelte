@@ -44,30 +44,7 @@
   function calculateRowTotal(row) {
     return row.columns.reduce((acc, val) => acc + parseFloat(val) || 0, 0);
   }
-
 </script>
-
-<style>
-  input {
-    color: black;
-  }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    
-  }
-
-  th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-    text-emphasis-color: black;
-  }
-
-  .remove-button {
-    cursor: pointer;
-  }
-</style>
 
 <button class="remove-button" on:click={addRow}>Add Row</button>
 <button class="remove-button" on:click={addColumn}>Add Column</button>
@@ -135,5 +112,7 @@
 
   .remove-button {
     cursor: pointer;
+    min-width: 20px;
+    color: black;
   }
 </style>
