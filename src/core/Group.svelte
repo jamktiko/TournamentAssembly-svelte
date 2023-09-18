@@ -33,6 +33,7 @@
           {#each selected.participants as participant}
             <tr>
               {participant}
+
             </tr>
           {/each}
         </table>
@@ -57,4 +58,5 @@
   #group-view {
     grid-column: 2;
   }
+
 </style>
