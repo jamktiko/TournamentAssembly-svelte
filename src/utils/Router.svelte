@@ -17,7 +17,7 @@
     '/signup': Signup,
     '/scoreboard': Scoreboard,
     '/league': League,
-    '/Customizer': Customizer,
+    '/customizer/:id': Customizer,
   };
 </script>
 

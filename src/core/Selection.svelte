@@ -1,6 +1,5 @@
 <script>
   import { push } from 'svelte-spa-router';
-
   import Button from '../reusable/Button.svelte';
 </script>
 
@@ -11,8 +10,8 @@
   </div>
   <div class="button-container">
     <div class="buttons">
-      <Button on:cClick={() => push('/customizer')}>Groups</Button>
-      <Button on:cClick={() => push('/customizer')}>Playoffs</Button>
+      <Button on:cClick={() => push('/customizer/groups')}>Groups</Button>
+      <Button on:cClick={() => push('/customizer/playoffs')}>Playoffs</Button>
       <Button on:cClick={() => push('/scoreboard')}>Scoreboard</Button>
       <Button on:cClick={() => push('/league')}>League</Button>
     </div>
