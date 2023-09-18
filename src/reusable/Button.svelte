@@ -1,9 +1,9 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
   const dp = createEventDispatcher();
 
-  const customBtnClick = () => dp('cClick');
+  const customBtnClick = () => dp("cClick");
 </script>
 
 <button on:click={customBtnClick}>
