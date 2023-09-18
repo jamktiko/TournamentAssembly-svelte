@@ -1,7 +1,7 @@
 <script>
   let gridData = [{ name: "", columns: [""] }];
   import Button from "../reusable/Button.svelte";
-  
+
   function addRow() {
     const numColumns = gridData[0].columns.length;
     const newRow = {
@@ -46,9 +46,10 @@
     return row.columns.reduce((acc, val) => acc + parseFloat(val) || 0, 0);
   }
 </script>
+
 <div id="container">
   <div class="flex-item">
-    <Button  on:cClick={addRow}>Add Row</Button>
+    <Button on:cClick={addRow}>Add Row</Button>
   </div>
   <div class="flex-item">
     <Button on:cClick={addColumn}>Add Column</Button>
@@ -61,9 +62,7 @@
       <th>Name</th>
       {#each gridData[0].columns as column, colIdx}
         <th>
-          <Button  on:cClick={() => removeColumn(colIdx)}
-            >X</Button
-          >
+          <Button on:cClick={() => removeColumn(colIdx)}>X</Button>
         </th>
       {/each}
       <th>Total</th>
@@ -89,11 +88,7 @@
           >
         {/each}
         <td>{calculateRowTotal(row)}</td>
-        <td
-          ><Button  on:cClick={() => removeRow(rowIdx)}
-            >Remove</Button
-          ></td
-        >
+        <td><Button on:cClick={() => removeRow(rowIdx)}>Remove</Button></td>
       </tr>
     {/each}
   </tbody>
@@ -103,13 +98,13 @@
   #container {
     margin-top: 1em;
     display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: normal;
-  align-content: normal;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: normal;
+    align-content: normal;
   }
-  .flex-item{
+  .flex-item {
     margin-left: 12px;
   }
   input {
@@ -121,7 +116,6 @@
     background-color: rgb(21, 21, 21);
     color: #ffffff;
     text-align: center;
-
   }
   table {
     border-collapse: collapse;
@@ -135,9 +129,5 @@
     text-align: center;
     text-emphasis-color: black;
     font-size: 1.3em;
-
-  }
-  .remove-button {
-    cursor: pointer;
   }
 </style>
