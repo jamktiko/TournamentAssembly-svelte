@@ -1,6 +1,6 @@
 <script>
   let gridData = [{ name: "", columns: [""] }];
-
+  import Button from "../reusable/Button.svelte";
   function addRow() {
     const numColumns = gridData[0].columns.length;
     const newRow = {
@@ -8,6 +8,7 @@
       columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
+
   }
 
   function addColumn() {
@@ -15,6 +16,7 @@
       row.columns.push("");
     });
     gridData = [...gridData];
+
   }
 
   function removeRow(index) {
@@ -22,6 +24,7 @@
     if (numRows > 1) {
       gridData = gridData.filter((_, i) => i !== index);
     }
+
   }
 
   function removeColumn(index) {
@@ -29,6 +32,7 @@
       row.columns.splice(index, 1);
     });
     gridData = [...gridData];
+
   }
 
   function updateRowName(index, event) {
@@ -45,18 +49,22 @@
     return row.columns.reduce((acc, val) => acc + parseFloat(val) || 0, 0);
   }
 </script>
-
-<button class="remove-button" on:click={addRow}>Add Row</button>
-<button class="remove-button" on:click={addColumn}>Add Column</button>
-
+<div id="container">
+  <div class="flex-item">
+    <Button  on:cClick={addRow}>Add Row</Button>
+  </div>
+  <div class="flex-item">
+    <Button on:cClick={addColumn}>Add Column</Button>
+  </div>
+</div>
 <table>
   <thead>
     <tr>
       <th>Name</th>
       {#each gridData[0].columns as column, colIdx}
         <th>
-          <button class="remove-button" on:click={() => removeColumn(colIdx)}
-            >X</button
+          <Button  on:cClick={() => removeColumn(colIdx)}
+            >X</Button
           >
         </th>
       {/each}
@@ -76,7 +84,7 @@
         {#each row.columns as column, colIdx}
           <td
             ><input
-              type="text"
+              type="number"
               bind:value={column}
               on:input={(event) => updateCellValue(rowIdx, colIdx, event)}
             /></td
@@ -84,8 +92,8 @@
         {/each}
         <td>{calculateRowTotal(row)}</td>
         <td
-          ><button class="remove-button" on:click={() => removeRow(rowIdx)}
-            >Remove</button
+          ><Button  on:cClick={() => removeRow(rowIdx)}
+            >Remove</Button
           ></td
         >
       </tr>
@@ -94,8 +102,27 @@
 </table>
 
 <style>
+  #container {
+    margin-top: 1em;
+    display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: normal;
+  align-content: normal;
+  }
+  .flex-item{
+    margin-left: 12px;
+  }
   input {
-    color: black;
+    color: rgb(255, 255, 255);
+
+    font-size: 1.3em;
+    padding: 0.5em 2em;
+    border-radius: 20px;
+    background-color: rgb(21, 21, 21);
+    color: #ffffff;
+    text-align: center;
   }
   table {
     border-collapse: collapse;
@@ -104,15 +131,11 @@
 
   th,
   td {
-    border: 1px solid #ccc;
+    border: 1px solid white;
     padding: 8px;
     text-align: center;
     text-emphasis-color: black;
-  }
+    font-size: 1.3em;
 
-  .remove-button {
-    cursor: pointer;
-    min-width: 20px;
-    color: black;
   }
 </style>
