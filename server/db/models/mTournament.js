@@ -7,4 +7,4 @@ const TournamentSchema = new mongoose.Schema({
   participants: { type: Array, required: true },
 });
 
-module.exports = new mongoose.model("Tournament", TournamentSchema);
+module.exports = TournamentSchema;
