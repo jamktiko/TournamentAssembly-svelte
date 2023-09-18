@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const ruleSchema = require("./mRules");
-const stateSchema = require("./mState");
 
 const TournamentSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -8,7 +7,6 @@ const TournamentSchema = new mongoose.Schema({
   creationDate: { type: Date, required: true },
   participants: { type: Array, required: true },
   rules: ruleSchema,
-  state: stateSchema,
 });
 
 module.exports = TournamentSchema;
