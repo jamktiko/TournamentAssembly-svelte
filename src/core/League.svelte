@@ -1,5 +1,5 @@
 <script>
-  import chc from "../utils/cache";
+  import cch from "../utils/cache";
   import { push } from "svelte-spa-router";
   import Button from "../reusable/Button.svelte";
   import Match from "../reusable/Match.svelte";
@@ -81,10 +81,10 @@
   }
 
   function save() {
-    chc.loadToCache("test", teams);
+    cch.loadToCache("test", teams);
   }
   function load() {
-    console.log(chc.getFromCache("test"));
+    console.log(cch.getFromCache("test"));
   }
 </script>
 
