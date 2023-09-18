@@ -1,4 +1,6 @@
 <script>
+
+  ///app
   let gridData = [
     { name: '', columns: [''] },
   ];
@@ -51,6 +53,7 @@
   function calculateRowTotal(row) {
     return row.columns.reduce((acc, val) => acc + parseFloat(val) || 0, 0);
   }
+
 </script>
 
 <style>
@@ -72,11 +75,13 @@
 
   .remove-button {
     cursor: pointer;
+    color: black;
+    min-width: 20px;
   }
 </style>
 
-<button on:click={addRow}>Add Row</button>
-<button on:click={addColumn}>Add Column</button>
+<button class="remove-button" on:click={addRow}>Add Row</button>
+<button class="remove-button" on:click={addColumn}>Add Column</button>
 
 <table>
   <thead>
