@@ -1,34 +1,17 @@
-const UserModel = require('./models/mUser');
+const { connect, client } = require("./conn");
 
-const usersCollection = 'users';
-const collection = touras.db().collection(usersCollection);
+const lib = {
+  async getAll() {
+    const collection = await client.db("touras").collection("users");
 
-async function getAll() {
-  return await usersCollection.find({});
-}
-
-async function getWithId(id) {
-  return await usersCollection.find({ _id: id });
-}
-
-async function getOne() {
-  return await usersCollection.findOne({});
-}
-
-async function deleteOne() {
-  return await usersCollection.deleteOne({});
-}
-
-async function addTournament() {
-  return await usersCollection.insertOne({});
-}
-
-module.exports = {
-  getAll,
-  getWithId,
-  getOne,
-  deleteOne,
-  addTournament,
+    try {
+      const docs = await collection.find({}).toArray();
+      return docs;
+    } catch {
+      console.log("Couldn´t get documents");
+      return [];
+    }
+  },
 };
 
-// getAll().then((data) => console.log(data));
+module.exports = lib;
