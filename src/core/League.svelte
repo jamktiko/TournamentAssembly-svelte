@@ -4,12 +4,18 @@
   import Button from "../reusable/Button.svelte";
   import Match from "../reusable/Match.svelte";
 
+  localStorage.clear();
+
   let config = {
+    name: "test",
+    organizer: "test",
     pointsPerWin: 3,
   };
 
   let teams = [];
   let match = [];
+
+  if (cch.isInCache("league")) teams = cch.getFromCache("league");
 
   let sortBy = "";
   let sortOrder = 1;
@@ -81,10 +87,10 @@
   }
 
   function save() {
-    cch.loadToCache("test", teams);
+    cch.loadToCache("league", [config, ...teams]);
   }
   function load() {
-    console.log(cch.getFromCache("test"));
+    console.log();
   }
 </script>
 
@@ -104,6 +110,8 @@
 </div>
 
 <div class="league-content">
+  <h2>{config.name}</h2>
+
   <table>
     <thead>
       <tr>
@@ -147,9 +155,8 @@
     <Button on:cClick={() => (match = [])}>X</Button>
     <Match {match} on:winnerevent={resolve} />
   {/if}
-
   <Button on:cClick={save}>Save</Button>
-  <Button on:cClick={load}>load</Button>
+  <Button on:cClick={load}>Load</Button>
 </div>
 
 <style>
