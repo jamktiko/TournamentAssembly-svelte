@@ -2,7 +2,6 @@
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
 
-
   import stateController from '../utils/stateStore';
 
   import { onDestroy } from 'svelte';
@@ -22,7 +21,6 @@
 </script>
 
 <main>
-  <img id="background" src="./images/BackgroundBrackets.png" alt="..." />
   <div class="container">
     <div id="message-container">
       <h1>WELCOME</h1>
@@ -45,8 +43,13 @@
 
 <style>
   main {
+    padding-bottom: 3em;
+    margin: auto;
     align-items: center;
     height: 100%;
+    width: 60%;
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.308);
   }
 
   h1,
@@ -84,36 +87,5 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  #background {
-    transform: rotate(30deg);
-    scale: 3;
-    z-index: -1;
-    position: absolute;
-    left: 40%;
-    top: 50%;
-    overflow: hidden;
-    animation: pulse 20s infinite;
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: scale(0.99) rotate(1deg);
-      filter: brightness(1) drop-shadow(0 0 0.1rem rgb(255, 255, 255, 0))
-        blur(6px);
-    }
-
-    50% {
-      transform: scale(1.05) rotate(-1deg);
-      filter: brightness(1.5) drop-shadow(0 0 0.3rem rgb(255, 255, 255, 0.5))
-        blur(6px);
-    }
-
-    100% {
-      transform: scale(0.99) rotate(1deg);
-      filter: brightness(1) drop-shadow(0 0 0.1rem rgb(255, 255, 255, 0))
-        blur(6px);
-    }
   }
 </style>
