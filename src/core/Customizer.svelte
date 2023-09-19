@@ -1,60 +1,97 @@
 <script>
-  import Button from "../reusable/Button.svelte";
+  import Button from '../reusable/Button.svelte';
   export let params;
 
   let selectedMenu = params.id;
 
-  const numberGroups = [4];
-  const tournamentDeciders = ["Goal Difference"];
-  const teamsGroups = [6];
-  const pointsPerWin = [3];
-  const pointsForDraw = [1];
+  const numberGroups = [4, 6, 8];
+  const tournamentDeciders = ['Goal Difference', 'Aggregate'];
+  const teamsGroups = [4, 6, 8];
+  const pointsPerWin = [3, 4, 5];
+  const pointsForDraw = [0, 1];
 
-  const numberRounds = [3, 5];
-  const deciderTypes = ["Round High Score"];
+  const numberRounds = [7];
+  const deciderTypes = ['Wins'];
 
-  let selectedGroups = "";
-  let selectedTournamentDecider = "";
-  let selectedTeamGroups = "";
-  let selectedPointsPerWin = "";
-  let selectedPointsForDraw = "";
+  let tournamentName = '';
+  let organizerName = '';
 
-  let selectedRounds = "";
-  let selectedDecider = "";
+  let selectedGroups = '';
+  let selectedTournamentDecider = '';
+  let selectedTeamGroups = '';
+  let selectedPointsPerWin = '';
+  let selectedPointsForDraw = '';
+
+  let selectedRounds = '';
+  let selectedDecider = '';
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case "groups":
+      case 'groups':
         selectedGroups = value;
         break;
-      case "tournamentDecider":
+      case 'tournamentDecider':
         selectedTournamentDecider = value;
         break;
-      case "teamgroups":
+      case 'teamgroups':
         selectedTeamGroups = value;
         break;
-      case "pointsperwin":
+      case 'pointsperwin':
         selectedPointsPerWin = value;
         break;
-      case "pointsfordraw":
+      case 'pointsfordraw':
         selectedPointsForDraw = value;
         break;
-      case "decider":
+      case 'decider':
         selectedDecider = value;
         break;
       default:
         break;
     }
   }
+
+  function createTournamentTest() {
+    console.log('Tournament Name:', tournamentName);
+    console.log('Organizer Name:', organizerName);
+    console.log('Selected Groups:', selectedGroups);
+    console.log('Selected Tournament Decider:', selectedTournamentDecider);
+    console.log('Selected Team Groups:', selectedTeamGroups);
+    console.log('Selected Points Per Win:', selectedPointsPerWin);
+    console.log('Selected Points For Draw:', selectedPointsForDraw);
+    console.log('Selected Rounds:', selectedRounds);
+    console.log('Selected Decider:', selectedDecider);
+  }
 </script>
 
 <main>
   <div class="customizer-content">
-    {#if selectedMenu == "groups"}
-      <div class="customizer-header">
-        <h1>Customize your tournament</h1>
+    <div class="customizer-header">
+      <h1>Customize your tournament {params.id}</h1>
+    </div>
+    <div class="input-container">
+      <div>
+        <label for="tournamentName">Tournament Name</label>
+        <br />
+        <input
+          type="text"
+          id="tournamentName"
+          placeholder="Name"
+          bind:value={tournamentName}
+        />
       </div>
+      <div>
+        <label for="organizerName">Organizer Name</label>
+        <br />
+        <input
+          type="text"
+          id="organizerName"
+          placeholder="Name"
+          bind:value={organizerName}
+        />
+      </div>
+    </div>
+    {#if selectedMenu == 'groups'}
       <div class="customizer-settings">
         <div>
           <label for="roundSelection">Number of Groups</label>
@@ -123,13 +160,10 @@
         </div>
       </div>
     {/if}
-    {#if selectedMenu == "playoffs"}
-      <div class="customizer-header">
-        <h1>Customize your scoreboard!</h1>
-      </div>
+    {#if selectedMenu == 'playoffs'}
       <div class="customizer-settings">
         <div>
-          <label for="roundSelection">Number of Rounds</label>
+          <label for="roundSelection">Best of X</label>
           <br />
           <select
             id="roundSelection"
@@ -157,7 +191,7 @@
       </div>
     {/if}
     <div class="createButton">
-      <Button>Create</Button>
+      <Button on:cClick={createTournamentTest}>Create</Button>
     </div>
   </div>
 </main>
@@ -171,12 +205,38 @@
     flex-flow: row wrap;
   }
 
+  .customizer-header {
+    text-align: center;
+  }
+
+  .input-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .customizer-settings {
+    padding-top: 1em;
+    padding-bottom: 2em;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-basis: 50%;
+    gap: 2em;
+    width: 100%;
+  }
+
   .createButton {
-    padding-top: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   option,
-  select {
+  select,
+  input {
     color: black;
   }
 </style>
