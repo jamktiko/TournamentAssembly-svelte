@@ -1,7 +1,7 @@
 <script>
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
-  import App from '../App.svelte';
+
 
   import stateController from '../utils/stateStore';
 

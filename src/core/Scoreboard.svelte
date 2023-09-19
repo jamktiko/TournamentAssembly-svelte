@@ -2,6 +2,7 @@
   let gridData = [{ name: '', columns: [''] }];
   import Button from '../reusable/Button.svelte';
 
+
   function addRow() {
     const numColumns = gridData[0].columns.length;
     const newRow = {
@@ -9,6 +10,7 @@
       columns: Array(numColumns).fill(''), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
+
   }
 
   function addColumn() {
@@ -16,6 +18,7 @@
       row.columns.push('');
     });
     gridData = [...gridData];
+
   }
 
   function removeRow(index) {
@@ -23,6 +26,7 @@
     if (numRows > 1) {
       gridData = gridData.filter((_, i) => i !== index);
     }
+
   }
 
   function removeColumn(index) {
@@ -30,6 +34,7 @@
       row.columns.splice(index, 1);
     });
     gridData = [...gridData];
+
   }
 
   function updateRowName(index, event) {
@@ -59,6 +64,19 @@
 <div id="table-container">
   <table>
     <thead>
+
+    <tr>
+      <th>Name</th>
+      {#each gridData[0].columns as column, colIdx}
+        <th>
+          <Button on:cClick={() => removeColumn(colIdx)}>X</Button>
+        </th>
+      {/each}
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {#each gridData as row, rowIdx}
       <tr>
         <th>NAME</th>
         {#each gridData[0].columns as column, colIdx}

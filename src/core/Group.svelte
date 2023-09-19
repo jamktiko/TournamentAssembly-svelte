@@ -12,6 +12,10 @@
   function selectGroup(group) {
     selected = group;
   }
+  let value = ''
+  function updateName(){
+    groups[group] = value;
+  }
 </script>
 
 <main>
@@ -32,13 +36,18 @@
           </tr>
           {#each selected.participants as participant}
             <tr>
-              {participant}
+              <input
+            type="text"
+            bind:value={participant}
+            on:input={updateName(participant)}
+          />
             </tr>
           {/each}
         </table>
       </div>
     {/if}
   </div>
+  <Button on:cClick={console.log(groups)}>console log</Button> 
 </main>
 
 <style>
@@ -56,5 +65,15 @@
 
   #group-view {
     grid-column: 2;
+  }
+  input {
+    color: rgb(255, 255, 255);
+
+    font-size: 1.3em;
+    padding: 0.5em 2em;
+    border-radius: 20px;
+    background-color: rgb(21, 21, 21);
+    color: #ffffff;
+    text-align: center;
   }
 </style>
