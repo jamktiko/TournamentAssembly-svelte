@@ -1,5 +1,5 @@
 export default {
-  loadToCache(key, value) {
+  saveToCache(key, value) {
     localStorage.setItem(key, this.tokenify(value));
   },
   getFromCache(key) {
@@ -22,7 +22,6 @@ export default {
       }
       output += "|";
     }
-    console.log(output);
     return output;
   },
   /**

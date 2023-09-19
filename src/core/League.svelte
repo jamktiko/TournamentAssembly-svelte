@@ -3,8 +3,11 @@
   import { push } from "svelte-spa-router";
   import Button from "../reusable/Button.svelte";
   import Match from "../reusable/Match.svelte";
+  import { onDestroy } from "svelte";
 
-  localStorage.clear();
+  onDestroy(() => {
+    cch.saveToCache("league", [config, ...teams]);
+  });
 
   let config = {
     name: "test",
@@ -15,7 +18,12 @@
   let teams = [];
   let match = [];
 
-  if (cch.isInCache("league")) teams = cch.getFromCache("league");
+  if (cch.isInCache("league")) {
+    const cachedItems = cch.getFromCache("league");
+    config = cachedItems.shift();
+
+    teams = cachedItems;
+  }
 
   let sortBy = "";
   let sortOrder = 1;
@@ -40,7 +48,6 @@
    * Add player to the league, gets contestants name from an input and adds to an object to create the contestant
    */
   function addPlayer() {
-    console.log(!newPlayerName);
     if (!newPlayerName) {
       nameInvalid = true;
       setTimeout(() => (nameInvalid = false), 2000);
@@ -72,9 +79,13 @@
    * @param ce custom event received from Match-component, contains the winner and loser
    */
   function resolve(ce) {
+    console.log(ce.detail);
     ce.detail.winner.wins++;
     ce.detail.winner.score += config.pointsPerWin;
     ce.detail.loser.losses++;
+    ce.detail.loser.goalDiff -= ce.detail.goalDiff;
+    ce.detail.winner.goalDiff += ce.detail.goalDiff;
+
     match = [];
 
     teams = teams.sort((a, b) => b.score - a.score);
@@ -85,13 +96,6 @@
   function calcId() {
     if (teams.length != 0) return Math.max(...teams.map((team) => team.id)) + 1;
     return 0;
-  }
-
-  function save() {
-    cch.loadToCache("league", [config, ...teams]);
-  }
-  function load() {
-    console.log();
   }
 </script>
 
@@ -158,8 +162,6 @@
     <Button on:cClick={() => (match = [])}>X</Button>
     <Match {match} on:winnerevent={resolve} />
   {/if}
-  <Button on:cClick={save}>Save</Button>
-  <Button on:cClick={load}>Load</Button>
 </div>
 
 <style>
