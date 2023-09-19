@@ -1,9 +1,9 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
 
   const dp = createEventDispatcher();
 
-  const customBtnClick = () => dp("cClick");
+  const customBtnClick = () => dp('cClick');
 </script>
 
 <button on:click={customBtnClick}>
@@ -13,9 +13,8 @@
 <style>
   button {
     font-weight: 700;
-    margin-bottom: 1em;
     font-size: 1.5em;
-    padding: 1em 2em;
+    padding: 0.5em 1.5em;
     border: solid 1px #ffffff3c;
     border-radius: 40px;
     background: linear-gradient(

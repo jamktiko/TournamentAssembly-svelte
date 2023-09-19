@@ -2,21 +2,16 @@
 </script>
 
 <header>
-  <img id="logo" src="./images/TourAssLogo.png" alt="..." />
+  <img id="logo" src="./images/TourAssLogo.svg" alt="..." />
 </header>
 
 <style>
   #logo {
-    margin-top: 5em;
-    margin-bottom: 5em;
-    width: 1000px;
-    border-radius: 50%;
-
+    object-fit: cover;
+    width: 800px;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
     transform: scale(1);
     animation: pulse 5s infinite;
-    max-width: 100%;
-    max-height: 20%;
   }
 
   @keyframes pulse {
@@ -36,6 +31,7 @@
     }
   }
   header {
+    height: 20vh;
     background: rgb(17, 17, 65);
     background: linear-gradient(
       129deg,
@@ -46,6 +42,5 @@
     border-bottom: solid 1px #ffffff;
     display: flex;
     justify-content: center;
-
   }
 </style>
