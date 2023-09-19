@@ -24,11 +24,16 @@
 
 <style>
   main {
+    padding-bottom: 8em;
+    margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     flex-direction: column;
+    width: 60%;
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.308);
   }
 
   .create-container {
@@ -37,8 +42,6 @@
     flex-direction: column;
     align-items: center;
     padding: 2em 8em 6em;
-    border-radius: 40px;
-    background-color: rgba(0, 0, 0, 0.308);
   }
 
   .button-container {

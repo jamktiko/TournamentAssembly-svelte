@@ -67,7 +67,7 @@
 <main>
   <div class="customizer-content">
     <div class="customizer-header">
-      <h1>Customize your tournament {params.id}</h1>
+      <h1>CUSTOMIZE YOUR TOURNAMENT {params.id}</h1>
     </div>
     <div class="input-container">
       <div>
@@ -101,6 +101,7 @@
             bind:value={selectedGroups}
             on:change={handleSelection}
           >
+            <option value="" disabled selected>SELECT</option>
             {#each numberGroups as numberGroup (numberGroup)}
               <option value={numberGroup}>{numberGroup}</option>
             {/each}
@@ -114,6 +115,7 @@
             bind:value={selectedTournamentDecider}
             on:change={handleSelection}
           >
+            <option value="" disabled selected>SELECT</option>
             {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
               <option value={tournamentDecider}>{tournamentDecider}</option>
             {/each}
@@ -127,6 +129,7 @@
             bind:value={selectedTeamGroups}
             on:change={handleSelection}
           >
+            <option value="" disabled selected>SELECT</option>
             {#each teamsGroups as teamGroup (teamGroup)}
               <option value={teamGroup}>{teamGroup}</option>
             {/each}
@@ -140,6 +143,7 @@
             bind:value={selectedPointsPerWin}
             on:change={handleSelection}
           >
+            <option value="" disabled selected>SELECT</option>
             {#each pointsPerWin as pointsPerWin (pointsPerWin)}
               <option value={pointsPerWin}>{pointsPerWin}</option>
             {/each}
@@ -153,6 +157,7 @@
             bind:value={selectedPointsForDraw}
             on:change={handleSelection}
           >
+            <option value="" disabled selected>SELECT</option>
             {#each pointsForDraw as pointsForDraw (pointsForDraw)}
               <option value={pointsForDraw}>{pointsForDraw}</option>
             {/each}
@@ -170,6 +175,7 @@
             bind:value={selectedRounds}
             on:change={handleSelection}
           >
+            <option value="" disabled selected>SELECT</option>
             {#each numberRounds as numberRound (numberRound)}
               <option value={numberRound}>{numberRound}</option>
             {/each}
@@ -183,6 +189,7 @@
             bind:value={selectedDecider}
             on:change={handleSelection}
           >
+            <option value="" disabled selected>SELECT</option>
             {#each deciderTypes as deciderType (deciderType)}
               <option value={deciderType}>{deciderType}</option>
             {/each}
@@ -191,18 +198,31 @@
       </div>
     {/if}
     <div class="createButton">
-      <Button on:cClick={createTournamentTest}>Create</Button>
+      <Button on:cClick={createTournamentTest}>CREATE</Button>
     </div>
   </div>
 </main>
 
 <style>
+  h1 {
+    text-transform: uppercase;
+    font-size: 3em;
+    margin-bottom: 2em;
+  }
   main {
+    font-size: x-large;
+    padding-top: 4em;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     flex-flow: row wrap;
+    padding-bottom: 3em;
+    margin: auto;
+    flex-direction: column;
+    width: 60%;
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.308);
   }
 
   .customizer-header {
@@ -229,14 +249,35 @@
   }
 
   .createButton {
+    margin-top: 5em;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  option,
   select,
   input {
-    color: black;
+    text-transform: uppercase;
+    font-size: 1.3em;
+    padding: 0.5em 2.2em;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.244);
+    text-align: center;
+    border: 1px solid #ffffff37;
+  }
+
+  option {
+    text-transform: uppercase;
+    color: #000000;
+    font-size: 1.3em;
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    border: 1px solid #ffffff37;
+  }
+
+  label {
+    text-transform: uppercase;
   }
 </style>
