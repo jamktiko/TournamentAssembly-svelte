@@ -53,6 +53,7 @@
       score: 0,
       wins: 0,
       losses: 0,
+      goalDiff: 0,
     };
     teams = [...teams, newPlayer];
 
@@ -119,6 +120,7 @@
         <th on:click={() => toggleSortOrder("score")}>Score</th>
         <th on:click={() => toggleSortOrder("wins")}>W</th>
         <th on:click={() => toggleSortOrder("losses")}>L</th>
+        <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
       </tr>
     </thead>
     <tbody>
@@ -128,6 +130,7 @@
           <td>{team.score}</td>
           <td>{team.wins}</td>
           <td>{team.losses}</td>
+          <td>{team.goalDiff}</td>
           <td>
             <Button on:cClick={() => addToMatch(team.id)}
               >Add player to match</Button
