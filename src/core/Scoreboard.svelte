@@ -1,24 +1,21 @@
 <script>
-  let gridData = [{ name: '', columns: [''] }];
-  import Button from '../reusable/Button.svelte';
-
+  let gridData = [{ name: "", columns: [""] }];
+  import Button from "../reusable/Button.svelte";
 
   function addRow() {
     const numColumns = gridData[0].columns.length;
     const newRow = {
-      name: '',
-      columns: Array(numColumns).fill(''), // Create an array with the same number of empty strings as columns
+      name: "",
+      columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
-
   }
 
   function addColumn() {
     gridData.forEach((row) => {
-      row.columns.push('');
+      row.columns.push("");
     });
     gridData = [...gridData];
-
   }
 
   function removeRow(index) {
@@ -26,7 +23,6 @@
     if (numRows > 1) {
       gridData = gridData.filter((_, i) => i !== index);
     }
-
   }
 
   function removeColumn(index) {
@@ -34,7 +30,6 @@
       row.columns.splice(index, 1);
     });
     gridData = [...gridData];
-
   }
 
   function updateRowName(index, event) {
@@ -64,19 +59,6 @@
 <div id="table-container">
   <table>
     <thead>
-
-    <tr>
-      <th>Name</th>
-      {#each gridData[0].columns as column, colIdx}
-        <th>
-          <Button on:cClick={() => removeColumn(colIdx)}>X</Button>
-        </th>
-      {/each}
-      <th>Total</th>
-    </tr>
-  </thead>
-  <tbody>
-    {#each gridData as row, rowIdx}
       <tr>
         <th>NAME</th>
         {#each gridData[0].columns as column, colIdx}
@@ -159,8 +141,8 @@
     border: 1px solid #ffffff37;
   }
 
-  input[type='number']::-webkit-outer-spin-button,
-  input[type='number']::-webkit-inner-spin-button {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
     appearance: none;
   }
   table {
