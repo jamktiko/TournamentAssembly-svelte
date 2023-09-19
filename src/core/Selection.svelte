@@ -1,6 +1,7 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import cch from "../utils/cache";
 </script>
 
 <main>
@@ -14,10 +15,10 @@
   <div class="create-container">
     <h1>CREATE</h1>
     <div class="button-container">
-      <Button on:cClick={() => push('/customizer/groups')}>GROUPS</Button>
-      <Button on:cClick={() => push('/customizer/playoffs')}>PLAYOFFS</Button>
-      <Button on:cClick={() => push('/scoreboard')}>SCOREBOARD</Button>
-      <Button on:cClick={() => push('/customizer/league')}>LEAGUE</Button>
+      <Button on:cClick={() => push("/customizer/groups")}>GROUPS</Button>
+      <Button on:cClick={() => push("/customizer/playoffs")}>PLAYOFFS</Button>
+      <Button on:cClick={() => push("/scoreboard")}>SCOREBOARD</Button>
+      <Button on:cClick={() => push("/customizer/league")}>LEAGUE</Button>
     </div>
   </div>
 </main>
