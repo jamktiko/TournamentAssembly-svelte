@@ -7,9 +7,9 @@
   export let match;
   let scores = [0, 0];
 
-  function resolveMatch(winner) {
-    console.log(winner);
-    dp("winnerevent", winner);
+  function resolveMatch(matchData) {
+    matchData.goalDiff = (scores[0] - scores[1]) * -1;
+    dp("winnerevent", matchData);
   }
 </script>
 
