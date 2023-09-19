@@ -7,7 +7,6 @@
 
   import { onDestroy } from 'svelte';
 
-
   let stateLocal;
   const unsub = stateController.subscribe((state) => (stateLocal = state));
 
@@ -18,41 +17,42 @@
   function loginAsGuest() {
     stateController.loginAsGuest();
     console.log(stateLocal);
-    push("/selection");
+    push('/selection');
   }
 </script>
 
 <main>
-  <div id="message-container">
-    <h1>WELCOME</h1>
-    <p>
-      Tournament Assembly is the fix-it-all solution for all your needs in terms
-      of tournament building.<br /> Any type, any discipline, we got it.<br />So
-      go ahead and build your own tournament or league the way it's meant to be!
-    </p>
-  </div>
-  <div id="container">
-    <Button on:cClick={loginAsGuest}>CREATE A TOURNAMENT AS GUEST</Button>
-    <h2>OR</h2>
-    <div id="login-sign">
+  <img id="background" src="./images/BackgroundBrackets.png" alt="..." />
+  <div class="container">
+    <div id="message-container">
+      <h1>WELCOME</h1>
+      <p>
+        Tournament Assembly is the fix-it-all solution for all your needs in
+        terms of tournament building.<br /> Any type, any discipline, we got it.<br
+        />So go ahead and build your own tournament or league the way it's meant
+        to be!
+      </p>
+    </div>
+    <div class="button-container">
+      <Button on:cClick={loginAsGuest}>CREATE A TOURNAMENT AS GUEST</Button>
+      <h2>OR</h2>
       <Button on:cClick={() => push('/LoginUser')}>LOG IN</Button>
+      <br />
       <Button on:cClick={() => push('/Signup')}>SIGN UP</Button>
     </div>
   </div>
-  <img id="background" src="./images/BackgroundBrackets.png" alt="..." />
 </main>
 
 <style>
   main {
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
     align-items: center;
     height: 100%;
   }
 
   h1,
   h2 {
+    margin-top: 0.7em;
+    margin-bottom: 0.3em;
     font-size: 3em;
   }
 
@@ -61,33 +61,29 @@
     margin-top: 2em;
     margin-bottom: 1em;
   }
-  #container {
-    font-size: larger;
-    margin-top: 1em;
-    margin-bottom: 5em;
-    padding-bottom: 5em;
-    display: flex;
-    flex-direction: column;
+  .container {
+    margin: auto;
     align-items: center;
-    justify-content: space-around;
-    width: 50%;
   }
 
   #message-container {
-    font-size: larger;
-    margin-top: 3em;
-    margin-bottom: 2em;
+    font-size: x-large;
+    margin-top: 2em;
+    margin-bottom: 3em;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-    width: 50%;
+    justify-content: space-between;
   }
 
-  #login-sign {
-    margin-top: 1em;
+  .button-container {
+    padding: 6em;
+    scale: 1.5;
+    margin: auto;
+    width: 50%;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 
   #background {
@@ -95,7 +91,8 @@
     scale: 3;
     z-index: -1;
     position: absolute;
-    top: 900;
+    left: 40%;
+    top: 50%;
     overflow: hidden;
     animation: pulse 20s infinite;
   }

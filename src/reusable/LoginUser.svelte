@@ -21,11 +21,11 @@
   </div>
   <div class="login-input">
     <h1>LOG IN</h1>
-    <h2>Username</h2>
+    <h2>USERNAME</h2>
     <input placeholder="Username" />
-    <h2>Password</h2>
+    <h2>PASSWORD</h2>
     <input placeholder="Password" />
-    <Button>Log In</Button>
+    <Button>LOG IN</Button>
   </div>
 </div>
 

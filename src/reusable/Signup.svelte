@@ -22,11 +22,11 @@
 
   <div class="signup-input">
     <h1>SIGN UP</h1>
-    <h2>Username</h2>
+    <h2>USERNAME</h2>
     <input placeholder="Username" />
-    <h2>Password</h2>
+    <h2>PASSWORD</h2>
     <input placeholder="Password" />
-    <Button>Sign Up</Button>
+    <Button>SIGN UP</Button>
   </div>
 </div>
 
