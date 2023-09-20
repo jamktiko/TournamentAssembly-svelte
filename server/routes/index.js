@@ -4,8 +4,8 @@ const { userController } = require('../db/controller');
 
 router.get('/', userController.getAll);
 
-router.post('/', (req, res) => {
-  res.send('test');
-});
+router.post('/', userController.createData);
+
+router.delete('/:id', userController.deleteById);
 
 module.exports = router;
