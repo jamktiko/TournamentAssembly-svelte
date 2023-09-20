@@ -1,5 +1,5 @@
-const MongoClient = require("mongodb").MongoClient;
-require("dotenv").config();
+const MongoClient = require('mongodb').MongoClient;
+require('dotenv').config();
 
 const client = new MongoClient(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -8,9 +8,9 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 async function connect() {
   try {
     await client.connect();
-    console.log("Connection established");
+    console.log('Connection established');
   } catch {
-    console.log("Connection failed");
+    console.log('Connection failed');
   }
 }
 
