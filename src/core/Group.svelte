@@ -1,12 +1,16 @@
 <script>
   import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
 
-  const groups = [
+  let match = [];
+
+  let groups = [
     {
       id: 0,
       name: "Group A",
       participants: [
         {
+          id: 0,
           name: "Pertti",
           playedMatches: 0,
           score: 0,
@@ -16,6 +20,7 @@
           goalDiff: 0,
         },
         {
+          id: 1,
           name: "Jorkki",
           playedMatches: 0,
           score: 0,
@@ -31,6 +36,7 @@
       name: "Group B",
       participants: [
         {
+          id: 0,
           name: "Jorma",
           playedMatches: 0,
           score: 0,
@@ -40,6 +46,7 @@
           goalDiff: 0,
         },
         {
+          id: 1,
           name: "Nakki",
           playedMatches: 0,
           score: 0,
@@ -49,6 +56,7 @@
           goalDiff: 0,
         },
         {
+          id: 2,
           name: "Makkara",
           playedMatches: 0,
           score: 0,
@@ -64,6 +72,7 @@
       name: "Group C",
       participants: [
         {
+          id: 0,
           name: "Seppo",
           playedMatches: 0,
           score: 0,
@@ -73,6 +82,7 @@
           goalDiff: 0,
         },
         {
+          id: 1,
           name: "Ismo",
           playedMatches: 0,
           score: 0,
@@ -106,6 +116,17 @@
     teams = teams.sort((a, b) => {
       return sortOrder * (a[column] < b[column] ? 1 : -1);
     });
+  }
+
+  function addToMatch(id) {
+    if (match.length < 2 && match[0] ? match[0].id !== id : true) {
+      match = [...match, teams.find((team) => team.id === id)];
+    }
+  }
+
+  function calcId() {
+    if (teams.length != 0) return Math.max(...teams.map((team) => team.id)) + 1;
+    return 0;
   }
 </script>
 
@@ -147,12 +168,17 @@
               <td>{participant.losses}</td>
               <td>{participant.goalDiff}</td>
             </tr>
+            <Button on:cClick={() => addToMatch(participant.id)}
+              >Add to match</Button
+            >
           {/each}
         </table>
       </div>
     {/if}
   </div>
-  <Button on:cClick={console.log(groups)}>console log</Button>
+  {#if match[0] && match[1]}
+    <Match {match} />
+  {/if}
 </main>
 
 <style>
