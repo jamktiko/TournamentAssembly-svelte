@@ -8,6 +8,7 @@
   import Scoreboard from "../core/Scoreboard.svelte";
   import League from "../core/League.svelte";
   import Customizer from "../core/Customizer.svelte";
+  import Group from "../core/Group.svelte";
 
   const routes = {
     "/": Login,
@@ -18,6 +19,7 @@
     "/scoreboard": Scoreboard,
     "/league": League,
     "/customizer/:id": Customizer,
+    "/group": Group,
   };
 </script>
 

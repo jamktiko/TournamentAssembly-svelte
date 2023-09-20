@@ -2,9 +2,87 @@
   import Button from "../reusable/Button.svelte";
 
   const groups = [
-    { id: 0, name: "Group A", participants: ["Pertti"] },
-    { id: 1, name: "Group B", participants: ["Jorma", "Nakki", "Makkara"] },
-    { id: 2, name: "Group C", participants: ["Seppo", "Ismo"] },
+    {
+      id: 0,
+      name: "Group A",
+      participants: [
+        {
+          name: "Pertti",
+          playedMatches: 0,
+          score: 0,
+          wins: 0,
+          draws: 0,
+          losses: 0,
+          goalDiff: 0,
+        },
+        {
+          name: "Jorkki",
+          playedMatches: 0,
+          score: 0,
+          wins: 0,
+          draws: 0,
+          losses: 0,
+          goalDiff: 0,
+        },
+      ],
+    },
+    {
+      id: 1,
+      name: "Group B",
+      participants: [
+        {
+          name: "Jorma",
+          playedMatches: 0,
+          score: 0,
+          wins: 0,
+          draws: 0,
+          losses: 0,
+          goalDiff: 0,
+        },
+        {
+          name: "Nakki",
+          playedMatches: 0,
+          score: 0,
+          wins: 0,
+          draws: 0,
+          losses: 0,
+          goalDiff: 0,
+        },
+        {
+          name: "Makkara",
+          playedMatches: 0,
+          score: 0,
+          wins: 0,
+          draws: 0,
+          losses: 0,
+          goalDiff: 0,
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "Group C",
+      participants: [
+        {
+          name: "Seppo",
+          playedMatches: 0,
+          score: 0,
+          wins: 0,
+          draws: 0,
+          losses: 0,
+          goalDiff: 0,
+        },
+        {
+          name: "Ismo",
+          playedMatches: 0,
+          score: 0,
+          wins: 0,
+          draws: 0,
+          losses: 0,
+          goalDiff: 0,
+        },
+      ],
+    },
   ];
 
   $: selected = null;
@@ -12,9 +90,22 @@
   function selectGroup(group) {
     selected = group;
   }
-  let value = ''
-  function updateName(){
+  let value = "";
+  function updateName() {
     groups[group] = value;
+  }
+
+  function toggleSortOrder(column) {
+    if (sortBy === column) {
+      sortOrder *= -1;
+    } else {
+      sortBy = column;
+      sortOrder = 1;
+    }
+
+    teams = teams.sort((a, b) => {
+      return sortOrder * (a[column] < b[column] ? 1 : -1);
+    });
   }
 </script>
 
@@ -33,21 +124,35 @@
         <table>
           <tr>
             <th> Name </th>
+            <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
+            <th on:click={() => toggleSortOrder("score")}>Score</th>
+            <th on:click={() => toggleSortOrder("wins")}>W</th>
+            <th on:click={() => toggleSortOrder("draws")}>D</th>
+            <th on:click={() => toggleSortOrder("losses")}>L</th>
+            <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
           </tr>
           {#each selected.participants as participant}
             <tr>
-              <input
-            type="text"
-            bind:value={participant}
-            on:input={updateName(participant)}
-          />
+              <td>
+                <input
+                  type="text"
+                  bind:value={participant.name}
+                  on:input={updateName(participant.name)}
+                />
+              </td>
+              <td>{participant.playedMatches}</td>
+              <td>{participant.score}</td>
+              <td>{participant.wins}</td>
+              <td>{participant.draws}</td>
+              <td>{participant.losses}</td>
+              <td>{participant.goalDiff}</td>
             </tr>
           {/each}
         </table>
       </div>
     {/if}
   </div>
-  <Button on:cClick={console.log(groups)}>console log</Button> 
+  <Button on:cClick={console.log(groups)}>console log</Button>
 </main>
 
 <style>
@@ -75,5 +180,8 @@
     background-color: rgb(21, 21, 21);
     color: #ffffff;
     text-align: center;
+  }
+  td {
+    padding: 20px;
   }
 </style>
