@@ -1,17 +1,17 @@
 <script>
-  import cch from '../utils/cache';
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import { onDestroy } from 'svelte';
+  import cch from "../utils/cache";
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import { onDestroy } from "svelte";
 
   onDestroy(() => {
-    cch.saveToCache('league', [config, ...teams]);
+    cch.saveToCache("league", [config, ...teams]);
   });
 
   let config = {
-    name: 'test',
-    organizer: 'test',
+    name: "test",
+    organizer: "test",
     pointsPerWin: 3,
     pointsPerDraw: 1,
   };
@@ -19,14 +19,14 @@
   let teams = [];
   let match = [];
 
-  if (cch.isInCache('league')) {
-    const cachedItems = cch.getFromCache('league');
+  if (cch.isInCache("league")) {
+    const cachedItems = cch.getFromCache("league");
     config = cachedItems.shift();
 
     teams = cachedItems;
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column) {
@@ -82,7 +82,6 @@
    * @param ce custom event received from Match-component, contains the winner and loser
    */
   function resolve(ce) {
-    console.log('test');
     if (ce.detail.draw) {
       ce.detail.contestants[0].draws++;
       ce.detail.contestants[0].playedMatches++;
@@ -116,7 +115,7 @@
 </script>
 
 <div class="back-arrow-container">
-  <Button on:cClick={() => push('/selection')}>
+  <Button on:cClick={() => push("/selection")}>
     <svg
       class="back-arrow"
       xmlns="http://www.w3.org/2000/svg"
@@ -136,13 +135,13 @@
   <table>
     <thead>
       <tr>
-        <th on:click={() => toggleSortOrder('name')}>Team Name</th>
-        <th on:click={() => toggleSortOrder('playedMatches')}>PL</th>
-        <th on:click={() => toggleSortOrder('score')}>Score</th>
-        <th on:click={() => toggleSortOrder('wins')}>W</th>
-        <th on:click={() => toggleSortOrder('draws')}>D</th>
-        <th on:click={() => toggleSortOrder('losses')}>L</th>
-        <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
+        <th on:click={() => toggleSortOrder("name")}>Team Name</th>
+        <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
+        <th on:click={() => toggleSortOrder("score")}>Score</th>
+        <th on:click={() => toggleSortOrder("wins")}>W</th>
+        <th on:click={() => toggleSortOrder("draws")}>D</th>
+        <th on:click={() => toggleSortOrder("losses")}>L</th>
+        <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
       </tr>
     </thead>
     <tbody>
