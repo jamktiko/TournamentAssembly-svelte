@@ -1,9 +1,9 @@
 <script>
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
+  import Footer from '../reusable/Footer.svelte';
 
   import stateController from '../utils/stateStore';
-
   import { onDestroy } from 'svelte';
 
   let stateLocal;
@@ -39,6 +39,7 @@
       <Button on:cClick={() => push('/Signup')}>SIGN UP</Button>
     </div>
   </div>
+  <Footer />
 </main>
 
 <style>
