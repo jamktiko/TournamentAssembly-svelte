@@ -2,6 +2,7 @@
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
   import cch from '../utils/cache';
+  import Card from '../reusable/Card.svelte';
 </script>
 
 <main>
@@ -12,46 +13,92 @@
       customizable to your desires.
     </p>
   </div>
+  <h1>CREATE</h1>
   <div class="create-container">
-    <h1>CREATE</h1>
-    <div class="button-container">
-      <Button on:cClick={() => push('/customizer/groups')}>GROUPS</Button>
-      <Button on:cClick={() => push('/customizer/playoffs')}>PLAYOFFS</Button>
-      <Button on:cClick={() => push('/scoreboard')}>SCOREBOARD</Button>
-      <Button on:cClick={() => push('/customizer/league')}>LEAGUE</Button>
-    </div>
+    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
+      <!-- Example: Custom background image -->
+      <div slot="header" class="card-header">
+        <h2>GROUPS</h2>
+      </div>
+      <div slot="button">
+        <Button on:cClick={() => push('/customizer/groups')}>CHOOSE</Button>
+      </div>
+      <div slot="footer">
+        <p>
+          Great for stage-based tournaments to qualify contestants into possible
+          later playoffs.
+        </p>
+      </div>
+    </Card>
+    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
+      <!-- Example: Custom background image -->
+      <div slot="header">
+        <h2>PLAYOFFS</h2>
+      </div>
+      <div slot="button">
+        <Button on:cClick={() => push('/customizer/playoffs')}>CHOOSE</Button>
+      </div>
+      <div slot="footer">
+        <p>
+          With playoffs you can have elimination-style tournaments to determine
+          the winner contestant.
+        </p>
+      </div>
+    </Card>
+    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
+      <!-- Example: Custom background image -->
+      <div slot="header">
+        <h2>SCOREBOARD</h2>
+      </div>
+      <div slot="button">
+        <Button on:cClick={() => push('/scoreboard')}>CHOOSE</Button>
+      </div>
+      <div slot="footer">
+        <p>
+          Scoreboard allows you to keep track of your games and competitions by
+          tracking your results each round.
+        </p>
+      </div>
+    </Card>
+    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
+      <!-- Example: Custom background image -->
+      <div slot="header">
+        <h2>LEAGUE</h2>
+      </div>
+      <div slot="button">
+        <Button on:cClick={() => push('/customizer/league')}>CHOOSE</Button>
+      </div>
+      <div slot="footer">
+        <p>
+          League allows you to create and manage a tournament where with a
+          pre-determined amount of rounds for all contestants.
+        </p>
+      </div>
+    </Card>
   </div>
 </main>
 
 <style>
   main {
-    padding-bottom: 3em;
+    padding: 0em 2em 3em;
     margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     flex-direction: column;
-    width: 50%;
+    width: 70%;
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
   }
 
   .create-container {
-    width: 50vw;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2em 8em 6em;
-  }
-
-  .button-container {
-    margin-top: 3em;
-    display: flex;
-    width: 25vw;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    margin-top: 2em;
   }
 
   .text-container {
@@ -66,7 +113,7 @@
     text-align: center;
     font: 100;
     font-size: 2em;
-    margin-top: 2em;
+    margin-top: 1em;
     margin-bottom: 1.3em;
   }
 
@@ -78,7 +125,6 @@
   p {
     text-align: center;
     margin-bottom: 1em;
-    white-space: pre;
     font: 100;
     font-size: 1.3em;
   }
