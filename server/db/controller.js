@@ -9,11 +9,11 @@ const userController = {
   },
 
   async createData(req, res) {
-    res.send(await lib.createData());
+    res.send(await lib.createData(req.body));
   },
 
   async deleteById(req, res) {
-    res.send(await lib.deleteById());
+    res.send(await lib.deleteById(req.body));
   },
 };
 
