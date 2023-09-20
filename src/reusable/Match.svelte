@@ -34,6 +34,13 @@
 
   <p>{scores[1]}</p>
   <h2>{match[1].name}</h2>
+
+  <Button
+    on:cClick={resolveMatch({
+      draw: true,
+      contestants: [match[0], match[1]],
+    })}>Draw</Button
+  >
 </div>
 
 <style></style>
