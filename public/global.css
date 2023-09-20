@@ -12,14 +12,15 @@ html {
 }
 
 /* Scrollbar styling */
-/* width */
+/* Width */
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 1em;
+  background-color: transparent;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgb(0, 0, 0);
 }
 
 /* Handle */
@@ -27,12 +28,12 @@ html {
   border: solid 1px #ffffff3c;
   border-radius: 40px;
   background: linear-gradient(129deg, rgb(11, 11, 52) 0%, rgb(34, 5, 32) 100%);
-  color: whitesmoke;
+  color: transparent;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  border: solid 1px rgb(105, 105, 105);
+  border: solid 1px rgb(167, 167, 167);
   filter: brightness(1.2);
   filter: contrast(1.1);
   scale: 1.1;
