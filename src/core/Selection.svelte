@@ -1,7 +1,7 @@
 <script>
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import cch from "../utils/cache";
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import cch from '../utils/cache';
 </script>
 
 <main>
@@ -15,24 +15,24 @@
   <div class="create-container">
     <h1>CREATE</h1>
     <div class="button-container">
-      <Button on:cClick={() => push("/customizer/groups")}>GROUPS</Button>
-      <Button on:cClick={() => push("/customizer/playoffs")}>PLAYOFFS</Button>
-      <Button on:cClick={() => push("/scoreboard")}>SCOREBOARD</Button>
-      <Button on:cClick={() => push("/customizer/league")}>LEAGUE</Button>
+      <Button on:cClick={() => push('/customizer/groups')}>GROUPS</Button>
+      <Button on:cClick={() => push('/customizer/playoffs')}>PLAYOFFS</Button>
+      <Button on:cClick={() => push('/scoreboard')}>SCOREBOARD</Button>
+      <Button on:cClick={() => push('/customizer/league')}>LEAGUE</Button>
     </div>
   </div>
 </main>
 
 <style>
   main {
-    padding-bottom: 8em;
+    padding-bottom: 3em;
     margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     flex-direction: column;
-    width: 60%;
+    width: 50%;
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
   }
@@ -46,8 +46,7 @@
   }
 
   .button-container {
-    scale: 1.8;
-    margin-top: 5em;
+    margin-top: 3em;
     display: flex;
     width: 25vw;
     flex-direction: row;
@@ -66,21 +65,21 @@
     margin: auto;
     text-align: center;
     font: 100;
-    font-size: 3em;
+    font-size: 2em;
     margin-top: 2em;
     margin-bottom: 1.3em;
   }
 
   h1 {
     font: 700;
-    font-size: 5em;
+    font-size: 3em;
   }
 
   p {
     text-align: center;
-    margin-bottom: 4em;
+    margin-bottom: 1em;
     white-space: pre;
     font: 100;
-    font-size: 1.7em;
+    font-size: 1.3em;
   }
 </style>
