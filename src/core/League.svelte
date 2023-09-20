@@ -13,6 +13,7 @@
     name: "test",
     organizer: "test",
     pointsPerWin: 3,
+    pointsPerDraw: 1,
   };
 
   let teams = [];
@@ -57,8 +58,10 @@
     const newPlayer = {
       id: calcId(),
       name: newPlayerName,
+      playedMatches: 0,
       score: 0,
       wins: 0,
+      draws: 0,
       losses: 0,
       goalDiff: 0,
     };
@@ -79,12 +82,25 @@
    * @param ce custom event received from Match-component, contains the winner and loser
    */
   function resolve(ce) {
-    console.log(ce.detail);
-    ce.detail.winner.wins++;
-    ce.detail.winner.score += config.pointsPerWin;
-    ce.detail.loser.losses++;
-    ce.detail.loser.goalDiff -= ce.detail.goalDiff;
-    ce.detail.winner.goalDiff += ce.detail.goalDiff;
+    console.log("test");
+    if (ce.detail.draw) {
+      ce.detail.contestants[0].draws++;
+      ce.detail.contestants[0].playedMatches++;
+      ce.detail.contestants[0].score += config.pointsPerDraw;
+
+      ce.detail.contestants[1].draws++;
+      ce.detail.contestants[1].playedMatches++;
+      ce.detail.contestants[1].score += config.pointsPerDraw;
+    } else {
+      ce.detail.winner.wins++;
+      ce.detail.winner.score += config.pointsPerWin;
+      ce.detail.winner.playedMatches++;
+      ce.detail.winner.goalDiff += ce.detail.goalDiff;
+
+      ce.detail.loser.losses++;
+      ce.detail.loser.playedMatches++;
+      ce.detail.loser.goalDiff -= ce.detail.goalDiff;
+    }
 
     match = [];
 
@@ -121,8 +137,10 @@
     <thead>
       <tr>
         <th on:click={() => toggleSortOrder("name")}>Team Name</th>
+        <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
         <th on:click={() => toggleSortOrder("score")}>Score</th>
         <th on:click={() => toggleSortOrder("wins")}>W</th>
+        <th on:click={() => toggleSortOrder("draws")}>D</th>
         <th on:click={() => toggleSortOrder("losses")}>L</th>
         <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
       </tr>
@@ -131,8 +149,10 @@
       {#each teams as team (team.id)}
         <tr>
           <td>{team.name}</td>
+          <td>{team.playedMatches}</td>
           <td>{team.score}</td>
           <td>{team.wins}</td>
+          <td>{team.draws}</td>
           <td>{team.losses}</td>
           <td>{team.goalDiff}</td>
           <td>
