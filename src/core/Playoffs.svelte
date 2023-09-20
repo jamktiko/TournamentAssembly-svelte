@@ -14,18 +14,18 @@
 		id: 7,
 		name: "Turpasaunan Pallo",
 	},
-	{ id: 0, name: "Ball Of TaiKou" },
-	{ id: 1, name: "Dippaa Sun JalkaPallot" },
-	{ id: 2, name: "Mikan Faijan FC" },
+	{ id: 8, name: "Ball Of TaiKou" },
+	{ id: 9, name: "Dippaa Sun JalkaPallot" },
+	{ id: 10, name: "Mikan Faijan FC" },
 	{
-		id: 3,
+		id: 11,
 		name: "Pallo Pyörii Uudelleen",
 	},
-	{ id: 4, name: "Omistajien Klubi" },
-	{ id: 5, name: "Frööbelin Pallot" },
-	{ id: 6, name: "Työttömät FC" },
+	{ id: 12, name: "Omistajien Klubi" },
+	{ id: 13, name: "Frööbelin Pallot" },
+	{ id: 14, name: "Työttömät FC" },
 	{
-		id: 7,
+		id: 15,
 		name: "Tenon PilviVeikot",
 	},
 ];
@@ -90,7 +90,7 @@
 		}
 	}
 
-    calcMatchups(8);
+    calcMatchups(contestants.length);
 
 </script>
 
@@ -103,7 +103,7 @@
                     {match.home ? match.home.name : placeholder}
                 </p>
                 <br>
-                <p on:keydown={() => {}} on:click={() => moveToNextRound(match.home,match,round)}>
+                <p on:keydown={() => {}} on:click={() => moveToNextRound(match.away,match,round)}>
                     {match.away ? match.away.name : placeholder}
                 </p>
             </div>
