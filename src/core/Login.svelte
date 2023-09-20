@@ -47,7 +47,7 @@
     margin: auto;
     align-items: center;
     height: 100%;
-    width: 60%;
+    width: 50%;
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
   }
@@ -56,13 +56,13 @@
   h2 {
     margin-top: 0.7em;
     margin-bottom: 0.3em;
-    font-size: 3em;
+    font-size: 2em;
   }
 
   p {
+    font-size: 0.9em;
     text-align: center;
-    margin-top: 2em;
-    margin-bottom: 1em;
+    margin-top: 1em;
   }
   .container {
     margin: auto;
@@ -72,7 +72,6 @@
   #message-container {
     font-size: x-large;
     margin-top: 2em;
-    margin-bottom: 3em;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,8 +79,7 @@
   }
 
   .button-container {
-    padding: 6em;
-    scale: 1.5;
+    padding: 4em;
     margin: auto;
     width: 50%;
     display: flex;

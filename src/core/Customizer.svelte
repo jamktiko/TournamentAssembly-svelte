@@ -206,7 +206,7 @@
 <style>
   h1 {
     text-transform: uppercase;
-    font-size: 3em;
+    font-size: 2em;
     margin-bottom: 2em;
   }
   main {
@@ -220,7 +220,7 @@
     padding-bottom: 3em;
     margin: auto;
     flex-direction: column;
-    width: 60%;
+    width: 50%;
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
   }
@@ -249,7 +249,7 @@
   }
 
   .createButton {
-    margin-top: 5em;
+    margin-top: 3em;
     display: flex;
     justify-content: center;
     align-items: center;
