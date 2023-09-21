@@ -1,4 +1,5 @@
 const { connect, client } = require('./conn');
+const { ObjectId } = require('mongodb');
 
 const lib = {
   async getAll() {
@@ -18,7 +19,7 @@ const lib = {
     const collection = client.db('touras').collection('users');
 
     try {
-      const result = await collection.insertOne(document);
+      await collection.insertOne(document);
       console.log('Document created successfully');
     } catch (error) {
       console.error('Error creating document:', error);
@@ -26,11 +27,11 @@ const lib = {
     }
   },
   // Function to update a document in a collection by ID
-  async updateById(users, id, update) {
+  async updateById(id, update) {
     const collection = client.db('touras').collection('users');
 
     try {
-      await collection.findOneAndUpdate({ _id: id }, { $set: update });
+      await collection.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: update });
       console.log('Document updated successfully');
     } catch (error) {
       console.error('Error updating document:', error);
@@ -43,8 +44,8 @@ const lib = {
     const collection = client.db('touras').collection('users');
 
     try {
-      await collection.deleteOne({ _id: req.params.id });
-      console.log('Document deleted successfully');
+      await collection.deleteOne({ _id: new ObjectId(id) });
+      console.log('Document deleted successfully', id);
     } catch (error) {
       console.error('Error deleting document:', error);
       throw error;
