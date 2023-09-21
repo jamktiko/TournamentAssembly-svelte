@@ -20,19 +20,17 @@ const lib = {
     try {
       const result = await collection.insertOne(document);
       console.log('Document created successfully');
-      return result.ops[0];
     } catch (error) {
       console.error('Error creating document:', error);
       throw error;
     }
   },
-
   // Function to update a document in a collection by ID
   async updateById(users, id, update) {
     const collection = client.db('touras').collection('users');
 
     try {
-      await collection.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: update });
+      await collection.findOneAndUpdate({ _id: id }, { $set: update });
       console.log('Document updated successfully');
     } catch (error) {
       console.error('Error updating document:', error);
@@ -41,11 +39,11 @@ const lib = {
   },
 
   // Function to delete a document in a collection by ID
-  async deleteById(users, id) {
+  async deleteById(id) {
     const collection = client.db('touras').collection('users');
 
     try {
-      await collection.deleteOne({ _id: new ObjectId(id) });
+      await collection.deleteOne({ _id: req.params.id });
       console.log('Document deleted successfully');
     } catch (error) {
       console.error('Error deleting document:', error);
