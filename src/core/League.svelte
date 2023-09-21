@@ -82,7 +82,6 @@
    * @param ce custom event received from Match-component, contains the winner and loser
    */
   function resolve(ce) {
-    console.log("test");
     if (ce.detail.draw) {
       ce.detail.contestants[0].draws++;
       ce.detail.contestants[0].playedMatches++;
