@@ -31,6 +31,8 @@
   ];
 
   let rounds = [];
+  let winners = [];
+
 
   const placeholder = "Waiting for results";
 
@@ -58,10 +60,16 @@
     } while (amount > 1);
   }
 
-  function moveToNextRound(winner, match, round) {
-    winners.push(winner.id);
+  function moveToNextRound(winner, loser ,match, round) {
+	console.log(winner);
+	const roundIndex = rounds.indexOf(round);
+	if(!winner || winners.find((id) => id.round ===  roundIndex && id.winner === loser.id)) return;
+
     const pointers = new Map();
-    const roundIndex = rounds.indexOf(round);
+
+
+
+	winners.push({winner: winner.id,round: roundIndex})
 
     for (let j = 0; j < rounds[roundIndex].length; j++) {
       for (let i = 0; i < rounds[roundIndex + 1].length; i++) {
@@ -90,13 +98,9 @@
     }
   }
 
-  function checkForWinners(wId) {
-    return winners.find((id) => id === wId) === wId ? true : false;
-  }
-
-  $: winners = [];
-
   calcMatchups(contestants.length);
+
+
 </script>
 
 <main>
@@ -109,18 +113,19 @@
         {#each round as match}
           <div class="match">
             <p
-              class={checkForWinners(match.home.id) ? "passed" : ""}
+				style={ match.home && winners.find((id) => id.round === i && id.winner === match.home.id) ? "color:green" : winners.find((id) => id.round ===  i && id.winner === match.away.id) ? "color:grey" : ""}
               id="upper-name"
               on:keydown={() => {}}
-              on:click={() => moveToNextRound(match.home, match, round)}
+              on:click={() => moveToNextRound(match.home,match.away, match, round)}
             >
               {match.home ? match.home.name : placeholder}
             </p>
             <hr class="separate-line" />
             <p
+			style={ match.away && winners.find((id) => id.round === i && id.winner === match.away.id) ? "color:green" : winners.find((id) => id.round ===  i && id.winner === match.home.id) ? "color:grey" : ""}
               id="lower-name"
               on:keydown={() => {}}
-              on:click={() => moveToNextRound(match.away, match, round)}
+              on:click={() => moveToNextRound(match.away,match.home, match, round)}
             >
               {match.away ? match.away.name : placeholder}
             </p>
@@ -197,7 +202,5 @@
     font-size: 1.1em;
     margin-left: 0.2em;
   }
-  .passed {
-    color: green;
-  }
+
 </style>
