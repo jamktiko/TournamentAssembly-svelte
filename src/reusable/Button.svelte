@@ -48,4 +48,9 @@
     background: transparent;
     border: transparent;
   }
+
+  .adjust-button {
+    padding: 0em 0.3em;
+    border-radius: 10px;
+  }
 </style>
