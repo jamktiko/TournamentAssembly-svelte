@@ -32,7 +32,7 @@
 
   let rounds = [];
 
-  const placeholder = "____________________";
+  const placeholder = "Waiting for results";
 
   function calcMatchups(amount) {
     calcMatchNumberPerRound(amount);
@@ -59,6 +59,7 @@
   }
 
   function moveToNextRound(winner, match, round) {
+    winners.push(winner.id);
     const pointers = new Map();
     const roundIndex = rounds.indexOf(round);
 
@@ -89,47 +90,114 @@
     }
   }
 
+  function checkForWinners(wId) {
+    return winners.find((id) => id === wId) === wId ? true : false;
+  }
+
+  $: winners = [];
+
   calcMatchups(contestants.length);
 </script>
 
 <main>
-  {#each rounds as round, index}
-    <h2>{index}</h2>
-
-    <div class="round">
-      {#each round as match}
-        <div class="match">
-          <p
-            on:keydown={() => {}}
-            on:click={() => moveToNextRound(match.home, match, round)}
-          >
-            {match.home ? match.home.name : placeholder}
-          </p>
-          <br />
-          <p
-            on:keydown={() => {}}
-            on:click={() => moveToNextRound(match.away, match, round)}
-          >
-            {match.away ? match.away.name : placeholder}
-          </p>
-        </div>
-      {/each}
-    </div>
-  {/each}
+  <h1>CUSTOMIZERISTA TOURNAMENT NAME TÄHÄN</h1>
+  <h3>by ORGANIZER NAME TÄHÄN</h3>
+  <div class="playoff-container">
+    {#each rounds as round, i}
+      <div class="round">
+        <h2>ROUND {i + 1}</h2>
+        {#each round as match}
+          <div class="match">
+            <p
+              class={checkForWinners(match.home.id) ? "passed" : ""}
+              id="upper-name"
+              on:keydown={() => {}}
+              on:click={() => moveToNextRound(match.home, match, round)}
+            >
+              {match.home ? match.home.name : placeholder}
+            </p>
+            <hr class="separate-line" />
+            <p
+              id="lower-name"
+              on:keydown={() => {}}
+              on:click={() => moveToNextRound(match.away, match, round)}
+            >
+              {match.away ? match.away.name : placeholder}
+            </p>
+          </div>
+        {/each}
+      </div>
+    {/each}
+  </div>
 </main>
 
 <style>
   main {
     display: flex;
+    align-items: center;
     justify-content: center;
-  }
-  .round {
-    display: flex;
     flex-direction: column;
-    justify-content: center;
   }
 
+  .playoff-container {
+    display: flex;
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+
+  .round {
+    position: relative;
+    padding: 5em 1em 2em;
+    margin-right: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.308);
+  }
   .match {
-    margin: 30px;
+    height: fit-content;
+    width: fit-content;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    border: 1px solid #ffffff33;
+    background: linear-gradient(
+      129deg,
+      rgb(11, 11, 52) 0%,
+      rgb(34, 5, 32) 100%
+    );
+  }
+
+  .separate-line {
+    opacity: 0.3;
+    width: 250px;
+  }
+
+  h1 {
+    margin-top: 1em;
+    font: 900;
+    font-size: 3em;
+  }
+  h2 {
+    text-align: center;
+    position: absolute;
+    font-size: 2em;
+    top: 20px;
+    left: 35%;
+  }
+
+  #upper-name,
+  #lower-name {
+    cursor: pointer;
+    color: #fff;
+    font-size: 1.1em;
+    margin-left: 0.2em;
+  }
+  .passed {
+    color: green;
   }
 </style>
