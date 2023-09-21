@@ -63,7 +63,7 @@
   function moveToNextRound(winner, loser ,match, round) {
 	console.log(winner);
 	const roundIndex = rounds.indexOf(round);
-	if(!winner || winners.find((id) => id.round ===  roundIndex && id.winner === loser.id)) return;
+	if(!winner || winners.find((id) => id.round ===  roundIndex && id.winner === loser.id || winners.find((id) => id.round ===  roundIndex && id.winner === winner.id))) return;
 
     const pointers = new Map();
 
