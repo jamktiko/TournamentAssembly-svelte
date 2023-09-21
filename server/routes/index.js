@@ -4,4 +4,8 @@ const { userController } = require("../db/controller");
 
 router.get("/", userController.getAll);
 
+router.post("/", userController.createData);
+
+router.delete('/', userController.deleteById);
+
 module.exports = router;
