@@ -133,7 +133,6 @@
     align-content: normal;
   }
   #table-container {
-    overflow-y: auto;
     overflow-x: auto;
     width: 100%;
     margin: auto;
