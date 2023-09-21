@@ -1,4 +1,5 @@
 <script>
+  import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
   export let params;
 
@@ -65,6 +66,7 @@
 </script>
 
 <main>
+  <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
   <div class="customizer-content">
     <div class="customizer-header">
       <h1>CUSTOMIZE YOUR TOURNAMENT {params.id}</h1>

@@ -1,17 +1,17 @@
 <script>
-  import cch from "../utils/cache";
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import { onDestroy } from "svelte";
+  import cch from '../utils/cache';
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import { onDestroy } from 'svelte';
 
   onDestroy(() => {
-    cch.saveToCache("league", [config, ...teams]);
+    cch.saveToCache('league', [config, ...teams]);
   });
 
   let config = {
-    name: "test",
-    organizer: "test",
+    name: 'test',
+    organizer: 'test',
     pointsPerWin: 3,
     pointsPerDraw: 1,
   };
@@ -19,14 +19,14 @@
   let teams = [];
   let match = [];
 
-  if (cch.isInCache("league")) {
-    const cachedItems = cch.getFromCache("league");
+  if (cch.isInCache('league')) {
+    const cachedItems = cch.getFromCache('league');
     config = cachedItems.shift();
 
     teams = cachedItems;
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column) {
@@ -116,103 +116,120 @@
   }
 </script>
 
-<div class="back-arrow-container">
-  <Button on:cClick={() => push("/selection")}>
-    <svg
-      class="back-arrow"
-      xmlns="http://www.w3.org/2000/svg"
-      height="24"
-      viewBox="0 -960 960 960"
-      width="24"
-      ><path
-        d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"
-      /></svg
-    >
-  </Button>
-</div>
-
-<div class="league-content">
-  <h2>{config.name}</h2>
-
-  <table>
-    <thead>
-      <tr>
-        <th on:click={() => toggleSortOrder("name")}>Team Name</th>
-        <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
-        <th on:click={() => toggleSortOrder("score")}>Score</th>
-        <th on:click={() => toggleSortOrder("wins")}>W</th>
-        <th on:click={() => toggleSortOrder("draws")}>D</th>
-        <th on:click={() => toggleSortOrder("losses")}>L</th>
-        <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each teams as team (team.id)}
-        <tr>
-          <td>{team.name}</td>
-          <td>{team.playedMatches}</td>
-          <td>{team.score}</td>
-          <td>{team.wins}</td>
-          <td>{team.draws}</td>
-          <td>{team.losses}</td>
-          <td>{team.goalDiff}</td>
-          <td>
-            <Button on:cClick={() => addToMatch(team.id)}
-              >Add player to match</Button
-            >
-          </td>
-        </tr>
-      {/each}
-    </tbody>
-    {#if playerNameInputVisible}
-      <input type="text" bind:value={newPlayerName} />
-      <Button disabled={newPlayerName ? true : false} on:cClick={addPlayer}
-        >Accept</Button
-      >
-      <Button on:cClick={() => (playerNameInputVisible = false)}>Close</Button>
-      {#if nameInvalid}
-        <p>Player needs to have a name!</p>
+<main>
+  <div class="league-content">
+    <div class="league-header">
+      <h2>{config.name}</h2>
+    </div>
+    <div class="addplayer-content">
+      {#if playerNameInputVisible}
+        <div class="playername-input">
+          <input type="text" bind:value={newPlayerName} />
+        </div>
+        <div class="addplayer-buttons">
+          <Button
+            class="adjust-button"
+            disabled={newPlayerName ? true : false}
+            on:cClick={addPlayer}>Add</Button
+          >
+          <Button
+            class="adjust-button"
+            on:cClick={() => (playerNameInputVisible = false)}>Close</Button
+          >
+        </div>
+        <div class="error-message-content">
+          {#if nameInvalid}
+            <p>Player needs to have a name!</p>
+          {/if}
+        </div>
+      {:else}
+        <Button on:cClick={() => (playerNameInputVisible = true)}
+          >Add new Player</Button
+        >
       {/if}
-    {:else}
-      <Button on:cClick={() => (playerNameInputVisible = true)}
-        >Add new Player</Button
-      >
-    {/if}
-  </table>
-  {#if match[0] && match[1]}
-    <Button on:cClick={() => (match = [])}>X</Button>
-    <Match {match} on:winnerevent={resolve} />
-  {/if}
-</div>
+    </div>
+    <div class="league-scoreboard">
+      <table>
+        <thead>
+          <tr>
+            <th on:click={() => toggleSortOrder('name')}>Team Name</th>
+            <th on:click={() => toggleSortOrder('playedMatches')}>PL</th>
+            <th on:click={() => toggleSortOrder('score')}>Score</th>
+            <th on:click={() => toggleSortOrder('wins')}>W</th>
+            <th on:click={() => toggleSortOrder('draws')}>D</th>
+            <th on:click={() => toggleSortOrder('losses')}>L</th>
+            <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each teams as team (team.id)}
+            <tr>
+              <td>{team.name}</td>
+              <td>{team.playedMatches}</td>
+              <td>{team.score}</td>
+              <td>{team.wins}</td>
+              <td>{team.draws}</td>
+              <td>{team.losses}</td>
+              <td>{team.goalDiff}</td>
+              <td>
+                <Button on:cClick={() => addToMatch(team.id)}
+                  >Add player to match</Button
+                >
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+      {#if match[0] && match[1]}
+        <Button class="adjust-button" on:cClick={() => (match = [])}>X</Button>
+        <Match {match} on:winnerevent={resolve} />
+      {/if}
+    </div>
+  </div>
+</main>
 
 <style>
+  main {
+    display: flex;
+    justify-content: center;
+  }
+
+  .league-header {
+    text-align: center;
+  }
+
+  .addplayer-content {
+    position: relative;
+    padding: 10em, 0em;
+    margin: auto;
+    height: 10em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .playername-input {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .addplayer-buttons {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .error-message-content {
+    justify-content: center;
+    align-items: center;
+  }
+
   input {
     color: black;
-  }
-  .league-content {
-    display: flex;
-
-    justify-content: center;
-    display: flex;
-    margin: auto;
-    flex-direction: row;
   }
 
   th {
     text-decoration: underline;
     text-align: left;
     padding-right: 3em;
-  }
-
-  .back-arrow-container {
-    position: absolute;
-    top: 3em;
-    left: 2em;
-  }
-
-  .back-arrow {
-    width: 4em;
-    height: 4em;
-    fill: rgb(255, 255, 255);
   }
 </style>
