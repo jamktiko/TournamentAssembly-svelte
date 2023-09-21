@@ -4,9 +4,13 @@
   const dp = createEventDispatcher();
 
   const customBtnClick = () => dp('cClick');
+
+  let buttonProps = {
+    class: [$$restProps.class],
+  };
 </script>
 
-<button on:click={customBtnClick}>
+<button on:click={customBtnClick} {...buttonProps}>
   <slot />
 </button>
 
@@ -37,5 +41,11 @@
     filter: brightness(1.2);
     filter: contrast(1.1);
     scale: 1.1;
+  }
+
+  .footer-button {
+    text-transform: uppercase;
+    background: transparent;
+    border: transparent;
   }
 </style>

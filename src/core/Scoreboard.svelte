@@ -123,9 +123,8 @@
   }
 
   #button-container {
-    scale: 1.6;
-    margin-top: 9em;
-    margin-bottom: 6em;
+    margin-top: 6em;
+    margin-bottom: 2em;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -134,10 +133,8 @@
     align-content: normal;
   }
   #table-container {
-    max-width: 100%;
     overflow-x: auto;
-    white-space: wrap;
-    scale: 0.7;
+    width: 100%;
     margin: auto;
     margin-bottom: 2em;
     display: flex;
@@ -152,7 +149,7 @@
   input {
     color: rgb(255, 255, 255);
     font-size: 1.3em;
-    padding: 0.5em 1em;
+    padding: 0.3em 0.7em;
     border-radius: 20px;
     background-color: rgba(5, 2, 45, 0.226);
     text-align: center;
@@ -165,21 +162,21 @@
   }
   table {
     margin: auto;
+    width: 100%;
+    table-layout: auto;
   }
 
   th,
   td {
     font-weight: 700;
-    padding: 0.5em 1em;
     background-color: rgba(0, 0, 0, 0.308);
     border: 1px solid white;
     text-align: center;
-    text-emphasis-color: black;
-    font-size: 1.8em;
+    font-size: 1.7em;
   }
 
   .remove-button {
-    scale: 0.8;
+    scale: 0.6;
   }
 
   .delete-player {
