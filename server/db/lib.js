@@ -1,5 +1,6 @@
 const { connect, client } = require('./conn');
 const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt');
 
 const lib = {
   async getAll() {
@@ -14,18 +15,68 @@ const lib = {
     }
   },
 
-  // Function to create a new document in a collection
-  async createData(document) {
+  async loginUser(username, password) {
     const collection = client.db('touras').collection('users');
 
+    // Find the user by username
+    const user = await collection.findOne({ username });
     try {
-      await collection.insertOne(document);
-      console.log('Document created successfully');
+      if (!user) {
+        console.error('User not found');
+        return {
+          msg: 'Username wrong or not found',
+          success: false,
+        };
+      }
+      console.log(user);
     } catch (error) {
-      console.error('Error creating document:', error);
+      console.error('Error finding user:', error);
       throw error;
     }
+    // Compare the provided password with the stored hashed password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (passwordMatch) {
+      // Passwords match, user is authenticated
+      return user;
+    } else {
+      console.error('Incorrect password');
+      return {
+        msg: 'Incorrect password',
+        success: false,
+      };
+    }
   },
+
+  async registerUser(username, password) {
+    const collection = client.db('touras').collection('users');
+
+    // Check if the username is already taken
+    const existingUser = await collection.findOne({ username });
+    try {
+      if (existingUser) {
+        console.error('Username already exists');
+        return {
+          msg: 'Username already exists',
+          success: false,
+        };
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
+      throw error;
+    }
+    // Hash the password before storing it in the database
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert the new user into the database
+    const result = await collection.insertOne({
+      username,
+      password: hashedPassword,
+    });
+
+    return result;
+  },
+
   // Function to update a document in a collection by ID
   async updateById(id, update) {
     const collection = client.db('touras').collection('users');
