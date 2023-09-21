@@ -6,6 +6,6 @@ router.get("/", userController.getAll);
 
 router.post("/", userController.createData);
 
-router.delete("/:id", userController.deleteById);
+router.delete('/', userController.deleteById);
 
 module.exports = router;
