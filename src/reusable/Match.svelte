@@ -1,6 +1,6 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import Button from "./Button.svelte";
+  import { createEventDispatcher } from 'svelte';
+  import Button from './Button.svelte';
 
   const dp = createEventDispatcher();
 
@@ -12,7 +12,7 @@
       scores[0] - scores[1] < 0
         ? (scores[0] - scores[1]) * -1
         : scores[0] - scores[1];
-    dp("winnerevent", matchData);
+    dp('winnerevent', matchData);
   }
 </script>
 

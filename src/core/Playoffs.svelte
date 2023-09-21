@@ -90,23 +90,6 @@
   }
 
   calcMatchups(contestants.length);
-
-  let isGreen = false;
-
-  function toggleColor() {
-    isGreen = !isGreen;
-  }
-
-  let upperNameIsGreen = false;
-  let lowerNameIsGreen = false;
-
-  function toggleUpperNameColor() {
-    upperNameIsGreen = !upperNameIsGreen;
-  }
-
-  function toggleLowerNameColor() {
-    lowerNameIsGreen = !lowerNameIsGreen;
-  }
 </script>
 
 <main>
@@ -122,8 +105,6 @@
               id="upper-name"
               on:keydown={() => {}}
               on:click={() => moveToNextRound(match.home, match, round)}
-              on:click={toggleUpperNameColor}
-              class:my-green={upperNameIsGreen}
             >
               {match.home ? match.home.name : placeholder}
             </p>
@@ -132,8 +113,6 @@
               id="lower-name"
               on:keydown={() => {}}
               on:click={() => moveToNextRound(match.away, match, round)}
-              on:click={toggleLowerNameColor}
-              class:my-green={lowerNameIsGreen}
             >
               {match.away ? match.away.name : placeholder}
             </p>
@@ -211,8 +190,7 @@
     margin-left: 0.2em;
   }
 
-  .my-green {
+  #upper-name:active {
     color: green;
-    background-color: green;
   }
 </style>
