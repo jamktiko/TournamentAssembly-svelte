@@ -53,4 +53,18 @@
     padding: 0em 0.3em;
     border-radius: 10px;
   }
+
+  .back-button {
+    scale: 0.7;
+    border-radius: 10px;
+    border-color: #ffffff;
+    position: absolute;
+    top: 5.8em;
+    left: -0.5em;
+    transition-duration: 0.3s;
+  }
+
+  .back-button:hover {
+    scale: 0.75;
+  }
 </style>
