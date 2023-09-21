@@ -27,12 +27,14 @@
     {
       id: 15,
       name: 'Tenon PilviVeikot',
+
     },
   ];
 
   let rounds = [];
 
   const placeholder = 'Waiting for results';
+
 
   function calcMatchups(amount) {
     calcMatchNumberPerRound(amount);
@@ -142,6 +144,7 @@
       </div>
     {/each}
   </div>
+
 </main>
 
 <style>
@@ -214,5 +217,6 @@
   .my-green {
     color: green;
     background-color: green;
+
   }
 </style>

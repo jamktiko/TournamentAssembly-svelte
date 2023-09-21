@@ -13,7 +13,7 @@ const userController = {
   },
 
   async deleteById(req, res) {
-    res.send(await lib.deleteById(req.body));
+    res.send(await lib.deleteById(req.body.id));
   },
 };
 
