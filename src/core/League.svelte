@@ -90,8 +90,10 @@
       ce.detail.contestants[1].draws++;
       ce.detail.contestants[1].playedMatches++;
       ce.detail.contestants[1].score += config.pointsPerDraw;
+      console.log(config.pointsPerDraw);
     } else {
       ce.detail.winner.wins++;
+      console.log(config.pointsPerWin);
       ce.detail.winner.score += config.pointsPerWin;
       ce.detail.winner.playedMatches++;
       ce.detail.winner.goalDiff += ce.detail.goalDiff;
