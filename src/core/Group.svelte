@@ -1,9 +1,20 @@
 <script>
   import Button from "../reusable/Button.svelte";
   import Match from "../reusable/Match.svelte";
-
+  import MatchResults from "../reusable/MatchResults.svelte";
   let match = [];
-
+  /**/
+  let matchResults = [];
+  let matchResultsR = [];
+  let showResults = 0;
+  function toggleResults() {
+    if (showResults == 0) {
+      showResults = 1;
+    } else {
+      showResults = 0;
+    }
+  }
+  /**/
   let config = {
     name: "test",
     organizer: "test",
@@ -152,6 +163,21 @@
       ce.detail.contestants[1].draws++;
       ce.detail.contestants[1].playedMatches++;
       ce.detail.contestants[1].score += config.pointsPerDraw;
+      matchResults.push({
+        contestants: [
+          {
+            name: ce.detail.contestants[0].name,
+            score: ce.detail.result1,
+            win: false,
+          },
+          {
+            name: ce.detail.contestants[1].name,
+            score: ce.detail.result2,
+            win: false,
+          },
+        ],
+        draw: true,
+      });
     } else {
       ce.detail.winner.wins++;
       ce.detail.winner.score += config.pointsPerWin;
@@ -161,11 +187,49 @@
       ce.detail.loser.losses++;
       ce.detail.loser.playedMatches++;
       ce.detail.loser.goalDiff -= ce.detail.goalDiff;
+      if (ce.detail.result1 > ce.detail.result2) {
+        matchResults.push([
+          {
+            contestants: [
+              {
+                name: ce.detail.winner.name,
+                score: ce.detail.result1,
+                win: true,
+              },
+              {
+                name: ce.detail.loser.name,
+                score: ce.detail.result2,
+                win: false,
+              },
+            ],
+            draw: false,
+          },
+        ]);
+      } else {
+        matchResults.push([
+          {
+            contestants: [
+              {
+                name: ce.detail.loser.name,
+                score: ce.detail.result1,
+                win: false,
+              },
+              {
+                name: ce.detail.winner.name,
+                score: ce.detail.result2,
+                win: true,
+              },
+            ],
+            draw: false,
+          },
+        ]);
+      }
     }
 
     match = [];
     console.log(groups[selected.index].participants);
     groups[selected.index].participants = groups[selected.index].participants;
+    matchResultsR = [...matchResults].reverse();
     //teams = teams.sort((a, b) => b.score - a.score);
   }
 </script>
@@ -173,7 +237,16 @@
 <main>
   <div id="group-manage">
     {#each groups as group, i}
+      {#if selected}
+        {#if group.name == selected.name}
+          <h1>{group.name}</h1>
+          {:else}
+          <h2>{group.name}</h2>
+      {/if}
+      {:else}
       <h2>{group.name}</h2>
+      {/if}
+      
       <Button on:cClick={() => selectGroup(group, i)}
         >Click to manage group</Button
       >
@@ -228,6 +301,19 @@
   {#if match[0] && match[1]}
     <Match {match} on:winnerevent={resolve} />
   {/if}
+
+  {#if showResults == 0}
+  <Button on:cClick={() => toggleResults()}>Show results</Button>
+{/if}
+{#if showResults == 1}
+  <Button on:cClick={() => toggleResults()}>Hide results</Button>
+  {#each matchResultsR as matchResult}
+    <div class="flex-container">
+      <MatchResults {matchResult} />
+      <div />
+    </div>
+  {/each}
+{/if}
 </main>
 
 <style>
@@ -259,4 +345,5 @@
   td {
     padding: 20px;
   }
+  
 </style>
