@@ -1,6 +1,20 @@
 <script>
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
+
+  let userName = '';
+  let password = '';
+
+  function maskPassword(input) {
+    password = input.value;
+    let maskedPassword = '*'.repeat(password.length);
+    input.value = maskedPassword;
+  }
+
+  function loginTest() {
+    console.log('Username:', userName);
+    console.log('Password:', password);
+  }
 </script>
 
 <div class="backdrop" />
@@ -22,10 +36,21 @@
   <div class="login-input">
     <h1>LOG IN</h1>
     <h2>USERNAME</h2>
-    <input placeholder="Username" />
+    <input
+      type="username"
+      id="username"
+      placeholder="Username"
+      bind:value={userName}
+    />
     <h2>PASSWORD</h2>
-    <input placeholder="Password" />
-    <Button>LOG IN</Button>
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+      on:input={(event) => maskPassword(event.target)}
+      bind:value={password}
+    />
+    <Button on:cClick={loginTest}>LOG IN</Button>
   </div>
 </div>
 
