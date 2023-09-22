@@ -138,6 +138,8 @@
   }
 
   calcMatchups(contestants.length);
+  assignRoundNames(rounds);
+  console.log(rounds);
 </script>
 
 <main>
@@ -146,7 +148,8 @@
   <div class="playoff-container">
     {#each rounds as round, i}
       <div class="round">
-        <h2>ROUND {i + 1}</h2>
+        <h2>{round.name}</h2>
+
         {#each round as match, mi}
           {#if i !== 0}
             <button on:click={() => revertMatch({ round: i, match: mi })}
