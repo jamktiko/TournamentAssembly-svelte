@@ -247,18 +247,19 @@
         <Button class="adjust-button" on:cClick={() => (match = [])}>X</Button>
         <Match {match} on:winnerevent={resolve} />
       {/if}
-      {#if showResults == 0}
-        <Button on:cClick={() => toggleResults()}>Show results</Button>
-      {/if}
-      {#if showResults == 1}
-        <Button on:cClick={() => toggleResults()}>Hide results</Button>
-        {#each matchResultsR as matchResult}
-          <div class="flex-container">
-            <MatchResults {matchResult} />
-            <div />
+      <div class="results-container">
+        {#if showResults == 0}
+          <Button on:cClick={() => toggleResults()}>Show results</Button>
+        {/if}
+        {#if showResults == 1}
+          <Button on:cClick={() => toggleResults()}>Hide results</Button>
+          <div class="matchresults-container">
+            {#each matchResultsR as matchResult}
+              <MatchResults {matchResult} />
+            {/each}
           </div>
-        {/each}
-      {/if}
+        {/if}
+      </div>
     </div>
   </div>
 </main>
@@ -299,5 +300,18 @@
     text-decoration: underline;
     text-align: left;
     padding-right: 3em;
+  }
+
+  .results-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1em, 0em;
+  }
+
+  .matchresults-container {
+    justify-content: center;
+    align-items: center;
   }
 </style>
