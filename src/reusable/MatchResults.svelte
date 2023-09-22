@@ -1,19 +1,14 @@
 <script>
-const matches = [
-  {
-    contestants: [
-      { name: "Tiimi-1", score: 1, win: false },
-      { name: "Tiimi-2", score: 2, win: true },
-    ],
-    draw: false,
-  },
-];
+
+export let matchResult
 
 </script>
+
 <main>
+<div class="backdrop" />
 <td>Team 1</td>
 <td>Score</td>
-{#if matches[0].draw == true} 
+{#if matchResult.draw == true} 
   <td><b>Draw</b></td>
 {:else}
   <td> </td>
@@ -21,24 +16,24 @@ const matches = [
 <td>Score</td>
 <td>Team 2</td>
 <p></p>
-{#if matches[0].draw == true} 
-  <td>{matches[0].contestants[0].name}</td>
-  <td>{matches[0].contestants[0].score}</td> 
+{#if matchResult.draw == true} 
+  <td>{matchResult.contestants[0].name}</td>
+  <td>{matchResult.contestants[0].score}</td> 
   <td> - </td> 
-  <td>{matches[0].contestants[1].score}</td>      
-  <td>{matches[0].contestants[1].name}</td>
-{:else if matches[0].contestants[0].win == true}
-  <td><b>{matches[0].contestants[0].name}</b></td>
-  <td>{matches[0].contestants[0].score}</td> 
+  <td>{matchResult.contestants[1].score}</td>      
+  <td>{matchResult.contestants[1].name}</td>
+{:else if matchResult[0].contestants[0].win == true}
+  <td><b>{matchResult[0].contestants[0].name}</b></td>
+  <td>{matchResult[0].contestants[0].score}</td> 
   <td> - </td> 
-  <td>{matches[0].contestants[1].score}</td>      
-  <td>{matches[0].contestants[1].name}</td>
+  <td>{matchResult[0].contestants[1].score}</td>      
+  <td>{matchResult[0].contestants[1].name}</td>
 {:else}
-  <td>{matches[0].contestants[0].name}</td>
-  <td>{matches[0].contestants[0].score}</td> 
+  <td>{matchResult[0].contestants[0].name}</td>
+  <td>{matchResult[0].contestants[0].score}</td> 
   <td> - </td> 
-  <td>{matches[0].contestants[1].score}</td>      
-  <td><b>{matches[0].contestants[1].name}</b></td>
+  <td>{matchResult[0].contestants[1].score}</td>      
+  <td><b>{matchResult[0].contestants[1].name}</b></td>
 {/if}
 
 
