@@ -95,4 +95,20 @@
   .match-add-button:hover {
     scale: 0.9;
   }
+
+  .revert-button {
+    font-size: 1.4em;
+    position: absolute;
+    text-transform: uppercase;
+    scale: 0.5;
+    border-radius: 10px;
+    border: solid 1px #ffffff3c;
+    transition-duration: 0.1s;
+    top: -100%;
+    left: 18%;
+  }
+
+  .revert-button:hover {
+    scale: 0.5;
+  }
 </style>

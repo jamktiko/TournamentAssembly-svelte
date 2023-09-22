@@ -1,39 +1,40 @@
 <script>
+  import Button from '../reusable/Button.svelte';
   const contestants = [
-    { id: 0, name: "Tikon Pallo" },
-    { id: 1, name: "Jamkin Palloilijat" },
-    { id: 2, name: "Jykylän Potku" },
+    { id: 0, name: 'Tikon Pallo' },
+    { id: 1, name: 'Jamkin Palloilijat' },
+    { id: 2, name: 'Jykylän Potku' },
     {
       id: 3,
-      name: "Ticorporate FC",
+      name: 'Ticorporate FC',
     },
-    { id: 4, name: "Kouvostoliiton Työväen Seura" },
-    { id: 5, name: "K-Kauppiaat" },
-    { id: 6, name: "Potkikset FC" },
+    { id: 4, name: 'Kouvostoliiton Työväen Seura' },
+    { id: 5, name: 'K-Kauppiaat' },
+    { id: 6, name: 'Potkikset FC' },
     {
       id: 7,
-      name: "Turpasaunan Pallo",
+      name: 'Turpasaunan Pallo',
     },
-    { id: 8, name: "Ball Of TaiKou" },
-    { id: 9, name: "Dippaa Sun JalkaPallot" },
-    { id: 10, name: "Mikan Faijan FC" },
+    { id: 8, name: 'Ball Of TaiKou' },
+    { id: 9, name: 'Dippaa Sun JalkaPallot' },
+    { id: 10, name: 'Mikan Faijan FC' },
     {
       id: 11,
-      name: "Pallo Pyörii Uudelleen",
+      name: 'Pallo Pyörii Uudelleen',
     },
-    { id: 12, name: "Omistajien Klubi" },
-    { id: 13, name: "Frööbelin Pallot" },
-    { id: 14, name: "Työttömät FC" },
+    { id: 12, name: 'Omistajien Klubi' },
+    { id: 13, name: 'Frööbelin Pallot' },
+    { id: 14, name: 'Työttömät FC' },
     {
       id: 15,
-      name: "Tenon PilviVeikot",
+      name: 'Tenon PilviVeikot',
     },
   ];
 
   let rounds = [];
   let winners = [];
 
-  const placeholder = "Waiting for results";
+  const placeholder = 'Waiting for results';
 
   function revertMatch(matchData) {
     const { round, match } = matchData;
@@ -58,7 +59,7 @@
     rounds[round][match].home = false;
     rounds[round][match].away = false;
 
-    console.log("Home: ", homeIndex, " Away: ", awayIndex);
+    console.log('Home: ', homeIndex, ' Away: ', awayIndex);
 
     winners.splice(homeIndex, 1);
     winners.splice(awayIndex - 1, 1);
@@ -139,18 +140,18 @@
 
   function assignRoundNames(rounds) {
     const roundNames = [
-      "ROUND 1",
-      "ROUND 2",
-      "ROUND 3",
-      "ROUND 4",
-      "ROUND 5",
-      "ROUND 6",
+      'ROUND 1',
+      'ROUND 2',
+      'ROUND 3',
+      'ROUND 4',
+      'ROUND 5',
+      'ROUND 6',
     ];
     const specialRoundNames = [
-      "PRE-QUARTERFINALS",
-      "QUARTERFINALS",
-      "SEMIFINALS",
-      "FINALS",
+      'PRE-QUARTERFINALS',
+      'QUARTERFINALS',
+      'SEMIFINALS',
+      'FINALS',
     ];
 
     for (let i = 0; i < rounds.length; i++) {
@@ -177,12 +178,14 @@
       <div class="round">
         <h2>{round.name}</h2>
         {#each round as match, mi}
-          {#if i !== 0}
-            <button on:click={() => revertMatch({ round: i, match: mi })}
-              >Revert</button
-            >
-          {/if}
           <div class="match">
+            {#if i !== 0}
+              <Button
+                class="revert-button"
+                on:cClick={() => revertMatch({ round: i, match: mi })}
+                >UNDO MATCH</Button
+              >
+            {/if}
             <p
               class:match-winner={match.home &&
                 winners.find(
@@ -223,6 +226,7 @@
 
 <style>
   main {
+    overflow-x: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -230,15 +234,25 @@
   }
 
   .playoff-container {
+    padding-left: 10em;
+    padding-right: 2em;
+    width: 90%;
+    overflow: auto;
+    overflow-anchor: left;
+    overflow-x: left;
     display: flex;
+    justify-content: flex-start;
     margin-top: 3em;
     margin-bottom: 3em;
   }
 
   .round {
     position: relative;
-    padding: 5em 1em 2em;
-    margin-right: 2em;
+    padding-top: 5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 2em;
+    margin-right: 3em;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -252,6 +266,7 @@
     filter: brightness(1.1);
   }
   .match {
+    position: relative;
     height: fit-content;
     width: fit-content;
     margin-top: 1em;
