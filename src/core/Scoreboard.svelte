@@ -50,7 +50,8 @@
 </script>
 
 <main>
-  <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
+  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
+  >
   <div id="button-container">
     <div class="flex-item">
       <Button on:cClick={addRow}>ADD PLAYER</Button>
