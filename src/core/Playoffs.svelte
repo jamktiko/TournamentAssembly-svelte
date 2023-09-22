@@ -1,40 +1,39 @@
 <script>
   const contestants = [
-    { id: 0, name: "Tikon Pallo" },
-    { id: 1, name: "Jamkin Palloilijat" },
-    { id: 2, name: "Jykylän Potku" },
+    { id: 0, name: 'Tikon Pallo' },
+    { id: 1, name: 'Jamkin Palloilijat' },
+    { id: 2, name: 'Jykylän Potku' },
     {
       id: 3,
-      name: "Ticorporate FC",
+      name: 'Ticorporate FC',
     },
-    { id: 4, name: "Kouvostoliiton Työväen Seura" },
-    { id: 5, name: "K-Kauppiaat" },
-    { id: 6, name: "Potkikset FC" },
+    { id: 4, name: 'Kouvostoliiton Työväen Seura' },
+    { id: 5, name: 'K-Kauppiaat' },
+    { id: 6, name: 'Potkikset FC' },
     {
       id: 7,
-      name: "Turpasaunan Pallo",
+      name: 'Turpasaunan Pallo',
     },
-    { id: 8, name: "Ball Of TaiKou" },
-    { id: 9, name: "Dippaa Sun JalkaPallot" },
-    { id: 10, name: "Mikan Faijan FC" },
+    { id: 8, name: 'Ball Of TaiKou' },
+    { id: 9, name: 'Dippaa Sun JalkaPallot' },
+    { id: 10, name: 'Mikan Faijan FC' },
     {
       id: 11,
-      name: "Pallo Pyörii Uudelleen",
+      name: 'Pallo Pyörii Uudelleen',
     },
-    { id: 12, name: "Omistajien Klubi" },
-    { id: 13, name: "Frööbelin Pallot" },
-    { id: 14, name: "Työttömät FC" },
+    { id: 12, name: 'Omistajien Klubi' },
+    { id: 13, name: 'Frööbelin Pallot' },
+    { id: 14, name: 'Työttömät FC' },
     {
       id: 15,
-      name: "Tenon PilviVeikot",
+      name: 'Tenon PilviVeikot',
     },
   ];
 
   let rounds = [];
   let winners = [];
 
-
-  const placeholder = "Waiting for results";
+  const placeholder = 'Waiting for results';
 
   function calcMatchups(amount) {
     calcMatchNumberPerRound(amount);
@@ -60,16 +59,25 @@
     } while (amount > 1);
   }
 
-  function moveToNextRound(winner, loser ,match, round) {
-	console.log(winner);
-	const roundIndex = rounds.indexOf(round);
-	if(!winner || !loser || winners.find((id) => id.round ===  roundIndex && id.winner === loser.id || winners.find((id) => id.round ===  roundIndex && id.winner === winner.id ))) return;
+  function moveToNextRound(winner, loser, match, round) {
+    console.log(winner);
+    const roundIndex = rounds.indexOf(round);
+    if (
+      !winner ||
+      !loser ||
+      winners.find(
+        (id) =>
+          (id.round === roundIndex && id.winner === loser.id) ||
+          winners.find(
+            (id) => id.round === roundIndex && id.winner === winner.id
+          )
+      )
+    )
+      return;
 
     const pointers = new Map();
 
-
-
-	winners.push({winner: winner.id,round: roundIndex})
+    winners.push({ winner: winner.id, round: roundIndex });
 
     for (let j = 0; j < rounds[roundIndex].length; j++) {
       for (let i = 0; i < rounds[roundIndex + 1].length; i++) {
@@ -97,10 +105,37 @@
       }
     }
   }
+  function assignRoundNames(rounds) {
+    const roundNames = [
+      'ROUND 1',
+      'ROUND 2',
+      'ROUND 3',
+      'ROUND 4',
+      'ROUND 5',
+      'ROUND 6',
+    ];
+    const specialRoundNames = [
+      'PRE-QUARTERFINALS',
+      'QUARTERFINALS',
+      'SEMIFINALS',
+      'FINALS',
+    ];
 
+    for (let i = 0; i < rounds.length; i++) {
+      // Check if it's a special round and set the corresponding name
+      if (i >= rounds.length - specialRoundNames.length) {
+        rounds[i].name =
+          specialRoundNames[i - (rounds.length - specialRoundNames.length)];
+      } else {
+        rounds[i].name = roundNames[i];
+      }
+    }
+  }
+
+  // Calculate matchups and assign round names
   calcMatchups(contestants.length);
-
-
+  assignRoundNames(rounds);
+  console.log(rounds);
 </script>
 
 <main>
@@ -109,23 +144,37 @@
   <div class="playoff-container">
     {#each rounds as round, i}
       <div class="round">
-        <h2>ROUND {i + 1}</h2>
+        <h2>{round.name}</h2>
         {#each round as match}
           <div class="match">
             <p
-				style={ match.home && winners.find((id) => id.round === i && id.winner === match.home.id) ? "color:green" : winners.find((id) => id.round ===  i && id.winner === match.away.id) ? "color:grey" : ""}
-              id="upper-name"
+              class:match-winner={match.home &&
+                winners.find(
+                  (id) => id.round === i && id.winner === match.home.id
+                )}
+              class:match-loser={winners.find(
+                (id) => id.round === i && id.winner === match.away.id
+              )}
               on:keydown={() => {}}
-              on:click={() => moveToNextRound(match.home,match.away, match, round)}
+              on:click={() =>
+                moveToNextRound(match.home, match.away, match, round)}
             >
               {match.home ? match.home.name : placeholder}
             </p>
+
             <hr class="separate-line" />
             <p
-			style={ match.away && winners.find((id) => id.round === i && id.winner === match.away.id) ? "color:green" : winners.find((id) => id.round ===  i && id.winner === match.home.id) ? "color:grey" : ""}
+              class:match-winner={match.away &&
+                winners.find(
+                  (id) => id.round === i && id.winner === match.away.id
+                )}
+              class:match-loser={winners.find(
+                (id) => id.round === i && id.winner === match.home.id
+              )}
               id="lower-name"
               on:keydown={() => {}}
-              on:click={() => moveToNextRound(match.away,match.home, match, round)}
+              on:click={() =>
+                moveToNextRound(match.away, match.home, match, round)}
             >
               {match.away ? match.away.name : placeholder}
             </p>
@@ -157,9 +206,14 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    align-items: flex-start;
+    align-items: center;
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
+    transition-duration: 0.2s;
+  }
+
+  .round:hover {
+    filter: brightness(1.1);
   }
   .match {
     height: fit-content;
@@ -188,19 +242,43 @@
     font-size: 3em;
   }
   h2 {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    text-align: right;
     position: absolute;
     font-size: 2em;
     top: 20px;
-    left: 35%;
   }
 
-  #upper-name,
-  #lower-name {
+  p {
     cursor: pointer;
     color: #fff;
     font-size: 1.1em;
     margin-left: 0.2em;
+    animation: pulse 3s infinite;
+  }
+  @keyframes pulse {
+    0% {
+      filter: brightness(1);
+    }
+
+    50% {
+      filter: brightness(0.7);
+    }
+
+    100% {
+      filter: brightness(1);
+    }
+  }
+  .match-winner {
+    filter: drop-shadow(0px 0px 1px #9efb89);
+    color: #00ff37;
+    animation: none;
   }
 
+  .match-loser {
+    color: #b70000;
+    filter: drop-shadow(0px 0px 1px #572b2b);
+    animation: none;
+  }
 </style>
