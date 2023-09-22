@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+//const { verifyToken } = require('./auth');
 const { userController } = require('../db/controller');
 
 router.get('/', userController.getAll);

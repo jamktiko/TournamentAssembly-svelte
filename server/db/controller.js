@@ -1,5 +1,5 @@
-const { connect } = require("./conn");
-const lib = require("./lib");
+const { connect } = require('./conn');
+const lib = require('./lib');
 
 connect();
 
