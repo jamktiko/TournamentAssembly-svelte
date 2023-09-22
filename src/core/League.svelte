@@ -4,7 +4,22 @@
   import Button from "../reusable/Button.svelte";
   import Match from "../reusable/Match.svelte";
   import { onDestroy } from "svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
 
+
+  let matchResults = [];
+  let matchResultsR = []
+  let showResults = 0
+  function toggleResults(){
+    if (showResults == 0){
+      showResults = 1}
+      else{
+        showResults = 0
+      }
+    } 
+
+
+  
   onDestroy(() => {
     cch.saveToCache("league", [config, ...teams]);
   });
@@ -90,6 +105,13 @@
       ce.detail.contestants[1].draws++;
       ce.detail.contestants[1].playedMatches++;
       ce.detail.contestants[1].score += config.pointsPerDraw;
+      matchResults.push({
+      contestants: [
+        { name: ce.detail.contestants[0].name, score: ce.detail.result1, win: false },
+        { name: ce.detail.contestants[1].name, score: ce.detail.result2, win: false },
+      ],
+      draw: true,
+    });
     } else {
       ce.detail.winner.wins++;
       ce.detail.winner.score += config.pointsPerWin;
@@ -99,11 +121,34 @@
       ce.detail.loser.losses++;
       ce.detail.loser.playedMatches++;
       ce.detail.loser.goalDiff -= ce.detail.goalDiff;
+      if (ce.detail.result1 > ce.detail.result2){
+      matchResults.push([
+  {
+    contestants: [
+      { name: ce.detail.winner.name, score: ce.detail.result1, win: true },
+      { name: ce.detail.loser.name, score: ce.detail.result2, win: false },
+    ],
+    draw: false,
+  },
+]);
+}
+else{
+  matchResults.push([
+  {
+    contestants: [
+      { name: ce.detail.loser.name, score: ce.detail.result1, win: false },
+      { name: ce.detail.winner.name, score: ce.detail.result2, win: true },
+    ],
+    draw: false,
+  },
+]);
+}
     }
-
+    
     match = [];
 
     teams = teams.sort((a, b) => b.score - a.score);
+    matchResultsR = [...matchResults].reverse()
   }
   /**
    * Calculates new ID based on the highest existing ID in the array, if array is empty returns 0
@@ -112,6 +157,7 @@
     if (teams.length != 0) return Math.max(...teams.map((team) => team.id)) + 1;
     return 0;
   }
+
 </script>
 
 <div class="back-arrow-container">
@@ -180,9 +226,27 @@
   {#if match[0] && match[1]}
     <Button on:cClick={() => (match = [])}>X</Button>
     <Match {match} on:winnerevent={resolve} />
+    
   {/if}
-</div>
 
+
+
+  
+
+</div>
+{#if showResults == 0}
+  <Button on:cClick={() => (toggleResults())}>Show results</Button>
+  {/if}
+    {#if showResults == 1}
+    <Button on:cClick={() => (toggleResults())}>Hide results</Button>
+      {#each matchResultsR as matchResult}
+      <div class="flex-container">
+      <MatchResults {matchResult} />
+      <div></div>
+    </div>
+      {/each}
+
+    {/if}
 <style>
   input {
     color: black;
@@ -213,4 +277,13 @@
     height: 4em;
     fill: rgb(255, 255, 255);
   }
+  .flex-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: stretch;
+  max-width: 700px;
+}
 </style>

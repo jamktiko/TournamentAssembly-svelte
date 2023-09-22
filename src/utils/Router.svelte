@@ -11,6 +11,7 @@
   import Group from "../core/Group.svelte";
   import Playoffs from "../core/Playoffs.svelte";
 
+
   const routes = {
     "/": Login,
     "/profile": Profile,
@@ -22,6 +23,7 @@
     "/customizer/:id": Customizer,
     "/group": Group,
     "/playoffs": Playoffs,
+
   };
 </script>
 

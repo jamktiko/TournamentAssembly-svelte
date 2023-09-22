@@ -1,13 +1,15 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import Button from "./Button.svelte";
-
+  
   const dp = createEventDispatcher();
 
   export let match;
   let scores = [0, 0];
 
   function resolveMatch(matchData) {
+    matchData.result1 = scores[0]
+    matchData.result2 = scores[1]
     matchData.goalDiff =
       scores[0] - scores[1] < 0
         ? (scores[0] - scores[1]) * -1
