@@ -21,12 +21,6 @@
 		players: null,
 	};
 
-	const testObject = {
-		name: "test",
-		testElements: ["test2", "test3", "test4"],
-	};
-	console.log(cch.detokenify(cch.tokenify(testObject)));
-
 	const numberGroups = [4, 6, 8];
 	const tournamentDeciders = ["Goal Difference", "Aggregate"];
 	const teamsGroups = [4, 6, 8];
@@ -78,7 +72,8 @@
 	function setParticipants() {
 		switch (params.id) {
 			case "playoffs":
-				push(`playoffs/${cch.tokenify(config)}`);
+				console.log(`playoffs/${cch.tokenify(config)}`);
+				push(`/playoffs/${cch.tokenify(config)}`);
 		}
 	}
 
