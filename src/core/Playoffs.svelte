@@ -166,10 +166,7 @@
 
   calcMatchups(contestants.length);
   assignRoundNames(rounds);
-<<<<<<< HEAD
-=======
   console.log(rounds);
->>>>>>> 820fed4f5f7d018cab4831adb4ae4a2f33fe21bf
 </script>
 
 <main>
@@ -179,10 +176,6 @@
     {#each rounds as round, i}
       <div class="round">
         <h2>{round.name}</h2>
-<<<<<<< HEAD
-=======
-
->>>>>>> 820fed4f5f7d018cab4831adb4ae4a2f33fe21bf
         {#each round as match, mi}
           {#if i !== 0}
             <button on:click={() => revertMatch({ round: i, match: mi })}
