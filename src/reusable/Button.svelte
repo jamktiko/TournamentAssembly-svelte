@@ -4,9 +4,13 @@
   const dp = createEventDispatcher();
 
   const customBtnClick = () => dp('cClick');
+
+  let buttonProps = {
+    class: [$$restProps.class],
+  };
 </script>
 
-<button on:click={customBtnClick}>
+<button on:click={customBtnClick} {...buttonProps}>
   <slot />
 </button>
 
@@ -37,5 +41,58 @@
     filter: brightness(1.2);
     filter: contrast(1.1);
     scale: 1.1;
+  }
+
+  .footer-button {
+    text-transform: uppercase;
+    background: transparent;
+    border: transparent;
+  }
+
+  .adjust-button {
+    padding: 0em 1em;
+    border-radius: 10px;
+  }
+
+  .back-button {
+    text-transform: uppercase;
+    scale: 0.7;
+    border-radius: 10px;
+    border: solid 1px #ffffff3c;
+    position: absolute;
+    top: 5.8em;
+    left: 0.5em;
+    transition-duration: 0.1s;
+  }
+
+  .back-button:hover {
+    scale: 0.8;
+  }
+
+  .back-button2 {
+    text-transform: uppercase;
+    scale: 1.07;
+    border-radius: 10px;
+    border: solid 1px #ffffff3c;
+    position: absolute;
+    top: 9.2em;
+    left: 2em;
+    transition-duration: 0.1s;
+  }
+
+  .back-button2:hover {
+    scale: 1.17;
+  }
+
+  .match-add-button {
+    text-transform: uppercase;
+    scale: 0.8;
+    border-radius: 40px;
+    border: solid 1px #ffffff3c;
+    transition-duration: 0.1s;
+  }
+
+  .match-add-button:hover {
+    scale: 0.9;
   }
 </style>

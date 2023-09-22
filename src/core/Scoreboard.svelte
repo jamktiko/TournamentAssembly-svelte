@@ -1,6 +1,8 @@
 <script>
-  let gridData = [{ name: '', columns: [''] }];
+  import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
+
+  let gridData = [{ name: '', columns: [''] }];
 
   function addRow() {
     const numColumns = gridData[0].columns.length;
@@ -48,6 +50,8 @@
 </script>
 
 <main>
+  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
+  >
   <div id="button-container">
     <div class="flex-item">
       <Button on:cClick={addRow}>ADD PLAYER</Button>

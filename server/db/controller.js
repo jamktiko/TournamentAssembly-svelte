@@ -1,5 +1,5 @@
-const { connect } = require('./conn');
-const lib = require('./lib');
+const { connect } = require("./conn");
+const lib = require("./lib");
 
 connect();
 
@@ -13,7 +13,15 @@ const userController = {
   },
 
   async deleteById(req, res) {
-    res.send(await lib.deleteById(req.body));
+    res.send(await lib.deleteById(req.body.id));
+  },
+
+  async loginUser(req, res) {
+    res.send(await lib.loginUser(req.body.username, req.body.password));
+  },
+
+  async registerUser(req, res) {
+    res.send(await lib.registerUser(req.body.username, req.body.password));
   },
 };
 
