@@ -166,6 +166,7 @@
 
   calcMatchups(contestants.length);
   assignRoundNames(rounds);
+  console.log(rounds);
 </script>
 
 <main>
