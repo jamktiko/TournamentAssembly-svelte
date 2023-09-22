@@ -130,11 +130,11 @@
           <Button
             class="adjust-button"
             disabled={newPlayerName ? true : false}
-            on:cClick={addPlayer}>Add</Button
+            on:cClick={addPlayer}>ADD</Button
           >
           <Button
             class="adjust-button"
-            on:cClick={() => (playerNameInputVisible = false)}>Close</Button
+            on:cClick={() => (playerNameInputVisible = false)}>CLOSE</Button
           >
         </div>
         <div class="error-message-content">
@@ -144,7 +144,7 @@
         </div>
       {:else}
         <Button on:cClick={() => (playerNameInputVisible = true)}
-          >Add new Player</Button
+          >ADD PLAYER</Button
         >
       {/if}
     </div>
@@ -172,8 +172,10 @@
               <td>{team.losses}</td>
               <td>{team.goalDiff}</td>
               <td>
-                <Button on:cClick={() => addToMatch(team.id)}
-                  >Add player to match</Button
+                <Button
+                  class="match-add-button"
+                  on:cClick={() => addToMatch(team.id)}
+                  >ADD PLAYER TO MATCH</Button
                 >
               </td>
             </tr>
@@ -190,8 +192,16 @@
 
 <style>
   main {
+    padding: 0em 2em 3em;
+    margin: auto;
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    width: 70%;
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.308);
   }
 
   .league-header {
@@ -231,5 +241,11 @@
     text-decoration: underline;
     text-align: left;
     padding-right: 3em;
+  }
+
+  td,
+  tr {
+    text-transform: uppercase;
+    font-size: 1.2em;
   }
 </style>
