@@ -237,7 +237,16 @@
 <main>
   <div id="group-manage">
     {#each groups as group, i}
+      {#if selected}
+        {#if group.name == selected.name}
+          <h1>{group.name}</h1>
+          {:else}
+          <h2>{group.name}</h2>
+      {/if}
+      {:else}
       <h2>{group.name}</h2>
+      {/if}
+      
       <Button on:cClick={() => selectGroup(group, i)}
         >Click to manage group</Button
       >
