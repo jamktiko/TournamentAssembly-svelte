@@ -136,6 +136,37 @@
   calcMatchups(contestants.length);
   assignRoundNames(rounds);
   console.log(rounds);
+
+  function revertMatch(matchData) {
+    const { round, match } = matchData;
+    console.log(round);
+    if (round === 0) return;
+
+    const homeIndex = winners.indexOf(
+      winners.find(
+        (winner) =>
+          rounds[round][match].home.id === winner.winner &&
+          winner.round === round - 1
+      )
+    );
+    const awayIndex = winners.indexOf(
+      winners.find(
+        (winner) =>
+          rounds[round][match].away.id === winner.winner &&
+          winner.round === round - 1
+      )
+    );
+
+    rounds[round][match].home = false;
+    rounds[round][match].away = false;
+
+    console.log('Home: ', homeIndex, ' Away: ', awayIndex);
+
+    winners.splice(homeIndex, 1);
+    winners.splice(awayIndex - 1, 1);
+
+    console.log(winners);
+  }
 </script>
 
 <main>
@@ -145,7 +176,12 @@
     {#each rounds as round, i}
       <div class="round">
         <h2>{round.name}</h2>
-        {#each round as match}
+        {#each round as match, mi}
+          {#if i !== 0}
+            <button on:click={() => revertMatch({ round: i, match: mi })}
+              >Revert</button
+            >
+          {/if}
           <div class="match">
             <p
               class:match-winner={match.home &&
