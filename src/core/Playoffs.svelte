@@ -33,7 +33,39 @@
   let rounds = [];
   let winners = [];
 
-  const placeholder = 'Waiting for results';
+
+  const placeholder = "Waiting for results";
+
+  function revertMatch(matchData) {
+    const { round, match } = matchData;
+    console.log(round);
+    if (round === 0) return;
+
+    const homeIndex = winners.indexOf(
+      winners.find(
+        (winner) =>
+          rounds[round][match].home.id === winner.winner &&
+          winner.round === round - 1
+      )
+    );
+    const awayIndex = winners.indexOf(
+      winners.find(
+        (winner) =>
+          rounds[round][match].away.id === winner.winner &&
+          winner.round === round - 1
+      )
+    );
+
+    rounds[round][match].home = false;
+    rounds[round][match].away = false;
+
+    console.log("Home: ", homeIndex, " Away: ", awayIndex);
+
+    winners.splice(homeIndex, 1);
+    winners.splice(awayIndex - 1, 1);
+
+    console.log(winners);
+  }
 
   function calcMatchups(amount) {
     calcMatchNumberPerRound(amount);
@@ -136,6 +168,7 @@
   calcMatchups(contestants.length);
   assignRoundNames(rounds);
   console.log(rounds);
+
 </script>
 
 <main>
@@ -155,6 +188,7 @@
               class:match-loser={winners.find(
                 (id) => id.round === i && id.winner === match.away.id
               )}
+
               on:keydown={() => {}}
               on:click={() =>
                 moveToNextRound(match.home, match.away, match, round)}
@@ -171,6 +205,7 @@
               class:match-loser={winners.find(
                 (id) => id.round === i && id.winner === match.home.id
               )}
+
               id="lower-name"
               on:keydown={() => {}}
               on:click={() =>
@@ -281,4 +316,5 @@
     filter: drop-shadow(0px 0px 1px #572b2b);
     animation: none;
   }
+
 </style>

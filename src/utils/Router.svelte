@@ -12,6 +12,7 @@
   import Playoffs from "../core/Playoffs.svelte";
   import DevInfo from "../core/DevInfo.svelte";
 
+
   const routes = {
     "/": Login,
     "/profile": Profile,
