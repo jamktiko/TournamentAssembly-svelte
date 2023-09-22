@@ -6,6 +6,7 @@
 </script>
 
 <main>
+  <Button class="back-button2" on:cClick={() => push('/')}>Back</Button>
   <div class="text-container">
     <h2>WELCOME USER!</h2>
     <p>
