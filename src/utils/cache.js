@@ -40,7 +40,7 @@ export default {
       kvps.pop();
       const construct = kvps.reduce((acc, curr) => {
         const sepr = curr.split(":");
-        acc[sepr[0]] = sepr[1];
+        acc[sepr[0]] = isNaN(parseInt(sepr[1])) ? sepr[1] : parseInt(sepr[1]);
         return acc;
       }, {});
       reconstruction.push(construct);
