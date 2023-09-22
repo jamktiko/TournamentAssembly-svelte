@@ -33,7 +33,6 @@
   let rounds = [];
   let winners = [];
 
-
   const placeholder = "Waiting for results";
 
   function calcMatchups(amount) {
@@ -60,16 +59,25 @@
     } while (amount > 1);
   }
 
-  function moveToNextRound(winner, loser ,match, round) {
-	console.log(winner);
-	const roundIndex = rounds.indexOf(round);
-	if(!winner || !loser || winners.find((id) => id.round ===  roundIndex && id.winner === loser.id || winners.find((id) => id.round ===  roundIndex && id.winner === winner.id ))) return;
+  function moveToNextRound(winner, loser, match, round) {
+    console.log(winner);
+    const roundIndex = rounds.indexOf(round);
+    if (
+      !winner ||
+      !loser ||
+      winners.find(
+        (id) =>
+          (id.round === roundIndex && id.winner === loser.id) ||
+          winners.find(
+            (id) => id.round === roundIndex && id.winner === winner.id
+          )
+      )
+    )
+      return;
 
     const pointers = new Map();
 
-
-
-	winners.push({winner: winner.id,round: roundIndex})
+    winners.push({ winner: winner.id, round: roundIndex });
 
     for (let j = 0; j < rounds[roundIndex].length; j++) {
       for (let i = 0; i < rounds[roundIndex + 1].length; i++) {
@@ -99,8 +107,6 @@
   }
 
   calcMatchups(contestants.length);
-
-
 </script>
 
 <main>
@@ -111,21 +117,42 @@
       <div class="round">
         <h2>ROUND {i + 1}</h2>
         {#each round as match}
+          <button>Revert</button>
           <div class="match">
             <p
-				style={ match.home && winners.find((id) => id.round === i && id.winner === match.home.id) ? "color:green" : winners.find((id) => id.round ===  i && id.winner === match.away.id) ? "color:grey" : ""}
+              style={match.home &&
+              winners.find(
+                (id) => id.round === i && id.winner === match.home.id
+              )
+                ? "color:green"
+                : winners.find(
+                    (id) => id.round === i && id.winner === match.away.id
+                  )
+                ? "color:grey"
+                : ""}
               id="upper-name"
               on:keydown={() => {}}
-              on:click={() => moveToNextRound(match.home,match.away, match, round)}
+              on:click={() =>
+                moveToNextRound(match.home, match.away, match, round)}
             >
               {match.home ? match.home.name : placeholder}
             </p>
             <hr class="separate-line" />
             <p
-			style={ match.away && winners.find((id) => id.round === i && id.winner === match.away.id) ? "color:green" : winners.find((id) => id.round ===  i && id.winner === match.home.id) ? "color:grey" : ""}
+              style={match.away &&
+              winners.find(
+                (id) => id.round === i && id.winner === match.away.id
+              )
+                ? "color:green"
+                : winners.find(
+                    (id) => id.round === i && id.winner === match.home.id
+                  )
+                ? "color:grey"
+                : ""}
               id="lower-name"
               on:keydown={() => {}}
-              on:click={() => moveToNextRound(match.away,match.home, match, round)}
+              on:click={() =>
+                moveToNextRound(match.away, match.home, match, round)}
             >
               {match.away ? match.away.name : placeholder}
             </p>
@@ -202,5 +229,4 @@
     font-size: 1.1em;
     margin-left: 0.2em;
   }
-
 </style>
