@@ -3,50 +3,81 @@
 </script>
 
 <main>
-  <div class="backdrop" />
-  <td>Team 1</td>
-  <td>Score</td>
-  {#if matchResult.draw == true}
-    <td><b>Draw</b></td>
-  {:else}
-    <td />
-  {/if}
-  <td>Score</td>
-  <td>Team 2</td>
-  <p />
-  {#if matchResult.draw == true}
-    <td>{matchResult.contestants[0].name}</td>
-    <td>{matchResult.contestants[0].score}</td>
-    <td> - </td>
-    <td>{matchResult.contestants[1].score}</td>
-    <td>{matchResult.contestants[1].name}</td>
-  {:else if matchResult[0].contestants[0].win == true}
-    <td><b>{matchResult[0].contestants[0].name}</b></td>
-    <td>{matchResult[0].contestants[0].score}</td>
-    <td> - </td>
-    <td>{matchResult[0].contestants[1].score}</td>
-    <td>{matchResult[0].contestants[1].name}</td>
-  {:else}
-    <td>{matchResult[0].contestants[0].name}</td>
-    <td>{matchResult[0].contestants[0].score}</td>
-    <td> - </td>
-    <td>{matchResult[0].contestants[1].score}</td>
-    <td><b>{matchResult[0].contestants[1].name}</b></td>
-  {/if}
+  <table>
+    <thead>
+      <tr>
+        <th>Team 1</th>
+        <th>Score</th>
+        <th>Team 2</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#if matchResult.draw == true}
+        <tr>
+          <td class="teamname-td">{matchResult.contestants[0].name}</td>
+          <td class="separator-td"
+            >{matchResult.contestants[0].score} - {matchResult.contestants[1]
+              .score}</td
+          >
+          <td class="teamname-td">{matchResult.contestants[1].name}</td>
+        </tr>
+      {:else if matchResult[0].contestants[0].win == true}
+        <tr>
+          <td class="winner-td">{matchResult[0].contestants[0].name}</td>
+          <td class="separator-td"
+            >{matchResult[0].contestants[0].score} - {matchResult[0]
+              .contestants[1].score}</td
+          >
+          <td class="teamname-td">{matchResult[0].contestants[1].name}</td>
+        </tr>
+      {:else}
+        <tr>
+          <td class="teamname-td">{matchResult[0].contestants[0].name}</td>
+          <td class="separator-td"
+            >{matchResult[0].contestants[0].score} - {matchResult[0]
+              .contestants[1].score}</td
+          >
+          <td class="winner-td">{matchResult[0].contestants[1].name}</td>
+        </tr>
+      {/if}
+    </tbody>
+  </table>
 </main>
 
 <style>
-  td {
-    font-weight: 700;
-    background-color: rgba(0, 0, 0, 0.308);
-    border: 1px solid white;
-    text-align: center;
-    font-size: 1.7em;
-    width: 5em;
-    max-width: 5em;
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  b {
+  th {
+    text-align: center;
+    width: 5em;
+    text-decoration: underline;
+    font-size: 1.5em;
+  }
+
+  td {
+    text-align: center;
+    font-size: 1.25em;
+  }
+
+  .teamname-td {
+    width: auto;
+    padding: 0em 2.25em;
+    font-weight: 700;
+  }
+
+  .separator-td {
+    font-size: 1.5em;
+    width: 100%;
+  }
+
+  .winner-td {
+    width: auto;
+    padding: 0em 2.25em;
+    font-weight: 700;
     color: rgba(43, 185, 0);
   }
 </style>

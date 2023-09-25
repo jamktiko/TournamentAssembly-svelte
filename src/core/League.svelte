@@ -252,8 +252,7 @@
       </table>
     </div>
     {#if match[0] && match[1]}
-      <Button class="adjust-button" on:cClick={() => (match = [])}>Close</Button
-      >
+      <Button on:cClick={() => (match = [])}>Close</Button>
       <Match {match} on:winnerevent={resolve} />
     {/if}
     <div class="results-container">
@@ -331,6 +330,10 @@
     color: red;
   }
 
+  table {
+    padding-bottom: 1em;
+  }
+
   th:first-child {
     text-align: left;
     padding-right: 3em;
@@ -371,7 +374,7 @@
   }
 
   .results-button-container {
-    padding: 1em 0em;
+    padding-bottom: 1em;
   }
 
   .matchresults-container {
