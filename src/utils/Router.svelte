@@ -11,7 +11,7 @@
 	import Group from "../core/Group.svelte";
 	import Playoffs from "../core/Playoffs.svelte";
 	import DevInfo from "../core/DevInfo.svelte";
-
+	import Errorpage from "../core/Errorpage.svelte";
 	const routes = {
 		"/": Login,
 		"/profile": Profile,
@@ -24,6 +24,7 @@
 		"/group": Group,
 		"/playoffs/:tourdata": Playoffs,
 		"/devinfo": DevInfo,
+		"*": Errorpage
 	};
 </script>
 
