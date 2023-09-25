@@ -11,7 +11,6 @@
   let matchResults = [];
   let matchResultsR = [];
   let showResults = 0;
-  let newParticipantName = null;
 
   function toggleResults() {
     if (showResults == 0) {
@@ -24,7 +23,7 @@
 
   let groups = [];
   generateGroups(config);
-  console.log(groups);
+  console.log(config);
 
   function generateGroups(conf) {
     for (let i = 0; i < conf.numberOfGroups; i++) {
@@ -35,7 +34,22 @@
       };
 
       groups.push(group);
+
+      for (let j = 0; j < conf.teamsInGroup; j++) {
+        const newParticipant = {
+          id: calcId(groups[i].participants),
+          name: "",
+          playedMatches: 0,
+          score: 0,
+          wins: 0,
+          draws: 0,
+          losses: 0,
+          goalDiff: 0,
+        };
+        groups[i].participants.push(newParticipant);
+      }
     }
+    console.log(groups);
   }
 
   $: selected = null;
@@ -63,6 +77,8 @@
     groups[i].participants = groups[i].participants.sort((a, b) => {
       return sortOrder * (a[column] < b[column] ? 1 : -1);
     });
+
+    selectGroup(selected, selected.id);
   }
 
   function addToMatch(id, i) {
@@ -76,28 +92,6 @@
   function calcId(arr) {
     if (arr.length != 0) return Math.max(...arr.map((unit) => unit.id)) + 1;
     return 0;
-  }
-
-  function addToGroup() {
-    const newParticipant = {
-      id: calcId(groups[selected.id].participants),
-      name: newParticipantName,
-      playedMatches: 0,
-      score: 0,
-      wins: 0,
-      draws: 0,
-      losses: 0,
-      goalDiff: 0,
-    };
-
-    groups[selected.id].participants = [
-      ...groups[selected.id].participants,
-      newParticipant,
-    ];
-
-    newParticipantName = "";
-
-    selectGroup(selected, selected.id);
   }
 
   function resolve(ce) {
@@ -172,7 +166,12 @@
         ]);
       }
     }
-    selectGroup(selected, selected.id);
+    console.log(sortBy);
+    if (sortBy === "score") {
+      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
+    } else {
+      toggleSortOrder("score", selected.id);
+    }
 
     match = [];
     groups[selected.index].participants = groups[selected.index].participants;
@@ -189,8 +188,6 @@
       {#if selected}
         {#if group.name == selected.name}
           <h1>{group.name}</h1>
-          <input type="text" bind:value={newParticipantName} />
-          <Button on:cClick={addToGroup}>Add new participant</Button>
         {:else}
           <h2>{group.name}</h2>
         {/if}
