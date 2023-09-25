@@ -1,10 +1,13 @@
 <script>
+
 	import cch from "../utils/cache";
 	import { push } from "svelte-spa-router";
 	import Button from "../reusable/Button.svelte";
 	import Playerlist from "../reusable/Playerlist.svelte";
 
 	export let params;
+
+
 
 	let selectedMenu = params.id;
 
@@ -66,7 +69,7 @@
 
 	function handlePlayerList(ce) {
 		playerListVisible = false;
-		config.players = ce.detail;
+		config.players = ce.detail;		
 	}
 
 	function setParticipants() {
@@ -78,6 +81,7 @@
 	}
 
 	let playerListVisible = false;
+
 </script>
 
 <main>
@@ -226,9 +230,37 @@
 				</div>
 			</div>
 		{/if}
-		<div class="createButton">
-			<Button on:cClick={setParticipants}>CREATE</Button>
-		</div>
+		{#if params.id == 'league'   }
+			{#if config.tournamentName.length > 0}
+				{#if config.organizerName.length > 0}
+				<div class="createButton">
+					<Button on:cClick={setParticipants}>CREATE</Button>
+				</div>
+				{/if}
+			{/if}
+		{/if}
+		{#if params.id == 'playoffs'   }
+			{#if config.tournamentName.length > 0}
+				{#if config.organizerName.length > 0}
+					{#if selectedDecider.length > 0}
+						{#if config.bestOf != 0}
+							{#if config.players != null}
+								{#if config.players.length > 1}
+									<div class="createButton">
+										<Button on:cClick={setParticipants}>CREATE</Button>
+									</div>
+								{/if}
+							{/if}
+						{/if}
+					{/if}
+				{/if}
+			{/if}
+		{/if}
+		{#if params.id == 'groups'   }
+			<div class="createButton">
+				<Button on:cClick={setParticipants}>CREATE</Button>
+			</div>
+		{/if}
 	</div>
 </main>
 
