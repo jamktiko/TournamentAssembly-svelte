@@ -232,9 +232,49 @@
         </div>
       </div>
     {/if}
-    <div class="createButton">
-      <Button on:cClick={setParticipants}>CREATE</Button>
-    </div>
+		{#if params.id == 'league'   }
+		{#if config.tournamentName.length > 0}
+			{#if config.organizerName.length > 0}
+			<div class="createButton">
+				<Button on:cClick={setParticipants}>CREATE</Button>
+			</div>
+			{/if}
+		{/if}
+	{/if}
+	{#if params.id == 'playoffs'   }
+		{#if config.tournamentName.length > 0}
+			{#if config.organizerName.length > 0}
+				{#if selectedDecider.length > 0}
+					{#if config.bestOf != 0}
+						{#if config.players != null}
+							{#if config.players.length > 1}
+								<div class="createButton">
+									<Button on:cClick={setParticipants}>CREATE</Button>
+								</div>
+							{/if}
+						{/if}
+					{/if}
+				{/if}
+			{/if}
+		{/if}
+	{/if}
+	{#if params.id == 'groups'   }
+		{#if config.tournamentName.length > 0}
+			{#if config.organizerName.length > 0}
+				{#if config.numberOfGroups > 0}
+					{#if config.teamsInGroup > 0}
+						{#if config.pointsPerWin > 0}
+							{#if config.tourDecider != ""}
+								<div class="createButton">
+									<Button on:cClick={setParticipants}>CREATE</Button>
+								</div>
+							{/if}			
+						{/if}	
+					{/if}			
+				{/if}
+			{/if}
+		{/if}
+	{/if}
   </div>
 </main>
 
