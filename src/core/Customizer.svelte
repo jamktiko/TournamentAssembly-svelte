@@ -21,7 +21,7 @@
     pointsPerDraw: 0,
     numberOfRounds: 0,
     bestOf: 0,
-    players: null,
+    players: [],
   };
 
   const numberGroups = [4, 6, 8];
