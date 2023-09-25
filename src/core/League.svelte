@@ -22,8 +22,8 @@
   });
 
   let config = {
-    name: 'test',
-    organizer: 'test',
+    name: 'test1',
+    organizer: 'test2',
     pointsPerWin: 3,
     pointsPerDraw: 1,
   };
@@ -182,12 +182,17 @@
 <main>
   <div class="league-content">
     <div class="league-header">
-      <h2>{config.name}</h2>
+      <h1 class="league-name">{config.name}</h1>
     </div>
     <div class="addplayer-content">
       {#if playerNameInputVisible}
+        <p>Type your Team name below</p>
         <div class="playername-input">
-          <input type="text" bind:value={newPlayerName} />
+          <input
+            type="text"
+            bind:value={newPlayerName}
+            placeholder="Team name"
+          />
         </div>
         <div class="addplayer-buttons">
           <Button
@@ -202,16 +207,16 @@
         </div>
         <div class="error-message-content">
           {#if nameInvalid}
-            <p>Player needs to have a name!</p>
+            <p class="error">Player needs to have a name!</p>
           {/if}
         </div>
       {:else}
         <Button on:cClick={() => (playerNameInputVisible = true)}
-          >Add new Player</Button
+          >Add new Team</Button
         >
       {/if}
     </div>
-    <div class="league-scoreboard">
+    <div class="league-scoreboard-container">
       <table>
         <thead>
           <tr>
@@ -224,7 +229,7 @@
             <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="scoreboard-lined-cell">
           {#each teams as team (team.id)}
             <tr>
               <td>{team.name}</td>
@@ -235,7 +240,9 @@
               <td>{team.losses}</td>
               <td>{team.goalDiff}</td>
               <td>
-                <Button on:cClick={() => addToMatch(team.id)}
+                <Button
+                  class="adjust-button"
+                  on:cClick={() => addToMatch(team.id)}
                   >Add player to match</Button
                 >
               </td>
@@ -243,23 +250,28 @@
           {/each}
         </tbody>
       </table>
-      {#if match[0] && match[1]}
-        <Button class="adjust-button" on:cClick={() => (match = [])}>X</Button>
-        <Match {match} on:winnerevent={resolve} />
-      {/if}
-      <div class="results-container">
+    </div>
+    {#if match[0] && match[1]}
+      <Button class="adjust-button" on:cClick={() => (match = [])}>Close</Button
+      >
+      <Match {match} on:winnerevent={resolve} />
+    {/if}
+    <div class="results-container">
+      <div class="results-button-container">
         {#if showResults == 0}
           <Button on:cClick={() => toggleResults()}>Show results</Button>
         {/if}
         {#if showResults == 1}
           <Button on:cClick={() => toggleResults()}>Hide results</Button>
-          <div class="matchresults-container">
-            {#each matchResultsR as matchResult}
-              <MatchResults {matchResult} />
-            {/each}
-          </div>
         {/if}
       </div>
+      {#if showResults == 1}
+        <div class="matchresults-container">
+          {#each matchResultsR.slice().reverse() as matchResult}
+            <MatchResults {matchResult} />
+          {/each}
+        </div>
+      {/if}
     </div>
   </div>
 </main>
@@ -268,50 +280,105 @@
   main {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
+
+  .league-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   .league-header {
+    padding-top: 2em;
     text-align: center;
   }
+
+  .league-name {
+    font-size: 4em;
+  }
+
+  .addplayer-buttons {
+    padding: 1em 0em;
+  }
+
   .addplayer-content {
-    position: relative;
-    padding: 10em, 0em;
+    padding: 1em 0em;
     margin: auto;
     height: 10em;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    position: relative;
   }
-  .playername-input {
-    justify-content: center;
-    align-items: center;
-  }
-  .addplayer-buttons {
-    justify-content: center;
-    align-items: center;
-  }
-  .error-message-content {
-    justify-content: center;
-    align-items: center;
-  }
+
   input {
+    text-align: center;
     color: black;
   }
-  th {
-    text-decoration: underline;
+
+  .error-message-content {
+    position: absolute;
+    top: 80%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .error {
+    color: red;
+  }
+
+  th:first-child {
     text-align: left;
     padding-right: 3em;
   }
 
+  th:not(:first-child) {
+    text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  td:first-child {
+    text-align: left;
+  }
+
+  td:not(:first-child) {
+    text-align: center;
+  }
+
+  td {
+    padding: 0.25em 0em;
+  }
+
+  td {
+    border-top: 1px solid rgb(255, 255, 255);
+  }
+
   .results-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    width: 100%;
     padding: 1em, 0em;
   }
 
+  .results-button-container {
+    padding: 1em 0em;
+  }
+
   .matchresults-container {
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    width: 100%;
+    margin: auto;
   }
 </style>
