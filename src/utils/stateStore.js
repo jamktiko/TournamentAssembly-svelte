@@ -10,6 +10,7 @@ const stateController = {
       username: "guest",
       password: null,
       isGuest: true,
+      tournamentData: null,
     };
     stateStore.set({ user: guest });
   },
