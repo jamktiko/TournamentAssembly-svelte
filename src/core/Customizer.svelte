@@ -444,7 +444,7 @@
 
   border: solid 1px #ffffff3c;
   
-  position: sticky; top: 300px; left:10px;
+  position: fixed; top: 300px; left:10px;
 }
 
 </style>
