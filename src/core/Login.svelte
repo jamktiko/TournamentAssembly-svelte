@@ -1,10 +1,10 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import Footer from '../reusable/Footer.svelte';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import Footer from "../reusable/Footer.svelte";
 
-  import stateController from '../utils/stateStore';
-  import { onDestroy } from 'svelte';
+  import stateController from "../utils/stateStore";
+  import { onDestroy } from "svelte";
 
   let stateLocal;
   const unsub = stateController.subscribe((state) => (stateLocal = state));
@@ -15,8 +15,7 @@
 
   function loginAsGuest() {
     stateController.loginAsGuest();
-    console.log(stateLocal);
-    push('/selection');
+    push("/selection");
   }
 </script>
 
@@ -34,9 +33,9 @@
     <div class="button-container">
       <Button on:cClick={loginAsGuest}>CREATE A TOURNAMENT AS GUEST</Button>
       <h2>OR</h2>
-      <Button on:cClick={() => push('/LoginUser')}>LOG IN</Button>
+      <Button on:cClick={() => push("/LoginUser")}>LOG IN</Button>
       <br />
-      <Button on:cClick={() => push('/Signup')}>SIGN UP</Button>
+      <Button on:cClick={() => push("/Signup")}>SIGN UP</Button>
     </div>
   </div>
   <Footer />

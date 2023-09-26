@@ -1,10 +1,11 @@
 <script>
-  import cch from '../utils/cache';
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import { onDestroy } from 'svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import { onDestroy } from "svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+
+  export let params;
 
   let matchResults = [];
   let matchResultsR = [];
@@ -17,28 +18,24 @@
     }
   }
 
-  onDestroy(() => {
-    cch.saveToCache('league', [config, ...teams]);
-  });
+  let config = cch.detokenify(params.tourdata)[0];
 
-  let config = {
-    name: 'test1',
-    organizer: 'test2',
-    pointsPerWin: 3,
-    pointsPerDraw: 1,
-  };
+  onDestroy(() => {
+    cch.saveToCache("league", teams);
+    cch.saveToCache("leagueConf", config);
+  });
 
   let teams = [];
   let match = [];
 
-  if (cch.isInCache('league')) {
-    const cachedItems = cch.getFromCache('league');
-    config = cachedItems.shift();
+  if (cch.isInCache("league") && cch.isInCache("leagueConf")) {
+    teams = cch.getFromCache("league");
+    config = cch.getFromCache("leagueConf")[0];
 
-    teams = cachedItems;
+    console.log(teams);
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column) {
@@ -89,6 +86,7 @@
       match = [...match, teams.find((team) => team.id === id)];
     }
   }
+
   /**
    * Fires when a match is resolved, increments the winner and losers stats and sort board based on the highest score
    * @param ce custom event received from Match-component, contains the winner and loser
@@ -180,9 +178,10 @@
 </script>
 
 <main>
-  <h1 class="league-name">{config.name}</h1>
+  <h1 class="league-name">{config.tournamentName}</h1>
   <div class="league-content">
     <div class="league-header" />
+
     <div class="addplayer-content">
       {#if playerNameInputVisible}
         <p>Type your team name below</p>
@@ -220,13 +219,13 @@
       <table>
         <thead>
           <tr>
-            <th on:click={() => toggleSortOrder('name')}>Team Name</th>
-            <th on:click={() => toggleSortOrder('playedMatches')}>PL</th>
-            <th on:click={() => toggleSortOrder('score')}>Score</th>
-            <th on:click={() => toggleSortOrder('wins')}>W</th>
-            <th on:click={() => toggleSortOrder('draws')}>D</th>
-            <th on:click={() => toggleSortOrder('losses')}>L</th>
-            <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
+            <th on:click={() => toggleSortOrder("name")}>Team Name</th>
+            <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
+            <th on:click={() => toggleSortOrder("score")}>Score</th>
+            <th on:click={() => toggleSortOrder("wins")}>W</th>
+            <th on:click={() => toggleSortOrder("draws")}>D</th>
+            <th on:click={() => toggleSortOrder("losses")}>L</th>
+            <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
           </tr>
         </thead>
         <tbody class="scoreboard-lined-cell">

@@ -13,7 +13,6 @@
   import DevInfo from "../core/DevInfo.svelte";
   import Errorpage from "../core/Errorpage.svelte";
 
-
   const routes = {
     "/": Login,
     "/profile": Profile,
@@ -21,14 +20,13 @@
     "/loginuser": LoginUser,
     "/signup": Signup,
     "/scoreboard": Scoreboard,
-    "/league": League,
     "/customizer/:id": Customizer,
     "/group/:tourdata": Group,
     "/playoffs/:tourdata": Playoffs,
+    "/league/:tourdata": League,
     "/devinfo": DevInfo,
-    "*": Errorpage
+    "*": Errorpage,
   };
-
 </script>
 
 <Router {routes} />
