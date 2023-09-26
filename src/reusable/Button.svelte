@@ -111,4 +111,9 @@
   .revert-button:hover {
     scale: 0.5;
   }
+
+  .error-button {
+    padding: 0.5em 1.25em;
+    border-radius: 10px;
+  }
 </style>
