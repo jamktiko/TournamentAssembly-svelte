@@ -1,12 +1,10 @@
 <script>
   import cch from "../utils/cache";
-  import storeController from "../utils/stateStore";
   import { push } from "svelte-spa-router";
   import Button from "../reusable/Button.svelte";
   import Playerlist from "../reusable/Playerlist.svelte";
-  
-  import stateController from "../utils/stateStore";
   import { each } from "svelte/internal";
+
 
   export let params;
 
@@ -34,12 +32,6 @@
 
   const bestOf = [3, 5, 7];
   const deciderTypes = ["Wins"];
-
-  let selectedGroups = "";
-  let selectedTournamentDecider = "";
-  let selectedTeamGroups = "";
-  let selectedPointsPerWin = "";
-  let selectedPointsForDraw = "";
 
   let selectedDecider = "";
 
@@ -83,6 +75,8 @@
       case "groups":
         push(`/group/${cch.tokenify(config)}`);
         break;
+      case "league":
+        push(`/league/${cch.tokenify(config)}`);
     }
   }
   function randomizePlayers(array) {
@@ -114,6 +108,7 @@
 
   <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>
   <div class="customizer-content">
+    <!-- League Name & Organizer -->
     <div class="customizer-header">
       <h1>CUSTOMIZE YOUR TOURNAMENT {params.id}</h1>
     </div>
@@ -139,6 +134,7 @@
         />
       </div>
     </div>
+    <!-- Groups Menu -->
     {#if selectedMenu == "groups"}
       <div class="customizer-settings">
         <div>
@@ -213,6 +209,7 @@
         </div>
       </div>
     {/if}
+    <!-- Playoffs Menu -->
     {#if selectedMenu == "playoffs"}
     
       <div class="customizer-settings">
@@ -306,6 +303,54 @@
 		{/if}
 	{/if}
 
+    <!-- League Menu -->
+    {#if selectedMenu == "league"}
+      <div class="customizer-settings">
+        <div>
+          <label for="deciderType">Decider Type</label>
+          <br />
+          <select
+            id="deciderType"
+            bind:value={config.tourDecider}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
+              <option value={tournamentDecider}>{tournamentDecider}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="deciderType">Points for Win</label>
+          <br />
+          <select
+            id="deciderType"
+            bind:value={config.pointsPerWin}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each pointsPerWin as pointsPerWin (pointsPerWin)}
+              <option value={pointsPerWin}>{pointsPerWin}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="deciderType">Points for Draw</label>
+          <br />
+          <select
+            id="deciderType"
+            bind:value={config.pointsPerDraw}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each pointsForDraw as pointsForDraw (pointsForDraw)}
+              <option value={pointsForDraw}>{pointsForDraw}</option>
+            {/each}
+          </select>
+        </div>
+      </div>
+    {/if}
+   
   </div>
 
 </main>
