@@ -2,9 +2,15 @@
 	import { createEventDispatcher } from "svelte";
 	const dp = createEventDispatcher();
 	import Button from "./Button.svelte";
+  import Customizer from "../core/Customizer.svelte";
 
-	let playerList = []; /*The list of players*/
 
+
+		let playerList = []
+
+
+	
+	
 	let NewPlayer = ""; /*The text on the input*/
 
 	/*Adds text input to the player list and empties the input*/
@@ -27,14 +33,16 @@
 	function pushList() {
 		dp("playersEvent", playerList);
 	}
+
 </script>
 
 <div class="backdrop" />
 <div class="modal">
 	<div class="container">
-		{#each playerList as player}
-			<h2>{player}</h2>
-		{/each}
+
+
+
+
 		<input type="text" bind:value={NewPlayer} />
 		{#if NewPlayer.length > 0}
 			<!--If input is empty, it creates unfunctional button-->
@@ -43,7 +51,8 @@
 			<Button>Add player</Button>
 		{/if}
 		<Button on:cClick={() => pushList()}>Finish</Button>
-		<Button on:cClick={randomizePlayers(playerList)}>Randomize</Button>
+
+
 	</div>
 </div>
 
@@ -92,9 +101,5 @@
 		flex-direction: column;
 		justify-content: space-around;
 	}
-	h2 {
-		font-size: 2em;
-		margin-bottom: 0.2em;
-		color: rgb(255, 255, 255);
-	}
+
 </style>

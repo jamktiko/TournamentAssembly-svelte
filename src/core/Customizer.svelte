@@ -1,11 +1,12 @@
 <script>
   import cch from "../utils/cache";
   import storeController from "../utils/stateStore";
-
   import { push } from "svelte-spa-router";
   import Button from "../reusable/Button.svelte";
   import Playerlist from "../reusable/Playerlist.svelte";
+  
   import stateController from "../utils/stateStore";
+  import { each } from "svelte/internal";
 
   export let params;
 
@@ -23,6 +24,7 @@
     bestOf: 0,
     players: [],
   };
+
 
   const numberGroups = [4, 6, 8];
   const tournamentDeciders = ["Goal Difference", "Aggregate"];
@@ -69,7 +71,8 @@
 
   function handlePlayerList(ce) {
     playerListVisible = false;
-    config.players = ce.detail;
+    ce.detail.forEach((i) => config.players.push(i))
+    config.players = [...config.players];
   }
 
   function setParticipants() {
@@ -82,11 +85,33 @@
         break;
     }
   }
+  function randomizePlayers(array) {
+		for (var i = array.length - 1; i > 0; i--) {
+			var j = Math.floor(Math.random() * (i + 1));
+			var temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
+		config.players = [...config.players];
+	}
+  let playerListOpen = false
 
   let playerListVisible = false;
+  function removePlayer(player) {
+    config.players = config.players.filter(p => p !== player);
+  }
 </script>
+{#if params.id == 'playoffs'   }
+<div class ="playerlist">
+  <p>Players:</p>
+  {#each config.players as player}
+  <p>{player} <Button on:cClick={removePlayer(player)}>X</Button></p> 
+ {/each}
+</div>
+{/if}
 
 <main>
+
   <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>
   <div class="customizer-content">
     <div class="customizer-header">
@@ -189,6 +214,7 @@
       </div>
     {/if}
     {#if selectedMenu == "playoffs"}
+    
       <div class="customizer-settings">
         {#if playerListVisible}
           <Playerlist on:playersEvent={handlePlayerList} />
@@ -197,6 +223,10 @@
             >Add Players</Button
           >
         {/if}
+        
+
+    
+      <Button on:cClick={randomizePlayers(config.players)}>randomize</Button>
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
@@ -275,10 +305,13 @@
 			{/if}
 		{/if}
 	{/if}
+
   </div>
+
 </main>
 
 <style>
+  
   h1 {
     text-transform: uppercase;
     font-size: 2em;
@@ -355,4 +388,19 @@
   label {
     text-transform: uppercase;
   }
+  .playerlist {
+  margin: 0px;
+  padding: 2px;
+  text-align: left;
+  background: rgb(0, 0, 30);
+  color: white;
+  font-size: 1em;
+  width: 200px;
+
+  border-radius: 1px;
+  border-color: rgba(25, 0, 255, 0.8);
+  border-style: solid;
+  
+  position: sticky; top: 300px;
+}
 </style>
