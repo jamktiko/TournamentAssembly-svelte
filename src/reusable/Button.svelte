@@ -139,4 +139,16 @@
     padding: 0.5em 1.25em;
     border-radius: 10px;
   }
+  .x-button{
+  scale: 0.5;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+}
+.x-button:hover{
+  scale:0.5;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+}
 </style>

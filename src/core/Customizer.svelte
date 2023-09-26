@@ -100,7 +100,8 @@
 <div class ="playerlist">
   <p>Players:</p>
   {#each config.players as player}
-  <p>{player} <Button on:cClick={removePlayer(player)}>X</Button></p> 
+  <p>{player} <Button class="x-button" on:cClick={removePlayer(player)}>X</Button></p> 
+
  {/each}
 </div>
 {/if}
@@ -410,7 +411,9 @@
     justify-content: center;
     align-items: center;
   }
-
+  p{
+    font-size: 1.3em;
+  }
   select,
   input {
     font-size: 1.3em;
@@ -439,15 +442,21 @@
   margin: 0px;
   padding: 2px;
   text-align: left;
-  background: rgb(0, 0, 30);
+  background: linear-gradient(
+			129deg,
+			rgb(11, 11, 52) 0%,
+			rgba(24, 0, 23, 0.285) 100%
+		);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+
   color: white;
   font-size: 1em;
   width: 200px;
 
-  border-radius: 1px;
-  border-color: rgba(25, 0, 255, 0.8);
-  border-style: solid;
+  border: solid 1px #ffffff3c;
   
-  position: sticky; top: 300px;
+  position: fixed; top: 300px; left:10px;
 }
+
+
 </style>
