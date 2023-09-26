@@ -1,7 +1,6 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import Button from "./Button.svelte";
-  
+  import { createEventDispatcher } from 'svelte';
+  import Button from './Button.svelte';
 
   const dp = createEventDispatcher();
 
@@ -9,8 +8,8 @@
   let scores = [0, 0];
 
   function resolveMatch(matchData) {
-    matchData.result1 = scores[0]
-    matchData.result2 = scores[1]
+    matchData.result1 = scores[0];
+    matchData.result2 = scores[1];
     matchData.goalDiff =
       scores[0] - scores[1] < 0
         ? (scores[0] - scores[1]) * -1
@@ -87,11 +86,18 @@
   }
 
   .team-content-container {
+    padding: 1em 2em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    color: white;
+    border-radius: 1em;
+    background-color: rgba(69, 69, 69, 0.418);
+    border-color: rgba(31, 0, 24, 0.295);
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
   }
 
   .team-container {
