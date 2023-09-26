@@ -1,8 +1,11 @@
 <script>
-  import cch from "../utils/cache";
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import Playerlist from "../reusable/Playerlist.svelte";
+  import cch from '../utils/cache';
+
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import Playerlist from '../reusable/Playerlist.svelte';
+
+
 
   export let params;
 
@@ -73,6 +76,8 @@
       case 'groups':
         push(`/group/${cch.tokenify(config)}`);
         break;
+      case "league":
+        push(`/league/${cch.tokenify(config)}`);
     }
   }
   function randomizePlayers(array) {
@@ -96,12 +101,14 @@
   <p>Players:</p>
   {#each config.players as player}
   <p>{player} <Button class="x-button" on:cClick={removePlayer(player)}>X</Button></p> 
+
  {/each}
 </div>
 {/if}
 
 <main>
   <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
+
   <div class="customizer-content">
     <!-- League Name & Organizer -->
     <div class="customizer-header">
@@ -129,8 +136,9 @@
         />
       </div>
     </div>
+
     <!-- Groups Menu -->
-    {#if selectedMenu == 'groups'}
+    {#if selectedMenu == "groups"}
       <div class="customizer-settings">
         <div>
           <label for="roundSelection">Number of Groups</label>
@@ -204,8 +212,9 @@
         </div>
       </div>
     {/if}
-    <!-- Playoffs Menu -->
-    {#if selectedMenu == 'playoffs'}
+
+    {#if selectedMenu == "playoffs"}
+    
       <div class="customizer-settings">
         {#if playerListVisible}
           <Playerlist on:playersEvent={handlePlayerList} />
@@ -253,8 +262,53 @@
         </div>
       </div>
     {/if}
+
+		{#if params.id == 'league'   }
+		{#if config.tournamentName.length > 0}
+			{#if config.organizerName.length > 0}
+			<div class="createButton">
+				<Button on:cClick={setParticipants}>CREATE</Button>
+			</div>
+			{/if}
+		{/if}
+	{/if}
+	{#if params.id == 'playoffs'   }
+		{#if config.tournamentName.length > 0}
+			{#if config.organizerName.length > 0}
+				{#if selectedDecider.length > 0}
+					{#if config.bestOf != 0}
+						{#if config.players != null}
+							{#if config.players.length > 1}
+								<div class="createButton">
+									<Button on:cClick={setParticipants}>CREATE</Button>
+								</div>
+							{/if}
+						{/if}
+					{/if}
+				{/if}
+			{/if}
+		{/if}
+	{/if}
+	{#if params.id == 'groups'   }
+		{#if config.tournamentName.length > 0}
+			{#if config.organizerName.length > 0}
+				{#if config.numberOfGroups > 0}
+					{#if config.teamsInGroup > 0}
+						{#if config.pointsPerWin > 0}
+							{#if config.tourDecider != ""}
+								<div class="createButton">
+									<Button on:cClick={setParticipants}>CREATE</Button>
+								</div>
+							{/if}			
+						{/if}	
+					{/if}			
+				{/if}
+			{/if}
+		{/if}
+	{/if}
+
     <!-- League Menu -->
-    {#if selectedMenu == 'league'}
+    {#if selectedMenu == "league"}
       <div class="customizer-settings">
         <div>
           <label for="deciderType">Decider Type</label>
@@ -300,50 +354,7 @@
         </div>
       </div>
     {/if}
-    <!-- Verify Input -->
-    {#if params.id == 'league'}
-      {#if config.tournamentName.length > 0}
-        {#if config.organizerName.length > 0}
-          <div class="createButton">
-            <Button on:cClick={setParticipants}>CREATE</Button>
-          </div>
-        {/if}
-      {/if}
-    {/if}
-    {#if params.id == 'playoffs'}
-      {#if config.tournamentName.length > 0}
-        {#if config.organizerName.length > 0}
-          {#if selectedDecider.length > 0}
-            {#if config.bestOf != 0}
-              {#if config.players != null}
-                {#if config.players.length > 1}
-                  <div class="createButton">
-                    <Button on:cClick={setParticipants}>CREATE</Button>
-                  </div>
-                {/if}
-              {/if}
-            {/if}
-          {/if}
-        {/if}
-      {/if}
-    {/if}
-    {#if params.id == 'groups'}
-      {#if config.tournamentName.length > 0}
-        {#if config.organizerName.length > 0}
-          {#if config.numberOfGroups > 0}
-            {#if config.teamsInGroup > 0}
-              {#if config.pointsPerWin > 0}
-                {#if config.tourDecider != ''}
-                  <div class="createButton">
-                    <Button on:cClick={setParticipants}>CREATE</Button>
-                  </div>
-                {/if}
-              {/if}
-            {/if}
-          {/if}
-        {/if}
-      {/if}
-    {/if}
+   
   </div>
 
 </main>
@@ -405,7 +416,6 @@
   }
   select,
   input {
-    text-transform: uppercase;
     font-size: 1.3em;
     padding: 0.5em 2.2em;
     border-radius: 20px;
@@ -438,6 +448,7 @@
 			rgba(24, 0, 23, 0.285) 100%
 		);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+
   color: white;
   font-size: 1em;
   width: 200px;
@@ -446,5 +457,6 @@
   
   position: fixed; top: 300px; left:10px;
 }
+
 
 </style>
