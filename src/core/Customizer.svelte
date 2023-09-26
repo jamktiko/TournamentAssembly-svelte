@@ -1,23 +1,19 @@
 <script>
   import cch from "../utils/cache";
-  import storeController from "../utils/stateStore";
   import { push } from "svelte-spa-router";
   import Button from "../reusable/Button.svelte";
   import Playerlist from "../reusable/Playerlist.svelte";
-  
-  import stateController from "../utils/stateStore";
-  import { each } from "svelte/internal";
 
   export let params;
 
   let selectedMenu = params.id;
 
   let config = {
-    tournamentName: "",
-    organizerName: "",
+    tournamentName: '',
+    organizerName: '',
     numberOfGroups: 0,
     teamsInGroup: 0,
-    tourDecider: "",
+    tourDecider: '',
     pointsPerWin: 0,
     pointsPerDraw: 0,
     numberOfRounds: 0,
@@ -27,41 +23,35 @@
 
 
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ["Goal Difference", "Aggregate"];
+  const tournamentDeciders = ['Goal Difference', 'Aggregate'];
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [3, 4, 5];
   const pointsForDraw = [0, 1];
 
   const bestOf = [3, 5, 7];
-  const deciderTypes = ["Wins"];
+  const deciderTypes = ['Wins'];
 
-  let selectedGroups = "";
-  let selectedTournamentDecider = "";
-  let selectedTeamGroups = "";
-  let selectedPointsPerWin = "";
-  let selectedPointsForDraw = "";
-
-  let selectedDecider = "";
+  let selectedDecider = '';
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case "groups":
+      case 'groups':
         selectedGroups = value;
         break;
-      case "tournamentDecider":
+      case 'tournamentDecider':
         selectedTournamentDecider = value;
         break;
-      case "teamgroups":
+      case 'teamgroups':
         selectedTeamGroups = value;
         break;
-      case "pointsperwin":
+      case 'pointsperwin':
         selectedPointsPerWin = value;
         break;
-      case "pointsfordraw":
+      case 'pointsfordraw':
         selectedPointsForDraw = value;
         break;
-      case "decider":
+      case 'decider':
         selectedDecider = value;
         break;
       default:
@@ -77,10 +67,10 @@
 
   function setParticipants() {
     switch (params.id) {
-      case "playoffs":
+      case 'playoffs':
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case "groups":
+      case 'groups':
         push(`/group/${cch.tokenify(config)}`);
         break;
     }
@@ -111,9 +101,9 @@
 {/if}
 
 <main>
-
-  <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>
+  <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
   <div class="customizer-content">
+    <!-- League Name & Organizer -->
     <div class="customizer-header">
       <h1>CUSTOMIZE YOUR TOURNAMENT {params.id}</h1>
     </div>
@@ -139,7 +129,8 @@
         />
       </div>
     </div>
-    {#if selectedMenu == "groups"}
+    <!-- Groups Menu -->
+    {#if selectedMenu == 'groups'}
       <div class="customizer-settings">
         <div>
           <label for="roundSelection">Number of Groups</label>
@@ -213,8 +204,8 @@
         </div>
       </div>
     {/if}
-    {#if selectedMenu == "playoffs"}
-    
+    <!-- Playoffs Menu -->
+    {#if selectedMenu == 'playoffs'}
       <div class="customizer-settings">
         {#if playerListVisible}
           <Playerlist on:playersEvent={handlePlayerList} />
@@ -262,50 +253,97 @@
         </div>
       </div>
     {/if}
-		{#if params.id == 'league'   }
-		{#if config.tournamentName.length > 0}
-			{#if config.organizerName.length > 0}
-			<div class="createButton">
-				<Button on:cClick={setParticipants}>CREATE</Button>
-			</div>
-			{/if}
-		{/if}
-	{/if}
-	{#if params.id == 'playoffs'   }
-		{#if config.tournamentName.length > 0}
-			{#if config.organizerName.length > 0}
-				{#if selectedDecider.length > 0}
-					{#if config.bestOf != 0}
-						{#if config.players != null}
-							{#if config.players.length > 1}
-								<div class="createButton">
-									<Button on:cClick={setParticipants}>CREATE</Button>
-								</div>
-							{/if}
-						{/if}
-					{/if}
-				{/if}
-			{/if}
-		{/if}
-	{/if}
-	{#if params.id == 'groups'   }
-		{#if config.tournamentName.length > 0}
-			{#if config.organizerName.length > 0}
-				{#if config.numberOfGroups > 0}
-					{#if config.teamsInGroup > 0}
-						{#if config.pointsPerWin > 0}
-							{#if config.tourDecider != ""}
-								<div class="createButton">
-									<Button on:cClick={setParticipants}>CREATE</Button>
-								</div>
-							{/if}			
-						{/if}	
-					{/if}			
-				{/if}
-			{/if}
-		{/if}
-	{/if}
-
+    <!-- League Menu -->
+    {#if selectedMenu == 'league'}
+      <div class="customizer-settings">
+        <div>
+          <label for="deciderType">Decider Type</label>
+          <br />
+          <select
+            id="deciderType"
+            bind:value={config.tourDecider}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
+              <option value={tournamentDecider}>{tournamentDecider}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="deciderType">Points for Win</label>
+          <br />
+          <select
+            id="deciderType"
+            bind:value={config.pointsPerWin}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each pointsPerWin as pointsPerWin (pointsPerWin)}
+              <option value={pointsPerWin}>{pointsPerWin}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="deciderType">Points for Draw</label>
+          <br />
+          <select
+            id="deciderType"
+            bind:value={config.pointsPerDraw}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each pointsForDraw as pointsForDraw (pointsForDraw)}
+              <option value={pointsForDraw}>{pointsForDraw}</option>
+            {/each}
+          </select>
+        </div>
+      </div>
+    {/if}
+    <!-- Verify Input -->
+    {#if params.id == 'league'}
+      {#if config.tournamentName.length > 0}
+        {#if config.organizerName.length > 0}
+          <div class="createButton">
+            <Button on:cClick={setParticipants}>CREATE</Button>
+          </div>
+        {/if}
+      {/if}
+    {/if}
+    {#if params.id == 'playoffs'}
+      {#if config.tournamentName.length > 0}
+        {#if config.organizerName.length > 0}
+          {#if selectedDecider.length > 0}
+            {#if config.bestOf != 0}
+              {#if config.players != null}
+                {#if config.players.length > 1}
+                  <div class="createButton">
+                    <Button on:cClick={setParticipants}>CREATE</Button>
+                  </div>
+                {/if}
+              {/if}
+            {/if}
+          {/if}
+        {/if}
+      {/if}
+    {/if}
+    {#if params.id == 'groups'}
+      {#if config.tournamentName.length > 0}
+        {#if config.organizerName.length > 0}
+          {#if config.numberOfGroups > 0}
+            {#if config.teamsInGroup > 0}
+              {#if config.pointsPerWin > 0}
+                {#if config.tourDecider != ''}
+                  <div class="createButton">
+                    <Button on:cClick={setParticipants}>CREATE</Button>
+                  </div>
+                {/if}
+              {/if}
+            {/if}
+          {/if}
+        {/if}
+      {/if}
+    {/if}
   </div>
 
 </main>
