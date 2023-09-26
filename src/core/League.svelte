@@ -10,6 +10,9 @@
   let matchResults = [];
   let matchResultsR = [];
   let showResults = 0;
+
+  $: selected = null;
+
   function toggleResults() {
     if (showResults == 0) {
       showResults = 1;
@@ -82,6 +85,11 @@
    * Adds player from the league to a match, match can only hold two players simultaneously
    */
   function addToMatch(id) {
+    if (!selected && selected !== 0 && match.length < 2) {
+      selected = id;
+    } else {
+      selected = null;
+    }
     if (match.length < 2 && match[0] ? match[0].id !== id : true) {
       match = [...match, teams.find((team) => team.id === id)];
     }
@@ -240,6 +248,7 @@
               <td>{team.goalDiff}</td>
               <td>
                 <Button
+                  disabled={selected === team.id}
                   class="add-team-button"
                   on:cClick={() => addToMatch(team.id)}
                   >Add team to match</Button
