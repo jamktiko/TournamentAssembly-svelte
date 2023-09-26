@@ -178,15 +178,16 @@
 </script>
 
 <main>
+  <h1 class="league-name">{config.tournamentName}</h1>
   <div class="league-content">
-    <div class="league-header">
-      <h1 class="league-name">{config.tournamentName}</h1>
-    </div>
+    <div class="league-header" />
+
     <div class="addplayer-content">
       {#if playerNameInputVisible}
-        <p>Type your Team name below</p>
+        <p>Type your team name below</p>
         <div class="playername-input">
           <input
+            class="player-input"
             type="text"
             bind:value={newPlayerName}
             placeholder="Team name"
@@ -205,7 +206,7 @@
         </div>
         <div class="error-message-content">
           {#if nameInvalid}
-            <p class="error">Player needs to have a name!</p>
+            <p class="error">Team needs to have a name!</p>
           {/if}
         </div>
       {:else}
@@ -229,7 +230,7 @@
         </thead>
         <tbody class="scoreboard-lined-cell">
           {#each teams as team (team.id)}
-            <tr>
+            <tr class="table-row">
               <td>{team.name}</td>
               <td>{team.playedMatches}</td>
               <td>{team.score}</td>
@@ -239,9 +240,9 @@
               <td>{team.goalDiff}</td>
               <td>
                 <Button
-                  class="adjust-button"
+                  class="add-team-button"
                   on:cClick={() => addToMatch(team.id)}
-                  >Add player to match</Button
+                  >Add team to match</Button
                 >
               </td>
             </tr>
@@ -250,20 +251,20 @@
       </table>
     </div>
     {#if match[0] && match[1]}
-      <Button on:cClick={() => (match = [])}>Close</Button>
+      <Button on:cClick={() => (match = [])}>CANCEL</Button>
       <Match {match} on:winnerevent={resolve} />
     {/if}
-    <div class="results-container">
-      <div class="results-button-container">
-        {#if showResults == 0}
-          <Button on:cClick={() => toggleResults()}>Show results</Button>
-        {/if}
-        {#if showResults == 1}
-          <Button on:cClick={() => toggleResults()}>Hide results</Button>
-        {/if}
-      </div>
+    <div class="results-button-container">
+      {#if showResults == 0}
+        <Button on:cClick={() => toggleResults()}>Show results</Button>
+      {/if}
       {#if showResults == 1}
-        <div class="matchresults-container">
+        <Button on:cClick={() => toggleResults()}>Hide results</Button>
+      {/if}
+    </div>
+    <div class="results-container">
+      {#if showResults == 1}
+        <div>
           {#each matchResultsR.slice().reverse() as matchResult}
             <MatchResults {matchResult} />
           {/each}
@@ -275,20 +276,25 @@
 
 <style>
   main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .league-content {
+    margin: auto;
+    width: 70%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
+  .league-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.308);
+  }
 
   .league-header {
-    padding-top: 2em;
+    padding-top: 1em;
     text-align: center;
   }
 
@@ -297,13 +303,14 @@
   }
 
   .addplayer-buttons {
-    padding: 1em 0em;
+    text-transform: uppercase;
+    padding: 1em 0em 2em;
   }
 
   .addplayer-content {
-    padding: 1em 0em;
+    padding: 0em 0em;
     margin: auto;
-    height: 10em;
+    height: 11em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -315,7 +322,18 @@
     text-align: center;
     color: black;
   }
-
+  .player-input {
+    width: 15em;
+    height: 2.2em;
+    font-size: 14pt;
+    margin: auto;
+    display: block;
+    justify-content: center;
+    color: white;
+    border-radius: 1em;
+    background-color: rgb(69, 69, 69);
+    border-color: rgba(31, 0, 24, 0.295);
+  }
   .error-message-content {
     position: absolute;
     top: 80%;
@@ -329,12 +347,17 @@
   }
 
   table {
+    font-size: 1.1em;
     padding-bottom: 1em;
   }
 
+  th {
+    font-size: 1.2em;
+    text-transform: uppercase;
+  }
   th:first-child {
     text-align: left;
-    padding-right: 3em;
+    padding-left: 1em;
   }
 
   th:not(:first-child) {
@@ -344,11 +367,14 @@
   }
 
   tr:nth-child(even) {
+    text-align: left;
+    padding-right: 3em;
     background-color: rgba(255, 255, 255, 0.1);
   }
 
   td:first-child {
     text-align: left;
+    padding-right: 3em;
   }
 
   td:not(:first-child) {
@@ -356,30 +382,38 @@
   }
 
   td {
-    padding: 0.25em 0em;
-  }
-
-  td {
+    font-size: 1.15em;
+    padding: 0.3em 1em;
     border-top: 1px solid rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(255, 255, 255);
   }
 
   .results-container {
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 1em, 0em;
+    padding: 1em 0em;
   }
 
   .results-button-container {
+    margin-top: 2em;
     padding-bottom: 1em;
   }
 
-  .matchresults-container {
+  p {
+    text-align: center;
+    margin-bottom: 1em;
+    font: 100;
+    font-size: 1.3em;
+  }
+
+  .league-scoreboard-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 100%;
+    justify-content: center;
     margin: auto;
+    width: 100%;
   }
 </style>

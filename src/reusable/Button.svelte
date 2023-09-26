@@ -16,6 +16,7 @@
 
 <style>
   button {
+    text-transform: uppercase;
     font-weight: 700;
     font-size: 1.5em;
     padding: 0.5em 1.5em;
@@ -37,7 +38,7 @@
   }
 
   button:hover {
-    border: solid 1px #2f001d;
+    border: solid 2px #46002b;
     filter: brightness(1.2);
     filter: contrast(1.1);
     scale: 1.1;
@@ -50,8 +51,30 @@
   }
 
   .adjust-button {
-    padding: 0em 1em;
+    scale: 0.9;
+    font-size: 1.1em;
+    padding: 0.3em 1em;
     border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+  }
+
+  .adjust-button:hover {
+    scale: 0.9;
+  }
+
+  .add-team-button {
+    scale: 0.9;
+    font-size: 1.1em;
+    padding: 0.3em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+  }
+
+  .add-team-button:hover {
+    border: 1px solid #290014;
+    scale: 0.9;
   }
 
   .back-button {

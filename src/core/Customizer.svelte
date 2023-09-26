@@ -1,9 +1,10 @@
 <script>
-  import cch from "../utils/cache";
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import Playerlist from "../reusable/Playerlist.svelte";
-  import { each } from "svelte/internal";
+  import cch from '../utils/cache';
+
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import Playerlist from '../reusable/Playerlist.svelte';
+
 
 
   export let params;
@@ -11,11 +12,11 @@
   let selectedMenu = params.id;
 
   let config = {
-    tournamentName: "",
-    organizerName: "",
+    tournamentName: '',
+    organizerName: '',
     numberOfGroups: 0,
     teamsInGroup: 0,
-    tourDecider: "",
+    tourDecider: '',
     pointsPerWin: 0,
     pointsPerDraw: 0,
     numberOfRounds: 0,
@@ -25,35 +26,35 @@
 
 
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ["Goal Difference", "Aggregate"];
+  const tournamentDeciders = ['Goal Difference', 'Aggregate'];
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [3, 4, 5];
   const pointsForDraw = [0, 1];
 
   const bestOf = [3, 5, 7];
-  const deciderTypes = ["Wins"];
+  const deciderTypes = ['Wins'];
 
-  let selectedDecider = "";
+  let selectedDecider = '';
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case "groups":
+      case 'groups':
         selectedGroups = value;
         break;
-      case "tournamentDecider":
+      case 'tournamentDecider':
         selectedTournamentDecider = value;
         break;
-      case "teamgroups":
+      case 'teamgroups':
         selectedTeamGroups = value;
         break;
-      case "pointsperwin":
+      case 'pointsperwin':
         selectedPointsPerWin = value;
         break;
-      case "pointsfordraw":
+      case 'pointsfordraw':
         selectedPointsForDraw = value;
         break;
-      case "decider":
+      case 'decider':
         selectedDecider = value;
         break;
       default:
@@ -69,10 +70,10 @@
 
   function setParticipants() {
     switch (params.id) {
-      case "playoffs":
+      case 'playoffs':
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case "groups":
+      case 'groups':
         push(`/group/${cch.tokenify(config)}`);
         break;
       case "league":
@@ -105,8 +106,8 @@
 {/if}
 
 <main>
+  <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
 
-  <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>
   <div class="customizer-content">
     <!-- League Name & Organizer -->
     <div class="customizer-header">
@@ -134,6 +135,7 @@
         />
       </div>
     </div>
+
     <!-- Groups Menu -->
     {#if selectedMenu == "groups"}
       <div class="customizer-settings">
@@ -209,7 +211,7 @@
         </div>
       </div>
     {/if}
-    <!-- Playoffs Menu -->
+
     {#if selectedMenu == "playoffs"}
     
       <div class="customizer-settings">
@@ -259,6 +261,7 @@
         </div>
       </div>
     {/if}
+
 		{#if params.id == 'league'   }
 		{#if config.tournamentName.length > 0}
 			{#if config.organizerName.length > 0}
@@ -410,7 +413,6 @@
 
   select,
   input {
-    text-transform: uppercase;
     font-size: 1.3em;
     padding: 0.5em 2.2em;
     border-radius: 20px;
