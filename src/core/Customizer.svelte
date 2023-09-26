@@ -101,6 +101,7 @@
   <p>Players:</p>
   {#each config.players as player}
   <p>{player} <Button class="x-button" on:cClick={removePlayer(player)}>X</Button></p> 
+
  {/each}
 </div>
 {/if}
@@ -446,13 +447,15 @@
 			rgba(24, 0, 23, 0.285) 100%
 		);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+
   color: white;
   font-size: 1em;
   width: 200px;
 
   border: solid 1px #ffffff3c;
   
-  position: sticky; top: 300px; left:10px;
+  position: fixed; top: 300px; left:10px;
 }
+
 
 </style>
