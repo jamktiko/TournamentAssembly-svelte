@@ -55,6 +55,11 @@
   $: selected = null;
 
   function selectGroup(group, i) {
+    console.log(selected, group.id);
+    if (selected && selected.id === group.id) {
+      selected = null;
+      return;
+    }
     selected = group;
     selected.index = i;
   }
