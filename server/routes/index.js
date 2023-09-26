@@ -15,6 +15,6 @@ router.post('/', userController.createData);
 
 router.delete('/', verifyToken, userController.deleteById);
 
-router.post('/delTour', verifyToken, userController.delTournament);
+router.delete('/delTour', verifyToken, userController.delTournament);
 
 module.exports = router;
