@@ -1,11 +1,8 @@
 <script>
-  import cch from '../utils/cache';
-  import storeController from '../utils/stateStore';
-
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import Playerlist from '../reusable/Playerlist.svelte';
-  import stateController from '../utils/stateStore';
+  import cch from "../utils/cache";
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import Playerlist from "../reusable/Playerlist.svelte";
 
   export let params;
 
