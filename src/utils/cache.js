@@ -5,6 +5,9 @@ export default {
 	getFromCache(key) {
 		return this.detokenify(localStorage.getItem(key));
 	},
+	getToken(key) {
+		return localStorage.getItem(key);
+	},
 	isInCache(key) {
 		return localStorage.getItem(key) ? true : false;
 	},
