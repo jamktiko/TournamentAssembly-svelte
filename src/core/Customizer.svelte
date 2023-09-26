@@ -1,22 +1,20 @@
 <script>
-  import cch from '../utils/cache';
+  import cch from "../utils/cache";
 
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import Playerlist from '../reusable/Playerlist.svelte';
-
-
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import Playerlist from "../reusable/Playerlist.svelte";
 
   export let params;
 
   let selectedMenu = params.id;
 
   let config = {
-    tournamentName: '',
-    organizerName: '',
+    tournamentName: "",
+    organizerName: "",
     numberOfGroups: 0,
     teamsInGroup: 0,
-    tourDecider: '',
+    tourDecider: "",
     pointsPerWin: 0,
     pointsPerDraw: 0,
     numberOfRounds: 0,
@@ -24,37 +22,36 @@
     players: [],
   };
 
-
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ['Goal Difference', 'Aggregate'];
+  const tournamentDeciders = ["Goal Difference", "Aggregate"];
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [3, 4, 5];
   const pointsForDraw = [0, 1];
 
   const bestOf = [3, 5, 7];
-  const deciderTypes = ['Wins'];
+  const deciderTypes = ["Wins"];
 
-  let selectedDecider = '';
+  let selectedDecider = "";
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case 'groups':
+      case "groups":
         selectedGroups = value;
         break;
-      case 'tournamentDecider':
+      case "tournamentDecider":
         selectedTournamentDecider = value;
         break;
-      case 'teamgroups':
+      case "teamgroups":
         selectedTeamGroups = value;
         break;
-      case 'pointsperwin':
+      case "pointsperwin":
         selectedPointsPerWin = value;
         break;
-      case 'pointsfordraw':
+      case "pointsfordraw":
         selectedPointsForDraw = value;
         break;
-      case 'decider':
+      case "decider":
         selectedDecider = value;
         break;
       default:
@@ -64,16 +61,16 @@
 
   function handlePlayerList(ce) {
     playerListVisible = false;
-    ce.detail.forEach((i) => config.players.push(i))
+    ce.detail.forEach((i) => config.players.push(i));
     config.players = [...config.players];
   }
 
   function setParticipants() {
     switch (params.id) {
-      case 'playoffs':
+      case "playoffs":
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case 'groups':
+      case "groups":
         push(`/group/${cch.tokenify(config)}`);
         break;
       case "league":
@@ -81,33 +78,36 @@
     }
   }
   function randomizePlayers(array) {
-		for (var i = array.length - 1; i > 0; i--) {
-			var j = Math.floor(Math.random() * (i + 1));
-			var temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
-		}
-		config.players = [...config.players];
-	}
-  let playerListOpen = false
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    config.players = [...config.players];
+  }
+  let playerListOpen = false;
 
   let playerListVisible = false;
   function removePlayer(player) {
-    config.players = config.players.filter(p => p !== player);
+    config.players = config.players.filter((p) => p !== player);
   }
 </script>
-{#if params.id == 'playoffs'   }
-<div class ="playerlist">
-  <p>Players:</p>
-  {#each config.players as player}
-  <p>{player} <Button class="x-button" on:cClick={removePlayer(player)}>X</Button></p> 
 
- {/each}
-</div>
+{#if params.id == "playoffs"}
+  <div class="playerlist">
+    <p>Players: {config.players.length}</p>
+    {#each config.players as player}
+      <p>
+        {player}
+        <Button class="x-button" on:cClick={removePlayer(player)}>X</Button>
+      </p>
+    {/each}
+  </div>
 {/if}
 
 <main>
-  <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
+  <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>
 
   <div class="customizer-content">
     <!-- League Name & Organizer -->
@@ -214,7 +214,6 @@
     {/if}
 
     {#if selectedMenu == "playoffs"}
-    
       <div class="customizer-settings">
         {#if playerListVisible}
           <Playerlist on:playersEvent={handlePlayerList} />
@@ -223,10 +222,8 @@
             >Add Players</Button
           >
         {/if}
-        
 
-    
-      <Button on:cClick={randomizePlayers(config.players)}>randomize</Button>
+        <Button on:cClick={randomizePlayers(config.players)}>randomize</Button>
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
@@ -263,49 +260,49 @@
       </div>
     {/if}
 
-		{#if params.id == 'league'   }
-		{#if config.tournamentName.length > 0}
-			{#if config.organizerName.length > 0}
-			<div class="createButton">
-				<Button on:cClick={setParticipants}>CREATE</Button>
-			</div>
-			{/if}
-		{/if}
-	{/if}
-	{#if params.id == 'playoffs'   }
-		{#if config.tournamentName.length > 0}
-			{#if config.organizerName.length > 0}
-				{#if selectedDecider.length > 0}
-					{#if config.bestOf != 0}
-						{#if config.players != null}
-							{#if config.players.length > 1}
-								<div class="createButton">
-									<Button on:cClick={setParticipants}>CREATE</Button>
-								</div>
-							{/if}
-						{/if}
-					{/if}
-				{/if}
-			{/if}
-		{/if}
-	{/if}
-	{#if params.id == 'groups'   }
-		{#if config.tournamentName.length > 0}
-			{#if config.organizerName.length > 0}
-				{#if config.numberOfGroups > 0}
-					{#if config.teamsInGroup > 0}
-						{#if config.pointsPerWin > 0}
-							{#if config.tourDecider != ""}
-								<div class="createButton">
-									<Button on:cClick={setParticipants}>CREATE</Button>
-								</div>
-							{/if}			
-						{/if}	
-					{/if}			
-				{/if}
-			{/if}
-		{/if}
-	{/if}
+    {#if params.id == "league"}
+      {#if config.tournamentName.length > 0}
+        {#if config.organizerName.length > 0}
+          <div class="createButton">
+            <Button on:cClick={setParticipants}>CREATE</Button>
+          </div>
+        {/if}
+      {/if}
+    {/if}
+    {#if params.id == "playoffs"}
+      {#if config.tournamentName.length > 0}
+        {#if config.organizerName.length > 0}
+          {#if selectedDecider.length > 0}
+            {#if config.bestOf != 0}
+              {#if config.players != null}
+                {#if config.players.length > 1}
+                  <div class="createButton">
+                    <Button on:cClick={setParticipants}>CREATE</Button>
+                  </div>
+                {/if}
+              {/if}
+            {/if}
+          {/if}
+        {/if}
+      {/if}
+    {/if}
+    {#if params.id == "groups"}
+      {#if config.tournamentName.length > 0}
+        {#if config.organizerName.length > 0}
+          {#if config.numberOfGroups > 0}
+            {#if config.teamsInGroup > 0}
+              {#if config.pointsPerWin > 0}
+                {#if config.tourDecider != ""}
+                  <div class="createButton">
+                    <Button on:cClick={setParticipants}>CREATE</Button>
+                  </div>
+                {/if}
+              {/if}
+            {/if}
+          {/if}
+        {/if}
+      {/if}
+    {/if}
 
     <!-- League Menu -->
     {#if selectedMenu == "league"}
@@ -354,13 +351,10 @@
         </div>
       </div>
     {/if}
-   
   </div>
-
 </main>
 
 <style>
-  
   h1 {
     text-transform: uppercase;
     font-size: 2em;
@@ -411,7 +405,7 @@
     justify-content: center;
     align-items: center;
   }
-  p{
+  p {
     font-size: 1.3em;
   }
   select,
@@ -439,24 +433,24 @@
     text-transform: uppercase;
   }
   .playerlist {
-  margin: 0px;
-  padding: 2px;
-  text-align: left;
-  background: linear-gradient(
-			129deg,
-			rgb(11, 11, 52) 0%,
-			rgba(24, 0, 23, 0.285) 100%
-		);
+    margin: 0px;
+    padding: 2px;
+    text-align: left;
+    background: linear-gradient(
+      129deg,
+      rgb(11, 11, 52) 0%,
+      rgba(24, 0, 23, 0.285) 100%
+    );
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 
-  color: white;
-  font-size: 1em;
-  width: 200px;
+    color: white;
+    font-size: 1em;
+    width: 200px;
 
-  border: solid 1px #ffffff3c;
-  
-  position: fixed; top: 300px; left:10px;
-}
+    border: solid 1px #ffffff3c;
 
-
+    position: fixed;
+    top: 300px;
+    left: 10px;
+  }
 </style>
