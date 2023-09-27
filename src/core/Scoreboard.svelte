@@ -1,21 +1,37 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
 
-  let gridData = [{ name: '', columns: [''] }];
+  import { onDestroy } from "svelte";
+  import cch from "../utils/cache";
+
+  let gridData = [{ name: "", columns: [""] }];
+
+  onDestroy(() => {
+    if (
+      (gridData[0].name && gridData[0].columns[0]) ||
+      gridData[0].columns[0] === 0
+    ) {
+      cch.saveToCache("scoreboard", gridData);
+    }
+  });
+
+  if (cch.isInCache("scoreboard")) {
+    gridData = cch.getFromCache("scoreboard");
+  }
 
   function addRow() {
     const numColumns = gridData[0].columns.length;
     const newRow = {
-      name: '',
-      columns: Array(numColumns).fill(''), // Create an array with the same number of empty strings as columns
+      name: "",
+      columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
   }
 
   function addColumn() {
     gridData.forEach((row) => {
-      row.columns.push('');
+      row.columns.push("");
     });
     gridData = [...gridData];
   }
@@ -50,7 +66,7 @@
 </script>
 
 <main>
-  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
+  <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button
   >
   <div id="button-container">
     <div class="flex-item">
@@ -160,8 +176,8 @@
     border: 1px solid #ffffff37;
   }
 
-  input[type='number']::-webkit-outer-spin-button,
-  input[type='number']::-webkit-inner-spin-button {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
     appearance: none;
   }
   table {

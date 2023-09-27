@@ -46,11 +46,12 @@
       </div>
 
       <div class="adjust-buttons-container">
-        <Button class="league-plus-minus-button" on:cClick={() => scores[0]++}
-          >+</Button
-        >
-        <Button class="league-plus-minus-button" on:cClick={() => scores[0]--}
-          >-</Button
+        <Button class="league-plus-minus-button" on:cClick={() => scores[0]++}>+</Button>
+        <Button
+          disabled={scores[0] === 0 ? true : false}
+          class="league-plus-minus-button"
+          on:cClick={() => scores[0]--}>-</Button
+
         >
       </div>
     </div>
@@ -63,11 +64,12 @@
         <p class="team-score">{scores[1]}</p>
       </div>
       <div class="adjust-buttons-container">
-        <Button class="league-plus-minus-button" on:cClick={() => scores[1]++}
-          >+</Button
-        >
-        <Button class="league-plus-minus-button" on:cClick={() => scores[1]--}
-          >-</Button
+        <Button class="league-plus-minus-button" on:cClick={() => scores[1]++}>+</Button>
+        <Button
+          disabled={scores[1] === 0 ? true : false}
+          class="league-plus-minus-button"
+          on:cClick={() => scores[1]--}>-</Button
+
         >
       </div>
     </div>
