@@ -1,11 +1,11 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
 
   export let disabled;
 
   const dp = createEventDispatcher();
 
-  const customBtnClick = () => dp("cClick");
+  const customBtnClick = () => dp('cClick');
 
   let buttonProps = {
     class: [$$restProps.class],
@@ -66,6 +66,20 @@
 
   .adjust-button:hover {
     scale: 0.9;
+  }
+
+  .league-plus-minus-button {
+    scale: 1.4;
+    font-size: 1.1em;
+    padding: 0.05em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 1em;
+  }
+
+  .league-plus-minus-button:hover {
+    scale: 1.4;
   }
 
   .add-team-button {
@@ -146,6 +160,7 @@
   }
 
   .results-toggle-button {
+    padding: 0;
     text-transform: uppercase;
     width: 9em;
     border-radius: 40px;

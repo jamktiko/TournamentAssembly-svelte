@@ -1,6 +1,6 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import Button from "./Button.svelte";
+  import { createEventDispatcher } from 'svelte';
+  import Button from './Button.svelte';
 
   const dp = createEventDispatcher();
 
@@ -26,49 +26,58 @@
       scores[0] - scores[1] < 0
         ? (scores[0] - scores[1]) * -1
         : scores[0] - scores[1];
-    dp("winnerevent", matchData);
+    dp('winnerevent', matchData);
   }
 </script>
 
 <main>
+  <h1 class="match-header">MATCH SCORING</h1>
+  <p>
+    Adjust the score of your ongoing match. When the final score is decided,
+    press the CONCLUDE MATCH button.
+  </p>
   <div class="match-container">
     <div class="team-content-container">
       <div class="team-container">
-        <h2>Team</h2>
-        {match[0].name}
+        <h2 class="team-name-header">Team</h2>
+        <p class="team-name">{match[0].name}</p>
         <h3>Score</h3>
-        {scores[0]}
+        <p class="team-score">{scores[0]}</p>
       </div>
 
       <div class="adjust-buttons-container">
-        <Button class="adjust-button" on:cClick={() => scores[0]++}>+</Button>
+        <Button class="league-plus-minus-button" on:cClick={() => scores[0]++}>+</Button>
         <Button
           disabled={scores[0] === 0 ? true : false}
-          class="adjust-button"
+          class="league-plus-minus-button"
           on:cClick={() => scores[0]--}>-</Button
+
         >
       </div>
     </div>
 
     <div class="team-content-container">
       <div class="team-container">
-        <h2>Team</h2>
-        {match[1].name}
+        <h2 class="team-name-header">Team</h2>
+        <p class="team-name">{match[1].name}</p>
         <h3>Score</h3>
-        {scores[1]}
+        <p class="team-score">{scores[1]}</p>
       </div>
       <div class="adjust-buttons-container">
-        <Button class="adjust-button" on:cClick={() => scores[1]++}>+</Button>
+        <Button class="league-plus-minus-button" on:cClick={() => scores[1]++}>+</Button>
         <Button
           disabled={scores[1] === 0 ? true : false}
-          class="adjust-button"
+          class="league-plus-minus-button"
           on:cClick={() => scores[1]--}>-</Button
+
         >
       </div>
     </div>
   </div>
   <div class="draw-container">
-    <Button class="adjust-button" on:cClick={resolveMatch}>Resolve</Button>
+    <Button class="league-plus-minus-button" on:cClick={resolveMatch}
+      >CONCLUDE MATCH</Button
+    >
   </div>
 </main>
 
@@ -90,6 +99,8 @@
   }
 
   .team-content-container {
+    margin-top: 1em;
+    width: 25vw;
     padding: 1em 2em;
     display: flex;
     flex-direction: column;
@@ -110,11 +121,32 @@
   }
 
   .adjust-buttons-container {
-    padding-top: 1em;
     padding-bottom: 1em;
   }
 
   .draw-container {
     padding: 1em, 0em;
+  }
+
+  .team-name-header {
+    font-size: 2em;
+  }
+
+  .team-name {
+    font-size: 1.3em;
+  }
+
+  .match-header {
+    font-size: 3em;
+    margin-top: 2em;
+  }
+
+  p {
+    font-size: 1.3em;
+  }
+
+  h3 {
+    margin-top: 0.7em;
+    font-size: 1.5em;
   }
 </style>
