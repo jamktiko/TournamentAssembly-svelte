@@ -1,8 +1,8 @@
 <script>
-  import cch from "../utils/cache";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import MatchResults from "../reusable/MatchResults.svelte";
+  import cch from '../utils/cache';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import MatchResults from '../reusable/MatchResults.svelte';
 
   export let params;
 
@@ -10,7 +10,7 @@
   /**/
   let matchResults = [];
   let matchResultsR = [];
-  let showResults = 0;
+  let showResults = 1;
 
   function toggleResults() {
     if (showResults == 0) {
@@ -38,7 +38,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: "",
+          name: '',
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -63,12 +63,12 @@
     selected = group;
     selected.index = i;
   }
-  let value = "";
+  let value = '';
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -172,10 +172,10 @@
       }
     }
     console.log(sortBy);
-    if (sortBy === "score") {
-      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
+    if (sortBy === 'score') {
+      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
     } else {
-      toggleSortOrder("score", selected.id);
+      toggleSortOrder('score', selected.id);
     }
 
     match = [];
@@ -188,19 +188,19 @@
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
-    <h3>Organized by: {config.organizerName || "-"}</h3>
+    <h3>Organized by: {config.organizerName || '-'}</h3>
   </div>
   <div class="grid-container">
     <div id="group-manage">
       {#each groups as group, i}
         {#if selected}
           {#if group.name == selected.name}
-            <h1>{group.name}</h1>
+            <h2 class="group-header-focused">{group.name}</h2>
           {:else}
-            <h2>{group.name}</h2>
+            <h2 class="group-header-unselected">{group.name}</h2>
           {/if}
         {:else}
-          <h2>{group.name}</h2>
+          <h2 class="group-header">{group.name}</h2>
         {/if}
 
         <Button on:cClick={() => selectGroup(group, i)}
@@ -217,20 +217,20 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder("playedMatches", selected.index)}>PL</th
+                  toggleSortOrder('playedMatches', selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder("score", selected.index)}
+              <th on:click={() => toggleSortOrder('score', selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
+              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder("draws", selected.index)}
+              <th on:click={() => toggleSortOrder('draws', selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder("losses", selected.index)}
+              <th on:click={() => toggleSortOrder('losses', selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
+              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
                 >GD</th
               >
             </tr>
@@ -258,34 +258,43 @@
             {/each}
           </table>
         </div>
-      {/if}
+      {:else}
+        <div class="group-MIA-container">
+          <h1>NO GROUP SELECTED</h1>
+          <p>
+            Select a group from the left menu to view and edit your groups in
+            the tournament.
+          </p>
+        </div>{/if}
     </div>
     {#if match[0] && match[1]}
       <Match {match} on:winnerevent={resolve} />
     {/if}
 
-    {#if showResults == 0}
-      <Button class="results-toggle-button" on:cClick={() => toggleResults()}
-        >Show results</Button
-      >
-    {/if}
-    {#if showResults == 1}
-      <Button class="results-toggle-button" on:cClick={() => toggleResults()}
-        >Hide results</Button
-      >
-      {#each matchResultsR as matchResult}
-        <div class="flex-container">
-          <MatchResults {matchResult} />
-          <div />
-        </div>
-      {/each}
+    <div class="results-button-container">
+      {#if showResults == 0}
+        <Button class="results-toggle-button" on:cClick={() => toggleResults()}
+          >Show results</Button
+        >
+      {/if}
+      {#if showResults == 1}
+        <Button class="results-toggle-button" on:cClick={() => toggleResults()}
+          >Hide results</Button
+        >
+        {#each matchResultsR as matchResult}
+          <div class="flex-container">
+            <MatchResults {matchResult} />
+            <div />
+          </div>
+        {/each}
+      {/if}
+    </div>
+    {#if match[0] && match[1]}
+      <div class="test">
+        <Match {match} on:winnerevent={resolve} />
+      </div>
     {/if}
   </div>
-  {#if match[0] && match[1]}
-    <div class="test">
-      <Match {match} on:winnerevent={resolve} />
-    </div>
-  {/if}
 </main>
 
 <style>
@@ -358,7 +367,24 @@
     margin-top: 2em;
     margin-bottom: 2em;
   }
+
+  .flex-container {
+    margin-top: 2em;
+  }
+
+  .results-button-container {
+    text-transform: uppercase;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    grid-column: 2;
+  }
   #group-manage {
+    text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -366,7 +392,7 @@
     column-span: 1;
     grid-column: 1;
     margin-right: 2em;
-    padding-top: 2em;
+    padding-bottom: 1em;
     padding-left: 2em;
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
@@ -397,6 +423,9 @@
   .test {
     opacity: 100%;
     position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
 
     width: 100%;
@@ -407,10 +436,47 @@
     font-size: 3em;
   }
 
+  .group-header {
+    margin-top: 0.7em;
+    font-size: 1.6em;
+  }
+
+  .group-header-focused {
+    margin-top: 0.7em;
+    font-size: 2em;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      filter: brightness(1);
+    }
+
+    50% {
+      filter: brightness(0.7);
+    }
+
+    100% {
+      filter: brightness(1);
+    }
+  }
+
+  .group-header-unselected {
+    margin-top: 0.7em;
+    opacity: 0.4;
+    font-size: 1.6em;
+    animation: pulse 3s infinite;
+  }
   #group-name {
     text-transform: uppercase;
     font-size: 1.9em;
     text-align: center;
     margin-bottom: 0.7em;
+  }
+
+  .group-MIA-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>
