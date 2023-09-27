@@ -281,6 +281,25 @@
       {/each}
     {/if}
   </div>
+  {#if match[0] && match[1]}
+  <div class="test">
+    <Match {match} on:winnerevent={resolve} />
+  </div>
+  {/if}
+
+  {#if showResults == 0}
+    <Button on:cClick={() => toggleResults()}>Show results</Button>
+  {/if}
+  {#if showResults == 1}
+    <Button on:cClick={() => toggleResults()}>Hide results</Button>
+    {#each matchResultsR as matchResult}
+      <div class="flex-container">
+        <MatchResults {matchResult} />
+        <div />
+      </div>
+    {/each}
+  {/if}
+
 </main>
 
 <style>
@@ -389,6 +408,13 @@
   td {
     padding: 20px;
   }
+  .test{
+    opacity: 100%;
+    position: fixed; 
+    background-color: rgba(0, 0, 0, 0.9);
+
+    width: 100%;
+    height: 100%;
 
   h1 {
     font-size: 3em;
