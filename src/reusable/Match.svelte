@@ -42,7 +42,11 @@
 
       <div class="adjust-buttons-container">
         <Button class="adjust-button" on:cClick={() => scores[0]++}>+</Button>
-        <Button class="adjust-button" on:cClick={() => scores[0]--}>-</Button>
+        <Button
+          disabled={scores[0] === 0 ? true : false}
+          class="adjust-button"
+          on:cClick={() => scores[0]--}>-</Button
+        >
       </div>
     </div>
 
@@ -55,7 +59,11 @@
       </div>
       <div class="adjust-buttons-container">
         <Button class="adjust-button" on:cClick={() => scores[1]++}>+</Button>
-        <Button class="adjust-button" on:cClick={() => scores[1]--}>-</Button>
+        <Button
+          disabled={scores[1] === 0 ? true : false}
+          class="adjust-button"
+          on:cClick={() => scores[1]--}>-</Button
+        >
       </div>
     </div>
   </div>
