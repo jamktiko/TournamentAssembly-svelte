@@ -247,7 +247,9 @@
     {/if}
   </div>
   {#if match[0] && match[1]}
+  <div class="test">
     <Match {match} on:winnerevent={resolve} />
+  </div>
   {/if}
 
   {#if showResults == 0}
@@ -292,5 +294,13 @@
   }
   td {
     padding: 20px;
+  }
+  .test{
+    opacity: 100%;
+    position: fixed; 
+    background-color: rgba(0, 0, 0, 0.9);
+
+    width: 100%;
+    height: 100%;
   }
 </style>
