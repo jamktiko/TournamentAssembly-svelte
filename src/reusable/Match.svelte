@@ -1,20 +1,32 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  import Button from './Button.svelte';
+  import { createEventDispatcher } from "svelte";
+  import Button from "./Button.svelte";
 
   const dp = createEventDispatcher();
 
   export let match;
   let scores = [0, 0];
 
-  function resolveMatch(matchData) {
+  function resolveMatch() {
+    const matchData = {};
+    if (scores[0] > scores[1]) {
+      matchData.winner = match[0];
+      matchData.loser = match[1];
+    } else if (scores[1] > scores[0]) {
+      matchData.winner = match[1];
+      matchData.loser = match[0];
+    } else {
+      matchData.draw = true;
+      matchData.contestants = [match[0], match[1]];
+    }
+
     matchData.result1 = scores[0];
     matchData.result2 = scores[1];
     matchData.goalDiff =
       scores[0] - scores[1] < 0
         ? (scores[0] - scores[1]) * -1
         : scores[0] - scores[1];
-    dp('winnerevent', matchData);
+    dp("winnerevent", matchData);
   }
 </script>
 
@@ -31,11 +43,6 @@
       <div class="adjust-buttons-container">
         <Button class="adjust-button" on:cClick={() => scores[0]++}>+</Button>
         <Button class="adjust-button" on:cClick={() => scores[0]--}>-</Button>
-        <Button
-          class="adjust-button"
-          on:cClick={() => resolveMatch({ winner: match[0], loser: match[1] })}
-          >Win</Button
-        >
       </div>
     </div>
 
@@ -49,22 +56,11 @@
       <div class="adjust-buttons-container">
         <Button class="adjust-button" on:cClick={() => scores[1]++}>+</Button>
         <Button class="adjust-button" on:cClick={() => scores[1]--}>-</Button>
-        <Button
-          class="adjust-button"
-          on:cClick={() => resolveMatch({ winner: match[1], loser: match[0] })}
-          >Win</Button
-        >
       </div>
     </div>
   </div>
   <div class="draw-container">
-    <Button
-      class="adjust-button"
-      on:cClick={resolveMatch({
-        draw: true,
-        contestants: [match[0], match[1]],
-      })}>Draw</Button
-    >
+    <Button class="adjust-button" on:cClick={resolveMatch}>Resolve</Button>
   </div>
 </main>
 
