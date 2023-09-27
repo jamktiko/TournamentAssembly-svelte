@@ -155,6 +155,7 @@
 
   .results-toggle-button:hover {
     scale: 1.1;
+  }
   .x-button {
     scale: 0.5;
     padding-top: 0;
