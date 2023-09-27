@@ -21,7 +21,15 @@ const userController = {
   },
 
   async registerUser(req, res) {
-    res.send(await lib.registerUser(req.body.username, req.body.password));
+    res.send(await lib.registerUser(req.body.username, req.body.password, req.body.tournament));
+  },
+
+  async addTournament(req, res) {
+    res.send(await lib.addTournament(req.body.username, req.body.tournament));
+  },
+
+  async delTournament(req, res) {
+    res.send(await lib.delTournament(req.body.username, req.body.tournament));
   },
 };
 

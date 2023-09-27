@@ -49,7 +49,7 @@ const lib = {
     }
   },
 
-  async registerUser(username, password) {
+  async registerUser(username, password, tournament) {
     const collection = client.db('touras').collection('users');
 
     // Check if the username is already taken
@@ -75,10 +75,61 @@ const lib = {
     const result = await collection.insertOne({
       username: username,
       password: hashedPassword,
+      tournament: tournament,
       token: token,
     });
 
     return result;
+  },
+
+  async addTournament(username, newTournament) {
+    const collection = client.db('touras').collection('users');
+
+    // Find the user by username
+    const user = await collection.findOne({ username: username });
+    try {
+      if (!user) {
+        console.error('User not found');
+        return {
+          msg: 'User not found',
+          success: false,
+        };
+      }
+    } catch (error) {
+      console.error('Error finding user:', error);
+      throw error;
+    }
+    // Add newTournamentData to the tournament array
+    user.tournament.push(newTournament);
+
+    // Update the user's document in the database
+    const updateResult = await collection.updateOne({ username: username }, { $set: { tournament: user.tournament } });
+
+    return updateResult;
+  },
+
+  async delTournament(username, delData) {
+    const collection = client.db('touras').collection('users');
+
+    // Find the user by username
+    const user = await collection.findOne({ username: username });
+    try {
+      if (!user) {
+        console.error('User not found');
+        return {
+          msg: 'User not found',
+          success: false,
+        };
+      }
+    } catch (error) {
+      console.error('Error finding user:', error);
+      throw error;
+    }
+
+    // Update the user's document in the database
+    const updateResult = await collection.updateOne({ username: username }, { $pull: { tournament: delData } });
+
+    return updateResult;
   },
 
   // Function to update a document in a collection by ID
