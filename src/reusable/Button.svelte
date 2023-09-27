@@ -1,20 +1,25 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
+
+  export let disabled;
 
   const dp = createEventDispatcher();
 
-  const customBtnClick = () => dp('cClick');
+  const customBtnClick = () => dp("cClick");
 
   let buttonProps = {
     class: [$$restProps.class],
   };
 </script>
 
-<button on:click={customBtnClick} {...buttonProps}>
+<button {disabled} on:click={customBtnClick} {...buttonProps}>
   <slot />
 </button>
 
 <style>
+  button:disabled {
+    opacity: 0.5;
+  }
   button {
     text-transform: uppercase;
     font-weight: 700;
@@ -139,16 +144,27 @@
     padding: 0.5em 1.25em;
     border-radius: 10px;
   }
-  .x-button{
-  scale: 0.5;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin: 0;
-}
-.x-button:hover{
-  scale:0.5;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin: 0;
-}
+
+  .results-toggle-button {
+    text-transform: uppercase;
+    width: 9em;
+    border-radius: 40px;
+    border: solid 1px #ffffff3c;
+    transition-duration: 0.1s;
+  }
+
+  .results-toggle-button:hover {
+    scale: 1.1;
+  .x-button {
+    scale: 0.5;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+  }
+  .x-button:hover {
+    scale: 0.5;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+  }
 </style>
