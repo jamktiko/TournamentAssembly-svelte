@@ -139,4 +139,16 @@
     padding: 0.5em 1.25em;
     border-radius: 10px;
   }
+
+  .results-toggle-button {
+    text-transform: uppercase;
+    width: 9em;
+    border-radius: 40px;
+    border: solid 1px #ffffff3c;
+    transition-duration: 0.1s;
+  }
+
+  .results-toggle-button:hover {
+    scale: 1.1;
+  }
 </style>
