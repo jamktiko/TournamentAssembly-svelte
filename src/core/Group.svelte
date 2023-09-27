@@ -1,8 +1,8 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
 
   export let params;
 
@@ -38,7 +38,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: '',
+          name: "",
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -63,12 +63,12 @@
     selected = group;
     selected.index = i;
   }
-  let value = '';
+  let value = "";
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -172,10 +172,10 @@
       }
     }
     console.log(sortBy);
-    if (sortBy === 'score') {
-      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
+    if (sortBy === "score") {
+      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
     } else {
-      toggleSortOrder('score', selected.id);
+      toggleSortOrder("score", selected.id);
     }
 
     match = [];
@@ -188,7 +188,7 @@
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
-    <h3>Organized by: {config.organizerName || '-'}</h3>
+    <h3>Organized by: {config.organizerName || "-"}</h3>
   </div>
   <div class="grid-container">
     <div id="group-manage">
@@ -217,20 +217,20 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder('playedMatches', selected.index)}>PL</th
+                  toggleSortOrder("playedMatches", selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder('score', selected.index)}
+              <th on:click={() => toggleSortOrder("score", selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
+              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder('draws', selected.index)}
+              <th on:click={() => toggleSortOrder("draws", selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder('losses', selected.index)}
+              <th on:click={() => toggleSortOrder("losses", selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
+              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
                 >GD</th
               >
             </tr>
@@ -282,24 +282,10 @@
     {/if}
   </div>
   {#if match[0] && match[1]}
-  <div class="test">
-    <Match {match} on:winnerevent={resolve} />
-  </div>
+    <div class="test">
+      <Match {match} on:winnerevent={resolve} />
+    </div>
   {/if}
-
-  {#if showResults == 0}
-    <Button on:cClick={() => toggleResults()}>Show results</Button>
-  {/if}
-  {#if showResults == 1}
-    <Button on:cClick={() => toggleResults()}>Hide results</Button>
-    {#each matchResultsR as matchResult}
-      <div class="flex-container">
-        <MatchResults {matchResult} />
-        <div />
-      </div>
-    {/each}
-  {/if}
-
 </main>
 
 <style>
@@ -408,13 +394,14 @@
   td {
     padding: 20px;
   }
-  .test{
+  .test {
     opacity: 100%;
-    position: fixed; 
+    position: fixed;
     background-color: rgba(0, 0, 0, 0.9);
 
     width: 100%;
     height: 100%;
+  }
 
   h1 {
     font-size: 3em;
