@@ -17,7 +17,14 @@
   });
 
   if (cch.isInCache("scoreboard")) {
-    gridData = cch.getFromCache("scoreboard");
+    const cachedData = cch.getFromCache("scoreboard");
+    console.log(!Array.isArray(cachedData[0].columns));
+    if (!Array.isArray(cachedData[0].columns)) {
+      for (let unit of cachedData) {
+        unit.columns = [unit.columns];
+      }
+    }
+    gridData = cachedData;
   }
 
   function addRow() {

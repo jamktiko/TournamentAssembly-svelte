@@ -1,8 +1,9 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+  import { onDestroy } from "svelte";
 
   export let params;
 
@@ -22,8 +23,17 @@
   let config = cch.detokenify(params.tourdata)[0];
 
   let groups = [];
-  generateGroups(config);
-  console.log(config);
+
+  onDestroy(() => {
+    cch.saveToCache("groups", groups);
+    cch.saveToCache("groupsConf", config);
+  });
+
+  if (cch.isInCache("groups")) {
+    groups = cch.getFromCache("groups");
+  } else {
+    generateGroups(config);
+  }
 
   function generateGroups(conf) {
     for (let i = 0; i < conf.numberOfGroups; i++) {
@@ -38,7 +48,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: '',
+          name: "",
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -49,7 +59,6 @@
         groups[i].participants.push(newParticipant);
       }
     }
-    console.log(groups);
   }
 
   $: selected = null;
@@ -63,12 +72,12 @@
     selected = group;
     selected.index = i;
   }
-  let value = '';
+  let value = "";
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -172,10 +181,10 @@
       }
     }
     console.log(sortBy);
-    if (sortBy === 'score') {
-      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
+    if (sortBy === "score") {
+      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
     } else {
-      toggleSortOrder('score', selected.id);
+      toggleSortOrder("score", selected.id);
     }
 
     match = [];
@@ -188,7 +197,7 @@
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
-    <h3>Organized by: {config.organizerName || '-'}</h3>
+    <h3>Organized by: {config.organizerName || "-"}</h3>
   </div>
   <div class="grid-container">
     <div id="group-manage">
@@ -217,20 +226,20 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder('playedMatches', selected.index)}>PL</th
+                  toggleSortOrder("playedMatches", selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder('score', selected.index)}
+              <th on:click={() => toggleSortOrder("score", selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
+              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder('draws', selected.index)}
+              <th on:click={() => toggleSortOrder("draws", selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder('losses', selected.index)}
+              <th on:click={() => toggleSortOrder("losses", selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
+              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
                 >GD</th
               >
             </tr>

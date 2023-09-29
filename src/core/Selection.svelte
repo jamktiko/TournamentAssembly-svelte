@@ -27,7 +27,15 @@
         <h2>GROUPS</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => push("/customizer/groups")}>CHOOSE</Button>
+        <Button on:cClick={() => navigate("groups", "/customizer/groups")}
+          >CHOOSE</Button
+        >
+
+        {#if cch.isInCache("groups")}
+          <Button on:cClick={() => push(`/group/${cch.getToken("groupsConf")}`)}
+            >Continue</Button
+          >
+        {/if}
       </div>
       <div slot="footer">
         <p>
