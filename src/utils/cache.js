@@ -21,7 +21,7 @@ export default {
     if (Array.isArray(tkn)) {
       for (let obj of tkn) {
         for (let key in obj) {
-          if (Array.isArray(obj[key])) {
+          if (Array.isArray(obj[key]) && typeof obj[key][0] === "object") {
             output += "[";
             output += key + "=";
             for (let item of obj[key]) {
@@ -46,7 +46,6 @@ export default {
         output += ".";
       }
     }
-
     return output;
   },
   /**
@@ -66,7 +65,6 @@ export default {
     for (let obj of objs) {
       if (obj.includes("[")) {
         remainder = obj.slice(0, obj.indexOf("["));
-        console.log(remainder, "remainder");
 
         const subArr = obj
           .slice(obj.indexOf("[") + 1, obj.indexOf("]"))
@@ -79,6 +77,7 @@ export default {
         let objGroup = [];
         for (let unit of content) {
           const kvps = unit.split(".");
+          kvps.pop();
           const construct = kvps.reduce((acc, curr) => {
             const sepr = curr.split(":");
             acc[sepr[0]] = isNaN(parseInt(sepr[1]))
@@ -107,8 +106,10 @@ export default {
       reconstruction.push(construct);
     }
     if (rcSubArr.length !== 0) {
-      for (let i = 0; i < rcSubArr.length; i++) {
-        reconstruction[i][label] = rcSubArr[i];
+      let i = 0;
+      for (let construct of reconstruction) {
+        construct[label] = rcSubArr[i];
+        i++;
       }
     }
     return reconstruction;

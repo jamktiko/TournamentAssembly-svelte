@@ -23,11 +23,17 @@
   let config = cch.detokenify(params.tourdata)[0];
 
   let groups = [];
-  generateGroups(config);
 
   onDestroy(() => {
-    console.log(cch.detokenify(cch.tokenify(groups)));
+    cch.saveToCache("groups", groups);
+    cch.saveToCache("groupsConf", config);
   });
+
+  if (cch.isInCache("groups")) {
+    groups = cch.getFromCache("groups");
+  } else {
+    generateGroups(config);
+  }
 
   function generateGroups(conf) {
     for (let i = 0; i < conf.numberOfGroups; i++) {
