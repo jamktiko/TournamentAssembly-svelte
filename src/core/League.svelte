@@ -1,9 +1,9 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import { onDestroy } from 'svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import { onDestroy } from "svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
 
   export let params;
 
@@ -24,20 +24,20 @@
   let config = cch.detokenify(params.tourdata)[0];
 
   onDestroy(() => {
-    cch.saveToCache('league', teams);
-    cch.saveToCache('leagueConf', config);
+    cch.saveToCache("league", teams);
+    cch.saveToCache("leagueConf", config);
   });
 
   let teams = [];
   let match = [];
 
-  if (cch.isInCache('league') && cch.isInCache('leagueConf')) {
-    teams = cch.getFromCache('league');
+  if (cch.isInCache("league") && cch.isInCache("leagueConf")) {
+    teams = cch.getFromCache("league");
 
     console.log(teams);
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column) {
@@ -87,6 +87,12 @@
     if (!selected && selected !== 0 && match.length < 2) {
       selected = id;
     } else {
+      setTimeout(() => {
+        const titleElement = document.querySelector(".match-header");
+        if (!titleElement) return;
+        titleElement.scrollIntoView({ behavior: "smooth" });
+      }, 20);
+
       selected = null;
     }
     if (match.length < 2 && match[0] ? match[0].id !== id : true) {
@@ -226,13 +232,13 @@
       <table>
         <thead>
           <tr>
-            <th on:click={() => toggleSortOrder('name')}>Team Name</th>
-            <th on:click={() => toggleSortOrder('playedMatches')}>PL</th>
-            <th on:click={() => toggleSortOrder('score')}>Score</th>
-            <th on:click={() => toggleSortOrder('wins')}>W</th>
-            <th on:click={() => toggleSortOrder('draws')}>D</th>
-            <th on:click={() => toggleSortOrder('losses')}>L</th>
-            <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
+            <th on:click={() => toggleSortOrder("name")}>Team Name</th>
+            <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
+            <th on:click={() => toggleSortOrder("score")}>Score</th>
+            <th on:click={() => toggleSortOrder("wins")}>W</th>
+            <th on:click={() => toggleSortOrder("draws")}>D</th>
+            <th on:click={() => toggleSortOrder("losses")}>L</th>
+            <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
           </tr>
         </thead>
         <tbody class="scoreboard-lined-cell">
