@@ -1,8 +1,8 @@
 <script>
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import cch from "../utils/cache";
-  import Card from "../reusable/Card.svelte";
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import cch from '../utils/cache';
+  import Card from '../reusable/Card.svelte';
 
   function navigate(key, path) {
     localStorage.removeItem(key);
@@ -11,7 +11,7 @@
 </script>
 
 <main>
-  <Button class="back-button2" on:cClick={() => push("/")}>Back</Button>
+  <Button class="back-button2" on:cClick={() => push('/')}>Back</Button>
   <div class="text-container">
     <h2>WELCOME USER!</h2>
     <p>
@@ -27,12 +27,12 @@
         <h2>GROUPS</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => navigate("groups", "/customizer/groups")}
+        <Button on:cClick={() => navigate('groups', '/customizer/groups')}
           >CHOOSE</Button
         >
 
-        {#if cch.isInCache("groups")}
-          <Button on:cClick={() => push(`/group/${cch.getToken("groupsConf")}`)}
+        {#if cch.isInCache('groups')}
+          <Button on:cClick={() => push(`/group/${cch.getToken('groupsConf')}`)}
             >Continue</Button
           >
         {/if}
@@ -50,7 +50,7 @@
         <h2>PLAYOFFS</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => push("/customizer/playoffs")}>CHOOSE</Button>
+        <Button on:cClick={() => push('/customizer/playoffs')}>CHOOSE</Button>
       </div>
       <div slot="footer">
         <p>
@@ -65,10 +65,10 @@
         <h2>SCOREBOARD</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => navigate("scoreboard", "/scoreboard")}
+        <Button on:cClick={() => navigate('scoreboard', '/scoreboard')}
           >CHOOSE</Button
         >
-        {#if cch.isInCache("scoreboard")}
+        {#if cch.isInCache('scoreboard')}
           <Button on:cClick={() => push(`/scoreboard`)}>Continue</Button>
         {/if}
       </div>
@@ -85,12 +85,12 @@
         <h2>LEAGUE</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => navigate("league", "/customizer/league")}
+        <Button on:cClick={() => navigate('league', '/customizer/league')}
           >CHOOSE</Button
         >
-        {#if cch.isInCache("league")}
+        {#if cch.isInCache('league')}
           <Button
-            on:cClick={() => push(`/league/${cch.getToken("leagueConf")}`)}
+            on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
             >Continue</Button
           >
         {/if}
@@ -123,6 +123,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     margin-top: 2em;
@@ -146,7 +147,7 @@
 
   h1 {
     font: 700;
-    font-size: 3em;
+    font-size: 3.2em;
   }
 
   p {

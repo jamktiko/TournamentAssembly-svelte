@@ -1,6 +1,7 @@
 <script>
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
+  import Loading from '../reusable/Loading.svelte';
 </script>
 
 <main>
@@ -31,10 +32,19 @@
     </div>
   </div>
 </main>
+<div id="loading-div">
+  <Loading />
+</div>
 
 <style>
   main {
     text-align: center;
+  }
+
+  #loading-div {
+    position: absolute;
+    top: 80%;
+    left: 50%;
   }
 
   .dev-info-header {
