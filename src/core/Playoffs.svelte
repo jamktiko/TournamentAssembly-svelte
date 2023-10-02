@@ -1,7 +1,7 @@
 <script>
 	import cch from "../utils/cache";
 	import Button from "../reusable/Button.svelte";
-
+  import { push } from "svelte-spa-router";
 	export let params;
 
 	console.log(params);
@@ -195,6 +195,7 @@
 </script>
 
 <main>
+	<Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button>
 	<h1>CUSTOMIZERISTA TOURNAMENT NAME TÄHÄN</h1>
 	<h3>by ORGANIZER NAME TÄHÄN</h3>
 	<div class="playoff-container">
