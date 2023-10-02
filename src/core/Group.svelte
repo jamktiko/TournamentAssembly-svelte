@@ -182,6 +182,7 @@
       }
     }
     console.log(sortBy);
+    sortBy = ""
     if (sortBy === "score") {
       for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
     } else {
