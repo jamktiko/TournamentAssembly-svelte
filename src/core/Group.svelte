@@ -1,11 +1,10 @@
 <script>
-
-  import cch from "../utils/cache";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import MatchResults from "../reusable/MatchResults.svelte";
-  import { onDestroy } from "svelte";
-  import { push } from "svelte-spa-router";
+  import cch from '../utils/cache';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import MatchResults from '../reusable/MatchResults.svelte';
+  import { onDestroy } from 'svelte';
+  import { push } from 'svelte-spa-router';
 
   export let params;
 
@@ -184,9 +183,9 @@
     }
     console.log(sortBy);
 
-    sortBy = ""
-    if (sortBy === "score") {
-      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
+    sortBy = '';
+    if (sortBy === 'score') {
+      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
     } else {
       toggleSortOrder('score', selected.id);
     }
@@ -199,7 +198,8 @@
 </script>
 
 <main>
-  <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button>
+  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
+  >
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
     <h3>Organized by: {config.organizerName || '-'}</h3>
@@ -295,13 +295,13 @@
         <Button class="results-toggle-button" on:cClick={() => toggleResults()}
           >Hide results</Button
         >
+        <h1 class="results-header">RESULTS</h1>
+        <p>
+          Below is a list of concluded matches and their results. You can hide
+          the results from view by clicking the HIDE RESULTS button.
+        </p>
         {#each matchResultsR as matchResult}
           <div class="flex-container">
-            <h1 class="results-header">RESULTS</h1>
-            <p>
-              Below is a list of concluded matches and their results. You can
-              hide the results from view by clicking the HIDE RESULTS button.
-            </p>
             <MatchResults {matchResult} />
             <div />
           </div>
