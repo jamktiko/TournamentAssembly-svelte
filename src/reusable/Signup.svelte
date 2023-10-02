@@ -1,19 +1,18 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import stateController from "../utils/stateStore";
 
-  let userName = '';
-  let password = '';
+  let userName = "";
+  let password = "";
 
-  function maskPassword(input) {
-    password = input.value;
-    let maskedPassword = '*'.repeat(password.length);
-    input.value = maskedPassword;
-  }
-
-  function signupTest() {
-    console.log('Username:', userName);
-    console.log('Password:', password);
+  function register() {
+    const user = {
+      username: userName,
+      password: password,
+      tournaments: [],
+    };
+    stateController.register(user);
   }
 </script>
 
@@ -21,7 +20,7 @@
 
 <div class="modal">
   <div class="closeButton">
-    <Button on:cClick={() => push('/')}>
+    <Button on:cClick={() => push("/")}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
@@ -48,10 +47,9 @@
       type="password"
       id="password"
       placeholder="Password"
-      on:input={(event) => maskPassword(event.target)}
       bind:value={password}
     />
-    <Button on:cClick={signupTest}>SIGN UP</Button>
+    <Button on:cClick={register}>SIGN UP</Button>
   </div>
 </div>
 
