@@ -1,4 +1,5 @@
 <script>
+
   import cch from "../utils/cache";
   import Button from "../reusable/Button.svelte";
   import Match from "../reusable/Match.svelte";
@@ -26,12 +27,12 @@
   let groups = [];
 
   onDestroy(() => {
-    cch.saveToCache("groups", groups);
-    cch.saveToCache("groupsConf", config);
+    cch.saveToCache('groups', groups);
+    cch.saveToCache('groupsConf', config);
   });
 
-  if (cch.isInCache("groups")) {
-    groups = cch.getFromCache("groups");
+  if (cch.isInCache('groups')) {
+    groups = cch.getFromCache('groups');
   } else {
     generateGroups(config);
   }
@@ -49,7 +50,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: "",
+          name: '',
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -73,12 +74,12 @@
     selected = group;
     selected.index = i;
   }
-  let value = "";
+  let value = '';
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -182,11 +183,12 @@
       }
     }
     console.log(sortBy);
+
     sortBy = ""
     if (sortBy === "score") {
       for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
     } else {
-      toggleSortOrder("score", selected.id);
+      toggleSortOrder('score', selected.id);
     }
 
     match = [];
@@ -200,7 +202,7 @@
   <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
-    <h3>Organized by: {config.organizerName || "-"}</h3>
+    <h3>Organized by: {config.organizerName || '-'}</h3>
   </div>
   <div class="grid-container">
     <div id="group-manage">
@@ -229,20 +231,20 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder("playedMatches", selected.index)}>PL</th
+                  toggleSortOrder('playedMatches', selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder("score", selected.index)}
+              <th on:click={() => toggleSortOrder('score', selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
+              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder("draws", selected.index)}
+              <th on:click={() => toggleSortOrder('draws', selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder("losses", selected.index)}
+              <th on:click={() => toggleSortOrder('losses', selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
+              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
                 >GD</th
               >
             </tr>
@@ -295,6 +297,11 @@
         >
         {#each matchResultsR as matchResult}
           <div class="flex-container">
+            <h1 class="results-header">RESULTS</h1>
+            <p>
+              Below is a list of concluded matches and their results. You can
+              hide the results from view by clicking the HIDE RESULTS button.
+            </p>
             <MatchResults {matchResult} />
             <div />
           </div>
@@ -489,5 +496,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  p {
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
   }
 </style>

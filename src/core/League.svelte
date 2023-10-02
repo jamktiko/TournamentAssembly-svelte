@@ -1,10 +1,12 @@
 <script>
+
   import cch from "../utils/cache";
   import Button from "../reusable/Button.svelte";
   import Match from "../reusable/Match.svelte";
   import { onDestroy } from "svelte";
   import MatchResults from "../reusable/MatchResults.svelte";
   import { push } from "svelte-spa-router";
+  
   export let params;
 
   let matchResults = [];
@@ -24,20 +26,20 @@
   let config = cch.detokenify(params.tourdata)[0];
 
   onDestroy(() => {
-    cch.saveToCache("league", teams);
-    cch.saveToCache("leagueConf", config);
+    cch.saveToCache('league', teams);
+    cch.saveToCache('leagueConf', config);
   });
 
   let teams = [];
   let match = [];
 
-  if (cch.isInCache("league") && cch.isInCache("leagueConf")) {
-    teams = cch.getFromCache("league");
+  if (cch.isInCache('league') && cch.isInCache('leagueConf')) {
+    teams = cch.getFromCache('league');
 
     console.log(teams);
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column) {
@@ -88,9 +90,9 @@
       selected = id;
     } else {
       setTimeout(() => {
-        const titleElement = document.querySelector(".match-header");
+        const titleElement = document.querySelector('.match-header');
         if (!titleElement) return;
-        titleElement.scrollIntoView({ behavior: "smooth" });
+        titleElement.scrollIntoView({ behavior: 'smooth' });
       }, 20);
 
       selected = null;
@@ -233,13 +235,13 @@
       <table>
         <thead>
           <tr>
-            <th on:click={() => toggleSortOrder("name")}>Team Name</th>
-            <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
-            <th on:click={() => toggleSortOrder("score")}>Score</th>
-            <th on:click={() => toggleSortOrder("wins")}>W</th>
-            <th on:click={() => toggleSortOrder("draws")}>D</th>
-            <th on:click={() => toggleSortOrder("losses")}>L</th>
-            <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
+            <th on:click={() => toggleSortOrder('name')}>Team Name</th>
+            <th on:click={() => toggleSortOrder('playedMatches')}>PL</th>
+            <th on:click={() => toggleSortOrder('score')}>Score</th>
+            <th on:click={() => toggleSortOrder('wins')}>W</th>
+            <th on:click={() => toggleSortOrder('draws')}>D</th>
+            <th on:click={() => toggleSortOrder('losses')}>L</th>
+            <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
           </tr>
         </thead>
         <tbody class="scoreboard-lined-cell">
@@ -280,6 +282,11 @@
     <div class="results-container">
       {#if showResults == 1}
         <div>
+          <h1 class="results-header">RESULTS</h1>
+          <p>
+            Below is a list of concluded matches and their results. You can hide
+            the results from view by clicking the HIDE RESULTS button.
+          </p>
           {#each matchResultsR.slice().reverse() as matchResult}
             <MatchResults {matchResult} />
           {/each}
@@ -417,18 +424,25 @@
     padding-bottom: 1em;
   }
 
-  p {
-    text-align: center;
-    margin-bottom: 1em;
-    font: 100;
-    font-size: 1.3em;
-  }
-
   .league-scoreboard-container {
     display: flex;
     align-items: center;
     justify-content: center;
     margin: auto;
     width: 100%;
+  }
+
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  p {
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
   }
 </style>

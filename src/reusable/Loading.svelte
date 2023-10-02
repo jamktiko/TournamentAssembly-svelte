@@ -2,7 +2,7 @@
 </script>
 
 <div class="loading-icon">
-  Loading
+  <h1>Loading</h1>
   <span />
 </div>
 
@@ -19,26 +19,27 @@
     border-radius: 50%;
     text-align: center;
     line-height: 150px;
-    font-family: sans-serif;
-    font-size: 20px;
+    font-size: 1.7em;
+    font-weight: 500;
     color: #ffffff;
-    letter-spacing: 4px;
+    letter-spacing: 0px;
     text-transform: uppercase;
+    filter: drop-shadow(0 0 20px rgba(204, 0, 255, 0.301));
     text-shadow: 0 0 10px rgb(160, 0, 200);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 40px rgb(204, 0, 255, 0.2);
   }
   .loading-icon:before {
     content: '';
     position: absolute;
-    top: -3px;
-    left: -3px;
-    width: 100%;
-    height: 100%;
-    border: 3px solid transparent;
-    border-top: 3px solid rgb(160, 0, 200);
-    border-right: 3px solid rgb(160, 0, 200);
+    top: -2.5px;
+    left: -2px;
+    width: 101%;
+    height: 101%;
+    border-top: 4px solid rgb(160, 0, 200);
+    border-right: 4px solid rgb(160, 0, 200);
     border-radius: 50%;
-    animation: animateC 2s linear infinite;
+    filter: drop-shadow(0 0 20px rgba(204, 0, 255, 0.13));
+    animation: animateC 1.5s ease-in-out infinite;
   }
   span {
     display: block;
@@ -49,33 +50,67 @@
     height: 4px;
     background: transparent;
     transform-origin: left;
-    animation: animate 2s linear infinite;
+    animation: animate 1.5s ease-in-out infinite;
   }
   span:before {
     content: '';
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 0px;
+    height: 0px;
     border-radius: 50%;
     background: rgb(160, 0, 200);
-    top: -6px;
-    right: -8px;
+    top: -4px;
+    right: -7px;
     box-shadow: 0 0 20px rgb(160, 0, 200);
   }
   @keyframes animateC {
     0% {
+      filter: brightness(0.9);
       transform: rotate(0deg);
     }
+    50% {
+      filter: brightness(1.8);
+    }
+
     100% {
+      filter: brightness(0.9);
       transform: rotate(360deg);
     }
   }
   @keyframes animate {
     0% {
       transform: rotate(45deg);
+      filter: brightness(1);
+    }
+
+    50% {
+      filter: brightness(1.8);
     }
     100% {
       transform: rotate(405deg);
+      filter: brightness(1);
+    }
+  }
+
+  h1 {
+    font-weight: 500;
+    font-size: 1.1em;
+    scale: 1;
+    animation: animateS 3s ease-in-out infinite;
+  }
+
+  @keyframes animateS {
+    0% {
+      scale: 1;
+      filter: brightness(0.8);
+    }
+    50% {
+      scale: 1.05;
+      filter: brightness(1.8);
+    }
+    100% {
+      scale: 1;
+      filter: brightness(0.8);
     }
   }
 </style>

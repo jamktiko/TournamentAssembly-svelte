@@ -2,11 +2,6 @@
   export let matchResult;
 </script>
 
-<h1 class="results-header">RESULTS</h1>
-<p>
-  Below is alist of concluded matches and their results. You can hide the
-  results from view by clicking the HIDE RESULTS button.
-</p>
 <table>
   <thead>
     <tr>
@@ -82,19 +77,5 @@
     border: 1px solid #fff;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-  }
-
-  .results-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  p {
-    text-transform: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1em;
   }
 </style>

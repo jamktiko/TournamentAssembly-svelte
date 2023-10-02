@@ -17,10 +17,11 @@
   .card {
     display: flex;
     flex-direction: column;
+    flex: 2;
     align-items: center;
     border: 1px solid #ffffff31;
     border-radius: 10px;
-    padding: 1em 3.6em;
+    padding: 2em 9em;
     margin: 0.2em;
     min-height: 20em;
     background: radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%);
@@ -38,9 +39,9 @@
   }
 
   .header :global(h2) {
-    font-size: 2.3em;
+    font-size: 2.5em;
     margin-top: 0.1em;
-    margin-bottom: 0.3em;
+    margin-bottom: 0.1em;
     font-weight: bold;
   }
 
@@ -53,7 +54,17 @@
     margin-top: 2.5em;
     margin-bottom: 0.1em;
   }
-  .button {
-    margin-top: 3em;
+  .button :global(div) {
+    min-width: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  .button :global(button) {
+    margin: 0.3em;
   }
 </style>
