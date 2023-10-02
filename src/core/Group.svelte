@@ -100,6 +100,7 @@
   function addToMatch(id, i) {
     if (match.length < 2 && match[0] ? match[0].id !== id : true) {
       match = [...match, groups[i].participants.find((team) => team.id === id)];
+      console.log(id.team)
     }
 
     if (match.length === 2) match.push(i);
@@ -264,11 +265,13 @@
                 <td>{participant.losses}</td>
                 <td>{participant.goalDiff}</td>
               </tr>
+              {#if participant.name != ""}
               <Button
                 class="adjust-button"
                 on:cClick={() => addToMatch(participant.id, selected.index)}
                 >Add to match</Button
               >
+              {/if}
             {/each}
           </table>
         </div>
