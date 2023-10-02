@@ -5,7 +5,7 @@
   import { onDestroy } from "svelte";
   import cch from "../utils/cache";
 
-  let gridData = [{ name: "", columns: [""] }];
+  let gridData = [{ name: "", columns: [0] }];
 
   onDestroy(() => {
     if (
@@ -31,14 +31,14 @@
     const numColumns = gridData[0].columns.length;
     const newRow = {
       name: "",
-      columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
+      columns: Array(numColumns).fill(0), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
   }
 
   function addColumn() {
     gridData.forEach((row) => {
-      row.columns.push("");
+      row.columns.push(0);
     });
     gridData = [...gridData];
   }
@@ -112,8 +112,8 @@
               /></td
             >
             {#each row.columns as column, colIdx}
-              <td
-                ><input
+              <td class="smaller"
+                ><input class="smaller"
                   type="number"
                   bind:value={column}
                   on:input={(event) => updateCellValue(rowIdx, colIdx, event)}
@@ -181,6 +181,9 @@
     background-color: rgba(5, 2, 45, 0.226);
     text-align: center;
     border: 1px solid #ffffff37;
+  }
+  .smaller{
+    width: 2.3em;
   }
 
   input[type="number"]::-webkit-outer-spin-button,
