@@ -111,7 +111,6 @@
 
 <main>
   <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
-
   <div class="customizer-content">
     <!-- League Name & Organizer -->
     <div class="customizer-header">
@@ -139,7 +138,6 @@
         />
       </div>
     </div>
-
     <!-- Groups Menu -->
     {#if selectedMenu == 'groups'}
       <div class="customizer-settings">
@@ -262,51 +260,6 @@
         </div>
       </div>
     {/if}
-
-    {#if params.id == 'league'}
-      {#if config.tournamentName.length > 0}
-        {#if config.organizerName.length > 0}
-          <div class="createButton">
-            <Button on:cClick={setParticipants}>CREATE</Button>
-          </div>
-        {/if}
-      {/if}
-    {/if}
-    {#if params.id == 'playoffs'}
-      {#if config.tournamentName.length > 0}
-        {#if config.organizerName.length > 0}
-          {#if selectedDecider.length > 0}
-            {#if config.bestOf != 0}
-              {#if config.players != null}
-                {#if config.players.length > 1}
-                  <div class="createButton">
-                    <Button on:cClick={setParticipants}>CREATE</Button>
-                  </div>
-                {/if}
-              {/if}
-            {/if}
-          {/if}
-        {/if}
-      {/if}
-    {/if}
-    {#if params.id == 'groups'}
-      {#if config.tournamentName.length > 0}
-        {#if config.organizerName.length > 0}
-          {#if config.numberOfGroups > 0}
-            {#if config.teamsInGroup > 0}
-              {#if config.pointsPerWin > 0}
-                {#if config.tourDecider != ''}
-                  <div class="createButton">
-                    <Button on:cClick={setParticipants}>CREATE</Button>
-                  </div>
-                {/if}
-              {/if}
-            {/if}
-          {/if}
-        {/if}
-      {/if}
-    {/if}
-
     <!-- League Menu -->
     {#if selectedMenu == 'league'}
       <div class="customizer-settings">
@@ -352,6 +305,22 @@
             {/each}
           </select>
         </div>
+      </div>
+    {/if}
+    <!-- Create buttons -->
+    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
+      <div class="createButton">
+        <Button on:cClick={setParticipants}>CREATE</Button>
+      </div>
+    {/if}
+    {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.pointsPerWin > 0 && config.tourDecider != ''}
+      <div class="createButton">
+        <Button on:cClick={setParticipants}>CREATE</Button>
+      </div>
+    {/if}
+    {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0}
+      <div class="createButton">
+        <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
     {/if}
   </div>
