@@ -24,6 +24,18 @@ const stateController = {
 
     return data;
   },
+
+  async register(user) {
+    const res = await this.customFetch("register", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    console.log(res);
+  },
 };
 
 export default stateController;

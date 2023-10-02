@@ -1,7 +1,7 @@
 <script>
-  import cch from '../utils/cache';
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import { push } from "svelte-spa-router";
 
   export let params;
 
@@ -12,10 +12,12 @@
   const contestants = parseContestants(contestantData.players);
   console.log(contestants);
 
+
   let rounds = [];
   let winners = [];
 
-  const placeholder = 'Waiting for results';
+  const placeholder = "Waiting for results";
+
 
   function parseContestants(contestants) {
     const parsed = [];
@@ -54,7 +56,7 @@
     rounds[round][match].home = false;
     rounds[round][match].away = false;
 
-    console.log('Home: ', homeIndex, ' Away: ', awayIndex);
+
 
     winners.splice(homeIndex, 1);
     winners.splice(awayIndex - 1, 1);
@@ -87,7 +89,6 @@
   }
 
   function moveToNextRound(winner, loser, match, round) {
-    console.log(winner);
     const roundIndex = rounds.indexOf(round);
     if (
       !winner ||
@@ -166,6 +167,8 @@
 </script>
 
 <main>
+  <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button
+  >
   <h1>{contestantData.tournamentName}</h1>
   <h3>Organized by: {contestantData.organizerName}</h3>
   <div class="playoff-container">
