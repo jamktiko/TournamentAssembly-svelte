@@ -1,10 +1,12 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import { onDestroy } from 'svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
 
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import { onDestroy } from "svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+  import { push } from "svelte-spa-router";
+  
   export let params;
 
   let matchResults = [];
@@ -191,6 +193,7 @@
 </script>
 
 <main>
+  <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button>
   <h1 class="league-name">{config.tournamentName}</h1>
   <div class="league-content">
     <div class="league-header" />
