@@ -1,20 +1,20 @@
 <script>
-  import cch from "../utils/cache";
+  import cch from '../utils/cache';
 
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import Playerlist from "../reusable/Playerlist.svelte";
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import Playerlist from '../reusable/Playerlist.svelte';
 
   export let params;
 
   let selectedMenu = params.id;
 
   let config = {
-    tournamentName: "",
-    organizerName: "",
+    tournamentName: '',
+    organizerName: '',
     numberOfGroups: 0,
     teamsInGroup: 0,
-    tourDecider: "",
+    tourDecider: '',
     pointsPerWin: 0,
     pointsPerDraw: 0,
     numberOfRounds: 0,
@@ -23,35 +23,35 @@
   };
 
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ["Goal Difference", "Aggregate"];
+  const tournamentDeciders = ['Goal Difference', 'Aggregate'];
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [3, 4, 5];
   const pointsForDraw = [0, 1];
 
   const bestOf = [3, 5, 7];
-  const deciderTypes = ["Wins"];
+  const deciderTypes = ['Wins'];
 
-  let selectedDecider = "";
+  let selectedDecider = '';
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case "groups":
+      case 'groups':
         selectedGroups = value;
         break;
-      case "tournamentDecider":
+      case 'tournamentDecider':
         selectedTournamentDecider = value;
         break;
-      case "teamgroups":
+      case 'teamgroups':
         selectedTeamGroups = value;
         break;
-      case "pointsperwin":
+      case 'pointsperwin':
         selectedPointsPerWin = value;
         break;
-      case "pointsfordraw":
+      case 'pointsfordraw':
         selectedPointsForDraw = value;
         break;
-      case "decider":
+      case 'decider':
         selectedDecider = value;
         break;
       default:
@@ -67,13 +67,13 @@
 
   function setParticipants() {
     switch (params.id) {
-      case "playoffs":
+      case 'playoffs':
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case "groups":
+      case 'groups':
         push(`/group/${cch.tokenify(config)}`);
         break;
-      case "league":
+      case 'league':
         push(`/league/${cch.tokenify(config)}`);
     }
   }
@@ -94,20 +94,23 @@
   }
 </script>
 
-{#if params.id == "playoffs"}
+{#if params.id == 'playoffs'}
   <div class="playerlist">
-    <p>Players: {config.players.length}</p>
+    <h2>List of players</h2>
+    <p>Player count: {config.players.length}</p>
     {#each config.players as player}
       <p>
         {player}
-        <Button class="x-button" on:cClick={removePlayer(player)}>X</Button>
+        <Button class="remove-player-button" on:cClick={removePlayer(player)}
+          >X</Button
+        >
       </p>
     {/each}
   </div>
 {/if}
 
 <main>
-  <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>
+  <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
 
   <div class="customizer-content">
     <!-- League Name & Organizer -->
@@ -138,7 +141,7 @@
     </div>
 
     <!-- Groups Menu -->
-    {#if selectedMenu == "groups"}
+    {#if selectedMenu == 'groups'}
       <div class="customizer-settings">
         <div>
           <label for="roundSelection">Number of Groups</label>
@@ -212,8 +215,8 @@
         </div>
       </div>
     {/if}
-
-    {#if selectedMenu == "playoffs"}
+    <!-- Playoffs Menu -->
+    {#if selectedMenu == 'playoffs'}
       <div class="customizer-settings">
         {#if playerListVisible}
           <Playerlist on:playersEvent={handlePlayerList} />
@@ -260,7 +263,7 @@
       </div>
     {/if}
 
-    {#if params.id == "league"}
+    {#if params.id == 'league'}
       {#if config.tournamentName.length > 0}
         {#if config.organizerName.length > 0}
           <div class="createButton">
@@ -269,7 +272,7 @@
         {/if}
       {/if}
     {/if}
-    {#if params.id == "playoffs"}
+    {#if params.id == 'playoffs'}
       {#if config.tournamentName.length > 0}
         {#if config.organizerName.length > 0}
           {#if selectedDecider.length > 0}
@@ -286,13 +289,13 @@
         {/if}
       {/if}
     {/if}
-    {#if params.id == "groups"}
+    {#if params.id == 'groups'}
       {#if config.tournamentName.length > 0}
         {#if config.organizerName.length > 0}
           {#if config.numberOfGroups > 0}
             {#if config.teamsInGroup > 0}
               {#if config.pointsPerWin > 0}
-                {#if config.tourDecider != ""}
+                {#if config.tourDecider != ''}
                   <div class="createButton">
                     <Button on:cClick={setParticipants}>CREATE</Button>
                   </div>
@@ -305,7 +308,7 @@
     {/if}
 
     <!-- League Menu -->
-    {#if selectedMenu == "league"}
+    {#if selectedMenu == 'league'}
       <div class="customizer-settings">
         <div>
           <label for="deciderType">Decider Type</label>
@@ -355,11 +358,6 @@
 </main>
 
 <style>
-  h1 {
-    text-transform: uppercase;
-    font-size: 2em;
-    margin-bottom: 2em;
-  }
   main {
     font-size: x-large;
     padding-top: 4em;
@@ -374,6 +372,41 @@
     width: 50%;
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
+  }
+
+  h1 {
+    text-transform: uppercase;
+    font-size: 2em;
+    margin-bottom: 2em;
+  }
+
+  p {
+    font-size: 1.3em;
+  }
+
+  select,
+  input {
+    font-size: 1.3em;
+    padding: 0.5em 2.2em;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.244);
+    text-align: center;
+    border: 1px solid #ffffff37;
+  }
+
+  option {
+    text-transform: uppercase;
+    color: #000000;
+    font-size: 1.3em;
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    border: 1px solid #ffffff37;
+  }
+
+  label {
+    text-transform: uppercase;
   }
 
   .customizer-header {
@@ -405,36 +438,11 @@
     justify-content: center;
     align-items: center;
   }
-  p {
-    font-size: 1.3em;
-  }
-  select,
-  input {
-    font-size: 1.3em;
-    padding: 0.5em 2.2em;
-    border-radius: 20px;
-    background-color: rgba(0, 0, 0, 0.244);
-    text-align: center;
-    border: 1px solid #ffffff37;
-  }
 
-  option {
-    text-transform: uppercase;
-    color: #000000;
-    font-size: 1.3em;
-    padding: 0.5em 1em;
-    border-radius: 20px;
-    background-color: rgba(0, 0, 0, 0);
-    text-align: center;
-    border: 1px solid #ffffff37;
-  }
-
-  label {
-    text-transform: uppercase;
-  }
   .playerlist {
-    margin: 0px;
-    padding: 2px;
+    flex-wrap: wrap;
+    padding: 0.5em;
+    width: 12.5em;
     text-align: left;
     background: linear-gradient(
       129deg,
@@ -442,15 +450,18 @@
       rgba(24, 0, 23, 0.285) 100%
     );
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-
     color: white;
     font-size: 1em;
-    width: 200px;
-
     border: solid 1px #ffffff3c;
-
+    border-radius: 10px;
     position: fixed;
     top: 300px;
     left: 10px;
+  }
+
+  .playerlist p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>

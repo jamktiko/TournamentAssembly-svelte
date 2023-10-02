@@ -20,6 +20,7 @@
   button:disabled {
     opacity: 0.5;
   }
+
   button {
     text-transform: uppercase;
     font-weight: 700;
@@ -171,16 +172,38 @@
   .results-toggle-button:hover {
     scale: 1.1;
   }
-  .x-button {
+
+  .remove-player-button {
     scale: 0.5;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
+    font-size: 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
   }
-  .x-button:hover {
-    scale: 0.5;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
+
+  .remove-player-button:hover {
+    scale: 0.75;
+    transition-duration: 0.1s;
+  }
+
+  .add-player-button {
+    scale: 1;
+    font-size: 1.1em;
+    padding: 0.05em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
+
+  .add-player-button:active {
+    color: whitesmoke;
+  }
+
+  .add-player-button:disabled {
+    border: solid 1px #ffffff3c;
+    transition-duration: 0s;
+    scale: 1;
+    cursor: default;
   }
 </style>
