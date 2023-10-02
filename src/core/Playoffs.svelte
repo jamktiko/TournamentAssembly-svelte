@@ -2,6 +2,7 @@
   import cch from "../utils/cache";
   import Button from "../reusable/Button.svelte";
   import { push } from "svelte-spa-router";
+
   export let params;
 
   console.log(params);
@@ -10,41 +11,13 @@
 
   const contestants = parseContestants(contestantData.players);
   console.log(contestants);
-  // [
-  // 	{ id: 0, name: "Tikon Pallo" },
-  // 	{ id: 1, name: "Jamkin Palloilijat" },
-  // 	{ id: 2, name: "Jykylän Potku" },
-  // 	{
-  // 		id: 3,
-  // 		name: "Ticorporate FC",
-  // 	},
-  // 	{ id: 4, name: "Kouvostoliiton Työväen Seura" },
-  // 	{ id: 5, name: "K-Kauppiaat" },
-  // 	{ id: 6, name: "Potkikset FC" },
-  // 	{
-  // 		id: 7,
-  // 		name: "Turpasaunan Pallo",
-  // 	},
-  // 	{ id: 8, name: "Ball Of TaiKou" },
-  // 	{ id: 9, name: "Dippaa Sun JalkaPallot" },
-  // 	{ id: 10, name: "Mikan Faijan FC" },
-  // 	{
-  // 		id: 11,
-  // 		name: "Pallo Pyörii Uudelleen",
-  // 	},
-  // 	{ id: 12, name: "Omistajien Klubi" },
-  // 	{ id: 13, name: "Frööbelin Pallot" },
-  // 	{ id: 14, name: "Työttömät FC" },
-  // 	{
-  // 		id: 15,
-  // 		name: "Tenon PilviVeikot",
-  // 	},
-  // ];
+
 
   let rounds = [];
   let winners = [];
 
   const placeholder = "Waiting for results";
+
 
   function parseContestants(contestants) {
     const parsed = [];
@@ -83,7 +56,7 @@
     rounds[round][match].home = false;
     rounds[round][match].away = false;
 
-    console.log("Home: ", homeIndex, " Away: ", awayIndex);
+
 
     winners.splice(homeIndex, 1);
     winners.splice(awayIndex - 1, 1);
@@ -163,18 +136,18 @@
 
   function assignRoundNames(rounds) {
     const roundNames = [
-      "ROUND 1",
-      "ROUND 2",
-      "ROUND 3",
-      "ROUND 4",
-      "ROUND 5",
-      "ROUND 6",
+      'ROUND 1',
+      'ROUND 2',
+      'ROUND 3',
+      'ROUND 4',
+      'ROUND 5',
+      'ROUND 6',
     ];
     const specialRoundNames = [
-      "PRE-QUARTERFINALS",
-      "QUARTERFINALS",
-      "SEMIFINALS",
-      "FINALS",
+      'PRE-QUARTERFINALS',
+      'QUARTERFINALS',
+      'SEMIFINALS',
+      'FINALS',
     ];
 
     for (let i = 0; i < rounds.length; i++) {
@@ -196,8 +169,8 @@
 <main>
   <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button
   >
-  <h1>CUSTOMIZERISTA TOURNAMENT NAME TÄHÄN</h1>
-  <h3>by ORGANIZER NAME TÄHÄN</h3>
+  <h1>{contestantData.tournamentName}</h1>
+  <h3>Organized by: {contestantData.organizerName}</h3>
   <div class="playoff-container">
     {#each rounds as round, i}
       <div class="round">
@@ -247,6 +220,7 @@
       </div>
     {/each}
   </div>
+
 </main>
 
 <style>
@@ -316,7 +290,9 @@
     margin-top: 1em;
     font: 900;
     font-size: 3em;
+    text-transform: uppercase;
   }
+
   h2 {
     display: flex;
     justify-content: center;
@@ -324,6 +300,10 @@
     position: absolute;
     font-size: 2em;
     top: 20px;
+  }
+
+  h3 {
+    text-transform: uppercase;
   }
 
   p {
