@@ -4,6 +4,7 @@
   import Match from "../reusable/Match.svelte";
   import MatchResults from "../reusable/MatchResults.svelte";
   import { onDestroy } from "svelte";
+  import { push } from "svelte-spa-router";
 
   export let params;
 
@@ -195,6 +196,7 @@
 </script>
 
 <main>
+  <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
     <h3>Organized by: {config.organizerName || "-"}</h3>
@@ -440,7 +442,6 @@
     width: 100%;
     height: 100%;
   }
-
   h1 {
     font-size: 3em;
   }
