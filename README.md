@@ -1,107 +1,66 @@
-# This repo is no longer maintained. Consider using `npm init vite` and selecting the `svelte` option or — if you want a full-fledged app framework — use [SvelteKit](https://kit.svelte.dev), the official application framework for Svelte.
+# Tournament Assembly
 
----
+## Project Description
 
-# svelte app
+Tournament Assembly was created with the intent streamlining tournament creation & upkeep and scoreboard upkeep. Our project aims to create a free open source variant compared to other tournament creation applications that currently exist.
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+## Table of Contents
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+1. [Getting Started](#getting-started)
+2. [Prerequisites](#prerequisites)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Features](#features)
+6. [License](#license)
+7. [Acknowledgments](#acknowledgments)
+8. [Contact Information](#contact-information)
+9. [Code of Conduct](#code-of-conduct)
+10. [Troubleshooting](#troubleshooting)
 
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
+## Getting Started
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+Instructions for how to setup and run the application
 
+## Prerequisites
 
-## Get started
+List any prerequisites or dependencies that users need to have installed before using your application. Include specific versions if necessary.
 
-Install the dependencies...
+## Installation
 
-```bash
-cd svelte-app
-npm install
-```
+Provide detailed installation instructions. Include any setup scripts or commands required. This section should guide users through the process of getting your application up and running.
 
-...then start [Rollup](https://rollupjs.org):
+## Usage
 
-```bash
-npm run dev
-```
+Explain how to use your application. Provide examples and screenshots if possible. Describe the main features and functionalities.
 
-Navigate to [localhost:8080](http://localhost:8080). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+## Features
 
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
+List of Tournament Assembly features:
 
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
+- Tournament creation (Groups, Playoffs & Leaague)
+- Tournament upkeep
+- Scoreboard for other games/sports
 
-## Building and running in production mode
+## License
 
-To create an optimised version of the app:
+Specify the license under which your project is released. Include a brief description of the license terms and a link to the full license text.
 
-```bash
-npm run build
-```
+## Acknowledgments
 
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
+If your project uses third-party libraries, APIs, or tools, acknowledge them and provide links to their documentation or repositories.
 
+## Contact Information
 
-## Single-page app mode
+Jani Haakana, AA4087@student.jamk.fi
+Mikko Hämäläinen, AB7778@student.jamk.fi
+Nikolas Orava, AA3171@student.jamk.fi
+Eemi Salonen, AB6905@student.jamk.fi
+Teemu Vorho, AB7380@student.jamk.fi
 
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
+## Code of Conduct
 
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
+Consider adding a code of conduct to encourage a welcoming and inclusive community around your project.
 
-```js
-"start": "sirv public --single"
-```
+## Troubleshooting
 
-## Using TypeScript
-
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
-```bash
-node scripts/setupTypeScript.js
-```
-
-Or remove the script via:
-
-```bash
-rm scripts/setupTypeScript.js
-```
-
-If you want to use `baseUrl` or `path` aliases within your `tsconfig`, you need to set up `@rollup/plugin-alias` to tell Rollup to resolve the aliases. For more info, see [this StackOverflow question](https://stackoverflow.com/questions/63427935/setup-tsconfig-path-in-svelte).
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
-```
+Provide solutions to common issues or errors users might encounter when using your application.

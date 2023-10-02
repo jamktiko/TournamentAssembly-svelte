@@ -9,8 +9,12 @@ router.post('/login', verifyToken, userController.loginUser);
 
 router.post('/register', userController.registerUser);
 
+router.post('/addTour', verifyToken, userController.addTournament);
+
 router.post('/', userController.createData);
 
 router.delete('/', verifyToken, userController.deleteById);
+
+router.delete('/delTour', verifyToken, userController.delTournament);
 
 module.exports = router;
