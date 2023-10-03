@@ -287,7 +287,7 @@
             Below is a list of concluded matches and their results. You can hide
             the results from view by clicking the HIDE RESULTS button.
           </p>
-          {#each matchResultsR.slice().reverse() as matchResult}
+          {#each matchResultsR.slice() as matchResult}
             <MatchResults {matchResult} />
           {/each}
         </div>
