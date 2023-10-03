@@ -60,9 +60,12 @@
   }
 
   function handlePlayerList(ce) {
-    playerListVisible = false;
+    if (ce.detail != "."){
     ce.detail.forEach((i) => config.players.push(i));
-    config.players = [...config.players];
+    config.players = [...config.players];}
+    else{
+      playerListVisible = false;
+    }
   }
 
   function setParticipants() {

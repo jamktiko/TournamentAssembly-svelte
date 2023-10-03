@@ -16,8 +16,10 @@
 	/*Adds text input to the player list and empties the input*/
 	function addToList() {
 		playerList.push(NewPlayer);
-		playerList = [...playerList];
+		playerList = [...NewPlayer];
+		dp("playersEvent", [NewPlayer]);
 		NewPlayer = "";
+		
 	}
 	/*Randomizes the list positions*/
 	function randomizePlayers(array) {
@@ -30,8 +32,8 @@
 		playerList = [...playerList];
 	}
 
-	function pushList() {
-		dp("playersEvent", playerList);
+	function closeList() {
+		dp("playersEvent", ".");
 	}
   function isValidInput(input) {
   const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
@@ -59,7 +61,7 @@
 		{:else}
 			<Button>Add player</Button>
 		{/if}
-		<Button on:cClick={() => pushList()}>Finish</Button>
+		<Button on:cClick={() => closeList()}>Finish</Button>
 
 
 	</div>
