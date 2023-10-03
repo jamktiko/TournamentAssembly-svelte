@@ -220,7 +220,6 @@
       </div>
     {/each}
   </div>
-
 </main>
 
 <style>
@@ -312,6 +311,7 @@
     font-size: 1.1em;
     margin-left: 0.2em;
     animation: pulse 3s infinite;
+    width: 100%;
   }
   @keyframes pulse {
     0% {
