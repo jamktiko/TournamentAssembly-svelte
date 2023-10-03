@@ -8,6 +8,16 @@
     localStorage.removeItem(key);
     push(path);
   }
+  function showConfirmation(key, path) {
+    if (cch.isInCache(key)) {
+      const isConfirmed = window.confirm("Everything you love and care about will be destroyed if you continue");
+      if (isConfirmed) {
+        navigate(key, path);
+      }
+    } else {
+      navigate(key, path);
+    }
+  }
 </script>
 
 <main>
@@ -27,9 +37,7 @@
         <h2>GROUPS</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => navigate('groups', '/customizer/groups')}
-          >CHOOSE</Button
-        >
+        <Button on:cClick={() => showConfirmation('groups', '/customizer/groups')}>CHOOSE</Button>
 
         {#if cch.isInCache('groups')}
           <Button on:cClick={() => push(`/group/${cch.getToken('groupsConf')}`)}
@@ -65,9 +73,8 @@
         <h2>SCOREBOARD</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => navigate('scoreboard', '/scoreboard')}
-          >CHOOSE</Button
-        >
+        <Button on:cClick={() => showConfirmation('scoreboard', '/scoreboard')}>CHOOSE</Button>
+
         {#if cch.isInCache('scoreboard')}
           <Button on:cClick={() => push(`/scoreboard`)}>Continue</Button>
         {/if}
@@ -85,9 +92,7 @@
         <h2>LEAGUE</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => navigate('league', '/customizer/league')}
-          >CHOOSE</Button
-        >
+        <Button on:cClick={() => showConfirmation('league', '/customizer/league')}>CHOOSE</Button>
         {#if cch.isInCache('league')}
           <Button
             on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}

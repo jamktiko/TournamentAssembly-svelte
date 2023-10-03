@@ -60,9 +60,12 @@
   }
 
   function handlePlayerList(ce) {
-    playerListVisible = false;
+    if (ce.detail != "."){
     ce.detail.forEach((i) => config.players.push(i));
-    config.players = [...config.players];
+    config.players = [...config.players];}
+    else{
+      playerListVisible = false;
+    }
   }
 
   function setParticipants() {
@@ -92,6 +95,10 @@
   function removePlayer(player) {
     config.players = config.players.filter((p) => p !== player);
   }
+  function isValidInput(input) {
+  const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
+  return regex.test(input);
+}
 </script>
 
 {#if params.id == 'playoffs'}
@@ -125,6 +132,12 @@
           id="tournamentName"
           placeholder="Name"
           bind:value={config.tournamentName}
+          on:input={(event) => {
+            if (!isValidInput(event.target.value)) {
+              event.target.value = event.target.value.replace(/[^A-Za-z0-9\s]/g, ''); // Remove invalid characters
+              config.tournamentName = event.target.value;
+            }
+          }}
         />
       </div>
       <div>
@@ -135,6 +148,12 @@
           id="organizerName"
           placeholder="Name"
           bind:value={config.organizerName}
+          on:input={(event) => {
+            if (!isValidInput(event.target.value)) {
+              event.target.value = event.target.value.replace(/[^A-Za-z0-9\s]/g, ''); // Remove invalid characters
+              config.organizerName = event.target.value;
+            }
+          }}
         />
       </div>
     </div>
