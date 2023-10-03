@@ -298,17 +298,19 @@
         <Button class="results-toggle-button" on:cClick={() => toggleResults()}
           >Hide results</Button
         >
+        <div class="flex-container">
+          <h1 class="results-header">RESULTS</h1>
+          <p>
+            Below is a list of concluded matches and their results. You can
+            hide the results from view by clicking the HIDE RESULTS button.
+          </p>
         {#each matchResultsR as matchResult}
-          <div class="flex-container">
-            <h1 class="results-header">RESULTS</h1>
-            <p>
-              Below is a list of concluded matches and their results. You can
-              hide the results from view by clicking the HIDE RESULTS button.
-            </p>
+          
             <MatchResults {matchResult} />
             <div />
-          </div>
+          
         {/each}
+      </div>
       {/if}
     </div>
     {#if match[0] && match[1]}
