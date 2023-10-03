@@ -54,6 +54,14 @@
     text-transform: uppercase;
     background: transparent;
     border: transparent;
+    transition-duration: 0.1s;
+  }
+
+  .footer-button:hover {
+    scale: 1.1;
+    border: none;
+    filter: brightness(1.2);
+    filter: drop-shadow(0px 0px 20px rgb(255, 255, 255, 0.3));
   }
 
   .adjust-button {
