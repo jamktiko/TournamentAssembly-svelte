@@ -33,7 +33,10 @@
 	function pushList() {
 		dp("playersEvent", playerList);
 	}
-
+  function isValidInput(input) {
+  const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
+  return regex.test(input);
+}
 </script>
 
 <div class="backdrop" />
@@ -43,7 +46,13 @@
 
 
 
-		<input type="text" bind:value={NewPlayer} />
+		<input type="text" bind:value={NewPlayer} 
+		on:input={(event) => {
+			if (!isValidInput(event.target.value)) {
+				event.target.value = event.target.value.replace(/[^A-Za-z0-9\s]/g, ''); // Remove invalid characters
+				NewPlayer = event.target.value;
+			}
+		}}/>
 		{#if NewPlayer.length > 0}
 			<!--If input is empty, it creates unfunctional button-->
 			<Button on:cClick={() => addToList()}>Add player</Button>
