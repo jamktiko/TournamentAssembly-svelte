@@ -1,6 +1,6 @@
 <script>
   import cch from '../utils/cache';
-
+  import { fade } from 'svelte/transition';
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
   import Playerlist from '../reusable/Playerlist.svelte';
@@ -106,12 +106,16 @@
     <h2>List of players</h2>
     <p>Player count: {config.players.length}</p>
     {#each config.players as player}
-      <p>
-        {player}
-        <Button class="remove-player-button" on:cClick={removePlayer(player)}
-          >X</Button
-        >
-      </p>
+      <div class="single-player-content">
+        <div class="player-name">
+          {player}
+        </div>
+        <div>
+          <Button class="remove-player-button" on:cClick={removePlayer(player)}
+            >X</Button
+          >
+        </div>
+      </div>
     {/each}
   </div>
 {/if}
@@ -428,28 +432,37 @@
   }
 
   .playerlist {
-    flex-wrap: wrap;
+    text-align: center;
     padding: 0.5em;
     width: 12.5em;
-    text-align: left;
+    position: fixed;
+    top: 20em;
+    left: 0.75em;
     background: linear-gradient(
       129deg,
       rgb(11, 11, 52) 0%,
       rgba(24, 0, 23, 0.285) 100%
     );
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    color: white;
     font-size: 1em;
+    color: white;
     border: solid 1px #ffffff3c;
     border-radius: 10px;
-    position: fixed;
-    top: 300px;
-    left: 10px;
   }
 
-  .playerlist p {
+  .single-player-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0.25em 0em;
+  }
+
+  .player-name {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 1.2em;
+    overflow-x: auto;
   }
 </style>
