@@ -77,6 +77,30 @@ describe("Database testing", () => {
 			});
 		});
 
+		describe("Tournament customizing tests", () => {
+			it("Adding a tournament", async () => {
+				const tourData = {
+					name: "Test tournament",
+					organizer: "Tester",
+				};
+
+				const addRst = await lib.addTournament(testUser.username, tourData);
+
+				assert.strictEqual(addRst.success, true);
+
+				const loggedIn = await lib.loginUser(
+					testUser.username,
+					testUser.password
+				);
+
+				assert.strictEqual(loggedIn.username, testUser.username);
+				assert.strictEqual(loggedIn.success, true);
+				expect(loggedIn.tournaments).to.be.a("array");
+				assert.strictEqual(loggedIn.tournaments[0].name, tourData.name);
+				expect(loggedIn.token).to.exist;
+			});
+		});
+
 		describe("User deletion tests", () => {
 			it("Deleting an user", async () => {
 				const loggedIn = await lib.loginUser(

@@ -48,6 +48,7 @@ const lib = {
 			return {
 				id: user._id,
 				username: user.username,
+				tournaments: user.tournaments,
 				token: createToken(user.username),
 				success: true,
 				msg: "Login successfull",
@@ -117,18 +118,22 @@ const lib = {
 			}
 		} catch (error) {
 			console.error("Error finding user:", error);
-			throw error;
+			return {
+				msg: "Error finding user",
+				success: false,
+			};
 		}
 		// Add newTournamentData to the tournament array
-		user.tournament.push(newTournament);
+
+		user.tournaments.push(newTournament);
 
 		// Update the user's document in the database
 		const updateResult = await collection.updateOne(
 			{ username: username },
-			{ $set: { tournament: user.tournament } }
+			{ $set: { tournaments: user.tournaments } }
 		);
 
-		return updateResult;
+		return { success: true, result: updateResult };
 	},
 
 	async delTournament(username, delData) {
