@@ -9,7 +9,6 @@
   export let params;
 
   let match = [];
-  /**/
   let matchResults = [];
   let matchResultsR = [];
   let showResults = 1;
