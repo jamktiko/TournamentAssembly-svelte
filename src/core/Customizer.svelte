@@ -23,7 +23,7 @@
   };
 
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ['Goal Difference', 'Aggregate'];
+  const tournamentDeciders = ['Goal Difference'];
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [3, 4, 5];
   const pointsForDraw = [0, 1];
