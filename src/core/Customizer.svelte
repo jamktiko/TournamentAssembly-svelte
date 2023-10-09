@@ -66,6 +66,7 @@
     } else {
       playerListVisible = false;
     }
+    checkplayers();
   }
 
   function setParticipants() {
@@ -94,11 +95,82 @@
   let playerListVisible = false;
   function removePlayer(player) {
     config.players = config.players.filter((p) => p !== player);
+    checkplayers();
   }
   function isValidInput(input) {
     const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
     return regex.test(input);
   }
+
+  let playerAmountOk = false;
+  function checkplayers() {
+    if (
+      config.players.length == 128 ||
+      config.players.length == 64 ||
+      config.players.length == 4 ||
+      config.players.length == 8 ||
+      config.players.length == 16 ||
+      config.players.length == 32
+    ) {
+      playerAmountOk = true;
+    } else {
+      playerAmountOk = false;
+    }
+  }
+
+  let num = 0;
+  function randomnum() {
+    num = Math.floor(Math.random() * 10000);
+  }
+  function fill() {
+    while (config.players.length < 4) {
+      randomnum();
+      config.players.push("PLAYER_" + num);
+      config.players = [...config.players];
+      checkplayers();
+    }
+    if (config.players.length > 4 && config.players.length < 8) {
+      while (config.players.length < 8) {
+        randomnum();
+        config.players.push("PLAYER_" + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+    if (config.players.length > 8 && config.players.length < 16) {
+      while (config.players.length < 16) {
+        randomnum();
+        config.players.push("PLAYER_" + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+    if (config.players.length > 16 && config.players.length < 32) {
+      while (config.players.length < 32) {
+        randomnum();
+        config.players.push("PLAYER_" + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+    if (config.players.length > 32 && config.players.length < 64) {
+      while (config.players.length < 64) {
+        randomnum();
+        config.players.push("PLAYER_" + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+    if (config.players.length > 64 && config.players.length < 128) {
+      while (config.players.length < 128) {
+        randomnum();
+        config.players.push("PLAYER_" + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+  }
+  function random() {}
 </script>
 
 {#if params.id == "playoffs"}
@@ -337,7 +409,12 @@
       </div>
     {/if}
     <!-- Create buttons -->
-    {#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
+    {#if params.id == "playoffs" && !playerAmountOk && config.players.length < 128}
+      <div class="createButton">
+        <Button on:cClick={fill}>fill partisipants</Button>
+      </div>
+    {/if}
+    {#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
