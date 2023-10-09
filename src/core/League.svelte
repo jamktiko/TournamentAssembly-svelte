@@ -6,6 +6,7 @@
   import { onDestroy } from "svelte";
   import MatchResults from "../reusable/MatchResults.svelte";
   import { push } from "svelte-spa-router";
+	import Winner from "../reusable/Winner.svelte";
   
   export let params;
 
@@ -179,7 +180,6 @@
     }
 
     match = [];
-
     teams = teams.sort((a, b) => b.score - a.score);
     matchResultsR = [...matchResults].reverse();
   }
@@ -189,6 +189,19 @@
   function calcId() {
     if (teams.length != 0) return Math.max(...teams.map((team) => team.id)) + 1;
     return 0;
+  }
+
+  let largest = ""
+  function largestScore() {
+    let i = 0
+    largest = teams[i]
+    while (i < teams.length){
+      if (largest.score < teams[i].score){
+        largest = teams[i]
+      }
+      i += 1
+    }
+    
   }
 </script>
 
@@ -294,6 +307,13 @@
       {/if}
     </div>
   </div>
+
+  {#if largest != ""}
+  <Winner winner={largest} />
+  {/if}
+  <Button on:cClick={() => largestScore()}></Button>
+
+
 </main>
 
 <style>
