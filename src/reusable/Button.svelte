@@ -1,11 +1,11 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
   export let disabled;
 
   const dp = createEventDispatcher();
 
-  const customBtnClick = () => dp('cClick');
+  const customBtnClick = () => dp("cClick");
 
   let buttonProps = {
     class: [$$restProps.class],
@@ -223,6 +223,7 @@
     text-transform: uppercase;
     transition-duration: 0.1s;
     margin: 0.25em;
+  }
 
   .winner-buttons {
     margin-top: 0.2em;

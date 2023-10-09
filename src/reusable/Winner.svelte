@@ -1,6 +1,6 @@
 <script>
-  import { pop, push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
+  import { pop, push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
 
   export let config;
   export let winner;
@@ -15,7 +15,7 @@
       <h2>Winner</h2>
       <h1 class="winner-name">{winner.name}</h1>
       <div id="winner-button-container">
-        <Button class="winner-buttons" on:cClick={() => push('/selection')}
+        <Button class="winner-buttons" on:cClick={() => push("/selection")}
           >Back to main menu</Button
         >
         <Button class="winner-buttons" on:cClick={pop}>Close (EEMI AUTA)</Button
@@ -64,7 +64,7 @@
     justify-content: center;
     color: #ffffff;
     position: relative;
-    top: -85%;
+    top: -50%;
     width: 50%;
     height: 60vh;
     background: linear-gradient(
