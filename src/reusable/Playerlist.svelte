@@ -1,8 +1,10 @@
 <script>
   import { createEventDispatcher } from "svelte";
   const dp = createEventDispatcher();
-  import Button from "./Button.svelte";
-  import Customizer from "../core/Customizer.svelte";
+  import Button from './Button.svelte';
+
+  export let config;
+
 
   let playerList = [];
 
@@ -55,6 +57,7 @@
         }
       }}
     />
+    <p>Player count: {config.players.length}</p>
     <Button
       class="add-player-button"
       disabled={NewPlayer.length <= 0}
@@ -93,8 +96,8 @@
   }
 
   .modal {
-    position: absolute;
-    top: 50%;
+    position: fixed;
+    top: 40%;
     color: #ffffff;
     padding: 1rem;
     background: linear-gradient(
