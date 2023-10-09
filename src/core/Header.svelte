@@ -43,7 +43,6 @@
     margin: 0;
     height: 100vh;
     font-weight: 100;
-    background: radial-gradient(#a23982, #1f1013);
     -webkit-overflow-y: hidden;
     -moz-overflow-y: hidden;
     -o-overflow-y: hidden;
@@ -53,7 +52,6 @@
     -o-animation: fadeIn 1 1s ease-out;
     animation: fadeIn 1 1s ease-out;
     height: 20vh;
-    background: rgb(17, 17, 65);
     background: linear-gradient(
       129deg,
       rgb(26, 7, 87) 50%,

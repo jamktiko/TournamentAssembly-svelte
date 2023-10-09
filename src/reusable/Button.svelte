@@ -223,5 +223,33 @@
     text-transform: uppercase;
     transition-duration: 0.1s;
     margin: 0.25em;
+
+  .winner-buttons {
+    margin-top: 0.2em;
+    filter: brightness(1.4) contrast(0.9);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.5em;
+    padding: 0.5em 1.5em;
+    border: solid 1px #ffffff3c;
+    border-radius: 40px;
+    background: linear-gradient(
+      129deg,
+      rgb(11, 11, 52) 0%,
+      rgb(34, 5, 32) 100%
+    );
+    color: whitesmoke;
+    transition-duration: 0.1s;
+    cursor: pointer;
+  }
+
+  .winner.buttons:active {
+    scale: 0.95;
+    color: #444444;
+  }
+
+  .winner-buttons:hover {
+    border: solid 1px #46002b;
+    scale: 1;
   }
 </style>
