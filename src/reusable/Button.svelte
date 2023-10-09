@@ -214,4 +214,14 @@
     scale: 1;
     cursor: default;
   }
+
+  .expand-button {
+    scale: 1;
+    font-size: 1.1em;
+    padding: 0.05em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
 </style>
