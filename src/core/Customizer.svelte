@@ -1,20 +1,20 @@
 <script>
-  import cch from "../utils/cache";
-  import { fade } from "svelte/transition";
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import Playerlist from "../reusable/Playerlist.svelte";
+  import cch from '../utils/cache';
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import Playerlist from '../reusable/Playerlist.svelte';
+  import { slide } from 'svelte/transition';
 
   export let params;
 
   let selectedMenu = params.id;
 
   let config = {
-    tournamentName: "",
-    organizerName: "",
+    tournamentName: '',
+    organizerName: '',
     numberOfGroups: 0,
     teamsInGroup: 0,
-    tourDecider: "",
+    tourDecider: '',
     pointsPerWin: 0,
     pointsPerDraw: 0,
     numberOfRounds: 0,
@@ -23,35 +23,35 @@
   };
 
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ["Goal Difference"];
+  const tournamentDeciders = ['Goal Difference'];
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [3, 4, 5];
   const pointsForDraw = [0, 1];
 
   const bestOf = [3, 5, 7];
-  const deciderTypes = ["Wins"];
+  const deciderTypes = ['Wins'];
 
-  let selectedDecider = "";
+  let selectedDecider = '';
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case "groups":
+      case 'groups':
         selectedGroups = value;
         break;
-      case "tournamentDecider":
+      case 'tournamentDecider':
         selectedTournamentDecider = value;
         break;
-      case "teamgroups":
+      case 'teamgroups':
         selectedTeamGroups = value;
         break;
-      case "pointsperwin":
+      case 'pointsperwin':
         selectedPointsPerWin = value;
         break;
-      case "pointsfordraw":
+      case 'pointsfordraw':
         selectedPointsForDraw = value;
         break;
-      case "decider":
+      case 'decider':
         selectedDecider = value;
         break;
       default:
@@ -60,7 +60,7 @@
   }
 
   function handlePlayerList(ce) {
-    if (ce.detail != ".") {
+    if (ce.detail != '.') {
       ce.detail.forEach((i) => config.players.push(i));
       config.players = [...config.players];
     } else {
@@ -71,13 +71,13 @@
 
   function setParticipants() {
     switch (params.id) {
-      case "playoffs":
+      case 'playoffs':
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case "groups":
+      case 'groups':
         push(`/group/${cch.tokenify(config)}`);
         break;
-      case "league":
+      case 'league':
         push(`/league/${cch.tokenify(config)}`);
     }
   }
@@ -104,7 +104,6 @@
     return regex.test(input);
   }
 
-
   let playerAmountOk = false;
   function checkplayers() {
     if (
@@ -128,14 +127,14 @@
   function fill() {
     while (config.players.length < 4) {
       randomnum();
-      config.players.push("PLAYER_" + num);
+      config.players.push('PLAYER_' + num);
       config.players = [...config.players];
       checkplayers();
     }
     if (config.players.length > 4 && config.players.length < 8) {
       while (config.players.length < 8) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
@@ -143,7 +142,7 @@
     if (config.players.length > 8 && config.players.length < 16) {
       while (config.players.length < 16) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
@@ -151,7 +150,7 @@
     if (config.players.length > 16 && config.players.length < 32) {
       while (config.players.length < 32) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
@@ -159,7 +158,7 @@
     if (config.players.length > 32 && config.players.length < 64) {
       while (config.players.length < 64) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
@@ -167,36 +166,49 @@
     if (config.players.length > 64 && config.players.length < 128) {
       while (config.players.length < 128) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
     }
   }
   function random() {}
+
+  let showPlayerlist = false;
+  function togglePlayerlist() {
+    showPlayerlist = !showPlayerlist;
+  }
 </script>
 
-{#if params.id == "playoffs"}
+{#if params.id == 'playoffs'}
   <div class="playerlist">
     <h2 class="list-header">List of players</h2>
     <p>Player count: {config.players.length}</p>
-    {#each config.players as player}
-      <div class="single-player-content">
-        <div class="player-name">
-          {player}
-        </div>
-        <div>
-          <Button class="remove-player-button" on:cClick={removePlayer(player)}
-            >X</Button
-          >
-        </div>
+    <Button class="expand-button" on:cClick={togglePlayerlist}>
+      {showPlayerlist ? 'Hide Players' : 'Show Players'}
+    </Button>
+    {#if showPlayerlist}
+      <div transition:slide>
+        {#each config.players as player}
+          <div class="single-player-content">
+            <div class="player-name">
+              {player}
+            </div>
+            <div>
+              <Button
+                class="remove-player-button"
+                on:cClick={removePlayer(player)}>X</Button
+              >
+            </div>
+          </div>
+        {/each}
       </div>
-    {/each}
+    {/if}
   </div>
 {/if}
 
 <main>
-  <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>
+  <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
   <div class="customizer-content">
     <!-- League Name & Organizer -->
     <div class="customizer-header">
@@ -216,7 +228,7 @@
               event.target.value = event.target.value.replace(
                 /[^A-Za-z0-9\s]/g,
 
-                ""
+                ''
               ); // Remove invalid characters
               config.tournamentName = event.target.value;
             }
@@ -236,7 +248,7 @@
               event.target.value = event.target.value.replace(
                 /[^A-Za-z0-9\s]/g,
 
-                ""
+                ''
               ); // Remove invalid characters
               config.organizerName = event.target.value;
             }
@@ -245,7 +257,7 @@
       </div>
     </div>
     <!-- Groups Menu -->
-    {#if selectedMenu == "groups"}
+    {#if selectedMenu == 'groups'}
       <div class="customizer-settings">
         <div>
           <label for="roundSelection">Number of Groups</label>
@@ -320,7 +332,7 @@
       </div>
     {/if}
     <!-- Playoffs Menu -->
-    {#if selectedMenu == "playoffs"}
+    {#if selectedMenu == 'playoffs'}
       <div class="customizer-settings">
         {#if playerListVisible}
           <Playerlist {config} on:playersEvent={handlePlayerList} />
@@ -360,7 +372,7 @@
       </div>
     {/if}
     <!-- League Menu -->
-    {#if selectedMenu == "league"}
+    {#if selectedMenu == 'league'}
       <div class="customizer-settings">
         <div>
           <label for="deciderType">Decider Type</label>
@@ -407,22 +419,22 @@
       </div>
     {/if}
     <!-- Create buttons -->
-    {#if params.id == "playoffs" && !playerAmountOk && config.players.length < 128}
+    {#if params.id == 'playoffs' && !playerAmountOk && config.players.length < 128}
       <div class="createButton">
         <Button on:cClick={fill}>fill partisipants</Button>
       </div>
     {/if}
-    {#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
+    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == "groups" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == "league" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
@@ -551,6 +563,6 @@
     overflow: hidden;
     white-space: nowrap;
     font-size: 1.2em;
-    overflow-x: auto;
+    text-overflow: ellipsis;
   }
 </style>
