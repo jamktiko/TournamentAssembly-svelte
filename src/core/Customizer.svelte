@@ -60,10 +60,10 @@
   }
 
   function handlePlayerList(ce) {
-    if (ce.detail != "."){
-    ce.detail.forEach((i) => config.players.push(i));
-    config.players = [...config.players];}
-    else{
+    if (ce.detail != '.') {
+      ce.detail.forEach((i) => config.players.push(i));
+      config.players = [...config.players];
+    } else {
       playerListVisible = false;
     }
   }
@@ -80,6 +80,7 @@
         push(`/league/${cch.tokenify(config)}`);
     }
   }
+
   function randomizePlayers(array) {
     for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
@@ -89,21 +90,22 @@
     }
     config.players = [...config.players];
   }
-  let playerListOpen = false;
 
   let playerListVisible = false;
+
   function removePlayer(player) {
     config.players = config.players.filter((p) => p !== player);
   }
+
   function isValidInput(input) {
-  const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
-  return regex.test(input);
-}
+    const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
+    return regex.test(input);
+  }
 </script>
 
 {#if params.id == 'playoffs'}
   <div class="playerlist">
-    <h2>List of players</h2>
+    <h2 class="list-header">List of players</h2>
     <p>Player count: {config.players.length}</p>
     {#each config.players as player}
       <div class="single-player-content">
@@ -138,7 +140,10 @@
           bind:value={config.tournamentName}
           on:input={(event) => {
             if (!isValidInput(event.target.value)) {
-              event.target.value = event.target.value.replace(/[^A-Za-z0-9\s]/g, ''); // Remove invalid characters
+              event.target.value = event.target.value.replace(
+                /[^A-Za-z0-9\s]/g,
+                ''
+              ); // Remove invalid characters
               config.tournamentName = event.target.value;
             }
           }}
@@ -154,7 +159,10 @@
           bind:value={config.organizerName}
           on:input={(event) => {
             if (!isValidInput(event.target.value)) {
-              event.target.value = event.target.value.replace(/[^A-Za-z0-9\s]/g, ''); // Remove invalid characters
+              event.target.value = event.target.value.replace(
+                /[^A-Za-z0-9\s]/g,
+                ''
+              ); // Remove invalid characters
               config.organizerName = event.target.value;
             }
           }}
@@ -240,13 +248,11 @@
     {#if selectedMenu == 'playoffs'}
       <div class="customizer-settings">
         {#if playerListVisible}
-          <Playerlist on:playersEvent={handlePlayerList} />
-        {:else}
-          <Button on:cClick={() => (playerListVisible = !playerListVisible)}
-            >Add Players</Button
-          >
+          <Playerlist {config} on:playersEvent={handlePlayerList} />
         {/if}
-
+        <Button on:cClick={() => (playerListVisible = !playerListVisible)}
+          >Add Players</Button
+        >
         <Button on:cClick={randomizePlayers(config.players)}>randomize</Button>
         <div>
           <label for="roundSelection">Best of X</label>
@@ -274,11 +280,6 @@
             {#each deciderTypes as deciderType (deciderType)}
               <option value={deciderType}>{deciderType}</option>
             {/each}
-            {#if playerListVisible}
-              <Playerlist />
-            {:else}
-              <Button>Add Players</Button>
-            {/if}
           </select>
         </div>
       </div>
@@ -431,6 +432,10 @@
     align-items: center;
   }
 
+  .list-header {
+    text-decoration: underline;
+  }
+
   .playerlist {
     text-align: center;
     padding: 0.5em;
@@ -448,6 +453,9 @@
     color: white;
     border: solid 1px #ffffff3c;
     border-radius: 10px;
+    z-index: 50;
+    overflow-y: auto;
+    max-height: 50%;
   }
 
   .single-player-content {
