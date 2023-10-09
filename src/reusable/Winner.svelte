@@ -64,7 +64,7 @@
     justify-content: center;
     color: #ffffff;
     position: relative;
-    top: -85%;
+    top: -50%;
     width: 50%;
     height: 60vh;
     background: linear-gradient(
