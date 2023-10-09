@@ -1,20 +1,20 @@
 <script>
-  import cch from '../utils/cache';
-  import { fade } from 'svelte/transition';
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import Playerlist from '../reusable/Playerlist.svelte';
+  import cch from "../utils/cache";
+  import { fade } from "svelte/transition";
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import Playerlist from "../reusable/Playerlist.svelte";
 
   export let params;
 
   let selectedMenu = params.id;
 
   let config = {
-    tournamentName: '',
-    organizerName: '',
+    tournamentName: "",
+    organizerName: "",
     numberOfGroups: 0,
     teamsInGroup: 0,
-    tourDecider: '',
+    tourDecider: "",
     pointsPerWin: 0,
     pointsPerDraw: 0,
     numberOfRounds: 0,
@@ -23,35 +23,35 @@
   };
 
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ['Goal Difference'];
+  const tournamentDeciders = ["Goal Difference"];
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [3, 4, 5];
   const pointsForDraw = [0, 1];
 
   const bestOf = [3, 5, 7];
-  const deciderTypes = ['Wins'];
+  const deciderTypes = ["Wins"];
 
-  let selectedDecider = '';
+  let selectedDecider = "";
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case 'groups':
+      case "groups":
         selectedGroups = value;
         break;
-      case 'tournamentDecider':
+      case "tournamentDecider":
         selectedTournamentDecider = value;
         break;
-      case 'teamgroups':
+      case "teamgroups":
         selectedTeamGroups = value;
         break;
-      case 'pointsperwin':
+      case "pointsperwin":
         selectedPointsPerWin = value;
         break;
-      case 'pointsfordraw':
+      case "pointsfordraw":
         selectedPointsForDraw = value;
         break;
-      case 'decider':
+      case "decider":
         selectedDecider = value;
         break;
       default:
@@ -60,23 +60,23 @@
   }
 
   function handlePlayerList(ce) {
-    if (ce.detail != "."){
-    ce.detail.forEach((i) => config.players.push(i));
-    config.players = [...config.players];}
-    else{
+    if (ce.detail != ".") {
+      ce.detail.forEach((i) => config.players.push(i));
+      config.players = [...config.players];
+    } else {
       playerListVisible = false;
     }
   }
 
   function setParticipants() {
     switch (params.id) {
-      case 'playoffs':
+      case "playoffs":
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case 'groups':
+      case "groups":
         push(`/group/${cch.tokenify(config)}`);
         break;
-      case 'league':
+      case "league":
         push(`/league/${cch.tokenify(config)}`);
     }
   }
@@ -96,12 +96,12 @@
     config.players = config.players.filter((p) => p !== player);
   }
   function isValidInput(input) {
-  const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
-  return regex.test(input);
-}
+    const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
+    return regex.test(input);
+  }
 </script>
 
-{#if params.id == 'playoffs'}
+{#if params.id == "playoffs"}
   <div class="playerlist">
     <h2>List of players</h2>
     <p>Player count: {config.players.length}</p>
@@ -121,7 +121,7 @@
 {/if}
 
 <main>
-  <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
+  <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>
   <div class="customizer-content">
     <!-- League Name & Organizer -->
     <div class="customizer-header">
@@ -138,7 +138,10 @@
           bind:value={config.tournamentName}
           on:input={(event) => {
             if (!isValidInput(event.target.value)) {
-              event.target.value = event.target.value.replace(/[^A-Za-z0-9\s]/g, ''); // Remove invalid characters
+              event.target.value = event.target.value.replace(
+                /[^A-Za-z0-9\s]/g,
+                ""
+              ); // Remove invalid characters
               config.tournamentName = event.target.value;
             }
           }}
@@ -154,7 +157,10 @@
           bind:value={config.organizerName}
           on:input={(event) => {
             if (!isValidInput(event.target.value)) {
-              event.target.value = event.target.value.replace(/[^A-Za-z0-9\s]/g, ''); // Remove invalid characters
+              event.target.value = event.target.value.replace(
+                /[^A-Za-z0-9\s]/g,
+                ""
+              ); // Remove invalid characters
               config.organizerName = event.target.value;
             }
           }}
@@ -162,7 +168,7 @@
       </div>
     </div>
     <!-- Groups Menu -->
-    {#if selectedMenu == 'groups'}
+    {#if selectedMenu == "groups"}
       <div class="customizer-settings">
         <div>
           <label for="roundSelection">Number of Groups</label>
@@ -237,7 +243,7 @@
       </div>
     {/if}
     <!-- Playoffs Menu -->
-    {#if selectedMenu == 'playoffs'}
+    {#if selectedMenu == "playoffs"}
       <div class="customizer-settings">
         {#if playerListVisible}
           <Playerlist on:playersEvent={handlePlayerList} />
@@ -284,7 +290,7 @@
       </div>
     {/if}
     <!-- League Menu -->
-    {#if selectedMenu == 'league'}
+    {#if selectedMenu == "league"}
       <div class="customizer-settings">
         <div>
           <label for="deciderType">Decider Type</label>
@@ -331,17 +337,17 @@
       </div>
     {/if}
     <!-- Create buttons -->
-    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
+    {#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == "groups" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == "league" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
