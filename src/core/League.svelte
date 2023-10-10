@@ -132,6 +132,7 @@
           },
         ],
         draw: true,
+        group: " ", 
       });
     } else {
       ce.detail.winner.wins++;
@@ -158,6 +159,7 @@
               },
             ],
             draw: false,
+            group: " ", 
           },
         ]);
       } else {
@@ -176,6 +178,7 @@
               },
             ],
             draw: false,
+            group: " ", 
           },
         ]);
       }

@@ -2,6 +2,13 @@
   export let matchResult;
 </script>
 
+{#if !matchResult.group}
+  {matchResult[0].group}
+  {:else}
+  {matchResult.group}
+  {/if}
+
+
 <table>
   <thead>
     <tr>
