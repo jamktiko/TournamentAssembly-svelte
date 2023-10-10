@@ -12,13 +12,13 @@
   let config = {
     tournamentName: '',
     organizerName: '',
-    numberOfGroups: 0,
-    teamsInGroup: 0,
+    numberOfGroups: '',
+    teamsInGroup: '',
     tourDecider: '',
-    pointsPerWin: 0,
-    pointsPerDraw: 0,
-    numberOfRounds: 0,
-    bestOf: 0,
+    pointsPerWin: '',
+    pointsPerDraw: '',
+    numberOfRounds: '',
+    bestOf: '',
     players: [],
   };
 
@@ -177,34 +177,14 @@
   function togglePlayerlist() {
     showPlayerlist = !showPlayerlist;
   }
-</script>
 
-{#if params.id == 'playoffs'}
-  <div class="playerlist">
-    <h2 class="list-header">List of players</h2>
-    <p>Player count: {config.players.length}</p>
-    <Button class="expand-button" on:cClick={togglePlayerlist}>
-      {showPlayerlist ? 'Hide Players' : 'Show Players'}
-    </Button>
-    {#if showPlayerlist}
-      <div transition:slide>
-        {#each config.players as player}
-          <div class="single-player-content">
-            <div class="player-name">
-              {player}
-            </div>
-            <div>
-              <Button
-                class="remove-player-button"
-                on:cClick={removePlayer(player)}>X</Button
-              >
-            </div>
-          </div>
-        {/each}
-      </div>
-    {/if}
-  </div>
-{/if}
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // Use 'auto' for instant scrolling
+    });
+  }
+</script>
 
 <main>
   <Button class="back-button" on:cClick={() => push('/selection')}>Back</Button>
@@ -331,6 +311,32 @@
       </div>
     {/if}
     <!-- Playoffs Menu -->
+    {#if params.id == 'playoffs'}
+      <div class="playerlist">
+        <h2 class="list-header">List of players</h2>
+        <p id="player-count">Player count: {config.players.length}</p>
+        <Button class="expand-button" on:cClick={togglePlayerlist}>
+          {showPlayerlist ? 'Hide Players' : 'Show Players'}
+        </Button>
+        {#if showPlayerlist}
+          <div transition:slide>
+            {#each config.players as player}
+              <div class="single-player-content">
+                <div class="player-name">
+                  {player}
+                </div>
+                <div>
+                  <Button
+                    class="remove-player-button"
+                    on:cClick={removePlayer(player)}>Delete</Button
+                  >
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
+      </div>
+    {/if}
     {#if selectedMenu == 'playoffs'}
       <div class="customizer-settings">
         {#if playerListVisible}
@@ -367,6 +373,7 @@
         <div class="playoffs-button-container">
           <Button
             class="playoffs-buttons"
+            on:cClick={scrollToTop}
             on:cClick={() => (playerListVisible = !playerListVisible)}
             >Add Players</Button
           >
@@ -483,6 +490,10 @@
     font-size: 1.3em;
   }
 
+  #player-count {
+    text-transform: uppercase;
+    font-size: 0.9em;
+  }
   .fill-info-text {
     font-size: 1em;
     text-transform: none;
@@ -561,7 +572,7 @@
   }
 
   .list-header {
-    text-decoration: underline;
+    text-transform: uppercase;
   }
 
   .playerlist {
@@ -569,7 +580,7 @@
     padding: 0.5em;
     width: 12.5em;
     position: absolute;
-    top: 20em;
+    top: 16em;
     left: 0.75em;
     background: linear-gradient(
       129deg,
@@ -580,7 +591,7 @@
     font-size: 1em;
     color: white;
     border: solid 1px #ffffff3c;
-    border-radius: 10px;
+    border-radius: 5px;
     z-index: 50;
     overflow-y: auto;
     max-height: 50%;
@@ -595,6 +606,7 @@
 
   .player-name {
     flex: 1;
+    padding-left: 0.5em;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
