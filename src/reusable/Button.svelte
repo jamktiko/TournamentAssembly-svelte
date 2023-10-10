@@ -1,11 +1,11 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
 
   export let disabled;
 
   const dp = createEventDispatcher();
 
-  const customBtnClick = () => dp("cClick");
+  const customBtnClick = () => dp('cClick');
 
   let buttonProps = {
     class: [$$restProps.class],
@@ -252,5 +252,11 @@
   .winner-buttons:hover {
     border: solid 1px #46002b;
     scale: 1;
+  }
+
+  .resolve-button {
+    width: auto;
+    margin: 0em 5em;
+    border-radius: 10px;
   }
 </style>
