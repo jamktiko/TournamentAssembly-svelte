@@ -6,6 +6,9 @@
   import { onDestroy } from "svelte";
   import { push } from "svelte-spa-router";
   import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
 
   export let params;
 
@@ -18,7 +21,7 @@
 
   let groups = [];
 
-  let blacklisted = []
+  let blacklisted = [];
 
   onDestroy(() => {
     cch.saveToCache("groups", groups);
@@ -69,16 +72,15 @@
 
     selected = group;
     selected.index = i;
-    
   }
 
-  function checkIfBlacklisted(group){
-    for (let key in blacklisted){
-      if (key == group.id){
-        return true
+  function checkIfBlacklisted(group) {
+    for (let key in blacklisted) {
+      if (key == group.id) {
+        return true;
+      }
+      return false;
     }
-    return false
-}
   }
   let value = "";
   function updateName() {
@@ -223,14 +225,14 @@
     console.log(groupWinners);
     selected = null
     blacklisted.push(group.id)
-    
+   
   }
 
-  function closeGroup(){
-    selected = null
+  function closeGroup() {
+    selected = null;
   }
 </script>
- 
+
 <main>
   <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button
   >
@@ -239,14 +241,12 @@
     <h3>Organized by: {config.organizerName || "-"}</h3>
   </div>
   <div class="grid-container">
-    <div id="group-manage">
+    <div id="group-manage" in:slide>
       {#each groups as group, i}
         {#if selected}
           {#if group.name == selected.name}
             <h2 class="group-header-focused">{group.name}</h2>
-            <Button on:cClick={() => closeGroup()}
-              >Close group</Button
-            >
+            <Button on:cClick={() => closeGroup()}>Close group</Button>
           {:else}
             <h2 class="group-header-unselected">{group.name}</h2>
             <Button on:cClick={() => selectGroup(group, i)}
@@ -259,13 +259,19 @@
             >Click to manage group</Button
           >
         {/if}
-
-        
       {/each}
     </div>
     <div id="group-view">
       {#if selected}
-        <div id="group">
+        <div
+          id="group"
+          transition:scale={{
+            duration: 500,
+            opacity: 0.5,
+            start: 0.0,
+            easing: quintOut,
+          }}
+        >
           <h2 id="group-name">{selected.name}</h2>
           <table>
             <tr>
@@ -295,7 +301,7 @@
                 <td>
                   {#if participant.name != "" && !checkIfBlacklisted(selected)}
                     <Button
-                      class="adjust-button"
+                      class="group-adjust-button"
                       on:cClick={() =>
                         addToMatch(participant.id, selected.index)}
                       >Add to match</Button
@@ -305,6 +311,7 @@
                 <td>
                   <input
                     type="text"
+                    placeholder="Insert name here"
                     bind:value={participant.name}
                     on:input={updateName(participant.name)}
                   />
@@ -318,14 +325,24 @@
               </tr>
             {/each}
           </table>
-          {#if !checkIfBlacklisted(selected)}
-          <Button class="resolve-button" on:cClick={() => calcWinner(selected)}
-            >Resolve Group</Button
-          >
-          {/if}
+          <div class="resolve-button-container">
+            {#if !checkIfBlacklisted(selected)}
+              <Button
+                class="resolve-button"
+                on:cClick={() => calcWinner(selected)}>Finish this Group</Button
+              >
+            {/if}
+          </div>
         </div>
       {:else}
-        <div class="group-MIA-container">
+        <div
+          class="group-MIA-container"
+          in:fade={{
+            delay: 700,
+            duration: 500,
+            easing: quintOut,
+          }}
+        >
           <h1>NO GROUP SELECTED</h1>
           <p>
             Select a group from the left menu to view and edit your groups in
@@ -358,7 +375,13 @@
       {/if}
     </div>
     {#if match[0] && match[1]}
-      <div class="test">
+      <div
+        class="test"
+        in:fade={{
+          duration: 500,
+          easing: quintOut,
+        }}
+      >
         <Match {match} on:winnerevent={resolve} />
       </div>
     {/if}
@@ -404,8 +427,8 @@
   }
 
   td:first-child {
-    text-align: left;
-    padding-right: 3em;
+    text-align: center;
+    width: 10em;
   }
 
   td:not(:first-child) {
@@ -454,6 +477,17 @@
     grid-column: 2;
   }
 
+  .resolve-button-container {
+    text-transform: uppercase;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    grid-column: 2;
+  }
   #group {
     display: flex;
     justify-content: center;
@@ -488,7 +522,7 @@
   input {
     color: rgb(255, 255, 255);
     font-size: 1em;
-    padding: 0.5em 2em;
+    padding: 0.5em 1.8em;
     border-radius: 20px;
     background-color: rgb(21, 21, 21);
     color: #ffffff;
@@ -547,7 +581,7 @@
   }
   #group-name {
     text-transform: uppercase;
-    font-size: 1.9em;
+    font-size: 2.2em;
     text-align: center;
     margin-bottom: 0.7em;
   }
