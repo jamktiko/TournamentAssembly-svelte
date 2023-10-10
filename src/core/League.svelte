@@ -1,18 +1,21 @@
 <script>
+  import cch from '../utils/cache';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import { onDestroy } from 'svelte';
+  import MatchResults from '../reusable/MatchResults.svelte';
+  import { push } from 'svelte-spa-router';
+  import Winner from '../reusable/Winner.svelte';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
 
-  import cch from "../utils/cache";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import { onDestroy } from "svelte";
-  import MatchResults from "../reusable/MatchResults.svelte";
-  import { push } from "svelte-spa-router";
-	import Winner from "../reusable/Winner.svelte";
-  
   export let params;
 
   let matchResults = [];
   let matchResultsR = [];
-  let showResults = 1;
+  let showResults = 0;
 
   $: selected = null;
 
@@ -191,24 +194,30 @@
     return 0;
   }
 
-  let largest = ""
+  let largest = '';
   function largestScore() {
-    let i = 0
-    largest = teams[i]
-    while (i < teams.length){
-      if (largest.score < teams[i].score){
-        largest = teams[i]
+    let i = 0;
+    largest = teams[i];
+    while (i < teams.length) {
+      if (largest.score < teams[i].score) {
+        largest = teams[i];
       }
-      i += 1
+      i += 1;
     }
-    
   }
 </script>
 
 <main>
-  <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button>
+  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
+  >
   <h1 class="league-name">{config.tournamentName}</h1>
-  <div class="league-content">
+  <div
+    class="league-content"
+    in:fade={{
+      duration: 600,
+      easing: quintOut,
+    }}
+  >
     <div class="league-header" />
 
     <div class="addplayer-content">
@@ -259,7 +268,14 @@
         </thead>
         <tbody class="scoreboard-lined-cell">
           {#each teams as team (team.id)}
-            <tr class="table-row">
+            <tr
+              class="table-row"
+              in:fade={{
+                duration: 2000,
+                easing: quintOut,
+                axis: 'y',
+              }}
+            >
               <td>{team.name}</td>
               <td>{team.playedMatches}</td>
               <td>{team.score}</td>
@@ -292,28 +308,24 @@
         <Button on:cClick={() => toggleResults()}>Hide results</Button>
       {/if}
     </div>
-    <div class="results-container">
-      {#if showResults == 1}
-        <div>
-          <h1 class="results-header">RESULTS</h1>
-          <p>
-            Below is a list of concluded matches and their results. You can hide
-            the results from view by clicking the HIDE RESULTS button.
-          </p>
-          {#each matchResultsR.slice() as matchResult}
-            <MatchResults {matchResult} />
-          {/each}
-        </div>
-      {/if}
-    </div>
+    {#if showResults == 1}
+      <div class="results-container" transition:slide>
+        <h1 class="results-header">RESULTS</h1>
+        <p>
+          Below is a list of concluded matches and their results. You can hide
+          the results from view by clicking the HIDE RESULTS button.
+        </p>
+        {#each matchResultsR.slice() as matchResult}
+          <MatchResults {matchResult} />
+        {/each}
+      </div>
+    {/if}
   </div>
 
-  {#if largest != ""}
-  <Winner winner={largest} />
+  {#if largest != ''}
+    <Winner winner={largest} />
   {/if}
-  <Button on:cClick={() => largestScore()}></Button>
-
-
+  <Button on:cClick={() => largestScore()} />
 </main>
 
 <style>
@@ -373,7 +385,7 @@
     justify-content: center;
     color: white;
     border-radius: 1em;
-    background-color: rgb(69, 69, 69);
+    background-color: rgba(0, 0, 0, 0.267);
     border-color: rgba(31, 0, 24, 0.295);
   }
   .error-message-content {
@@ -433,7 +445,7 @@
   .results-container {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 1em 0em;

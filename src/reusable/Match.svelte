@@ -1,6 +1,10 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import Button from './Button.svelte';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
 
   const dp = createEventDispatcher();
 
@@ -37,7 +41,15 @@
     press the CONCLUDE MATCH button.
   </p>
   <div class="match-container">
-    <div class="team-content-container">
+    <div
+      class="team-content-container"
+      transition:slide={{
+        delay: 500,
+        duration: 600,
+        easing: quintOut,
+        axis: 'y',
+      }}
+    >
       <div class="team-container">
         <h2 class="team-name-header">Team</h2>
         <p class="team-name">{match[0].name}</p>
@@ -46,17 +58,26 @@
       </div>
 
       <div class="adjust-buttons-container">
-        <Button class="league-plus-minus-button" on:cClick={() => scores[0]++}>+</Button>
+        <Button class="league-plus-minus-button" on:cClick={() => scores[0]++}
+          >+</Button
+        >
         <Button
           disabled={scores[0] === 0 ? true : false}
           class="league-plus-minus-button"
           on:cClick={() => scores[0]--}>-</Button
-
         >
       </div>
     </div>
-
-    <div class="team-content-container">
+    <h1 id="vs-header">VS</h1>
+    <div
+      class="team-content-container"
+      transition:slide={{
+        delay: 500,
+        duration: 600,
+        easing: quintOut,
+        axis: 'y',
+      }}
+    >
       <div class="team-container">
         <h2 class="team-name-header">Team</h2>
         <p class="team-name">{match[1].name}</p>
@@ -64,12 +85,13 @@
         <p class="team-score">{scores[1]}</p>
       </div>
       <div class="adjust-buttons-container">
-        <Button class="league-plus-minus-button" on:cClick={() => scores[1]++}>+</Button>
+        <Button class="league-plus-minus-button" on:cClick={() => scores[1]++}
+          >+</Button
+        >
         <Button
           disabled={scores[1] === 0 ? true : false}
           class="league-plus-minus-button"
           on:cClick={() => scores[1]--}>-</Button
-
         >
       </div>
     </div>
@@ -109,10 +131,10 @@
     text-align: center;
     color: white;
     border-radius: 1em;
-    background-color: rgba(69, 69, 69, 0.418);
+    background-color: rgba(0, 0, 0, 0.13);
     border-color: rgba(31, 0, 24, 0.295);
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #fff;
+    border-top: 1px solid rgb(138, 0, 131);
+    border-bottom: 1px solid #000296;
   }
 
   .team-container {
@@ -133,7 +155,7 @@
   }
 
   .team-name {
-    font-size: 1.3em;
+    font-size: 1.6em;
   }
 
   .match-header {
@@ -146,7 +168,26 @@
   }
 
   h3 {
-    margin-top: 0.7em;
+    margin-top: 0.5em;
     font-size: 1.5em;
+  }
+  #vs-header {
+    font-size: 3.5em;
+    filter: drop-shadow(0px 0px 0.1rem #ffff);
+    animation: pulse 3s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      filter: brightness(1) drop-shadow(0 0 0.1rem rgb(255, 255, 255, 0));
+    }
+
+    50% {
+      filter: brightness(2.5) drop-shadow(0 0 0.5rem rgb(255, 255, 255, 0.5));
+    }
+
+    100% {
+      filter: brightness(1) drop-shadow(0 0 0.1rem rgb(255, 255, 255, 0));
+    }
   }
 </style>
