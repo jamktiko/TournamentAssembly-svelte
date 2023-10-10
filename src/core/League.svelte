@@ -343,7 +343,7 @@
   {#if largest != ""}
   <Winner  config={config} winner={largest} on:closeevent={closewindow}/>
   {/if}
-  <Button on:cClick={() => largestScore()} />
+  <Button on:cClick={() => largestScore()}>Resolve</Button>
 </main>
 
 <style>
