@@ -194,6 +194,7 @@
     transition-duration: 0.1s;
   }
 
+  /* Playerlist button */
   .add-player-button {
     scale: 1;
     font-size: 1.1em;
@@ -215,6 +216,7 @@
     cursor: default;
   }
 
+  /* Playoffs playerlist expand button */
   .expand-button {
     scale: 1;
     font-size: 1.1em;
@@ -225,6 +227,7 @@
     margin: 0.25em;
   }
 
+  /* Winner.svelte buttons */
   .winner-buttons {
     margin-top: 0.2em;
     filter: brightness(1.4) contrast(0.9);
@@ -258,5 +261,26 @@
     width: auto;
     margin: 0em 5em;
     border-radius: 10px;
+  }
+
+  /* Customizer Playoffs Buttons */
+  .playoffs-buttons {
+    font-size: 1.1em;
+    padding: 0.25em 2.2em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
+
+  .playoffs-buttons:active {
+    color: whitesmoke;
+  }
+
+  .playoffs-buttons:disabled {
+    border: solid 1px #ffffff3c;
+    transition-duration: 0s;
+    scale: 1;
+    cursor: default;
   }
 </style>
