@@ -27,6 +27,7 @@
     '/league/:tourdata': League,
     '/devinfo': DevInfo,
     '/winner': Winner,
+    '/profile': Profile,
     '*': Errorpage,
   };
 </script>
