@@ -133,15 +133,20 @@
             name: ce.detail.contestants[0].name,
             score: ce.detail.result1,
             win: false,
+            
           },
           {
             name: ce.detail.contestants[1].name,
             score: ce.detail.result2,
             win: false,
+            
           },
         ],
         draw: true,
+        group: "group " + (selected.id + 1), 
+        
       });
+      console.log(selected.id)
     } else {
       ce.detail.winner.wins++;
       ce.detail.winner.score += config.pointsPerWin;
@@ -167,6 +172,7 @@
               },
             ],
             draw: false,
+            group: "group " + (selected.id + 1), 
           },
         ]);
       } else {
@@ -185,6 +191,7 @@
               },
             ],
             draw: false,
+            group: "group " + (selected.id + 1), 
           },
         ]);
       }
@@ -201,6 +208,8 @@
     match = [];
     groups[selected.index].participants = groups[selected.index].participants;
     matchResultsR = [...matchResults].reverse();
+
+
     //teams = teams.sort((a, b) => b.score - a.score);
   }
 
@@ -214,7 +223,7 @@
     console.log(groupWinners);
     selected = null
     blacklisted.push(group.id)
-    console.log(blacklisted)
+    
   }
 
   function closeGroup(){
@@ -343,6 +352,7 @@
           </p>
           {#each matchResultsR as matchResult}
             <MatchResults {matchResult} />
+
           {/each}
         </div>
       {/if}
