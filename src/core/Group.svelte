@@ -18,6 +18,8 @@
 
   let groups = [];
 
+  let blacklisted = []
+
   onDestroy(() => {
     cch.saveToCache("groups", groups);
     cch.saveToCache("groupsConf", config);
@@ -64,12 +66,19 @@
 
   function selectGroup(group, i) {
     console.log(selected, group.id);
-    if (selected && selected.id === group.id) {
-      selected = null;
-      return;
-    }
+
     selected = group;
     selected.index = i;
+    
+  }
+
+  function checkIfBlacklisted(group){
+    for (let key in blacklisted){
+      if (key == group.id){
+        return true
+    }
+    return false
+}
   }
   let value = "";
   function updateName() {
@@ -203,9 +212,16 @@
     groupWinners.push(winner);
 
     console.log(groupWinners);
+    selected = null
+    blacklisted.push(group.id)
+    console.log(blacklisted)
+  }
+
+  function closeGroup(){
+    selected = null
   }
 </script>
-
+ 
 <main>
   <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button
   >
@@ -219,16 +235,23 @@
         {#if selected}
           {#if group.name == selected.name}
             <h2 class="group-header-focused">{group.name}</h2>
+            <Button on:cClick={() => closeGroup()}
+              >Close group</Button
+            >
           {:else}
             <h2 class="group-header-unselected">{group.name}</h2>
+            <Button on:cClick={() => selectGroup(group, i)}
+              >Click to manage group</Button
+            >
           {/if}
         {:else}
           <h2 class="group-header">{group.name}</h2>
+          <Button on:cClick={() => selectGroup(group, i)}
+            >Click to manage group</Button
+          >
         {/if}
 
-        <Button on:cClick={() => selectGroup(group, i)}
-          >Click to manage group</Button
-        >
+        
       {/each}
     </div>
     <div id="group-view">
@@ -261,7 +284,7 @@
             {#each selected.participants as participant}
               <tr>
                 <td>
-                  {#if participant.name != ""}
+                  {#if participant.name != "" && !checkIfBlacklisted(selected)}
                     <Button
                       class="adjust-button"
                       on:cClick={() =>
@@ -286,9 +309,11 @@
               </tr>
             {/each}
           </table>
+          {#if !checkIfBlacklisted(selected)}
           <Button class="resolve-button" on:cClick={() => calcWinner(selected)}
             >Resolve Group</Button
           >
+          {/if}
         </div>
       {:else}
         <div class="group-MIA-container">
