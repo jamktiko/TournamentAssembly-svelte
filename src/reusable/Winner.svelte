@@ -1,9 +1,18 @@
 <script>
-  import { pop, push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
+
+  import { pop, push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import { createEventDispatcher } from "svelte";
+  const dp = createEventDispatcher();
 
   export let config;
   export let winner;
+  let close = 1
+
+function closewinnerwindow() {
+  dp("closeevent");
+
+}
 </script>
 
 <div class="backdrop" />
@@ -18,8 +27,8 @@
         <Button class="winner-buttons" on:cClick={() => push("/selection")}
           >Back to main menu</Button
         >
-        <Button class="winner-buttons" on:cClick={pop}>Close (EEMI AUTA)</Button
-        >
+        <Button class="winner-buttons" on:cClick={closewinnerwindow}>Close</Button>
+
       </div>
     </div>
     <div class="light x1" />
@@ -33,6 +42,7 @@
     <div class="light x9" />
   </div>
 </div>
+
 
 <style>
   h1 {

@@ -13,13 +13,14 @@
 
 <style>
   .footer-content {
-    margin-top: 4em;
+    margin-top: 22em;
+    position: sticky;
+    bottom: 0%;
     font-size: 0.7em;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 100%;
     width: 100%;
     border-radius: 0px;
     background-color: rgba(0, 0, 0, 0.308);

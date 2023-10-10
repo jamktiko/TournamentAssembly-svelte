@@ -51,17 +51,18 @@
   }
 
   .footer-button {
+    position: relative;
     text-transform: uppercase;
     background: transparent;
     border: transparent;
-    transition-duration: 0.1s;
+    transition-duration: 0.2s;
   }
 
   .footer-button:hover {
-    scale: 1.1;
     border: none;
+    scale: 1;
     filter: brightness(1.2);
-    filter: drop-shadow(0px 0px 20px rgb(255, 255, 255, 0.3));
+    filter: drop-shadow(0px 0px 10px rgb(255, 255, 255, 0.3));
   }
 
   .adjust-button {
@@ -75,6 +76,36 @@
 
   .adjust-button:hover {
     scale: 0.9;
+  }
+
+  .adjust-button-league {
+    scale: 1;
+    font-size: 1.1em;
+    padding: 0.3em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+  }
+
+  .adjust-button-league:hover {
+    scale: 1;
+    border: 1px solid #46002b;
+  }
+
+  .group-adjust-button {
+    text-align: center;
+    width: 7em;
+    scale: 0.9;
+    font-size: 1em;
+    padding: 0.3em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+  }
+
+  .group-adjust-button:hover {
+    scale: 0.9;
+    border: 1px solid #46002b;
   }
 
   .league-plus-minus-button {
