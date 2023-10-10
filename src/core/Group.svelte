@@ -5,6 +5,7 @@
   import MatchResults from "../reusable/MatchResults.svelte";
   import { onDestroy } from "svelte";
   import { push } from "svelte-spa-router";
+  import { slide } from "svelte/transition";
 
   export let params;
 
@@ -12,15 +13,7 @@
   let matchResults = [];
   let matchResultsR = [];
   let groupWinners = [];
-  let showResults = 1;
 
-  function toggleResults() {
-    if (showResults == 0) {
-      showResults = 1;
-    } else {
-      showResults = 0;
-    }
-  }
   let config = cch.detokenify(params.tourdata)[0];
 
   let groups = [];
@@ -34,6 +27,11 @@
     groups = cch.getFromCache("groups");
   } else {
     generateGroups(config);
+  }
+
+  let showResults = false;
+  function toggleResults() {
+    showResults = !showResults;
   }
 
   function generateGroups(conf) {
@@ -237,7 +235,6 @@
       {#if selected}
         <div id="group">
           <h2 id="group-name">{selected.name}</h2>
-          <Button on:cClick={() => calcWinner(selected)}>Resolve Group</Button>
           <table>
             <tr>
               <th />
@@ -289,6 +286,9 @@
               </tr>
             {/each}
           </table>
+          <Button class="resolve-button" on:cClick={() => calcWinner(selected)}
+            >Resolve Group</Button
+          >
         </div>
       {:else}
         <div class="group-MIA-container">
@@ -297,23 +297,20 @@
             Select a group from the left menu to view and edit your groups in
             the tournament.
           </p>
-        </div>{/if}
+        </div>
+      {/if}
     </div>
+
     {#if match[0] && match[1]}
       <Match {match} on:winnerevent={resolve} />
     {/if}
 
     <div class="results-button-container">
-      {#if showResults == 0}
-        <Button class="results-toggle-button" on:cClick={() => toggleResults()}
-          >Show results</Button
-        >
-      {/if}
-      {#if showResults == 1}
-        <Button class="results-toggle-button" on:cClick={() => toggleResults()}
-          >Hide results</Button
-        >
-        <div class="flex-container">
+      <Button class="results-toggle-button" on:cClick={toggleResults}
+        >{showResults ? "Hide Results" : "Show Results"}</Button
+      >
+      {#if showResults}
+        <div class="flex-container" transition:slide>
           <h1 class="results-header">RESULTS</h1>
           <p>
             Below is a list of concluded matches and their results. You can hide
@@ -321,7 +318,6 @@
           </p>
           {#each matchResultsR as matchResult}
             <MatchResults {matchResult} />
-            <div />
           {/each}
         </div>
       {/if}
@@ -346,6 +342,8 @@
 
   table {
     font-size: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
     padding-bottom: 4em;
   }
 
@@ -420,6 +418,14 @@
     margin-bottom: 2em;
     grid-column: 2;
   }
+
+  #group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
   #group-manage {
     text-transform: uppercase;
     display: flex;
@@ -429,8 +435,7 @@
     column-span: 1;
     grid-column: 1;
     margin-right: 2em;
-    padding-bottom: 1em;
-    padding-left: 2em;
+    padding: 1em 2em;
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
   }
@@ -444,9 +449,9 @@
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
   }
+
   input {
     color: rgb(255, 255, 255);
-
     font-size: 1em;
     padding: 0.5em 2em;
     border-radius: 20px;
@@ -454,9 +459,11 @@
     color: #ffffff;
     text-align: center;
   }
+
   td {
     padding: 20px;
   }
+
   .test {
     opacity: 100%;
     position: fixed;
@@ -464,10 +471,10 @@
     left: 0;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
-
     width: 100%;
     height: 100%;
   }
+
   h1 {
     font-size: 3em;
   }
