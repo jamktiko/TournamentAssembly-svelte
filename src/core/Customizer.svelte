@@ -1,6 +1,6 @@
 <script>
   import cch from '../utils/cache';
-  import { fade } from 'svelte/transition';
+  import { slide } from 'svelte/transition';
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
   import Playerlist from '../reusable/Playerlist.svelte';
@@ -172,24 +172,37 @@
       }
     }
   }
+
+  let showPlayerlist = false;
+  function togglePlayerlist() {
+    showPlayerlist = !showPlayerlist;
+  }
 </script>
 
 {#if params.id == 'playoffs'}
   <div class="playerlist">
     <h2 class="list-header">List of players</h2>
     <p>Player count: {config.players.length}</p>
-    {#each config.players as player}
-      <div class="single-player-content">
-        <div class="player-name">
-          {player}
-        </div>
-        <div>
-          <Button class="remove-player-button" on:cClick={removePlayer(player)}
-            >X</Button
-          >
-        </div>
+    <Button class="expand-button" on:cClick={togglePlayerlist}>
+      {showPlayerlist ? 'Hide Players' : 'Show Players'}
+    </Button>
+    {#if showPlayerlist}
+      <div transition:slide>
+        {#each config.players as player}
+          <div class="single-player-content">
+            <div class="player-name">
+              {player}
+            </div>
+            <div>
+              <Button
+                class="remove-player-button"
+                on:cClick={removePlayer(player)}>X</Button
+              >
+            </div>
+          </div>
+        {/each}
       </div>
-    {/each}
+    {/if}
   </div>
 {/if}
 
