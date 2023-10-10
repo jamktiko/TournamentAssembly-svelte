@@ -1,14 +1,14 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
-  import { onDestroy } from 'svelte';
-  import { push } from 'svelte-spa-router';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+  import { onDestroy } from "svelte";
+  import { push } from "svelte-spa-router";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
 
   export let params;
 
@@ -21,15 +21,15 @@
 
   let groups = [];
 
-  let blacklisted = []
+  let blacklisted = [];
 
   onDestroy(() => {
-    cch.saveToCache('groups', groups);
-    cch.saveToCache('groupsConf', config);
+    cch.saveToCache("groups", groups);
+    cch.saveToCache("groupsConf", config);
   });
 
-  if (cch.isInCache('groups')) {
-    groups = cch.getFromCache('groups');
+  if (cch.isInCache("groups")) {
+    groups = cch.getFromCache("groups");
   } else {
     generateGroups(config);
   }
@@ -52,7 +52,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: '',
+          name: "",
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -72,23 +72,22 @@
 
     selected = group;
     selected.index = i;
-    
   }
 
-  function checkIfBlacklisted(group){
-    for (let key in blacklisted){
-      if (key == group.id){
-        return true
+  function checkIfBlacklisted(group) {
+    for (let key in blacklisted) {
+      if (key == group.id) {
+        return true;
+      }
+      return false;
     }
-    return false
-}
   }
-  let value = '';
+  let value = "";
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -194,11 +193,11 @@
     }
     console.log(sortBy);
 
-    sortBy = '';
-    if (sortBy === 'score') {
-      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
+    sortBy = "";
+    if (sortBy === "score") {
+      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
     } else {
-      toggleSortOrder('score', selected.id);
+      toggleSortOrder("score", selected.id);
     }
 
     match = [];
@@ -215,22 +214,22 @@
     groupWinners.push(winner);
 
     console.log(groupWinners);
-    selected = null
-    blacklisted.push(group.id)
-    console.log(blacklisted)
+    selected = null;
+    blacklisted.push(group.id);
+    console.log(blacklisted);
   }
 
-  function closeGroup(){
-    selected = null
+  function closeGroup() {
+    selected = null;
   }
 </script>
- 
+
 <main>
-  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
+  <Button class="back-button2" on:cClick={() => push("/selection")}>Back</Button
   >
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
-    <h3>Organized by: {config.organizerName || '-'}</h3>
+    <h3>Organized by: {config.organizerName || "-"}</h3>
   </div>
   <div class="grid-container">
     <div id="group-manage" in:slide>
@@ -238,9 +237,7 @@
         {#if selected}
           {#if group.name == selected.name}
             <h2 class="group-header-focused">{group.name}</h2>
-            <Button on:cClick={() => closeGroup()}
-              >Close group</Button
-            >
+            <Button on:cClick={() => closeGroup()}>Close group</Button>
           {:else}
             <h2 class="group-header-unselected">{group.name}</h2>
             <Button on:cClick={() => selectGroup(group, i)}
@@ -253,8 +250,6 @@
             >Click to manage group</Button
           >
         {/if}
-
-        
       {/each}
     </div>
     <div id="group-view">
@@ -275,27 +270,26 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder('playedMatches', selected.index)}>PL</th
+                  toggleSortOrder("playedMatches", selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder('score', selected.index)}
+              <th on:click={() => toggleSortOrder("score", selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
+              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder('draws', selected.index)}
+              <th on:click={() => toggleSortOrder("draws", selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder('losses', selected.index)}
+              <th on:click={() => toggleSortOrder("losses", selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
+              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
                 >GD</th
               >
             </tr>
             {#each selected.participants as participant}
               <tr>
                 <td>
-
                   {#if participant.name != "" && !checkIfBlacklisted(selected)}
                     <Button
                       class="group-adjust-button"
@@ -322,12 +316,14 @@
               </tr>
             {/each}
           </table>
-
-          {#if !checkIfBlacklisted(selected)}
-          <Button class="resolve-button" on:cClick={() => calcWinner(selected)}
-            >Resolve Group</Button
-          >
-          {/if}
+          <div class="resolve-button-container">
+            {#if !checkIfBlacklisted(selected)}
+              <Button
+                class="resolve-button"
+                on:cClick={() => calcWinner(selected)}>Finish this Group</Button
+              >
+            {/if}
+          </div>
         </div>
       {:else}
         <div
@@ -353,7 +349,7 @@
 
     <div class="results-button-container">
       <Button class="results-toggle-button" on:cClick={toggleResults}
-        >{showResults ? 'Hide Results' : 'Show Results'}</Button
+        >{showResults ? "Hide Results" : "Show Results"}</Button
       >
       {#if showResults}
         <div class="flex-container" transition:slide>
