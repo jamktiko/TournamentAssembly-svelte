@@ -215,6 +215,16 @@
     cursor: default;
   }
 
+  .expand-button {
+    scale: 1;
+    font-size: 1.1em;
+    padding: 0.05em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
+
   .winner-buttons {
     margin-top: 0.2em;
     filter: brightness(1.4) contrast(0.9);
@@ -242,5 +252,11 @@
   .winner-buttons:hover {
     border: solid 1px #46002b;
     scale: 1;
+  }
+
+  .resolve-button {
+    width: auto;
+    margin: 0em 5em;
+    border-radius: 10px;
   }
 </style>
