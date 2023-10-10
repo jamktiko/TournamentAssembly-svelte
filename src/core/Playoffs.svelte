@@ -174,6 +174,11 @@
   calcMatchups(contestants.length);
   assignRoundNames(rounds);
   console.log(rounds);
+
+  function closewindow(){
+    tournamentWinner = null
+    
+   }
 </script>
 
 <main>
@@ -231,7 +236,7 @@
     {/each}
   </div>
   {#if tournamentWinner}
-    <Winner config={contestantData} winner={tournamentWinner} />
+    <Winner config={contestantData} winner={tournamentWinner} on:closeevent={closewindow}/>
   {/if}
 </main>
 

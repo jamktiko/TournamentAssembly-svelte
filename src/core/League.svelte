@@ -9,7 +9,6 @@
 	import Winner from "../reusable/Winner.svelte";
   
   export let params;
-
   let matchResults = [];
   let matchResultsR = [];
   let showResults = 1;
@@ -203,6 +202,10 @@
     }
     
   }
+  function closewindow(){
+    largest = ""
+   }
+
 </script>
 
 <main>
@@ -309,7 +312,8 @@
   </div>
 
   {#if largest != ""}
-  <Winner winner={largest} />
+  <Winner  config={config} winner={largest} on:closeevent={closewindow}/>
+
   {/if}
   <Button on:cClick={() => largestScore()}></Button>
 

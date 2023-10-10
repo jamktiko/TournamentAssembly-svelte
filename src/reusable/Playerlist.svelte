@@ -63,7 +63,7 @@
       disabled={NewPlayer.length <= 0}
       on:cClick={() => addToList()}>Add player</Button
     >
-    <Button class="add-player-button" on:cClick={() => closeList()}>Exit</Button
+    <Button disabled="true" class="add-player-button" on:cClick={() => closeList()}>Exit</Button
     >
   </div>
 </div>
