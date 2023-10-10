@@ -12,7 +12,6 @@
   import { quintOut } from 'svelte/easing';
 
   export let params;
-
   let matchResults = [];
   let matchResultsR = [];
   let showResults = 0;
@@ -205,6 +204,10 @@
       i += 1;
     }
   }
+  function closewindow(){
+    largest = ""
+   }
+
 </script>
 
 <main>
@@ -322,8 +325,9 @@
     {/if}
   </div>
 
-  {#if largest != ''}
-    <Winner winner={largest} />
+
+  {#if largest != ""}
+  <Winner  config={config} winner={largest} on:closeevent={closewindow}/>
   {/if}
   <Button on:cClick={() => largestScore()} />
 </main>
