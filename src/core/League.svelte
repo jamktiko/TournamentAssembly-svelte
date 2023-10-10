@@ -211,6 +211,11 @@
     largest = ""
    }
 
+   function deleteTeam(team){
+    teams = teams.filter((p) => p !== team);
+    console.log(teams)
+   }
+
 </script>
 
 <main>
@@ -295,6 +300,12 @@
                   class="add-team-button"
                   on:cClick={() => addToMatch(team.id)}
                   >Add team to match</Button
+                >
+                <Button
+                  disabled={selected === team.id}
+                  class="add-team-button"
+                  on:cClick={() => deleteTeam(team)}
+                  >Delete</Button
                 >
               </td>
             </tr>
