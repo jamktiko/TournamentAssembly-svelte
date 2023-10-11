@@ -74,13 +74,8 @@
     selected.index = i;
   }
 
-  function checkIfBlacklisted(group) {
-    for (let key in blacklisted) {
-      if (key == group.id) {
-        return true;
-      }
-      return false;
-    }
+  function checkIfBlacklisted() {
+    return blacklisted.includes(selected.id)
   }
   let value = "";
   function updateName() {
@@ -218,7 +213,7 @@
   function calcWinner(group) {
     // Needs to be attached to customizations
 
-    const winner = group.participants.sort((a, b) => a.score < b.score)[0];
+    const winner = selected.participants.sort((a, b) => a.score < b.score)[0];
 
     groupWinners.push(winner);
 
@@ -299,7 +294,7 @@
             {#each selected.participants as participant}
               <tr>
                 <td>
-                  {#if participant.name != "" && !checkIfBlacklisted(selected)}
+                  {#if participant.name != "" && !checkIfBlacklisted()}
                     <Button
                       class="group-adjust-button"
                       on:cClick={() =>
@@ -326,7 +321,7 @@
             {/each}
           </table>
           <div class="resolve-button-container">
-            {#if !checkIfBlacklisted(selected)}
+            {#if selected && !checkIfBlacklisted()}
               <Button
                 class="resolve-button"
                 on:cClick={() => calcWinner(selected)}>Finish this Group</Button
