@@ -35,6 +35,20 @@ const stateController = {
       body: JSON.stringify(user),
     });
     console.log(res);
+    return res;
+  },
+
+  async login(user) {
+    const res = await this.customFetch("login", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    console.log(res);
+    return res;
   },
 };
 
