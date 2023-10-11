@@ -1,21 +1,31 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import cch from '../utils/cache';
-  import Card from '../reusable/Card.svelte';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import { push } from "svelte-spa-router";
+
+  import Button from "../reusable/Button.svelte";
+  import Card from "../reusable/Card.svelte";
+
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
+
+  import cch from "../utils/cache";
+  import stateController from "../utils/stateStore";
+
+  let user;
+  stateController.subscribe((userData) => (user = userData));
+
+  console.log(user);
 
   function navigate(key, path) {
     localStorage.removeItem(key);
     push(path);
   }
+
   function showConfirmation(key, path) {
     if (cch.isInCache(key)) {
       const isConfirmed = window.confirm(
-        'This will delete ongoing tournament! Continue?'
+        "This will delete ongoing tournament! Continue?"
       );
       if (isConfirmed) {
         navigate(key, path);
@@ -30,12 +40,12 @@
   transition:slide={{
     duration: 700,
     easing: quintOut,
-    axis: 'y',
+    axis: "y",
   }}
 >
-  <Button class="back-button2" on:cClick={() => push('/')}>Back</Button>
+  <Button class="back-button2" on:cClick={() => push("/")}>Back</Button>
   <div class="text-container">
-    <h1>WELCOME USER!</h1>
+    <h1>WELCOME {user.username.toUpperCase()}!</h1>
     <p>
       Choose a tournament type you want to play. All tournament styles are fully
       customizable to your desires.
@@ -47,7 +57,7 @@
       delay: 600,
       duration: 1000,
       easing: quadInOut,
-      axis: 'y',
+      axis: "y",
     }}
   >
     <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
@@ -57,12 +67,12 @@
       </div>
       <div slot="button">
         <Button
-          on:cClick={() => showConfirmation('groups', '/customizer/groups')}
+          on:cClick={() => showConfirmation("groups", "/customizer/groups")}
           >CHOOSE</Button
         >
 
-        {#if cch.isInCache('groups')}
-          <Button on:cClick={() => push(`/group/${cch.getToken('groupsConf')}`)}
+        {#if cch.isInCache("groups")}
+          <Button on:cClick={() => push(`/group/${cch.getToken("groupsConf")}`)}
             >Continue</Button
           >
         {/if}
@@ -80,7 +90,7 @@
         <h2>PLAYOFFS</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => push('/customizer/playoffs')}>CHOOSE</Button>
+        <Button on:cClick={() => push("/customizer/playoffs")}>CHOOSE</Button>
       </div>
       <div slot="footer">
         <p>
@@ -95,11 +105,11 @@
         <h2>SCOREBOARD</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => showConfirmation('scoreboard', '/scoreboard')}
+        <Button on:cClick={() => showConfirmation("scoreboard", "/scoreboard")}
           >CHOOSE</Button
         >
 
-        {#if cch.isInCache('scoreboard')}
+        {#if cch.isInCache("scoreboard")}
           <Button on:cClick={() => push(`/scoreboard`)}>Continue</Button>
         {/if}
       </div>
@@ -117,12 +127,12 @@
       </div>
       <div slot="button">
         <Button
-          on:cClick={() => showConfirmation('league', '/customizer/league')}
+          on:cClick={() => showConfirmation("league", "/customizer/league")}
           >CHOOSE</Button
         >
-        {#if cch.isInCache('league')}
+        {#if cch.isInCache("league")}
           <Button
-            on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
+            on:cClick={() => push(`/league/${cch.getToken("leagueConf")}`)}
             >Continue</Button
           >
         {/if}

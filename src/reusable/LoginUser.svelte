@@ -4,12 +4,18 @@
 
   import stateController from "../utils/stateStore";
 
-  let userName = "";
+  let username = "";
   let password = "";
 
   function login() {
-    console.log("Username:", userName);
-    console.log("Password:", password);
+    const user = {
+      username: username,
+      password: password,
+    };
+
+    stateController.login(user);
+
+    push("/profile");
   }
 </script>
 
@@ -36,7 +42,7 @@
       type="username"
       id="username"
       placeholder="Username"
-      bind:value={userName}
+      bind:value={username}
     />
     <h2>PASSWORD</h2>
     <input

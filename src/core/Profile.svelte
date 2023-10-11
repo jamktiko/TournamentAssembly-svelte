@@ -1,12 +1,25 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+
+  import stateController from "../utils/stateStore";
+  import { onDestroy } from "svelte";
+
+  let currentUser;
+
+  const unsub = stateController.subscribe((user) => (currentUser = user));
+
+  onDestroy(() => {
+    if (unsub) unsub();
+  });
+
+  console.log(currentUser);
 </script>
 
 <main>
   <div class="button-container">
     <div class="back-arrow-container">
-      <Button on:cClick={() => push('/')}>
+      <Button on:cClick={() => push("/")}>
         <svg
           class="back-arrow"
           xmlns="http://www.w3.org/2000/svg"
@@ -19,8 +32,9 @@
         >
       </Button>
     </div>
+    <h1>WELCOME {currentUser.username.toUpperCase()}!</h1>
     <div class="buttons">
-      <Button>Create A Tournament</Button>
+      <Button on:cClick={() => push("/selection")}>Create A Tournament</Button>
       <Button>My Tournaments</Button>
     </div>
   </div>

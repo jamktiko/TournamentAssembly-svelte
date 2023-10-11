@@ -3,12 +3,12 @@
   import Button from "../reusable/Button.svelte";
   import stateController from "../utils/stateStore";
 
-  let userName = "";
+  let username = "";
   let password = "";
 
   function register() {
     const user = {
-      username: userName,
+      username: username,
       password: password,
       tournaments: [],
     };
@@ -40,7 +40,7 @@
       type="username"
       id="username"
       placeholder="Username"
-      bind:value={userName}
+      bind:value={username}
     />
     <h2>PASSWORD</h2>
     <input
