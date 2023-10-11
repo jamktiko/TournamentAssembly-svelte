@@ -7,15 +7,22 @@
   let username = "";
   let password = "";
 
-  function login() {
+  let invalidLogin = false;
+
+  async function login() {
     const user = {
       username: username,
       password: password,
     };
 
-    stateController.login(user);
+    const res = await stateController.login(user);
 
-    push("/profile");
+    if (res.success) {
+      push("/profile");
+    } else {
+      invalidLogin = true;
+      setInterval(() => (invalidLogin = false), 1000);
+    }
   }
 </script>
 
@@ -51,6 +58,9 @@
       placeholder="Password"
       bind:value={password}
     />
+    {#if invalidLogin}
+      <p>Incorrect username or password!</p>
+    {/if}
     <Button on:cClick={login}>LOG IN</Button>
   </div>
 </div>
