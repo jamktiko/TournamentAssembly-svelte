@@ -177,27 +177,19 @@
       }
     }
   }
+  let showPlayerlist = false;
+  function togglePlayerlist() {
+    showPlayerlist = !showPlayerlist;
+  }
 
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // Use 'auto' for instant scrolling
+    });
+  }
 </script>
 
-{#if params.id == "playoffs"}
-  <div class="playerlist">
-    <h2 class="list-header">List of players</h2>
-    <p>Player count: {config.players.length}</p>
-    {#each config.players as player}
-      <div class="single-player-content">
-        <div class="player-name">
-          {player}
-        </div>
-        <div>
-          <Button class="remove-player-button" on:cClick={removePlayer(player)}
-            >X</Button
-          >
-        </div>
-      </div>
-    {/each}
-  </div>
-{/if}
 
 <main>
   <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>

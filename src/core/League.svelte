@@ -328,7 +328,7 @@
       </table>
     </div>
     {#if match[0] && match[1]}
-      <Match {match} on:winnerevent={resolve} />
+      <Match {match} on:winnerevent={resolve} on:cancelevent={() => match=[]}/>
     {/if}
     <div class="results-button-container">
       {#if showResults == 0}
