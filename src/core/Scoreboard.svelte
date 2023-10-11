@@ -75,35 +75,52 @@
 <main>
   <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
   >
-  <div id="button-container">
-    <div class="flex-item">
-      <Button on:cClick={addRow}>ADD PLAYER</Button>
-    </div>
-    <div class="flex-item">
-      <Button on:cClick={addColumn}>ADD ROUND</Button>
-    </div>
+  <div class="scoreboard-header">
+    <h1>Scoreboard</h1>
   </div>
-
-  <div id="table-container">
+  <div class="scoreboard-description">
+    <p>Create a scoreboard for your games!</p>
+  </div>
+  <div class="button-container">
+    <Button class="add-button" on:cClick={addRow}>ADD PLAYER</Button>
+    <Button class="add-button" on:cClick={addColumn}>ADD ROUND</Button>
+  </div>
+  <div class="table-container">
     <table>
       <thead>
         <tr>
+          <th class="custom-thead" />
+          <th class="custom-thead" />
+          {#each gridData[0].columns as column, colIdx}
+            <th class="custom-thead">
+              <Button
+                class="delete-round-button"
+                on:cClick={() => removeColumn(colIdx)}>Delete Round</Button
+              >
+            </th>
+          {/each}
+          <th class="custom-thead" />
+        </tr>
+      </thead>
+      <thead>
+        <tr>
+          <th class="custom-thead" />
           <th>NAME</th>
           {#each gridData[0].columns as column, colIdx}
-            <th>
-              <div class="remove-button">
-                <Button on:cClick={() => removeColumn(colIdx)}
-                  >DELETE ROUND</Button
-                >
-              </div></th
-            >
+            <th class="round-th">ROUND {colIdx + 1}</th>
           {/each}
-          <th>TOTAL</th>
+          <th class="total-td">TOTAL</th>
         </tr>
       </thead>
       <tbody>
         {#each gridData as row, rowIdx}
           <tr>
+            <td class="custom-thead"
+              ><Button
+                class="delete-player-button"
+                on:cClick={() => removeRow(rowIdx)}>DELETE Player</Button
+              ></td
+            >
             <td
               ><input
                 type="text"
@@ -112,23 +129,15 @@
               /></td
             >
             {#each row.columns as column, colIdx}
-              <td class="smaller"
+              <td class="round-td"
                 ><input
-                  class="smaller"
                   type="number"
                   bind:value={column}
                   on:input={(event) => updateCellValue(rowIdx, colIdx, event)}
                 /></td
               >
             {/each}
-            <td>{calculateRowTotal(row)}</td>
-            <div class="remove-button">
-              <td class="delete-player"
-                ><Button on:cClick={() => removeRow(rowIdx)}
-                  >DELETE PLAYER</Button
-                ></td
-              >
-            </div>
+            <td class="total-td">{calculateRowTotal(row)}</td>
           </tr>
         {/each}
       </tbody>
@@ -138,80 +147,109 @@
 
 <style>
   main {
-    padding-bottom: 8em;
     margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
     flex-direction: column;
+    height: 100%;
     width: 70%;
+    padding-top: 4em;
+    padding-bottom: 3em;
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.308);
   }
 
-  #button-container {
-    margin-top: 6em;
-    margin-bottom: 2em;
+  h1 {
+    text-transform: uppercase;
+    font-size: 2em;
+  }
+
+  input {
+    font-size: 1.1em;
+    color: rgb(255, 255, 255);
+    padding: 0.1em 0em;
+    border-radius: 20px;
+    background-color: rgba(5, 2, 45, 0.226);
+    text-align: center;
+    border: 1px solid #ffffffae;
+  }
+
+  table {
+    font-size: 1.3em;
+    margin: 0em 1em;
+  }
+
+  .custom-thead {
+    padding: 0.25em;
+    border: none;
+    background-color: transparent;
+  }
+
+  tr {
+    height: 1em;
+  }
+
+  th {
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid white;
+    text-align: center;
+  }
+
+  td {
+    font-weight: 700;
+    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid white;
+    text-align: center;
+  }
+
+  tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .round-td {
+    width: 2em;
+  }
+
+  .round-th {
+    width: 2em;
+  }
+
+  .total-td {
+    position: sticky;
+    right: 0;
+    background-color: #010025;
+    padding: 0.25em;
+  }
+
+  .scoreboard-header {
+    font-size: x-large;
+    text-align: center;
+  }
+
+  .scoreboard-description {
+    font-size: 1.3em;
+  }
+
+  .button-container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: normal;
     align-content: normal;
+    margin: 2.5em 0em;
   }
-  #table-container {
+
+  .table-container {
     overflow-x: auto;
     width: 100%;
-    margin: auto;
-    margin-bottom: 2em;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-  }
-  .flex-item {
-    margin-left: 12px;
-  }
-  input {
-    color: rgb(255, 255, 255);
-    font-size: 1.3em;
-    padding: 0.3em 0.7em;
-    border-radius: 20px;
-    background-color: rgba(5, 2, 45, 0.226);
-    text-align: center;
-    border: 1px solid #ffffff37;
-  }
-  .smaller {
-    width: 2.3em;
-  }
-
-  input[type='number']::-webkit-outer-spin-button,
-  input[type='number']::-webkit-inner-spin-button {
-    appearance: none;
-  }
-  table {
-    margin: auto;
-    width: 100%;
-    table-layout: auto;
-  }
-
-  th,
-  td {
-    font-weight: 700;
-    background-color: rgba(0, 0, 0, 0.308);
-    border: 1px solid white;
-    text-align: center;
-    font-size: 1.7em;
-  }
-
-  .remove-button {
-    scale: 0.6;
-  }
-
-  .delete-player {
-    background: none;
-    border: none;
   }
 </style>

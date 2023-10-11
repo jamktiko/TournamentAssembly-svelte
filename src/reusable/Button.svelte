@@ -1,11 +1,11 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
   export let disabled;
 
   const dp = createEventDispatcher();
 
-  const customBtnClick = () => dp('cClick');
+  const customBtnClick = () => dp("cClick");
 
   let buttonProps = {
     class: [$$restProps.class],
@@ -319,6 +319,34 @@
     transition-duration: 0s;
     scale: 1;
     cursor: default;
+  }
+
+  /* Scoreboard Buttons */
+  .add-button {
+    font-size: 1.7em;
+    padding: 0.25em 2.2em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
+
+  .delete-round-button {
+    font-size: 1.1em;
+    padding: 0.25em 0.75em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
+
+  .delete-player-button {
+    font-size: 1.1em;
+    padding: 0.25em 0.75em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
   }
 
   .league-resolve-button {
