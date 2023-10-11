@@ -12,8 +12,6 @@
   onDestroy(() => {
     if (unsub) unsub();
   });
-
-  console.log(currentUser);
 </script>
 
 <main>

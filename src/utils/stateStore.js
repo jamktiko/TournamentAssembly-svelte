@@ -47,14 +47,17 @@ const stateController = {
     });
     console.log(res);
 
-    const userData = {
-      id: res.id,
-      username: res.username,
-      token: res.token,
-      tournaments: res.tournaments,
-    };
+    if (res.success) {
+      const userData = {
+        id: res.id,
+        username: res.username,
+        token: res.token,
+        tournaments: res.tournaments,
+      };
 
-    stateStore.set(userData);
+      stateStore.set(userData);
+    }
+
     return res;
   },
 };
