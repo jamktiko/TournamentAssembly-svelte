@@ -3,11 +3,15 @@
   import Button from '../reusable/Button.svelte';
   import Winner from '../reusable/Winner.svelte';
   import { push } from 'svelte-spa-router';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
 
   export let params;
 
   console.log(params);
-
+  let staticbutton = false
   const contestantData = cch.detokenify(params.tourdata)[0];
 
   const contestants = parseContestants(contestantData.players);
@@ -34,6 +38,7 @@
   }
 
   function revertMatch(matchData) {
+    if (!staticbutton){
     const { round, match } = matchData;
     console.log(round);
     if (round === 0) return;
@@ -60,7 +65,7 @@
     winners.splice(awayIndex - 1, 1);
 
     console.log(winners);
-  }
+  }}
 
   function calcMatchups(amount) {
     calcMatchNumberPerRound(amount);
@@ -177,7 +182,7 @@
 
   function closewindow(){
     tournamentWinner = null
-    
+    staticbutton = true
    }
 </script>
 
@@ -186,7 +191,14 @@
   >
   <h1>{contestantData.tournamentName}</h1>
   <h3>Organized by: {contestantData.organizerName}</h3>
-  <div class="playoff-container">
+  <div
+    class="playoff-container"
+    transition:slide={{
+      duration: 700,
+      easing: quadInOut,
+      axis: 'x',
+    }}
+  >
     {#each rounds as round, i}
       <div class="round">
         <h2>{round.name}</h2>
@@ -195,6 +207,7 @@
             {#if i !== 0}
               <Button
                 class="revert-button"
+                disabled={staticbutton}
                 on:cClick={() => revertMatch({ round: i, match: mi })}
                 >UNDO MATCH</Button
               >
@@ -202,10 +215,10 @@
             <p
               class:match-winner={match.home &&
                 winners.find(
-                  (id) => id.round === i && id.winner === match.home.id
+                  (id) => id.round === i && id.winner === match.home.id || tournamentWinner === match.home
                 )}
               class:match-loser={winners.find(
-                (id) => id.round === i && id.winner === match.away.id
+                (id) => id.round === i && id.winner === match.away.id || tournamentWinner === match.home
               )}
               on:keydown={() => {}}
               on:click={() =>
@@ -218,10 +231,10 @@
             <p
               class:match-winner={match.away &&
                 winners.find(
-                  (id) => id.round === i && id.winner === match.away.id
+                  (id) => id.round === i && id.winner === match.away.id || tournamentWinner === match.home
                 )}
               class:match-loser={winners.find(
-                (id) => id.round === i && id.winner === match.home.id
+                (id) => id.round === i && id.winner === match.home.id || tournamentWinner === match.home
               )}
               id="lower-name"
               on:keydown={() => {}}
@@ -236,7 +249,11 @@
     {/each}
   </div>
   {#if tournamentWinner}
-    <Winner config={contestantData} winner={tournamentWinner} on:closeevent={closewindow}/>
+    <Winner
+      config={contestantData}
+      winner={tournamentWinner}
+      on:closeevent={closewindow}
+    />
   {/if}
 </main>
 
