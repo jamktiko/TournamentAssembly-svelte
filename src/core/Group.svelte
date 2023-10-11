@@ -372,8 +372,7 @@
           easing: quintOut,
         }}
       >
-        <!-- NIKOLAS TÄÄLLÄ OLLUT AIEMMIN CANCEL NAPPI -->
-        <Match {match} on:winnerevent={resolve} />
+        <Match {match} on:winnerevent={resolve} on:cancelevent={() => match=[]}/>
       </div>
     {/if}
   </div>

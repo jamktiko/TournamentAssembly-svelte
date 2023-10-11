@@ -97,9 +97,9 @@
     </div>
   </div>
   <div class="draw-container">
-    <!-- NIKOLAS TÄÄLLÄ ONGELMA -->
+
     {#if match[0] && match[1]}
-      <Button class="league-plus-minus-button" on:cClick={() => (match = [])}
+      <Button class="league-plus-minus-button" on:cClick={() => dp('cancelevent')}
         >CANCEL MATCH</Button
       >
     {/if}
