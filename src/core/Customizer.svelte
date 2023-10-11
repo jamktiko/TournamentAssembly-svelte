@@ -1,13 +1,12 @@
 <script>
-  import cch from '../utils/cache';
-  import { slide } from 'svelte/transition';
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import Playerlist from '../reusable/Playerlist.svelte';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
-
+  import cch from "../utils/cache";
+  import { slide } from "svelte/transition";
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import Playerlist from "../reusable/Playerlist.svelte";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
 
   export let params;
 
@@ -16,13 +15,13 @@
   let config = {
     tournamentName: "",
     organizerName: "",
-    numberOfGroups: 0,
-    teamsInGroup: 0,
+    numberOfGroups: "",
+    teamsInGroup: "",
     tourDecider: "",
-    pointsPerWin: 0,
-    pointsPerDraw: 0,
-    numberOfRounds: 0,
-    bestOf: 0,
+    pointsPerWin: "",
+    pointsPerDraw: "",
+    numberOfRounds: "",
+    bestOf: "",
     players: [],
   };
 
@@ -108,7 +107,6 @@
     return regex.test(input);
   }
 
-
   let playerAmountOk = false;
   function checkplayers() {
     if (
@@ -177,6 +175,7 @@
       }
     }
   }
+
   let showPlayerlist = false;
   function togglePlayerlist() {
     showPlayerlist = !showPlayerlist;
@@ -185,11 +184,10 @@
   function scrollToTop() {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', // Use 'auto' for instant scrolling
+      behavior: "smooth", // Use 'auto' for instant scrolling
     });
   }
 </script>
-
 
 <main>
   <Button class="back-button" on:cClick={() => push("/selection")}>Back</Button>
@@ -199,7 +197,7 @@
       <h1>CUSTOMIZE YOUR TOURNAMENT {params.id}</h1>
     </div>
     <div class="input-container">
-      <div>
+      <div class="tournamentname-content">
         <label for="tournamentName">Tournament Name</label>
         <br />
         <input
@@ -219,7 +217,7 @@
           }}
         />
       </div>
-      <div>
+      <div class="organizername-content">
         <label for="organizerName">Organizer Name</label>
         <br />
         <input
@@ -244,14 +242,14 @@
     {#if selectedMenu == "groups"}
       <div class="customizer-settings">
         <div>
-          <label for="roundSelection">Number of Groups</label>
+          <label for="numberofGroups">Number of Groups</label>
           <br />
           <select
-            id="roundSelection"
+            id="numberofGroups"
             bind:value={config.numberOfGroups}
             on:change={handleSelection}
           >
-            <option value="" disabled selected>SELECT</option>
+            <option value="" selected disabled>SELECT</option>
             {#each numberGroups as numberGroup (numberGroup)}
               <option value={numberGroup}>{numberGroup}</option>
             {/each}
@@ -265,31 +263,31 @@
             bind:value={config.tourDecider}
             on:change={handleSelection}
           >
-            <option value="" disabled selected>SELECT</option>
+            <option value="" disabled>SELECT</option>
             {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
               <option value={tournamentDecider}>{tournamentDecider}</option>
             {/each}
           </select>
         </div>
         <div>
-          <label for="deciderType">Teams in Group</label>
+          <label for="teamsinGroup">Teams in Group</label>
           <br />
           <select
-            id="deciderType"
+            id="teamsinGroup"
             bind:value={config.teamsInGroup}
             on:change={handleSelection}
           >
-            <option value="" disabled selected>SELECT</option>
+            <option value="" selected disabled>SELECT</option>
             {#each teamsGroups as teamGroup (teamGroup)}
               <option value={teamGroup}>{teamGroup}</option>
             {/each}
           </select>
         </div>
         <div>
-          <label for="deciderType">Points for Win</label>
+          <label for="pointsPerWin">Points for Win</label>
           <br />
           <select
-            id="deciderType"
+            id="pointsPerWin"
             bind:value={config.pointsPerWin}
             on:change={handleSelection}
           >
@@ -300,10 +298,10 @@
           </select>
         </div>
         <div>
-          <label for="deciderType">Points for Draw</label>
+          <label for="pointsPerDraw">Points for Draw</label>
           <br />
           <select
-            id="deciderType"
+            id="pointsPerDraw"
             bind:value={config.pointsPerDraw}
             on:change={handleSelection}
           >
@@ -316,12 +314,12 @@
       </div>
     {/if}
     <!-- Playoffs Menu -->
-    {#if params.id == 'playoffs'}
+    {#if params.id == "playoffs"}
       <div class="playerlist">
         <h2 class="list-header">List of players</h2>
         <p id="player-count">Player count: {config.players.length}</p>
         <Button class="expand-button" on:cClick={togglePlayerlist}>
-          {showPlayerlist ? 'Hide Players' : 'Show Players'}
+          {showPlayerlist ? "Hide Players" : "Show Players"}
         </Button>
         {#if showPlayerlist}
           <div transition:slide>
@@ -342,23 +340,18 @@
         {/if}
       </div>
     {/if}
-    {#if selectedMenu == 'playoffs'}
+    {#if selectedMenu == "playoffs"}
       <div
         class="customizer-settings"
         in:slide={{
           duration: 700,
           easing: quintOut,
-          axis: 'y',
+          axis: "y",
         }}
       >
-
         {#if playerListVisible}
           <Playerlist {config} on:playersEvent={handlePlayerList} />
         {/if}
-        <Button on:cClick={() => (playerListVisible = !playerListVisible)}
-          >Add Players</Button
-        >
-        <Button on:cClick={randomizePlayers(config.players)}>randomize</Button>
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
@@ -387,19 +380,30 @@
             {/each}
           </select>
         </div>
+        <div class="playoffs-button-container">
+          <Button
+            class="playoffs-buttons"
+            on:cClick={scrollToTop}
+            on:cClick={() => (playerListVisible = !playerListVisible)}
+            >Add Players</Button
+          >
+          <Button
+            class="playoffs-buttons"
+            on:cClick={randomizePlayers(config.players)}>Randomize</Button
+          >
+        </div>
       </div>
     {/if}
     <!-- League Menu -->
-    {#if selectedMenu == 'league'}
+    {#if selectedMenu == "league"}
       <div
         class="customizer-settings"
         in:slide={{
           duration: 700,
           easing: quintOut,
-          axis: 'y',
+          axis: "y",
         }}
       >
-
         <div>
           <label for="deciderType">Decider Type</label>
           <br />
@@ -415,10 +419,10 @@
           </select>
         </div>
         <div>
-          <label for="deciderType">Points for Win</label>
+          <label for="pointsPerWin">Points for Win</label>
           <br />
           <select
-            id="deciderType"
+            id="pointsPerWin"
             bind:value={config.pointsPerWin}
             on:change={handleSelection}
           >
@@ -429,10 +433,10 @@
           </select>
         </div>
         <div>
-          <label for="deciderType">Points for Draw</label>
+          <label for="pointsPerDraw">Points for Draw</label>
           <br />
           <select
-            id="deciderType"
+            id="pointsPerDraw"
             bind:value={config.pointsPerDraw}
             on:change={handleSelection}
           >
@@ -445,9 +449,16 @@
       </div>
     {/if}
     <!-- Create buttons -->
-    {#if params.id == "playoffs" && !playerAmountOk && config.players.length < 128}
-      <div class="createButton">
-        <Button on:cClick={fill}>fill partisipants</Button>
+    {#if params.id == "playoffs"}
+      <div>
+        <p class="fill-info-text">
+          Fills the game with enough players to start the game
+        </p>
+        <Button
+          class="playoffs-buttons"
+          disabled={playerAmountOk == true}
+          on:cClick={fill}>Fill Participants</Button
+        >
       </div>
     {/if}
     {#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
@@ -475,6 +486,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     height: 100%;
     flex-flow: row wrap;
     padding-bottom: 3em;
@@ -495,10 +507,23 @@
     font-size: 1.3em;
   }
 
+  #player-count {
+    text-transform: uppercase;
+    font-size: 0.9em;
+  }
+  .fill-info-text {
+    font-size: 1em;
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
+  }
+
   select,
   input {
     font-size: 1.3em;
-    padding: 0.5em 2.2em;
+    padding: 0.25em 2.2em;
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.244);
     text-align: center;
@@ -509,11 +534,12 @@
     text-transform: uppercase;
     color: #000000;
     font-size: 1.3em;
-    padding: 0.5em 1em;
+    padding: 0.25em 1em;
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0);
     text-align: center;
     border: 1px solid #ffffff37;
+    width: auto;
   }
 
   label {
@@ -522,6 +548,14 @@
 
   .customizer-header {
     text-align: center;
+  }
+
+  .tournamentname-content {
+    margin: 0.25em 0em;
+  }
+
+  .organizername-content {
+    margin: 0.25em 0em;
   }
 
   .input-container {
@@ -543,6 +577,10 @@
     width: 100%;
   }
 
+  .playoffs-button-container {
+    width: 100%;
+  }
+
   .createButton {
     margin-top: 3em;
     display: flex;
@@ -551,15 +589,15 @@
   }
 
   .list-header {
-    text-decoration: underline;
+    text-transform: uppercase;
   }
 
   .playerlist {
     text-align: center;
     padding: 0.5em;
     width: 12.5em;
-    position: fixed;
-    top: 20em;
+    position: absolute;
+    top: 16em;
     left: 0.75em;
     background: linear-gradient(
       129deg,
@@ -570,7 +608,7 @@
     font-size: 1em;
     color: white;
     border: solid 1px #ffffff3c;
-    border-radius: 10px;
+    border-radius: 5px;
     z-index: 50;
     overflow-y: auto;
     max-height: 50%;
@@ -585,6 +623,7 @@
 
   .player-name {
     flex: 1;
+    padding-left: 0.5em;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
