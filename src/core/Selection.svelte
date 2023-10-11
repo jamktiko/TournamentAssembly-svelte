@@ -45,7 +45,7 @@
 >
   <Button class="back-button2" on:cClick={() => push("/")}>Back</Button>
   <div class="text-container">
-    <h1>WELCOME {user.username}!</h1>
+    <h1>WELCOME {user.username.toUpperCase()}!</h1>
     <p>
       Choose a tournament type you want to play. All tournament styles are fully
       customizable to your desires.

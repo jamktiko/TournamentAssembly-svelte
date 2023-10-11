@@ -32,9 +32,9 @@
         >
       </Button>
     </div>
-    <h2>Welcome {currentUser.username.toUpperCase()}</h2>
+    <h1>WELCOME {currentUser.username.toUpperCase()}!</h1>
     <div class="buttons">
-      <Button>Create A Tournament</Button>
+      <Button on:cClick={() => push("/selection")}>Create A Tournament</Button>
       <Button>My Tournaments</Button>
     </div>
   </div>
