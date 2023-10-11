@@ -213,8 +213,12 @@
 
   function deleteTeam(team) {
     teams = teams.filter((p) => p !== team);
-    console.log(teams);
-  }
+
+    console.log(teams)
+    if (match.includes(team)){
+    match = []}
+   }
+
 </script>
 
 <main
@@ -347,6 +351,7 @@
       </div>
     {/if}
   </div>
+
 </main>
 
 <style>
