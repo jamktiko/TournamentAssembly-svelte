@@ -11,7 +11,10 @@
   import { quintOut } from "svelte/easing";
 
   export let params;
-
+  function aaa(){
+    console.log(blacklisted)
+    console.log(selected.id)
+  }
   let match = [];
   let matchResults = [];
   let matchResultsR = [];
@@ -74,12 +77,16 @@
     selected.index = i;
   }
 
-  function checkIfBlacklisted(group) {
-    for (let key in blacklisted) {
-      if (key == group.id) {
+  function checkIfBlacklisted() {
+    for (let key = 0; key < blacklisted.length; key++) {
+      console.log(blacklisted[key])
+      if (blacklisted[key] == selected.id) {
+        console.log("works")
         return true;
       }
+
       return false;
+      
     }
   }
   let value = "";
@@ -218,7 +225,7 @@
   function calcWinner(group) {
     // Needs to be attached to customizations
 
-    const winner = group.participants.sort((a, b) => a.score < b.score)[0];
+    const winner = selected.participants.sort((a, b) => a.score < b.score)[0];
 
     groupWinners.push(winner);
 
@@ -299,7 +306,7 @@
             {#each selected.participants as participant}
               <tr>
                 <td>
-                  {#if participant.name != "" && !checkIfBlacklisted(selected)}
+                  {#if participant.name != "" && !checkIfBlacklisted()}
                     <Button
                       class="group-adjust-button"
                       on:cClick={() =>
@@ -326,7 +333,7 @@
             {/each}
           </table>
           <div class="resolve-button-container">
-            {#if !checkIfBlacklisted(selected)}
+            {#if !checkIfBlacklisted()}
               <Button
                 class="resolve-button"
                 on:cClick={() => calcWinner(selected)}>Finish this Group</Button
@@ -386,6 +393,7 @@
       </div>
     {/if}
   </div>
+  <Button on:cClick={() => aaa()}>Test</Button>
 </main>
 
 <style>

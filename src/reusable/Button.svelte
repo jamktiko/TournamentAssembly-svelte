@@ -214,15 +214,21 @@
 
   .remove-player-button {
     scale: 0.5;
-    font-size: 1em;
+    font-size: 1.3em;
     border-radius: 10px;
     text-transform: uppercase;
     transition-duration: 0.1s;
+    background: linear-gradient(
+      129deg,
+      rgb(11, 11, 52) 0%,
+      rgb(34, 5, 32) 100%
+    );
   }
 
   .remove-player-button:hover {
-    scale: 0.75;
+    scale: 0.51;
     transition-duration: 0.1s;
+    border: solid 1px #46002b;
   }
 
   /* Playerlist button */
