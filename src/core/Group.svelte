@@ -78,16 +78,8 @@
   }
 
   function checkIfBlacklisted() {
-    for (let key = 0; key < blacklisted.length; key++) {
-      console.log(blacklisted[key])
-      if (blacklisted[key] == selected.id) {
-        console.log("works")
-        return true;
-      }
-
-      return false;
-      
-    }
+    console.log(blacklisted.includes(selected.id))
+    return blacklisted.includes(selected.id)
   }
   let value = "";
   function updateName() {
@@ -333,7 +325,7 @@
             {/each}
           </table>
           <div class="resolve-button-container">
-            {#if !checkIfBlacklisted()}
+            {#if selected && !checkIfBlacklisted()}
               <Button
                 class="resolve-button"
                 on:cClick={() => calcWinner(selected)}>Finish this Group</Button
