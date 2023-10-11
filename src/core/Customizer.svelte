@@ -4,6 +4,9 @@
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
   import Playerlist from '../reusable/Playerlist.svelte';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
 
   export let params;
 
@@ -338,7 +341,14 @@
       </div>
     {/if}
     {#if selectedMenu == 'playoffs'}
-      <div class="customizer-settings">
+      <div
+        class="customizer-settings"
+        in:slide={{
+          duration: 700,
+          easing: quintOut,
+          axis: 'y',
+        }}
+      >
         {#if playerListVisible}
           <Playerlist {config} on:playersEvent={handlePlayerList} />
         {/if}
@@ -386,7 +396,14 @@
     {/if}
     <!-- League Menu -->
     {#if selectedMenu == 'league'}
-      <div class="customizer-settings">
+      <div
+        class="customizer-settings"
+        in:slide={{
+          duration: 700,
+          easing: quintOut,
+          axis: 'y',
+        }}
+      >
         <div>
           <label for="deciderType">Decider Type</label>
           <br />

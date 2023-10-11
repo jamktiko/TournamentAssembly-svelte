@@ -320,4 +320,29 @@
     scale: 1;
     cursor: default;
   }
+
+  .league-resolve-button {
+    font-size: 1.1em;
+    padding: 0.25em 2.2em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin-bottom: 2.25em;
+  }
+
+  .league-resolve-button:hover {
+    border: solid 1px #46002b;
+    scale: 1;
+  }
+
+  .league-resolve-button:active {
+    color: whitesmoke;
+  }
+
+  .league-resolve-button:disabled {
+    border: solid 1px #ffffff3c;
+    transition-duration: 0s;
+    scale: 1;
+    cursor: default;
+  }
 </style>
