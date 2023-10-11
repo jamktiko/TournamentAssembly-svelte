@@ -14,6 +14,8 @@
     };
 
     stateController.login(user);
+
+    push("/profile");
   }
 </script>
 

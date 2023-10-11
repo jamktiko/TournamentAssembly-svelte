@@ -13,7 +13,7 @@ const stateController = {
       isGuest: true,
       tournamentData: null,
     };
-    stateStore.set({ user: guest });
+    stateStore.set(guest);
   },
 
   async customFetch(urlExt, opt) {
