@@ -214,15 +214,21 @@
 
   .remove-player-button {
     scale: 0.5;
-    font-size: 1em;
+    font-size: 1.3em;
     border-radius: 10px;
     text-transform: uppercase;
     transition-duration: 0.1s;
+    background: linear-gradient(
+      129deg,
+      rgb(11, 11, 52) 0%,
+      rgb(34, 5, 32) 100%
+    );
   }
 
   .remove-player-button:hover {
-    scale: 0.75;
+    scale: 0.51;
     transition-duration: 0.1s;
+    border: solid 1px #46002b;
   }
 
   /* Playerlist button */
@@ -309,6 +315,31 @@
   }
 
   .playoffs-buttons:disabled {
+    border: solid 1px #ffffff3c;
+    transition-duration: 0s;
+    scale: 1;
+    cursor: default;
+  }
+
+  .league-resolve-button {
+    font-size: 1.1em;
+    padding: 0.25em 2.2em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin-bottom: 2.25em;
+  }
+
+  .league-resolve-button:hover {
+    border: solid 1px #46002b;
+    scale: 1;
+  }
+
+  .league-resolve-button:active {
+    color: whitesmoke;
+  }
+
+  .league-resolve-button:disabled {
     border: solid 1px #ffffff3c;
     transition-duration: 0s;
     scale: 1;

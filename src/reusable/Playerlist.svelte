@@ -1,19 +1,19 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
   const dp = createEventDispatcher();
-  import Button from "./Button.svelte";
-  import Customizer from "../core/Customizer.svelte";
+  import Button from './Button.svelte';
+  import Customizer from '../core/Customizer.svelte';
 
   let playerList = [];
 
-  let NewPlayer = ""; /*The text on the input*/
+  let NewPlayer = ''; /*The text on the input*/
 
   /*Adds text input to the player list and empties the input*/
   function addToList() {
     playerList.push(NewPlayer);
     playerList = [...NewPlayer];
-    dp("playersEvent", [NewPlayer]);
-    NewPlayer = "";
+    dp('playersEvent', [NewPlayer]);
+    NewPlayer = '';
   }
 
   /*Randomizes the list positions*/
@@ -28,7 +28,7 @@
   }
 
   function closeList() {
-    dp("playersEvent", ".");
+    dp('playersEvent', '.');
   }
 
   function isValidInput(input) {
@@ -40,7 +40,7 @@
 <div class="backdrop" />
 <div class="modal">
   <div class="add-player-content">
-    <h3>Input player name below</h3>
+    <h3>TYPE PLAYER NAME BELOW</h3>
     <input
       type="text"
       placeholder="Player Name"
@@ -49,7 +49,7 @@
         if (!isValidInput(event.target.value)) {
           event.target.value = event.target.value.replace(
             /[^A-Za-z0-9\s]/g,
-            ""
+            ''
           ); // Remove invalid characters
           NewPlayer = event.target.value;
         }
@@ -94,9 +94,9 @@
 
   .modal {
     position: absolute;
-    top: 50%;
+    top: 25%;
     color: #ffffff;
-    padding: 1rem;
+    padding: 1em 3em;
     background: linear-gradient(
       129deg,
       rgb(11, 11, 52) 0%,

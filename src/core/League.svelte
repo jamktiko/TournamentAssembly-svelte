@@ -9,7 +9,7 @@
   import { slide } from 'svelte/transition';
   import { fade } from 'svelte/transition';
   import { scale } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
+  import { quintOut, quadInOut } from 'svelte/easing';
 
   export let params;
   let matchResults = [];
@@ -132,7 +132,7 @@
           },
         ],
         draw: true,
-        group: " ", 
+        group: ' ',
       });
     } else {
       ce.detail.winner.wins++;
@@ -159,7 +159,7 @@
               },
             ],
             draw: false,
-            group: " ", 
+            group: ' ',
           },
         ]);
       } else {
@@ -178,7 +178,7 @@
               },
             ],
             draw: false,
-            group: " ", 
+            group: ' ',
           },
         ]);
       }
@@ -207,20 +207,34 @@
       i += 1;
     }
   }
-  function closewindow(){
-    largest = ""
+  function closewindow() {
+    largest = '';
+  }
+
+  function deleteTeam(team) {
+    teams = teams.filter((p) => p !== team);
+
+    console.log(teams)
+    if (match.includes(team)){
+    match = []}
    }
 
 </script>
 
-<main>
+<main
+  in:slide={{
+    duration: 700,
+    easing: quintOut,
+    axis: 'y',
+  }}
+>
   <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
   >
   <h1 class="league-name">{config.tournamentName}</h1>
   <div
     class="league-content"
     in:fade={{
-      duration: 600,
+      duration: 700,
       easing: quintOut,
     }}
   >
@@ -259,6 +273,12 @@
         >
       {/if}
     </div>
+    {#if largest != ''}
+      <Winner {config} winner={largest} on:closeevent={closewindow} />
+    {/if}
+    <Button class="league-resolve-button" on:cClick={() => largestScore()}
+      >FINISH LEAGUE</Button
+    >
     <div class="league-scoreboard-container">
       <table>
         <thead>
@@ -296,6 +316,11 @@
                   on:cClick={() => addToMatch(team.id)}
                   >Add team to match</Button
                 >
+                <Button
+                  disabled={selected === team.id}
+                  class="add-team-button"
+                  on:cClick={() => deleteTeam(team)}>Delete</Button
+                >
               </td>
             </tr>
           {/each}
@@ -303,8 +328,7 @@
       </table>
     </div>
     {#if match[0] && match[1]}
-      <Button on:cClick={() => (match = [])}>CANCEL</Button>
-      <Match {match} on:winnerevent={resolve} />
+      <Match {match} on:winnerevent={resolve} on:cancelevent={() => match=[]}/>
     {/if}
     <div class="results-button-container">
       {#if showResults == 0}
@@ -328,11 +352,6 @@
     {/if}
   </div>
 
-
-  {#if largest != ""}
-  <Winner  config={config} winner={largest} on:closeevent={closewindow}/>
-  {/if}
-  <Button on:cClick={() => largestScore()} />
 </main>
 
 <style>
