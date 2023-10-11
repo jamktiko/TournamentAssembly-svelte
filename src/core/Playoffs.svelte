@@ -3,6 +3,10 @@
   import Button from '../reusable/Button.svelte';
   import Winner from '../reusable/Winner.svelte';
   import { push } from 'svelte-spa-router';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
 
   export let params;
 
@@ -187,7 +191,14 @@
   >
   <h1>{contestantData.tournamentName}</h1>
   <h3>Organized by: {contestantData.organizerName}</h3>
-  <div class="playoff-container">
+  <div
+    class="playoff-container"
+    transition:slide={{
+      duration: 700,
+      easing: quadInOut,
+      axis: 'x',
+    }}
+  >
     {#each rounds as round, i}
       <div class="round">
         <h2>{round.name}</h2>
@@ -238,7 +249,11 @@
     {/each}
   </div>
   {#if tournamentWinner}
-    <Winner config={contestantData} winner={tournamentWinner} on:closeevent={closewindow}/>
+    <Winner
+      config={contestantData}
+      winner={tournamentWinner}
+      on:closeevent={closewindow}
+    />
   {/if}
 </main>
 

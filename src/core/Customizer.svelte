@@ -1,9 +1,13 @@
 <script>
-  import cch from "../utils/cache";
-  import { fade } from "svelte/transition";
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import Playerlist from "../reusable/Playerlist.svelte";
+  import cch from '../utils/cache';
+  import { slide } from 'svelte/transition';
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import Playerlist from '../reusable/Playerlist.svelte';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+
 
   export let params;
 
@@ -320,8 +324,42 @@
       </div>
     {/if}
     <!-- Playoffs Menu -->
-    {#if selectedMenu == "playoffs"}
-      <div class="customizer-settings">
+    {#if params.id == 'playoffs'}
+      <div class="playerlist">
+        <h2 class="list-header">List of players</h2>
+        <p id="player-count">Player count: {config.players.length}</p>
+        <Button class="expand-button" on:cClick={togglePlayerlist}>
+          {showPlayerlist ? 'Hide Players' : 'Show Players'}
+        </Button>
+        {#if showPlayerlist}
+          <div transition:slide>
+            {#each config.players as player}
+              <div class="single-player-content">
+                <div class="player-name">
+                  {player}
+                </div>
+                <div>
+                  <Button
+                    class="remove-player-button"
+                    on:cClick={removePlayer(player)}>Delete</Button
+                  >
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
+      </div>
+    {/if}
+    {#if selectedMenu == 'playoffs'}
+      <div
+        class="customizer-settings"
+        in:slide={{
+          duration: 700,
+          easing: quintOut,
+          axis: 'y',
+        }}
+      >
+
         {#if playerListVisible}
           <Playerlist {config} on:playersEvent={handlePlayerList} />
         {/if}
@@ -360,8 +398,16 @@
       </div>
     {/if}
     <!-- League Menu -->
-    {#if selectedMenu == "league"}
-      <div class="customizer-settings">
+    {#if selectedMenu == 'league'}
+      <div
+        class="customizer-settings"
+        in:slide={{
+          duration: 700,
+          easing: quintOut,
+          axis: 'y',
+        }}
+      >
+
         <div>
           <label for="deciderType">Decider Type</label>
           <br />

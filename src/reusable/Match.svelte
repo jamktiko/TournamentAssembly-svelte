@@ -97,6 +97,12 @@
     </div>
   </div>
   <div class="draw-container">
+    <!-- NIKOLAS TÄÄLLÄ ONGELMA -->
+    {#if match[0] && match[1]}
+      <Button class="league-plus-minus-button" on:cClick={() => (match = [])}
+        >CANCEL MATCH</Button
+      >
+    {/if}
     <Button class="league-plus-minus-button" on:cClick={resolveMatch}
       >CONCLUDE MATCH</Button
     >
@@ -147,6 +153,8 @@
   }
 
   .draw-container {
+    flex-direction: column;
+    display: flex;
     padding: 1em, 0em;
   }
 
