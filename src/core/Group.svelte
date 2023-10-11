@@ -11,10 +11,7 @@
   import { quintOut } from "svelte/easing";
 
   export let params;
-  function aaa(){
-    console.log(blacklisted)
-    console.log(selected.id)
-  }
+
   let match = [];
   let matchResults = [];
   let matchResultsR = [];
@@ -78,7 +75,6 @@
   }
 
   function checkIfBlacklisted() {
-    console.log(blacklisted.includes(selected.id))
     return blacklisted.includes(selected.id)
   }
   let value = "";
@@ -385,7 +381,6 @@
       </div>
     {/if}
   </div>
-  <Button on:cClick={() => aaa()}>Test</Button>
 </main>
 
 <style>
