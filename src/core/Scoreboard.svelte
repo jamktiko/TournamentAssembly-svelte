@@ -76,9 +76,8 @@
   }
 </script>
 
+
 <main in:slide>
-  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
-  >
   <div class="scoreboard-header">
     <h1>Scoreboard</h1>
   </div>

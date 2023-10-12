@@ -7,8 +7,8 @@
   import { quadInOut, quintInOut, quintOut } from 'svelte/easing';
 </script>
 
+
 <main transition:fade={{ duration: 700 }}>
-  <Button class="back-button2" on:cClick={() => push('/')}>Back</Button>
   <div class="dev-info-header">
     <h1>Developers</h1>
     <p>
