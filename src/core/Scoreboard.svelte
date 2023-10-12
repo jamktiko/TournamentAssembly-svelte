@@ -1,6 +1,10 @@
 <script>
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
 
   import { onDestroy } from 'svelte';
   import cch from '../utils/cache';
@@ -72,7 +76,8 @@
   }
 </script>
 
-<main>
+
+<main in:slide>
   <div class="scoreboard-header">
     <h1>Scoreboard</h1>
   </div>
@@ -112,7 +117,7 @@
       </thead>
       <tbody>
         {#each gridData as row, rowIdx}
-          <tr>
+          <tr transition:slide>
             <td class="custom-thead"
               ><Button
                 class="delete-player-button"
@@ -128,7 +133,7 @@
               /></td
             >
             {#each row.columns as column, colIdx}
-              <td class="round-td"
+              <td class="round-td" transition:fade
                 ><input
                   type="number"
                   class="input-score"

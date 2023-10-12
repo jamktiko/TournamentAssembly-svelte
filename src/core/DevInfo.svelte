@@ -1,9 +1,14 @@
 <script>
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quadInOut, quintInOut, quintOut } from 'svelte/easing';
 </script>
 
-<main>
+
+<main transition:fade={{ duration: 700 }}>
   <div class="dev-info-header">
     <h1>Developers</h1>
     <p>
@@ -12,40 +17,40 @@
     </p>
   </div>
   <ul class="information-content">
-    <li class="dev-card-content">
+    <li class="dev-card-content" in:slide={{ delay: 700, duration: 1200 }}>
       <div class="developer-content">
         <h2>Eemi Salonen</h2>
         <h3>Product Owner, Backend, Testing</h3>
       </div>
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
     </li>
-    <li class="dev-card-content">
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+    <li class="dev-card-content" in:slide={{ delay: 1200, duration: 1200 }}>
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
       <div class="developer-content">
         <h2>Jani Haakana</h2>
         <h3>Scrum Master, Content Creation, UI/UX</h3>
       </div>
     </li>
-    <li class="dev-card-content">
+    <li class="dev-card-content" in:slide={{ delay: 1700, duration: 1200 }}>
       <div class="developer-content">
         <h2>Nikolas Orava</h2>
         <h3>Backend</h3>
       </div>
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
     </li>
-    <li class="dev-card-content">
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+    <li class="dev-card-content" in:slide={{ delay: 2200, duration: 1200 }}>
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
       <div class="developer-content">
         <h2>Mikko Hämäläinen</h2>
         <h3>Backend, Finance</h3>
       </div>
     </li>
-    <li class="dev-card-content">
+    <li class="dev-card-content" in:slide={{ delay: 2700, duration: 1200 }}>
       <div class="developer-content">
         <h2>Teemu Vorho</h2>
         <h3>Content Creation, UI/UX, Finance</h3>
       </div>
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
     </li>
   </ul>
 </main>

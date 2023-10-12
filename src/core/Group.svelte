@@ -72,6 +72,7 @@
 
     selected = group;
     selected.index = i;
+    match = []
   }
 
   function checkIfBlacklisted() {
@@ -104,6 +105,8 @@
     if (match.length < 2 && match[0] ? match[0].id !== id : true) {
       match = [...match, groups[i].participants.find((team) => team.id === id)];
       console.log(id.team);
+      console.log(match)
+      console.log(id)
     }
 
     if (match.length === 2) match.push(i);
@@ -290,6 +293,8 @@
                   {#if participant.name != '' && !checkIfBlacklisted(selected)}
                     <Button
                       class="group-adjust-button"
+                      disabled={(match[0] && participant.id === match[0].id)}
+                      
                       on:cClick={() =>
                         addToMatch(participant.id, selected.index)}
                       >Add to match</Button

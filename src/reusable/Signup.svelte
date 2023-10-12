@@ -1,10 +1,14 @@
 <script>
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import stateController from "../utils/stateStore";
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import stateController from '../utils/stateStore';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { bounceInOut, quadInOut, quintOut } from 'svelte/easing';
 
-  let username = "";
-  let password = "";
+  let username = '';
+  let password = '';
 
   function register() {
     const user = {
@@ -18,9 +22,17 @@
 
 <div class="backdrop" />
 
-<div class="modal">
+<div
+  class="modal"
+  transition:scale={{
+    duration: 400,
+    opacity: 0.5,
+    start: 0.0,
+    easing: quadInOut,
+  }}
+>
   <div class="closeButton">
-    <Button on:cClick={() => push("/")}>
+    <Button on:cClick={() => push('/')}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
