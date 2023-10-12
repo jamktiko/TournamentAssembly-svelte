@@ -8,7 +8,7 @@
 
 <Header />
 
-{#if $location !== '/' && $location !== '/errorpage'}
+{#if $location !== '/' && $location !== '/errorpage' && $location !== '/LoginUser' && $location !== '/Signup'}
   <Button class="back-button" on:cClick={() => pop()}>Back</Button>
 {/if}
 
