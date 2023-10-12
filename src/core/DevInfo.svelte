@@ -22,10 +22,10 @@
         <h2>Eemi Salonen</h2>
         <h3>Product Owner, Backend, Testing</h3>
       </div>
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
     </li>
     <li class="dev-card-content" in:slide={{ delay: 1200, duration: 1200 }}>
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
       <div class="developer-content">
         <h2>Jani Haakana</h2>
         <h3>Scrum Master, Content Creation, UI/UX</h3>
@@ -36,10 +36,10 @@
         <h2>Nikolas Orava</h2>
         <h3>Backend</h3>
       </div>
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
     </li>
     <li class="dev-card-content" in:slide={{ delay: 2200, duration: 1200 }}>
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
       <div class="developer-content">
         <h2>Mikko Hämäläinen</h2>
         <h3>Backend, Finance</h3>
@@ -50,7 +50,7 @@
         <h2>Teemu Vorho</h2>
         <h3>Content Creation, UI/UX, Finance</h3>
       </div>
-      <img class="dev-pic" src="/favicon.png" alt="..." />
+      <img class="dev-pic" src="./images/TourAssLogoCompressed.svg" alt="..." />
     </li>
   </ul>
 </main>
