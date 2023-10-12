@@ -22,7 +22,7 @@ function verifyToken(req, res, next) {
 			if (err) {
 				return res.json({
 					success: false,
-					message: "Token is invalid or expired.",
+					msg: "Token is invalid or expired.",
 				});
 			} else {
 				// Tallennetaan dekoodattu token request-olioon josta sitä voi jatkossa pyytää
@@ -34,7 +34,7 @@ function verifyToken(req, res, next) {
 		// if there is no token, it prompts an error
 		return res.status(403).send({
 			success: false,
-			message: "Token does not exist",
+			msg: "Token does not exist",
 		});
 	}
 }
