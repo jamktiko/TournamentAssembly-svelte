@@ -124,6 +124,7 @@
             <td
               ><input
                 type="text"
+                class="input-name"
                 bind:value={row.name}
                 on:input={(event) => updateRowName(rowIdx, event)}
               /></td
@@ -132,6 +133,7 @@
               <td class="round-td"
                 ><input
                   type="number"
+                  class="input-score"
                   bind:value={column}
                   on:input={(event) => updateCellValue(rowIdx, colIdx, event)}
                 /></td
@@ -165,14 +167,38 @@
     font-size: 2em;
   }
 
-  input {
+  .input-name {
     font-size: 1.1em;
     color: rgb(255, 255, 255);
     padding: 0.1em 0em;
-    border-radius: 20px;
+    border-radius: 10px;
     background-color: rgba(5, 2, 45, 0.226);
     text-align: center;
     border: 1px solid #ffffffae;
+  }
+
+  .input-score {
+    font-size: 1.1em;
+    color: rgb(255, 255, 255);
+    padding: 0.1em 0em;
+    border-radius: 10px;
+    background-color: rgba(5, 2, 45, 0.226);
+    text-align: center;
+    border: 1px solid #ffffffae;
+    width: 3em;
+  }
+
+  /* Hides Arrows from Round/Score */
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
   }
 
   table {
