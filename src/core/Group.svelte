@@ -72,6 +72,7 @@
 
     selected = group;
     selected.index = i;
+    match = []
   }
 
   function checkIfBlacklisted() {
