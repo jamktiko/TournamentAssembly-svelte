@@ -1,11 +1,11 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
 
   export let disabled;
 
   const dp = createEventDispatcher();
 
-  const customBtnClick = () => dp("cClick");
+  const customBtnClick = () => dp('cClick');
 
   let buttonProps = {
     class: [$$restProps.class],
@@ -336,8 +336,11 @@
     padding: 0.25em 0.75em;
     border-radius: 10px;
     text-transform: uppercase;
-    transition-duration: 0.1s;
     margin: 0.25em;
+  }
+
+  .delete-round-button:hover {
+    scale: 1;
   }
 
   .delete-player-button {
@@ -345,8 +348,11 @@
     padding: 0.25em 0.75em;
     border-radius: 10px;
     text-transform: uppercase;
-    transition-duration: 0.1s;
     margin: 0.25em;
+  }
+
+  .delete-player-button:hover {
+    scale: 1;
   }
 
   .league-resolve-button {
