@@ -11,7 +11,7 @@
   export let params;
 
   console.log(params);
-  let staticbutton = false
+  let staticbutton = false;
   const contestantData = cch.detokenify(params.tourdata)[0];
 
   const contestants = parseContestants(contestantData.players);
@@ -38,34 +38,35 @@
   }
 
   function revertMatch(matchData) {
-    if (!staticbutton){
-    const { round, match } = matchData;
-    console.log(round);
-    if (round === 0) return;
+    if (!staticbutton) {
+      const { round, match } = matchData;
+      console.log(round);
+      if (round === 0) return;
 
-    const homeIndex = winners.indexOf(
-      winners.find(
-        (winner) =>
-          rounds[round][match].home.id === winner.winner &&
-          winner.round === round - 1
-      )
-    );
-    const awayIndex = winners.indexOf(
-      winners.find(
-        (winner) =>
-          rounds[round][match].away.id === winner.winner &&
-          winner.round === round - 1
-      )
-    );
+      const homeIndex = winners.indexOf(
+        winners.find(
+          (winner) =>
+            rounds[round][match].home.id === winner.winner &&
+            winner.round === round - 1
+        )
+      );
+      const awayIndex = winners.indexOf(
+        winners.find(
+          (winner) =>
+            rounds[round][match].away.id === winner.winner &&
+            winner.round === round - 1
+        )
+      );
 
-    rounds[round][match].home = false;
-    rounds[round][match].away = false;
+      rounds[round][match].home = false;
+      rounds[round][match].away = false;
 
-    winners.splice(homeIndex, 1);
-    winners.splice(awayIndex - 1, 1);
+      winners.splice(homeIndex, 1);
+      winners.splice(awayIndex - 1, 1);
 
-    console.log(winners);
-  }}
+      console.log(winners);
+    }
+  }
 
   function calcMatchups(amount) {
     calcMatchNumberPerRound(amount);
@@ -180,15 +181,13 @@
   assignRoundNames(rounds);
   console.log(rounds);
 
-  function closewindow(){
-    tournamentWinner = null
-    staticbutton = true
-   }
+  function closewindow() {
+    tournamentWinner = null;
+    staticbutton = true;
+  }
 </script>
 
 <main>
-  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
-  >
   <h1>{contestantData.tournamentName}</h1>
   <h3>Organized by: {contestantData.organizerName}</h3>
   <div
@@ -215,10 +214,14 @@
             <p
               class:match-winner={match.home &&
                 winners.find(
-                  (id) => id.round === i && id.winner === match.home.id || tournamentWinner === match.home
+                  (id) =>
+                    (id.round === i && id.winner === match.home.id) ||
+                    tournamentWinner === match.home
                 )}
               class:match-loser={winners.find(
-                (id) => id.round === i && id.winner === match.away.id || tournamentWinner === match.home
+                (id) =>
+                  (id.round === i && id.winner === match.away.id) ||
+                  tournamentWinner === match.home
               )}
               on:keydown={() => {}}
               on:click={() =>
@@ -231,10 +234,14 @@
             <p
               class:match-winner={match.away &&
                 winners.find(
-                  (id) => id.round === i && id.winner === match.away.id || tournamentWinner === match.home
+                  (id) =>
+                    (id.round === i && id.winner === match.away.id) ||
+                    tournamentWinner === match.home
                 )}
               class:match-loser={winners.find(
-                (id) => id.round === i && id.winner === match.home.id || tournamentWinner === match.home
+                (id) =>
+                  (id.round === i && id.winner === match.home.id) ||
+                  tournamentWinner === match.home
               )}
               id="lower-name"
               on:keydown={() => {}}

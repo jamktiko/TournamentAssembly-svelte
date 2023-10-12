@@ -75,7 +75,7 @@
   }
 
   function checkIfBlacklisted() {
-    return blacklisted.includes(selected.id)
+    return blacklisted.includes(selected.id);
   }
   let value = '';
   function updateName() {
@@ -224,8 +224,6 @@
 </script>
 
 <main>
-  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
-  >
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
     <h3>Organized by: {config.organizerName || '-'}</h3>
@@ -290,7 +288,6 @@
               <tr>
                 <td>
                   {#if participant.name != '' && !checkIfBlacklisted(selected)}
-
                     <Button
                       class="group-adjust-button"
                       on:cClick={() =>
@@ -372,7 +369,11 @@
           easing: quintOut,
         }}
       >
-        <Match {match} on:winnerevent={resolve} on:cancelevent={() => match=[]}/>
+        <Match
+          {match}
+          on:winnerevent={resolve}
+          on:cancelevent={() => (match = [])}
+        />
       </div>
     {/if}
   </div>

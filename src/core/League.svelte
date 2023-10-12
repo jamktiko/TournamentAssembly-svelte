@@ -214,11 +214,11 @@
   function deleteTeam(team) {
     teams = teams.filter((p) => p !== team);
 
-    console.log(teams)
-    if (match.includes(team)){
-    match = []}
-   }
-
+    console.log(teams);
+    if (match.includes(team)) {
+      match = [];
+    }
+  }
 </script>
 
 <main
@@ -228,8 +228,6 @@
     axis: 'y',
   }}
 >
-  <Button class="back-button2" on:cClick={() => push('/selection')}>Back</Button
-  >
   <h1 class="league-name">{config.tournamentName}</h1>
   <div
     class="league-content"
@@ -328,7 +326,11 @@
       </table>
     </div>
     {#if match[0] && match[1]}
-      <Match {match} on:winnerevent={resolve} on:cancelevent={() => match=[]}/>
+      <Match
+        {match}
+        on:winnerevent={resolve}
+        on:cancelevent={() => (match = [])}
+      />
     {/if}
     <div class="results-button-container">
       {#if showResults == 0}
@@ -351,7 +353,6 @@
       </div>
     {/if}
   </div>
-
 </main>
 
 <style>

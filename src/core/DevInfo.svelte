@@ -4,7 +4,6 @@
 </script>
 
 <main>
-  <Button class="back-button2" on:cClick={() => push('/')}>Back</Button>
   <div class="dev-info-header">
     <h1>Developers</h1>
     <p>
