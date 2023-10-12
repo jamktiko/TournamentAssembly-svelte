@@ -294,6 +294,7 @@
 
                     <Button
                       class="group-adjust-button"
+                      disabled={participant.id in match}
                       on:cClick={() =>
                         addToMatch(participant.id, selected.index)}
                       >Add to match</Button
