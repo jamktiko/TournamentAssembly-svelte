@@ -1,18 +1,16 @@
 <script>
-
   import { pop, push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte';
   const dp = createEventDispatcher();
 
   export let config;
   export let winner;
-  let close = 1
+  let close = 1;
 
-function closewinnerwindow() {
-  dp("closeevent");
-
-}
+  function closewinnerwindow() {
+    dp('closeevent');
+  }
 </script>
 
 <div class="backdrop" />
@@ -24,11 +22,12 @@ function closewinnerwindow() {
       <h2>Winner</h2>
       <h1 class="winner-name">{winner.name}</h1>
       <div id="winner-button-container">
-        <Button class="winner-buttons" on:cClick={() => push("/selection")}
+        <Button class="winner-buttons" on:cClick={() => push('/selection')}
           >Back to main menu</Button
         >
-        <Button class="winner-buttons" on:cClick={closewinnerwindow}>Close</Button>
-
+        <Button class="winner-buttons" on:cClick={closewinnerwindow}
+          >Close</Button
+        >
       </div>
     </div>
     <div class="light x1" />
@@ -42,7 +41,6 @@ function closewinnerwindow() {
     <div class="light x9" />
   </div>
 </div>
-
 
 <style>
   h1 {
@@ -77,11 +75,7 @@ function closewinnerwindow() {
     top: -50%;
     width: 50%;
     height: 60vh;
-    background: linear-gradient(
-      129deg,
-      rgb(26, 7, 87) 50%,
-      rgb(68, 1, 58) 100%
-    );
+    background: radial-gradient(rgb(25, 6, 101) 50%, rgb(13, 0, 58) 100%);
     filter: brightness(1) contrast(1.6);
     border-radius: 40px;
     z-index: 100;

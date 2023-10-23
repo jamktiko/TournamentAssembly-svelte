@@ -371,7 +371,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 40px;
-    background-color: rgba(0, 0, 0, 0.308);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .league-header {

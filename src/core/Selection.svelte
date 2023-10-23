@@ -45,9 +45,9 @@
 >
   <div class="text-container">
     {#if user.username}
-    <h1>WELCOME {user.username.toUpperCase()}!</h1>
+      <h1>WELCOME {user.username.toUpperCase()}!</h1>
     {:else}
-    <h1>WELCOME GUEST</h1>
+      <h1>WELCOME GUEST</h1>
     {/if}
     <p>
       Choose a tournament type you want to play. All tournament styles are fully
@@ -153,15 +153,17 @@
 <style>
   main {
     padding: 0em 2em 3em;
-    margin: auto;
+    margin-left: 18%;
+    margin-top: 2em;
+    margin-bottom: 2em;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     flex-direction: column;
-    width: 70%;
+    width: 60%;
     border-radius: 40px;
-    background-color: rgba(0, 0, 0, 0.308);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .create-container {

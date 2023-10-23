@@ -97,10 +97,10 @@
     </div>
   </div>
   <div class="draw-container">
-
     {#if match[0] && match[1]}
-      <Button class="league-plus-minus-button" on:cClick={() => dp('cancelevent')}
-        >CANCEL MATCH</Button
+      <Button
+        class="league-plus-minus-button"
+        on:cClick={() => dp('cancelevent')}>CANCEL MATCH</Button
       >
     {/if}
     <Button class="league-plus-minus-button" on:cClick={resolveMatch}
@@ -119,7 +119,7 @@
   }
 
   .match-container {
-    width: 100%;
+    width: 80%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -129,7 +129,7 @@
   .team-content-container {
     margin-top: 1em;
     width: 25vw;
-    padding: 1em 2em;
+    padding: 0.7em 0.7em;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -137,7 +137,7 @@
     text-align: center;
     color: white;
     border-radius: 1em;
-    background-color: rgba(0, 0, 0, 0.13);
+    background-color: rgba(0, 0, 0, 0.3);
     border-color: rgba(31, 0, 24, 0.295);
     border-top: 1px solid rgb(138, 0, 131);
     border-bottom: 1px solid #000296;
@@ -145,7 +145,7 @@
 
   .team-container {
     flex: 1;
-    padding: 1em;
+    padding: 0.5em;
   }
 
   .adjust-buttons-container {
@@ -167,8 +167,8 @@
   }
 
   .match-header {
-    font-size: 3em;
-    margin-top: 2em;
+    font-size: 2.2em;
+    margin-top: 0.3em;
   }
 
   p {
@@ -177,10 +177,12 @@
 
   h3 {
     margin-top: 0.5em;
-    font-size: 1.5em;
+    font-size: 1em;
   }
   #vs-header {
     font-size: 3.5em;
+    padding-left: 1em;
+    padding-right: 1em;
     filter: drop-shadow(0px 0px 0.1rem #ffff);
     animation: pulse 3s infinite;
   }

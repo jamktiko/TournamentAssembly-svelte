@@ -30,8 +30,8 @@
     border-radius: 40px;
     background: linear-gradient(
       129deg,
-      rgb(11, 11, 52) 0%,
-      rgb(34, 5, 32) 100%
+      rgba(11, 11, 52, 0.5) 0%,
+      rgb(34, 5, 32, 0.5) 100%
     );
     color: whitesmoke;
     transition-duration: 0.1s;
@@ -204,8 +204,8 @@
     transition-duration: 0.1s;
     background: linear-gradient(
       129deg,
-      rgb(11, 11, 52) 0%,
-      rgb(34, 5, 32) 100%
+      rgba(11, 11, 52, 0.5) 0%,
+      rgb(34, 5, 32, 0.5) 100%
     );
   }
 
@@ -260,8 +260,8 @@
     border-radius: 40px;
     background: linear-gradient(
       129deg,
-      rgb(11, 11, 52) 0%,
-      rgb(34, 5, 32) 100%
+      rgba(11, 11, 52, 0.5) 0%,
+      rgb(34, 5, 32, 0.5) 100%
     );
     color: whitesmoke;
     transition-duration: 0.1s;

@@ -24,13 +24,16 @@
     padding: 2em 9em;
     margin: 0.2em;
     min-height: 20em;
-    background: radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%);
+    background: radial-gradient(rgb(1, 1, 50, 0.5) 0%, rgb(0, 0, 0, 0.5) 100%);
     transition-duration: 0.3s;
   }
 
   .card:hover {
     filter: brightness(1.2);
-    background: radial-gradient(rgb(20, 1, 50) 0%, rgb(0, 0, 0) 100%);
+    background: radial-gradient(
+      rgba(20, 1, 50, 0.5) 0%,
+      rgb(0, 0, 0, 0.5) 100%
+    );
     filter: drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.171));
     scale: 1.03;
   }

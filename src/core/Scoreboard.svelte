@@ -76,7 +76,6 @@
   }
 </script>
 
-
 <main in:slide>
   <div class="scoreboard-header">
     <h1>Scoreboard</h1>
@@ -152,7 +151,9 @@
 
 <style>
   main {
-    margin: auto;
+    margin-left: 15%;
+    margin-top: 2em;
+    margin-bottom: 2em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -162,7 +163,7 @@
     padding-top: 4em;
     padding-bottom: 3em;
     border-radius: 40px;
-    background-color: rgba(0, 0, 0, 0.308);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   h1 {

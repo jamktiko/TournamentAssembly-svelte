@@ -481,19 +481,22 @@
 <style>
   main {
     font-size: x-large;
-    padding-top: 4em;
+    padding-top: 2em;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     height: 100%;
     flex-flow: row wrap;
-    padding-bottom: 3em;
-    margin: auto;
+    padding-bottom: 1em;
+    margin-left: 25%;
+    margin-top: 2em;
+    margin-bottom: 2em;
     flex-direction: column;
     width: 50%;
+
     border-radius: 40px;
-    background-color: rgba(0, 0, 0, 0.308);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   h1 {

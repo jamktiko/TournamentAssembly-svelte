@@ -17,7 +17,7 @@
 <style>
   #logo {
     object-fit: cover;
-    width: 800px;
+    width: 700px;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
     transform: scale(1);
     animation: pulse 20s infinite;
@@ -41,7 +41,6 @@
   }
   header {
     margin: 0;
-    height: 100vh;
     font-weight: 100;
     -webkit-overflow-y: hidden;
     -moz-overflow-y: hidden;
@@ -52,13 +51,9 @@
     -o-animation: fadeIn 1 1s ease-out;
     animation: fadeIn 1 1s ease-out;
     height: 20vh;
-    background: linear-gradient(
-      129deg,
-      rgb(26, 7, 87) 50%,
-      rgb(68, 1, 58) 100%
-    );
+    background: radial-gradient(rgb(25, 6, 101) 50%, rgb(27, 7, 97) 100%);
     filter: brightness(1) contrast(1.9);
-    border-bottom: solid 1px #ffffff;
+    border-bottom: solid 5px #ffffff;
     display: flex;
     justify-content: center;
   }
