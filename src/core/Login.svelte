@@ -49,7 +49,7 @@
     height: 100%;
     width: 50%;
     border-radius: 40px;
-    background-color: rgba(0, 0, 0, 0.308);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   h1,

@@ -495,154 +495,158 @@
 </main>
 
 <style>
-	main {
-		font-size: x-large;
-		padding-top: 4em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		height: 100%;
-		flex-flow: row wrap;
-		padding-bottom: 3em;
-		margin: auto;
-		flex-direction: column;
-		width: 50%;
-		border-radius: 40px;
-		background-color: rgba(0, 0, 0, 0.308);
-	}
+  main {
+    font-size: x-large;
+    padding-top: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    flex-flow: row wrap;
+    padding-bottom: 1em;
+    margin-left: 25%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    flex-direction: column;
+    width: 50%;
 
-	h1 {
-		text-transform: uppercase;
-		font-size: 2em;
-		margin-bottom: 2em;
-	}
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 
-	p {
-		font-size: 1.3em;
-	}
+  h1 {
+    text-transform: uppercase;
+    font-size: 2em;
+    margin-bottom: 2em;
+  }
 
-	#player-count {
-		text-transform: uppercase;
-		font-size: 0.9em;
-	}
-	.fill-info-text {
-		font-size: 1em;
-		text-transform: none;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin-bottom: 1em;
-	}
+  p {
+    font-size: 1.3em;
+  }
 
-	select,
-	input {
-		font-size: 1.3em;
-		padding: 0.25em 2.2em;
-		border-radius: 20px;
-		background-color: rgba(0, 0, 0, 0.244);
-		text-align: center;
-		border: 1px solid #ffffff37;
-	}
+  #player-count {
+    text-transform: uppercase;
+    font-size: 0.9em;
+  }
+  .fill-info-text {
+    font-size: 1em;
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
+  }
 
-	option {
-		text-transform: uppercase;
-		color: #000000;
-		font-size: 1.3em;
-		padding: 0.25em 1em;
-		border-radius: 20px;
-		background-color: rgba(0, 0, 0, 0);
-		text-align: center;
-		border: 1px solid #ffffff37;
-		width: auto;
-	}
+  select,
+  input {
+    font-size: 1.3em;
+    padding: 0.25em 2.2em;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.244);
+    text-align: center;
+    border: 1px solid #ffffff37;
+  }
 
-	label {
-		text-transform: uppercase;
-	}
+  option {
+    text-transform: uppercase;
+    color: #000000;
+    font-size: 1.3em;
+    padding: 0.25em 1em;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    border: 1px solid #ffffff37;
+    width: auto;
+  }
 
-	.customizer-header {
-		text-align: center;
-	}
+  label {
+    text-transform: uppercase;
+  }
 
-	.tournamentname-content {
-		margin: 0.25em 0em;
-	}
+  .customizer-header {
+    text-align: center;
+  }
 
-	.organizername-content {
-		margin: 0.25em 0em;
-	}
+  .tournamentname-content {
+    margin: 0.25em 0em;
+  }
 
-	.input-container {
-		display: flex;
-		justify-content: space-evenly;
-		align-items: flex-start;
-		flex-wrap: wrap;
-		width: 100%;
-	}
+  .organizername-content {
+    margin: 0.25em 0em;
+  }
 
-	.customizer-settings {
-		padding-top: 1em;
-		padding-bottom: 2em;
-		display: flex;
-		justify-content: center;
-		flex-wrap: wrap;
-		flex-basis: 50%;
-		gap: 2em;
-		width: 100%;
-	}
+  .input-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+  }
 
-	.playoffs-button-container {
-		width: 100%;
-	}
+  .customizer-settings {
+    padding-top: 1em;
+    padding-bottom: 2em;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-basis: 50%;
+    gap: 2em;
+    width: 100%;
+  }
 
-	.createButton {
-		margin-top: 3em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
+  .playoffs-button-container {
+    width: 100%;
+  }
 
-	.list-header {
-		text-transform: uppercase;
-	}
+  .createButton {
+    margin-top: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-	.playerlist {
-		text-align: center;
-		padding: 0.5em;
-		width: 12.5em;
-		position: absolute;
-		top: 16em;
-		left: 0.75em;
-		background: linear-gradient(
-			129deg,
-			rgb(11, 11, 52) 0%,
-			rgba(24, 0, 23, 0.285) 100%
-		);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-		font-size: 1em;
-		color: white;
-		border: solid 1px #ffffff3c;
-		border-radius: 5px;
-		z-index: 50;
-		overflow-y: auto;
-		max-height: 50%;
-	}
+  .list-header {
+    text-transform: uppercase;
+  }
 
-	.single-player-content {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 0.25em 0em;
-	}
+  .playerlist {
+    text-align: center;
+    padding: 0.5em;
+    width: 12.5em;
+    position: absolute;
+    top: 16em;
+    left: 0.75em;
+    background: linear-gradient(
+      129deg,
+      rgb(11, 11, 52) 0%,
+      rgba(24, 0, 23, 0.285) 100%
+    );
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    font-size: 1em;
+    color: white;
+    border: solid 1px #ffffff3c;
+    border-radius: 5px;
+    z-index: 50;
+    overflow-y: auto;
+    max-height: 50%;
+  }
 
-	.player-name {
-		flex: 1;
-		padding-left: 0.5em;
-		text-align: left;
-		overflow: hidden;
-		white-space: nowrap;
-		font-size: 1.2em;
-		overflow-x: auto;
-	}
+  .single-player-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25em 0em;
+  }
+
+  .player-name {
+    flex: 1;
+    padding-left: 0.5em;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 1.2em;
+    overflow-x: auto;
+  }
+
 </style>

@@ -298,7 +298,7 @@
     justify-content: space-around;
     align-items: center;
     border-radius: 40px;
-    background-color: rgba(0, 0, 0, 0.308);
+    background-color: rgba(0, 0, 0, 0.5);
     transition-duration: 0.2s;
   }
 
@@ -317,8 +317,8 @@
     border: 1px solid #ffffff33;
     background: linear-gradient(
       129deg,
-      rgb(11, 11, 52) 0%,
-      rgb(34, 5, 32) 100%
+      rgb(11, 11, 52, 0.5) 0%,
+      rgb(34, 5, 32, 0.5) 100%
     );
   }
 
