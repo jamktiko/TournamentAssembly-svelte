@@ -13,22 +13,22 @@ html {
   flex-direction: column;
 
   /* Firefox Scrollbar settings */
-  scrollbar-color: rgb(41, 41, 82) rgb(34, 5, 32);
+  scrollbar-color: rgb(255, 255, 255) rgb(17, 12, 40);
   scrollbar-width: auto;
 }
 
 /* Chrome and Safari Scrollbar settings */
 ::-webkit-scrollbar {
-  width: 1em;
+  width: 0.4em;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: black;
+  background-color: rgb(17, 12, 40);
   border: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(129deg, rgb(11, 11, 52) 0%, rgb(34, 5, 32) 100%);
+  background: rgb(255, 255, 255);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }

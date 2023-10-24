@@ -60,7 +60,8 @@
       disabled={NewPlayer.length <= 0}
       on:cClick={() => addToList()}>Add player</Button
     >
-    <Button class="add-player-button" on:cClick={() => closeList()}>Exit</Button
+    <Button class="add-player-exit-button" on:cClick={() => closeList()}
+      >Exit</Button
     >
   </div>
 </div>
@@ -77,7 +78,8 @@
     font-size: 1.3em;
     padding: 0.25em 0.5em;
     border-radius: 20px;
-    background-color: rgb(21, 21, 21);
+    border: 1px solid #ffffff3f;
+    background-color: rgba(0, 0, 0, 0.208);
     color: #ffffff;
     text-align: center;
   }
@@ -94,14 +96,10 @@
 
   .modal {
     position: absolute;
-    top: 25%;
+    top: 26%;
     color: #ffffff;
     padding: 1em 3em;
-    background: linear-gradient(
-      129deg,
-      rgb(11, 11, 52) 0%,
-      rgba(24, 0, 23) 100%
-    );
+    background: linear-gradient(129deg, rgb(5, 5, 40) 0%, rgb(15, 11, 40) 100%);
     border-radius: 40px;
     z-index: 100;
     border: solid 1px #ffffff3f;

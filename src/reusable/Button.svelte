@@ -26,12 +26,12 @@
     font-weight: 700;
     font-size: 1.5em;
     padding: 0.5em 1.5em;
-    border: solid 1px #ffffff3c;
+    border: solid 1px #ffffff77;
     border-radius: 40px;
     background: linear-gradient(
       129deg,
-      rgba(11, 11, 52, 0.5) 0%,
-      rgb(34, 5, 32, 0.5) 100%
+      rgba(19, 19, 102, 0.5) 0%,
+      rgba(14, 5, 34, 0.5) 100%
     );
     color: whitesmoke;
     transition-duration: 0.1s;
@@ -39,15 +39,54 @@
   }
 
   button:active {
-    scale: 0.95;
     color: #444444;
   }
 
   button:hover {
-    border: solid 2px #46002b;
+    border: solid 1px #23219b;
     filter: brightness(1.2);
     filter: contrast(1.1);
-    scale: 1.1;
+  }
+
+  .login-button2 {
+    margin: 0.3em;
+  }
+  .login-button {
+    margin: 0.3em;
+    border: solid 1px #7396ff;
+    border-radius: 40px;
+    background: linear-gradient(
+      129deg,
+      rgba(0, 0, 0, 0.227) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+    color: #7396ff;
+    transition-duration: 0.1s;
+    cursor: pointer;
+  }
+
+  .login-button:hover {
+    border: solid 1px #7396ff;
+    filter: brightness(1.2);
+    filter: contrast(1.4);
+  }
+  .continue-button {
+    border: solid 1px #7396ff;
+    border-radius: 40px;
+    background: linear-gradient(
+      129deg,
+      rgba(0, 0, 0, 0.227) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+    color: #7396ff;
+    transition-duration: 0.1s;
+    cursor: pointer;
+  }
+
+  .continue-button:hover {
+    border: solid 1px #7396ff;
+    filter: brightness(1.2);
+    filter: contrast(1.4);
   }
 
   .footer-button {
@@ -60,7 +99,6 @@
 
   .footer-button:hover {
     border: none;
-    scale: 1;
     filter: brightness(1.2);
     filter: drop-shadow(0px 0px 10px rgb(255, 255, 255, 0.3));
   }
@@ -74,10 +112,6 @@
     transition-duration: 0.1s;
   }
 
-  .adjust-button:hover {
-    scale: 0.9;
-  }
-
   .adjust-button-league {
     scale: 1;
     font-size: 1.1em;
@@ -87,11 +121,25 @@
     transition-duration: 0.1s;
   }
 
-  .adjust-button-league:hover {
+  .adjust-button-league-close {
     scale: 1;
-    border: 1px solid #46002b;
+    font-size: 1.1em;
+    padding: 0.3em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    background: linear-gradient(
+      270deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
   }
-
+  .adjust-button-league-close:hover {
+    border: solid 1px #5d0f0f;
+  }
+  .add-player-exit-button:hover {
+    border: solid 1px #5d0f0f;
+  }
   .group-adjust-button {
     text-align: center;
     width: 7em;
@@ -101,11 +149,6 @@
     border-radius: 10px;
     text-transform: uppercase;
     transition-duration: 0.1s;
-  }
-
-  .group-adjust-button:hover {
-    scale: 0.9;
-    border: 1px solid #46002b;
   }
 
   .league-plus-minus-button {
@@ -118,8 +161,23 @@
     margin: 1em;
   }
 
-  .league-plus-minus-button:hover {
+  .cancel-match-button {
     scale: 1.4;
+    font-size: 1.1em;
+    padding: 0.05em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 1em;
+    background: linear-gradient(
+      180deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+  }
+
+  .cancel-match-button:hover {
+    border: solid 1px #5d0f0f;
   }
 
   .add-team-button {
@@ -131,35 +189,38 @@
     transition-duration: 0.1s;
   }
 
-  .add-team-button:hover {
-    border: 1px solid #290014;
+  .delete-team-button {
     scale: 0.9;
+    font-size: 1.1em;
+    padding: 0.3em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    background: linear-gradient(
+      270deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+  }
+
+  .delete-team-button:hover {
+    border: solid 1px #5d0f0f;
   }
 
   .back-button {
     text-transform: uppercase;
     scale: 1;
     border-radius: 10px;
-    border: solid 1px #ffffff3c;
     position: absolute;
     margin: 0.5em;
     transition-duration: 0.1s;
-  }
-
-  .back-button:hover {
-    scale: 0.8;
   }
 
   .match-add-button {
     text-transform: uppercase;
     scale: 0.8;
     border-radius: 40px;
-    border: solid 1px #ffffff3c;
     transition-duration: 0.1s;
-  }
-
-  .match-add-button:hover {
-    scale: 0.9;
   }
 
   .revert-button {
@@ -168,14 +229,9 @@
     text-transform: uppercase;
     scale: 0.5;
     border-radius: 10px;
-    border: solid 1px #ffffff3c;
     transition-duration: 0.1s;
     top: -100%;
     left: 18%;
-  }
-
-  .revert-button:hover {
-    scale: 0.5;
   }
 
   .error-button {
@@ -188,12 +244,7 @@
     text-transform: uppercase;
     width: 9em;
     border-radius: 40px;
-    border: solid 1px #ffffff3c;
     transition-duration: 0.1s;
-  }
-
-  .results-toggle-button:hover {
-    scale: 1.1;
   }
 
   .remove-player-button {
@@ -203,16 +254,14 @@
     text-transform: uppercase;
     transition-duration: 0.1s;
     background: linear-gradient(
-      129deg,
-      rgba(11, 11, 52, 0.5) 0%,
-      rgb(34, 5, 32, 0.5) 100%
+      270deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
     );
   }
 
   .remove-player-button:hover {
-    scale: 0.51;
-    transition-duration: 0.1s;
-    border: solid 1px #46002b;
+    border: solid 1px #5d0f0f;
   }
 
   /* Playerlist button */
@@ -231,10 +280,26 @@
   }
 
   .add-player-button:disabled {
-    border: solid 1px #ffffff3c;
-    transition-duration: 0s;
-    scale: 1;
     cursor: default;
+  }
+
+  .add-player-exit-button {
+    scale: 1;
+    font-size: 1.1em;
+    padding: 0.05em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+    background: linear-gradient(
+      0deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+  }
+
+  .add-player-exit-button:hover {
+    border: solid 1px #5d0f0f;
   }
 
   /* Playoffs playerlist expand button */
@@ -256,26 +321,14 @@
     font-weight: 700;
     font-size: 1.5em;
     padding: 0.5em 1.5em;
-    border: solid 1px #ffffff3c;
     border-radius: 40px;
-    background: linear-gradient(
-      129deg,
-      rgba(11, 11, 52, 0.5) 0%,
-      rgb(34, 5, 32, 0.5) 100%
-    );
     color: whitesmoke;
     transition-duration: 0.1s;
     cursor: pointer;
   }
 
   .winner.buttons:active {
-    scale: 0.95;
     color: #444444;
-  }
-
-  .winner-buttons:hover {
-    border: solid 1px #46002b;
-    scale: 1;
   }
 
   .resolve-button {
@@ -299,9 +352,6 @@
   }
 
   .playoffs-buttons:disabled {
-    border: solid 1px #ffffff3c;
-    transition-duration: 0s;
-    scale: 1;
     cursor: default;
   }
 
@@ -321,10 +371,15 @@
     border-radius: 10px;
     text-transform: uppercase;
     margin: 0.25em;
+    background: linear-gradient(
+      180deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
   }
 
   .delete-round-button:hover {
-    scale: 1;
+    border: solid 1px #5d0f0f;
   }
 
   .delete-player-button {
@@ -333,24 +388,25 @@
     border-radius: 10px;
     text-transform: uppercase;
     margin: 0.25em;
+    background: linear-gradient(
+      90deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
   }
 
   .delete-player-button:hover {
-    scale: 1;
+    border: solid 1px #5d0f0f;
   }
 
   .league-resolve-button {
-    font-size: 1.1em;
+    font-size: 1.3em;
     padding: 0.25em 2.2em;
     border-radius: 10px;
     text-transform: uppercase;
     transition-duration: 0.1s;
-    margin-bottom: 2.25em;
-  }
-
-  .league-resolve-button:hover {
-    border: solid 1px #46002b;
-    scale: 1;
+    margin-top: 0.5em;
+    margin-bottom: 2em;
   }
 
   .league-resolve-button:active {
@@ -358,9 +414,6 @@
   }
 
   .league-resolve-button:disabled {
-    border: solid 1px #ffffff3c;
-    transition-duration: 0s;
-    scale: 1;
     cursor: default;
   }
 </style>

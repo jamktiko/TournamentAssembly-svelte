@@ -35,9 +35,9 @@
     <Button on:cClick={() => push('/')}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        height="24"
+        height="48"
         viewBox="0 -960 960 960"
-        width="24"
+        width="48"
         ><path
           d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
         /></svg
@@ -86,8 +86,8 @@
     max-height: 80vh;
     background: linear-gradient(
       129deg,
-      rgb(11, 11, 52) 0%,
-      rgba(24, 0, 23, 0.285) 100%
+      rgb(5, 5, 40) 0%,
+      rgba(15, 4, 69, 0.285) 100%
     );
     border-radius: 40px;
     z-index: 100;
@@ -115,12 +115,14 @@
     font-size: 1.3em;
     padding: 0.5em 2em;
     border-radius: 20px;
-    background-color: rgb(21, 21, 21);
+    border: 1px solid #ffffff3f;
+    background-color: rgba(0, 0, 0, 0.208);
     color: #ffffff;
     text-align: center;
   }
 
   .signup-input {
+    padding-bottom: 2em;
     align-items: center;
     display: flex;
     margin: auto;

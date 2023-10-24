@@ -64,7 +64,6 @@
     }}
   >
     <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
-      <!-- Example: Custom background image -->
       <div slot="header" class="card-header">
         <h2>GROUPS</h2>
       </div>
@@ -75,7 +74,9 @@
         >
 
         {#if cch.isInCache('groups')}
-          <Button on:cClick={() => push(`/group/${cch.getToken('groupsConf')}`)}
+          <Button
+            class="continue-button"
+            on:cClick={() => push(`/group/${cch.getToken('groupsConf')}`)}
             >Continue</Button
           >
         {/if}
@@ -88,7 +89,6 @@
       </div>
     </Card>
     <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
-      <!-- Example: Custom background image -->
       <div slot="header">
         <h2>PLAYOFFS</h2>
       </div>
@@ -103,7 +103,6 @@
       </div>
     </Card>
     <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
-      <!-- Example: Custom background image -->
       <div slot="header">
         <h2>SCOREBOARD</h2>
       </div>
@@ -113,7 +112,9 @@
         >
 
         {#if cch.isInCache('scoreboard')}
-          <Button on:cClick={() => push(`/scoreboard`)}>Continue</Button>
+          <Button class="continue-button" on:cClick={() => push(`/scoreboard`)}
+            >Continue</Button
+          >
         {/if}
       </div>
       <div slot="footer">
@@ -124,7 +125,6 @@
       </div>
     </Card>
     <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
-      <!-- Example: Custom background image -->
       <div slot="header">
         <h2>LEAGUE</h2>
       </div>
@@ -135,6 +135,7 @@
         >
         {#if cch.isInCache('league')}
           <Button
+            class="continue-button"
             on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
             >Continue</Button
           >

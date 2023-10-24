@@ -519,7 +519,8 @@
     font-size: 1em;
     padding: 0.5em 1.8em;
     border-radius: 20px;
-    background-color: rgb(21, 21, 21);
+    border: 1px solid #ffffff3f;
+    background-color: rgba(0, 0, 0, 0.484);
     color: #ffffff;
     text-align: center;
   }

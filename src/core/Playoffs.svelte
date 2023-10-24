@@ -318,7 +318,7 @@
     background: linear-gradient(
       129deg,
       rgb(11, 11, 52, 0.5) 0%,
-      rgb(34, 5, 32, 0.5) 100%
+      rgba(35, 27, 117, 0.5) 100%
     );
   }
 
