@@ -1,497 +1,497 @@
 <script>
-	import cch from "../utils/cache";
-	import { slide } from "svelte/transition";
-	import { push } from "svelte-spa-router";
-	import Button from "../reusable/Button.svelte";
-	import Playerlist from "../reusable/Playerlist.svelte";
-	import { quintOut } from "svelte/easing";
+  import cch from '../utils/cache';
+  import { slide } from 'svelte/transition';
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import Playerlist from '../reusable/Playerlist.svelte';
+  import { quintOut } from 'svelte/easing';
 
-	import stateController from "../utils/stateStore";
-	import { onDestroy } from "svelte";
+  import stateController from '../utils/stateStore';
+  import { onDestroy } from 'svelte';
 
-	export let params;
+  export let params;
 
-	let user;
-	const unsub = stateController.subscribe((userData) => (user = userData));
+  let user;
+  const unsub = stateController.subscribe((userData) => (user = userData));
 
-	onDestroy(() => {
-		if (unsub) unsub();
-	});
+  onDestroy(() => {
+    if (unsub) unsub();
+  });
 
-	let selectedMenu = params.id;
+  let selectedMenu = params.id;
 
-	let config = {
-		tournamentName: "",
-		organizerName: "",
-		numberOfGroups: "",
-		teamsInGroup: "",
-		tourDecider: "",
-		pointsPerWin: "",
-		pointsPerDraw: "",
-		numberOfRounds: "",
-		bestOf: "",
-		players: [],
-	};
+  let config = {
+    tournamentName: '',
+    organizerName: '',
+    numberOfGroups: '',
+    teamsInGroup: '',
+    tourDecider: '',
+    pointsPerWin: '',
+    pointsPerDraw: '',
+    numberOfRounds: '',
+    bestOf: '',
+    players: [],
+  };
 
-	const numberGroups = [4, 6, 8];
-	const tournamentDeciders = ["Goal Difference"];
-	const teamsGroups = [4, 6, 8];
-	const pointsPerWin = [3, 4, 5];
-	const pointsForDraw = [0, 1];
+  const numberGroups = [4, 6, 8];
+  const tournamentDeciders = ['Goal Difference'];
+  const teamsGroups = [4, 6, 8];
+  const pointsPerWin = [3, 4, 5];
+  const pointsForDraw = [0, 1];
 
-	const bestOf = [3, 5, 7];
-	const deciderTypes = ["Wins"];
+  const bestOf = [3, 5, 7];
+  const deciderTypes = ['Wins'];
 
-	let selectedDecider = "";
+  let selectedDecider = '';
 
-	function handleSelection(event, selectionType) {
-		const value = event.target.value;
-		switch (selectionType) {
-			case "groups":
-				selectedGroups = value;
-				break;
-			case "tournamentDecider":
-				selectedTournamentDecider = value;
-				break;
-			case "teamgroups":
-				selectedTeamGroups = value;
-				break;
-			case "pointsperwin":
-				selectedPointsPerWin = value;
-				break;
-			case "pointsfordraw":
-				selectedPointsForDraw = value;
-				break;
-			case "decider":
-				selectedDecider = value;
-				break;
-			default:
-				break;
-		}
-	}
+  function handleSelection(event, selectionType) {
+    const value = event.target.value;
+    switch (selectionType) {
+      case 'groups':
+        selectedGroups = value;
+        break;
+      case 'tournamentDecider':
+        selectedTournamentDecider = value;
+        break;
+      case 'teamgroups':
+        selectedTeamGroups = value;
+        break;
+      case 'pointsperwin':
+        selectedPointsPerWin = value;
+        break;
+      case 'pointsfordraw':
+        selectedPointsForDraw = value;
+        break;
+      case 'decider':
+        selectedDecider = value;
+        break;
+      default:
+        break;
+    }
+  }
 
-	function handlePlayerList(ce) {
-		if (ce.detail != ".") {
-			ce.detail.forEach((i) => config.players.push(i));
-			config.players = [...config.players];
-		} else {
-			playerListVisible = false;
-		}
-		checkplayers();
-	}
+  function handlePlayerList(ce) {
+    if (ce.detail != '.') {
+      ce.detail.forEach((i) => config.players.push(i));
+      config.players = [...config.players];
+    } else {
+      playerListVisible = false;
+    }
+    checkplayers();
+  }
 
-	function setParticipants() {
-		if (!user.isGuest) {
-			const tournament = {
-				config,
-			};
+  function setParticipants() {
+    if (!user.isGuest) {
+      const tournament = {
+        config,
+      };
 
-			stateController.createTournament(tournament);
-		}
+      stateController.createTournament(tournament);
+    }
 
-		switch (params.id) {
-			case "playoffs":
-				push(`/playoffs/${cch.tokenify(config)}`);
-				break;
-			case "groups":
-				push(`/group/${cch.tokenify(config)}`);
-				break;
-			case "league":
-				push(`/league/${cch.tokenify(config)}`);
-		}
-	}
+    switch (params.id) {
+      case 'playoffs':
+        push(`/playoffs/${cch.tokenify(config)}`);
+        break;
+      case 'groups':
+        push(`/group/${cch.tokenify(config)}`);
+        break;
+      case 'league':
+        push(`/league/${cch.tokenify(config)}`);
+    }
+  }
 
-	function randomizePlayers(array) {
-		for (var i = array.length - 1; i > 0; i--) {
-			var j = Math.floor(Math.random() * (i + 1));
-			var temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
-		}
-		config.players = [...config.players];
-	}
+  function randomizePlayers(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    config.players = [...config.players];
+  }
 
-	let playerListVisible = false;
+  let playerListVisible = false;
 
-	function removePlayer(player) {
-		config.players = config.players.filter((p) => p !== player);
-		checkplayers();
-	}
+  function removePlayer(player) {
+    config.players = config.players.filter((p) => p !== player);
+    checkplayers();
+  }
 
-	function isValidInput(input) {
-		const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
-		return regex.test(input);
-	}
+  function isValidInput(input) {
+    const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
+    return regex.test(input);
+  }
 
-	let playerAmountOk = false;
-	function checkplayers() {
-		if (
-			config.players.length == 128 ||
-			config.players.length == 64 ||
-			config.players.length == 4 ||
-			config.players.length == 8 ||
-			config.players.length == 16 ||
-			config.players.length == 32
-		) {
-			playerAmountOk = true;
-		} else {
-			playerAmountOk = false;
-		}
-	}
+  let playerAmountOk = false;
+  function checkplayers() {
+    if (
+      config.players.length == 128 ||
+      config.players.length == 64 ||
+      config.players.length == 4 ||
+      config.players.length == 8 ||
+      config.players.length == 16 ||
+      config.players.length == 32
+    ) {
+      playerAmountOk = true;
+    } else {
+      playerAmountOk = false;
+    }
+  }
 
-	let num = 0;
-	function randomnum() {
-		num = Math.floor(Math.random() * 10000);
-	}
-	function fill() {
-		while (config.players.length < 4) {
-			randomnum();
-			config.players.push("PLAYER_" + num);
-			config.players = [...config.players];
-			checkplayers();
-		}
-		if (config.players.length > 4 && config.players.length < 8) {
-			while (config.players.length < 8) {
-				randomnum();
-				config.players.push("PLAYER_" + num);
-				config.players = [...config.players];
-				checkplayers();
-			}
-		}
-		if (config.players.length > 8 && config.players.length < 16) {
-			while (config.players.length < 16) {
-				randomnum();
-				config.players.push("PLAYER_" + num);
-				config.players = [...config.players];
-				checkplayers();
-			}
-		}
-		if (config.players.length > 16 && config.players.length < 32) {
-			while (config.players.length < 32) {
-				randomnum();
-				config.players.push("PLAYER_" + num);
-				config.players = [...config.players];
-				checkplayers();
-			}
-		}
-		if (config.players.length > 32 && config.players.length < 64) {
-			while (config.players.length < 64) {
-				randomnum();
-				config.players.push("PLAYER_" + num);
-				config.players = [...config.players];
-				checkplayers();
-			}
-		}
-		if (config.players.length > 64 && config.players.length < 128) {
-			while (config.players.length < 128) {
-				randomnum();
-				config.players.push("PLAYER_" + num);
-				config.players = [...config.players];
-				checkplayers();
-			}
-		}
-	}
+  let num = 0;
+  function randomnum() {
+    num = Math.floor(Math.random() * 10000);
+  }
+  function fill() {
+    while (config.players.length < 4) {
+      randomnum();
+      config.players.push('PLAYER_' + num);
+      config.players = [...config.players];
+      checkplayers();
+    }
+    if (config.players.length > 4 && config.players.length < 8) {
+      while (config.players.length < 8) {
+        randomnum();
+        config.players.push('PLAYER_' + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+    if (config.players.length > 8 && config.players.length < 16) {
+      while (config.players.length < 16) {
+        randomnum();
+        config.players.push('PLAYER_' + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+    if (config.players.length > 16 && config.players.length < 32) {
+      while (config.players.length < 32) {
+        randomnum();
+        config.players.push('PLAYER_' + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+    if (config.players.length > 32 && config.players.length < 64) {
+      while (config.players.length < 64) {
+        randomnum();
+        config.players.push('PLAYER_' + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+    if (config.players.length > 64 && config.players.length < 128) {
+      while (config.players.length < 128) {
+        randomnum();
+        config.players.push('PLAYER_' + num);
+        config.players = [...config.players];
+        checkplayers();
+      }
+    }
+  }
 
-	let showPlayerlist = false;
-	function togglePlayerlist() {
-		showPlayerlist = !showPlayerlist;
-	}
+  let showPlayerlist = false;
+  function togglePlayerlist() {
+    showPlayerlist = !showPlayerlist;
+  }
 
-	function scrollToTop() {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth", // Use 'auto' for instant scrolling
-		});
-	}
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // Use 'auto' for instant scrolling
+    });
+  }
 </script>
 
 <main>
-	<div class="customizer-content">
-		<!-- League Name & Organizer -->
-		<div class="customizer-header">
-			<h1>CUSTOMIZE YOUR TOURNAMENT {params.id}</h1>
-		</div>
-		<div class="input-container">
-			<div class="tournamentname-content">
-				<label for="tournamentName">Tournament Name</label>
-				<br />
-				<input
-					type="text"
-					id="tournamentName"
-					placeholder="Name"
-					bind:value={config.tournamentName}
-					on:input={(event) => {
-						if (!isValidInput(event.target.value)) {
-							event.target.value = event.target.value.replace(
-								/[^A-Za-z0-9\s]/g,
+  <div class="customizer-content">
+    <!-- League Name & Organizer -->
+    <div class="customizer-header">
+      <h1>CUSTOMIZE YOUR TOURNAMENT {params.id}</h1>
+    </div>
+    <div class="input-container">
+      <div class="tournamentname-content">
+        <label for="tournamentName">Tournament Name</label>
+        <br />
+        <input
+          type="text"
+          id="tournamentName"
+          placeholder="Name"
+          bind:value={config.tournamentName}
+          on:input={(event) => {
+            if (!isValidInput(event.target.value)) {
+              event.target.value = event.target.value.replace(
+                /[^A-Za-z0-9\s]/g,
 
-								""
-							); // Remove invalid characters
-							config.tournamentName = event.target.value;
-						}
-					}}
-				/>
-			</div>
-			<div class="organizername-content">
-				<label for="organizerName">Organizer Name</label>
-				<br />
-				<input
-					type="text"
-					id="organizerName"
-					placeholder="Name"
-					bind:value={config.organizerName}
-					on:input={(event) => {
-						if (!isValidInput(event.target.value)) {
-							event.target.value = event.target.value.replace(
-								/[^A-Za-z0-9\s]/g,
+                ''
+              ); // Remove invalid characters
+              config.tournamentName = event.target.value;
+            }
+          }}
+        />
+      </div>
+      <div class="organizername-content">
+        <label for="organizerName">Organizer Name</label>
+        <br />
+        <input
+          type="text"
+          id="organizerName"
+          placeholder="Name"
+          bind:value={config.organizerName}
+          on:input={(event) => {
+            if (!isValidInput(event.target.value)) {
+              event.target.value = event.target.value.replace(
+                /[^A-Za-z0-9\s]/g,
 
-								""
-							); // Remove invalid characters
-							config.organizerName = event.target.value;
-						}
-					}}
-				/>
-			</div>
-		</div>
-		<!-- Groups Menu -->
-		{#if selectedMenu == "groups"}
-			<div class="customizer-settings">
-				<div>
-					<label for="numberofGroups">Number of Groups</label>
-					<br />
-					<select
-						id="numberofGroups"
-						bind:value={config.numberOfGroups}
-						on:change={handleSelection}
-					>
-						<option value="" selected disabled>SELECT</option>
-						{#each numberGroups as numberGroup (numberGroup)}
-							<option value={numberGroup}>{numberGroup}</option>
-						{/each}
-					</select>
-				</div>
-				<div>
-					<label for="deciderType">Decider Type</label>
-					<br />
-					<select
-						id="deciderType"
-						bind:value={config.tourDecider}
-						on:change={handleSelection}
-					>
-						<option value="" disabled>SELECT</option>
-						{#each tournamentDeciders as tournamentDecider (tournamentDecider)}
-							<option value={tournamentDecider}>{tournamentDecider}</option>
-						{/each}
-					</select>
-				</div>
-				<div>
-					<label for="teamsinGroup">Teams in Group</label>
-					<br />
-					<select
-						id="teamsinGroup"
-						bind:value={config.teamsInGroup}
-						on:change={handleSelection}
-					>
-						<option value="" selected disabled>SELECT</option>
-						{#each teamsGroups as teamGroup (teamGroup)}
-							<option value={teamGroup}>{teamGroup}</option>
-						{/each}
-					</select>
-				</div>
-				<div>
-					<label for="pointsPerWin">Points for Win</label>
-					<br />
-					<select
-						id="pointsPerWin"
-						bind:value={config.pointsPerWin}
-						on:change={handleSelection}
-					>
-						<option value="" disabled selected>SELECT</option>
-						{#each pointsPerWin as pointsPerWin (pointsPerWin)}
-							<option value={pointsPerWin}>{pointsPerWin}</option>
-						{/each}
-					</select>
-				</div>
-				<div>
-					<label for="pointsPerDraw">Points for Draw</label>
-					<br />
-					<select
-						id="pointsPerDraw"
-						bind:value={config.pointsPerDraw}
-						on:change={handleSelection}
-					>
-						<option value="" disabled selected>SELECT</option>
-						{#each pointsForDraw as pointsForDraw (pointsForDraw)}
-							<option value={pointsForDraw}>{pointsForDraw}</option>
-						{/each}
-					</select>
-				</div>
-			</div>
-		{/if}
-		<!-- Playoffs Menu -->
-		{#if params.id == "playoffs"}
-			<div class="playerlist">
-				<h2 class="list-header">List of players</h2>
-				<p id="player-count">Player count: {config.players.length}</p>
-				<Button class="expand-button" on:cClick={togglePlayerlist}>
-					{showPlayerlist ? "Hide Players" : "Show Players"}
-				</Button>
-				{#if showPlayerlist}
-					<div transition:slide>
-						{#each config.players as player}
-							<div class="single-player-content">
-								<div class="player-name">
-									{player}
-								</div>
-								<div>
-									<Button
-										class="remove-player-button"
-										on:cClick={removePlayer(player)}>Delete</Button
-									>
-								</div>
-							</div>
-						{/each}
-					</div>
-				{/if}
-			</div>
-		{/if}
-		{#if selectedMenu == "playoffs"}
-			<div
-				class="customizer-settings"
-				in:slide={{
-					duration: 700,
-					easing: quintOut,
-					axis: "y",
-				}}
-			>
-				{#if playerListVisible}
-					<Playerlist {config} on:playersEvent={handlePlayerList} />
-				{/if}
-				<div>
-					<label for="roundSelection">Best of X</label>
-					<br />
-					<select
-						id="roundSelection"
-						bind:value={config.bestOf}
-						on:change={handleSelection}
-					>
-						<option value="" disabled selected>SELECT</option>
-						{#each bestOf as numberRound (numberRound)}
-							<option value={numberRound}>{numberRound}</option>
-						{/each}
-					</select>
-				</div>
-				<div>
-					<label for="deciderType">Decider Type</label>
-					<br />
-					<select
-						id="deciderType"
-						bind:value={selectedDecider}
-						on:change={handleSelection}
-					>
-						<option value="" disabled selected>SELECT</option>
-						{#each deciderTypes as deciderType (deciderType)}
-							<option value={deciderType}>{deciderType}</option>
-						{/each}
-					</select>
-				</div>
-				<div class="playoffs-button-container">
-					<Button
-						class="playoffs-buttons"
-						on:cClick={scrollToTop}
-						on:cClick={() => (playerListVisible = !playerListVisible)}
-						>Add Players</Button
-					>
-					<Button
-						class="playoffs-buttons"
-						on:cClick={randomizePlayers(config.players)}>Randomize</Button
-					>
-				</div>
-			</div>
-		{/if}
-		<!-- League Menu -->
-		{#if selectedMenu == "league"}
-			<div
-				class="customizer-settings"
-				in:slide={{
-					duration: 700,
-					easing: quintOut,
-					axis: "y",
-				}}
-			>
-				<div>
-					<label for="deciderType">Decider Type</label>
-					<br />
-					<select
-						id="deciderType"
-						bind:value={config.tourDecider}
-						on:change={handleSelection}
-					>
-						<option value="" disabled selected>SELECT</option>
-						{#each tournamentDeciders as tournamentDecider (tournamentDecider)}
-							<option value={tournamentDecider}>{tournamentDecider}</option>
-						{/each}
-					</select>
-				</div>
-				<div>
-					<label for="pointsPerWin">Points for Win</label>
-					<br />
-					<select
-						id="pointsPerWin"
-						bind:value={config.pointsPerWin}
-						on:change={handleSelection}
-					>
-						<option value="" disabled selected>SELECT</option>
-						{#each pointsPerWin as pointsPerWin (pointsPerWin)}
-							<option value={pointsPerWin}>{pointsPerWin}</option>
-						{/each}
-					</select>
-				</div>
-				<div>
-					<label for="pointsPerDraw">Points for Draw</label>
-					<br />
-					<select
-						id="pointsPerDraw"
-						bind:value={config.pointsPerDraw}
-						on:change={handleSelection}
-					>
-						<option value="" disabled selected>SELECT</option>
-						{#each pointsForDraw as pointsForDraw (pointsForDraw)}
-							<option value={pointsForDraw}>{pointsForDraw}</option>
-						{/each}
-					</select>
-				</div>
-			</div>
-		{/if}
-		<!-- Create buttons -->
-		{#if params.id == "playoffs"}
-			<div>
-				<p class="fill-info-text">
-					Fills the game with enough players to start the game
-				</p>
-				<Button
-					class="playoffs-buttons"
-					disabled={playerAmountOk == true}
-					on:cClick={fill}>Fill Participants</Button
-				>
-			</div>
-		{/if}
-		{#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
-			<div class="createButton">
-				<Button on:cClick={setParticipants}>CREATE</Button>
-			</div>
-		{/if}
-		{#if params.id == "groups" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
-			<div class="createButton">
-				<Button on:cClick={setParticipants}>CREATE</Button>
-			</div>
-		{/if}
-		{#if params.id == "league" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
-			<div class="createButton">
-				<Button on:cClick={setParticipants}>CREATE</Button>
-			</div>
-		{/if}
-	</div>
+                ''
+              ); // Remove invalid characters
+              config.organizerName = event.target.value;
+            }
+          }}
+        />
+      </div>
+    </div>
+    <!-- Groups Menu -->
+    {#if selectedMenu == 'groups'}
+      <div class="customizer-settings">
+        <div>
+          <label for="numberofGroups">Number of Groups</label>
+          <br />
+          <select
+            id="numberofGroups"
+            bind:value={config.numberOfGroups}
+            on:change={handleSelection}
+          >
+            <option value="" selected disabled>SELECT</option>
+            {#each numberGroups as numberGroup (numberGroup)}
+              <option value={numberGroup}>{numberGroup}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="deciderType">Decider Type</label>
+          <br />
+          <select
+            id="deciderType"
+            bind:value={config.tourDecider}
+            on:change={handleSelection}
+          >
+            <option value="" disabled>SELECT</option>
+            {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
+              <option value={tournamentDecider}>{tournamentDecider}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="teamsinGroup">Teams in Group</label>
+          <br />
+          <select
+            id="teamsinGroup"
+            bind:value={config.teamsInGroup}
+            on:change={handleSelection}
+          >
+            <option value="" selected disabled>SELECT</option>
+            {#each teamsGroups as teamGroup (teamGroup)}
+              <option value={teamGroup}>{teamGroup}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="pointsPerWin">Points for Win</label>
+          <br />
+          <select
+            id="pointsPerWin"
+            bind:value={config.pointsPerWin}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each pointsPerWin as pointsPerWin (pointsPerWin)}
+              <option value={pointsPerWin}>{pointsPerWin}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="pointsPerDraw">Points for Draw</label>
+          <br />
+          <select
+            id="pointsPerDraw"
+            bind:value={config.pointsPerDraw}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each pointsForDraw as pointsForDraw (pointsForDraw)}
+              <option value={pointsForDraw}>{pointsForDraw}</option>
+            {/each}
+          </select>
+        </div>
+      </div>
+    {/if}
+    <!-- Playoffs Menu -->
+    {#if params.id == 'playoffs'}
+      <div class="playerlist">
+        <h2 class="list-header">List of players</h2>
+        <p id="player-count">Player count: {config.players.length}</p>
+        <Button class="expand-button" on:cClick={togglePlayerlist}>
+          {showPlayerlist ? 'Hide Players' : 'Show Players'}
+        </Button>
+        {#if showPlayerlist}
+          <div transition:slide>
+            {#each config.players as player}
+              <div class="single-player-content">
+                <div class="player-name">
+                  {player}
+                </div>
+                <div>
+                  <Button
+                    class="remove-player-button"
+                    on:cClick={removePlayer(player)}>Delete</Button
+                  >
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
+      </div>
+    {/if}
+    {#if selectedMenu == 'playoffs'}
+      <div
+        class="customizer-settings"
+        in:slide={{
+          duration: 700,
+          easing: quintOut,
+          axis: 'y',
+        }}
+      >
+        {#if playerListVisible}
+          <Playerlist {config} on:playersEvent={handlePlayerList} />
+        {/if}
+        <div>
+          <label for="roundSelection">Best of X</label>
+          <br />
+          <select
+            id="roundSelection"
+            bind:value={config.bestOf}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each bestOf as numberRound (numberRound)}
+              <option value={numberRound}>{numberRound}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="deciderType">Decider Type</label>
+          <br />
+          <select
+            id="deciderType"
+            bind:value={selectedDecider}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each deciderTypes as deciderType (deciderType)}
+              <option value={deciderType}>{deciderType}</option>
+            {/each}
+          </select>
+        </div>
+        <div class="playoffs-button-container">
+          <Button
+            class="playoffs-buttons"
+            on:cClick={scrollToTop}
+            on:cClick={() => (playerListVisible = !playerListVisible)}
+            >Add Players</Button
+          >
+          <Button
+            class="playoffs-buttons"
+            on:cClick={randomizePlayers(config.players)}>Randomize</Button
+          >
+        </div>
+      </div>
+    {/if}
+    <!-- League Menu -->
+    {#if selectedMenu == 'league'}
+      <div
+        class="customizer-settings"
+        in:slide={{
+          duration: 700,
+          easing: quintOut,
+          axis: 'y',
+        }}
+      >
+        <div>
+          <label for="deciderType">Decider Type</label>
+          <br />
+          <select
+            id="deciderType"
+            bind:value={config.tourDecider}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
+              <option value={tournamentDecider}>{tournamentDecider}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="pointsPerWin">Points for Win</label>
+          <br />
+          <select
+            id="pointsPerWin"
+            bind:value={config.pointsPerWin}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each pointsPerWin as pointsPerWin (pointsPerWin)}
+              <option value={pointsPerWin}>{pointsPerWin}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="pointsPerDraw">Points for Draw</label>
+          <br />
+          <select
+            id="pointsPerDraw"
+            bind:value={config.pointsPerDraw}
+            on:change={handleSelection}
+          >
+            <option value="" disabled selected>SELECT</option>
+            {#each pointsForDraw as pointsForDraw (pointsForDraw)}
+              <option value={pointsForDraw}>{pointsForDraw}</option>
+            {/each}
+          </select>
+        </div>
+      </div>
+    {/if}
+    <!-- Create buttons -->
+    {#if params.id == 'playoffs'}
+      <div>
+        <p class="fill-info-text">
+          Fills the game with enough placeholder players to start the game
+        </p>
+        <Button
+          class="playoffs-buttons"
+          disabled={playerAmountOk == true}
+          on:cClick={fill}>Autofill Brackets</Button
+        >
+      </div>
+    {/if}
+    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
+      <div class="createButton">
+        <Button on:cClick={setParticipants}>CREATE</Button>
+      </div>
+    {/if}
+    {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+      <div class="createButton">
+        <Button on:cClick={setParticipants}>CREATE</Button>
+      </div>
+    {/if}
+    {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+      <div class="createButton">
+        <Button on:cClick={setParticipants}>CREATE</Button>
+      </div>
+    {/if}
+  </div>
 </main>
 
 <style>
@@ -535,7 +535,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1em;
+    margin-top: 0.9em;
+    margin-bottom: 0.7em;
   }
 
   select,
@@ -619,8 +620,8 @@
     left: 0.75em;
     background: linear-gradient(
       129deg,
-      rgb(11, 11, 52) 0%,
-      rgba(24, 0, 23, 0.285) 100%
+      rgba(0, 0, 0, 0.366) 0%,
+      rgba(5, 0, 24, 0.285) 100%
     );
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     font-size: 1em;
@@ -648,5 +649,4 @@
     font-size: 1.2em;
     overflow-x: auto;
   }
-
 </style>

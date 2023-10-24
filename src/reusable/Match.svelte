@@ -98,9 +98,8 @@
   </div>
   <div class="draw-container">
     {#if match[0] && match[1]}
-      <Button
-        class="league-plus-minus-button"
-        on:cClick={() => dp('cancelevent')}>CANCEL MATCH</Button
+      <Button class="cancel-match-button" on:cClick={() => dp('cancelevent')}
+        >CANCEL MATCH</Button
       >
     {/if}
     <Button class="league-plus-minus-button" on:cClick={resolveMatch}
@@ -139,8 +138,8 @@
     border-radius: 1em;
     background-color: rgba(0, 0, 0, 0.3);
     border-color: rgba(31, 0, 24, 0.295);
-    border-top: 1px solid rgb(138, 0, 131);
-    border-bottom: 1px solid #000296;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
   }
 
   .team-container {

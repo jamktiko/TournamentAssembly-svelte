@@ -5,8 +5,8 @@
   import { fade } from 'svelte/transition';
   import { scale } from 'svelte/transition';
   import { quadInOut, quintInOut, quintOut } from 'svelte/easing';
+  import Loading from '../reusable/Loading.svelte';
 </script>
-
 
 <main transition:fade={{ duration: 700 }}>
   <div class="dev-info-header">
@@ -63,7 +63,9 @@
     flex-direction: column;
     justify-content: center;
     padding-bottom: 1em;
-    margin: auto;
+    margin-left: 15%;
+    margin-top: 2em;
+    margin-bottom: 2em;
     height: 100%;
     width: 70%;
     border-radius: 40px;

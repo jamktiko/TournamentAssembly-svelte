@@ -127,6 +127,7 @@
               ><input
                 type="text"
                 class="input-name"
+                placeholder="ENTER PLAYER NAME"
                 bind:value={row.name}
                 on:input={(event) => updateRowName(rowIdx, event)}
               /></td
@@ -251,7 +252,7 @@
   .total-td {
     position: sticky;
     right: 0;
-    background-color: #010025;
+    background-color: #0a0630;
     padding: 0.25em;
   }
 

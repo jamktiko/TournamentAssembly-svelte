@@ -256,7 +256,7 @@
             on:cClick={addPlayer}>Add</Button
           >
           <Button
-            class="adjust-button-league"
+            class="adjust-button-league-close"
             on:cClick={() => (playerNameInputVisible = false)}>Close</Button
           >
         </div>
@@ -316,7 +316,7 @@
                 >
                 <Button
                   disabled={selected === team.id}
-                  class="add-team-button"
+                  class="delete-team-button"
                   on:cClick={() => deleteTeam(team)}>Delete</Button
                 >
               </td>
@@ -410,10 +410,11 @@
     margin: auto;
     display: block;
     justify-content: center;
-    color: white;
     border-radius: 1em;
-    background-color: rgba(0, 0, 0, 0.267);
-    border-color: rgba(31, 0, 24, 0.295);
+    border: 1px solid #ffffff3f;
+    background-color: rgba(0, 0, 0, 0.208);
+    color: #ffffff;
+    text-align: center;
   }
   .error-message-content {
     position: absolute;
