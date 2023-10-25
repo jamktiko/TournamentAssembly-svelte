@@ -1,10 +1,9 @@
 <script>
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
   import { scale } from 'svelte/transition';
   import { bounceInOut, quadInOut, quintOut } from 'svelte/easing';
+  import { createEventDispatcher } from 'svelte';
 
   import stateController from '../utils/stateStore';
 
@@ -28,6 +27,11 @@
       setInterval(() => (invalidLogin = false), 1000);
     }
   }
+
+  const dispatch = createEventDispatcher();
+  function closeLogin() {
+    dispatch('closeLogin');
+  }
 </script>
 
 <div class="backdrop" />
@@ -42,7 +46,7 @@
   }}
 >
   <div class="closeButton">
-    <Button on:cClick={() => push('/')}>
+    <Button on:cClick={closeLogin}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="48"
@@ -89,11 +93,12 @@
   }
 
   .modal {
-    margin: auto;
+    margin-left: 25%;
     display: flex;
     color: #ffffff;
     padding: 1rem;
     position: relative;
+    top: -50%;
     width: 50%;
     max-height: 80vh;
     background: linear-gradient(
