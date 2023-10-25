@@ -43,6 +43,7 @@
   }
 
   button:hover {
+    color: rgb(184, 183, 255);
     border: solid 1px #23219b;
     filter: brightness(1.2);
     filter: contrast(1.1);
@@ -136,9 +137,11 @@
   }
   .adjust-button-league-close:hover {
     border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
   }
   .add-player-exit-button:hover {
     border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
   }
   .group-adjust-button {
     text-align: center;
@@ -178,6 +181,7 @@
 
   .cancel-match-button:hover {
     border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
   }
 
   .add-team-button {
@@ -205,6 +209,7 @@
 
   .delete-team-button:hover {
     border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
   }
 
   .back-button {
@@ -262,6 +267,7 @@
 
   .remove-player-button:hover {
     border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
   }
 
   /* Playerlist button */
@@ -300,6 +306,7 @@
 
   .add-player-exit-button:hover {
     border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
   }
 
   /* Playoffs playerlist expand button */
@@ -380,6 +387,7 @@
 
   .delete-round-button:hover {
     border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
   }
 
   .delete-player-button {
@@ -397,6 +405,7 @@
 
   .delete-player-button:hover {
     border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
   }
 
   .league-resolve-button {

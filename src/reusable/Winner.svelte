@@ -76,7 +76,7 @@
     width: 50%;
     height: 60vh;
     background: radial-gradient(rgb(25, 6, 101) 50%, rgb(13, 0, 58) 100%);
-    filter: brightness(1) contrast(1.6);
+    filter: brightness(1) contrast(1.1);
     border-radius: 40px;
     z-index: 100;
     border: solid 1px #ffffff41;

@@ -63,7 +63,10 @@
       axis: 'y',
     }}
   >
-    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
+    <Card
+      background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
+      bgheader="GROUPS"
+    >
       <div slot="header" class="card-header">
         <h2>GROUPS</h2>
       </div>
@@ -88,7 +91,10 @@
         </p>
       </div>
     </Card>
-    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
+    <Card
+      background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
+      bgheader="PLAYOFFS"
+    >
       <div slot="header">
         <h2>PLAYOFFS</h2>
       </div>
@@ -102,7 +108,10 @@
         </p>
       </div>
     </Card>
-    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
+    <Card
+      background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
+      bgheader="SCOREBOARD"
+    >
       <div slot="header">
         <h2>SCOREBOARD</h2>
       </div>
@@ -124,7 +133,10 @@
         </p>
       </div>
     </Card>
-    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
+    <Card
+      background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
+      bgheader="LEAGUE"
+    >
       <div slot="header">
         <h2>LEAGUE</h2>
       </div>
