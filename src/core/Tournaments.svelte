@@ -1,6 +1,6 @@
 <script>
   import { onDestroy } from "svelte";
-  import { stateController } from "../utils/stateStore.js";
+  import stateController from "../utils/stateStore";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
@@ -9,7 +9,9 @@
     if (unsub) unsub();
   });
 
-  console.log(user);
+  const tournaments = user.tournaments;
+
+  console.log(tournaments);
 </script>
 
 <main />
