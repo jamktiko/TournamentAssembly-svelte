@@ -1,6 +1,7 @@
 <script>
-  import { onDestroy } from 'svelte';
-  import stateController from '../utils/stateStore';
+
+  import { onDestroy } from "svelte";
+  import stateController from "../utils/stateStore";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
@@ -21,7 +22,7 @@
     { name: 'Scoreboard 2', type: 'Scoreboard' },
     { name: 'Scoreboard 3', type: 'Scoreboard' },
   ];
-</script>
+
 
 <main>
   <div class="tournaments-header">
