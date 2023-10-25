@@ -2,10 +2,9 @@
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
   import stateController from '../utils/stateStore';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
   import { scale } from 'svelte/transition';
   import { bounceInOut, quadInOut, quintOut } from 'svelte/easing';
+  import { createEventDispatcher } from 'svelte';
 
   let username = '';
   let password = '';
@@ -17,6 +16,11 @@
       tournaments: [],
     };
     stateController.register(user);
+  }
+
+  const dispatch = createEventDispatcher();
+  function closeSignup() {
+    dispatch('closeSignup');
   }
 </script>
 
@@ -32,7 +36,7 @@
   }}
 >
   <div class="closeButton">
-    <Button on:cClick={() => push('/')}>
+    <Button on:cClick={closeSignup}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="48"
