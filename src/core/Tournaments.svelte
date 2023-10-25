@@ -1,5 +1,4 @@
 <script>
-
   import { onDestroy } from "svelte";
   import stateController from "../utils/stateStore";
 
@@ -15,14 +14,14 @@
   console.log(tournaments);
 
   let testData = [
-    { name: 'Tournament 1', type: 'League' },
-    { name: 'Tournament 2', type: 'Playoffs' },
-    { name: 'Tournament 3', type: 'Groups' },
-    { name: 'Scoreboard 1', type: 'Scoreboard' },
-    { name: 'Scoreboard 2', type: 'Scoreboard' },
-    { name: 'Scoreboard 3', type: 'Scoreboard' },
+    { name: "Tournament 1", type: "League" },
+    { name: "Tournament 2", type: "Playoffs" },
+    { name: "Tournament 3", type: "Groups" },
+    { name: "Scoreboard 1", type: "Scoreboard" },
+    { name: "Scoreboard 2", type: "Scoreboard" },
+    { name: "Scoreboard 3", type: "Scoreboard" },
   ];
-
+</script>
 
 <main>
   <div class="tournaments-header">
