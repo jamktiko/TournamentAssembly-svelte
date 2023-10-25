@@ -3,6 +3,7 @@
   import Button from '../reusable/Button.svelte';
   import Match from '../reusable/Match.svelte';
   import MatchResults from '../reusable/MatchResults.svelte';
+  import Automatches from '../reusable/Automatches.svelte';
   import { onDestroy } from 'svelte';
   import { push } from 'svelte-spa-router';
   import { slide } from 'svelte/transition';
@@ -38,7 +39,7 @@
   function toggleResults() {
     showResults = !showResults;
   }
-
+  
   function generateGroups(conf) {
     for (let i = 0; i < conf.numberOfGroups; i++) {
       const group = {
@@ -118,6 +119,7 @@
   }
 
   function resolve(ce) {
+    deleteFromGenMatch(match[0], match[1])
     if (ce.detail.draw) {
       ce.detail.contestants[0].draws++;
       ce.detail.contestants[0].playedMatches++;
@@ -224,6 +226,57 @@
   function closeGroup() {
     selected = null;
   }
+  let contA = null
+  let agmatches = []
+
+  function autoCreateMatch(num){
+
+    agmatches = []
+
+    while (num > 0){
+      let contA = 0
+      let contB = 1
+      while (contA < selected.participants.length){
+        while (contB < selected.participants.length){
+          if (selected.participants[contA].name.length > 0 && (selected.participants[contB].name.length > 0)) {
+            agmatches.push([selected.participants[contA], selected.participants[contB]])}
+          contB += 1}
+        contA += 1
+      contB = contA + 1
+    }
+  num = num - 1
+  }
+    randomizeMatches(agmatches)
+    console.log(agmatches.length)
+    agmatches = [...agmatches]
+  }
+  function randomizeMatches(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    agmatches = [...agmatches];
+
+  }
+  function playGeneratedMatches(player1, player2){
+    console.log(player1, player2)
+    addToMatch(player1.id,selected.index)
+    addToMatch(player2.id,selected.index)
+
+  }
+
+  function deleteFromGenMatch(player1, player2){
+    let finder = 0
+    while (finder < agmatches.length){
+      if (agmatches[finder][0].name == player1.name && agmatches[finder][1].name == player2.name){
+        agmatches.splice(finder, 1)
+      }
+      finder += 1
+    agmatches = [...agmatches]
+  }
+}
 </script>
 
 <main>
@@ -323,6 +376,8 @@
                 class="resolve-button"
                 on:cClick={() => calcWinner(selected)}>Finish this Group</Button
               >
+              <Button on:cClick={() => autoCreateMatch(1)}>Auto matches</Button>
+              
             {/if}
           </div>
         </div>
@@ -344,9 +399,7 @@
       {/if}
     </div>
 
-    {#if match[0] && match[1]}
-      <Match {match} on:winnerevent={resolve} />
-    {/if}
+
 
     <div class="results-button-container">
       <Button class="results-toggle-button" on:cClick={toggleResults}
@@ -381,6 +434,22 @@
       </div>
     {/if}
   </div>
+  
+
+  {#if agmatches.length > 0}
+      <div class="match-list">
+        <h2 class="list-header">Matches</h2>
+        <p id="match-count">Matches Remaining: {agmatches.length}</p>
+
+          <div transition:slide>
+            {#each agmatches as agmatch}
+            <Automatches {agmatch} on:chooseevent={playGeneratedMatches(agmatch[0],agmatch[1])}/>
+            
+            {/each}
+          </div>
+        
+      </div>
+    {/if}
 </main>
 
 <style>
@@ -519,8 +588,7 @@
     font-size: 1em;
     padding: 0.5em 1.8em;
     border-radius: 20px;
-    border: 1px solid #ffffff3f;
-    background-color: rgba(0, 0, 0, 0.484);
+    background-color: rgb(21, 21, 21);
     color: #ffffff;
     text-align: center;
   }
@@ -600,5 +668,33 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 1em;
+  }
+  .match-list {
+    text-align: center;
+    padding: 0.5em;
+    width: 12.5em;
+    position: absolute;
+    top: 16em;
+    left: 0.75em;
+    background: linear-gradient(
+      129deg,
+      rgba(0, 0, 0, 0.366) 0%,
+      rgba(5, 0, 24, 0.285) 100%
+    );
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    font-size: 1em;
+    color: white;
+    border: solid 1px #ffffff3c;
+    border-radius: 5px;
+    z-index: 50;
+    overflow-y: auto;
+    max-height: 50%;
+  }
+  .list-header {
+    text-transform: uppercase;
+  }
+  #match-count {
+    text-transform: uppercase;
+    font-size: 0.9em;
   }
 </style>
