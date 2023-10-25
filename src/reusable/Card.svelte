@@ -3,15 +3,12 @@
   import { fade } from "svelte/transition";
   import { scale } from "svelte/transition";
   import { quadInOut, quintInOut, quintOut } from "svelte/easing";
+
+  export let bgheader;
 </script>
 
 <div class="card">
-  <img
-    class="card-image"
-    src="./images/TourAssLogoCompressed.svg"
-    alt="..."
-    in:fade={{ duration: 500, delay: 1500, easing: quadInOut }}
-  />
+  <h1 class="card-image">{bgheader}</h1>
   <div class="header">
     <slot name="header" />
   </div>
@@ -39,24 +36,23 @@
   }
 
   .card-image {
-    opacity: 0.1;
+    margin-top: 0.5em;
+    opacity: 0;
     filter: blur(3px);
     position: absolute;
-    width: 400px;
-    z-index: -1;
+    font-size: 9em;
+    z-index: -99;
     transition-duration: 0.3s;
   }
-  .card:hover {
-    filter: brightness(1);
-    filter: drop-shadow(0px 0px 6px rgba(101, 66, 255, 0.111));
-    scale: 1.03;
+  .card:hover .card-image {
+    scale: 1.1;
+    opacity: 0.2;
+    filter: drop-shadow(0px 0px 20px rgba(255, 255, 255, 0.5)) brightness(1)
+      blur(6px);
   }
 
-  .card-image:hover {
-    scale: 1.1;
-    opacity: 0.1;
-    filter: blur(3px);
-    width: 400px;
+  .card:hover {
+    scale: 1.01;
   }
   .header {
     text-align: center;
