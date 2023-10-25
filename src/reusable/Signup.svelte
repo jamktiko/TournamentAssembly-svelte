@@ -81,17 +81,18 @@
   }
 
   .modal {
-    margin: auto;
+    margin-left: 24.1%;
     display: flex;
     color: #ffffff;
     padding: 1rem;
     position: relative;
+    margin-top: -40em;
     width: 50%;
     max-height: 80vh;
     background: linear-gradient(
       129deg,
-      rgb(5, 5, 40) 0%,
-      rgba(15, 4, 69, 0.285) 100%
+      rgb(4, 4, 27) 0%,
+      rgba(10, 3, 47, 0.856) 100%
     );
     border-radius: 40px;
     z-index: 100;

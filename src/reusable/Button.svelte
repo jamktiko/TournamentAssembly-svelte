@@ -213,6 +213,9 @@
   }
 
   .back-button {
+    padding-left: 2.2em;
+    display: flex;
+    flex-direction: row;
     text-transform: uppercase;
     scale: 1;
     border-radius: 10px;
