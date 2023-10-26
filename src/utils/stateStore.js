@@ -7,6 +7,10 @@ const stateController = {
   apiUrl: "http://localhost:3000/",
   subscribe: stateStore.subscribe,
 
+  set(item) {
+    stateStore.set(item);
+  },
+
   loginAsGuest() {
     const guest = {
       username: "guest",

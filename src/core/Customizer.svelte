@@ -15,6 +15,8 @@
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
+
+
   onDestroy(() => {
     if (unsub) unsub();
   });
@@ -95,8 +97,8 @@
       case 'playoffs':
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case 'groups':
-        push(`/group/${cch.tokenify(config)}`);
+      case "groups":
+        push(`/groups/${cch.tokenify(config)}`);
         break;
       case 'league':
         push(`/league/${cch.tokenify(config)}`);
