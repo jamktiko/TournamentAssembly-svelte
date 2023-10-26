@@ -1,5 +1,5 @@
-const { connect } = require("./conn");
-const lib = require("./lib");
+const { connect } = require('./conn');
+const lib = require('./lib');
 
 connect();
 
@@ -21,17 +21,15 @@ const userController = {
   },
 
   async registerUser(req, res) {
-    res.send(
-      await lib.registerUser(
-        req.body.username,
-        req.body.password,
-        req.body.tournaments
-      )
-    );
+    res.send(await lib.registerUser(req.body.username, req.body.password, req.body.tournaments));
   },
 
   async addTournament(req, res) {
     res.send(await lib.addTournament(req.body.username, req.body.tournament));
+  },
+
+  async updateTournamentState(req, res) {
+    res.send(await lib.updateTournamentState(req.body.username, req.body.state, req.body.id));
   },
 
   async delTournament(req, res) {
