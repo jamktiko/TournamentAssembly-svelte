@@ -221,6 +221,7 @@
     console.log(groupWinners);
     selected = null;
     blacklisted.push(group.id);
+    groupWinners = [...groupWinners]
   }
 
   function closeGroup() {
@@ -277,6 +278,53 @@
     agmatches = [...agmatches]
   }
 }
+let playoffconfig = {
+    tournamentName: '',
+    organizerName: '',
+    numberOfGroups: '',
+    teamsInGroup: '',
+    tourDecider: '',
+    pointsPerWin: '',
+    pointsPerDraw: '',
+    numberOfRounds: '',
+    bestOf: '',
+    players: [],
+  };
+  function leaveGroup(){
+    let pusher = 0
+    console.log(groupWinners)
+    playoffconfig.tournamentName = config.tournamentName
+    playoffconfig.organizerName = config.organizerName
+    playoffconfig.tourDecider = ""
+    playoffconfig.bestOf = 3
+    playoffconfig.players = []
+    while (pusher < groupWinners.length){
+      playoffconfig.players.push(groupWinners[pusher].name)
+      pusher += 1
+    }
+    AddCorrectAmount()
+    push(`/playoffs/${cch.tokenify(playoffconfig)}`);
+  }
+  let num = 0
+  function randomnum() {
+    num = Math.floor(Math.random() * 10000);
+  }
+  function AddCorrectAmount(){
+    if (playoffconfig.players.length == 3){
+      randomnum();
+      playoffconfig.players.push('PLAYER_' + num);
+      playoffconfig.players = [...playoffconfig.players];
+    }
+    let place = 3
+    while (playoffconfig.players.length > 4 && playoffconfig.players.length < 8)
+    {
+      randomnum();
+      playoffconfig.players.splice(place,0,('PLAYER_' + num));
+      playoffconfig.players = [...playoffconfig.players];
+      place += 2
+    }
+    
+  }
 </script>
 
 <main>
@@ -417,6 +465,7 @@
           {/each}
         </div>
       {/if}
+      <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}>Playoffs</Button>
     </div>
     {#if match[0] && match[1]}
       <div
@@ -698,3 +747,4 @@
     font-size: 0.9em;
   }
 </style>
+
