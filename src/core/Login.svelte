@@ -138,4 +138,23 @@
     margin: auto;
     font-size: 1.3em;
   }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1150px) {
+    main {
+      width: 75%;
+      margin-left: 12.5%;
+    }
+    p {
+      padding: 1em;
+    }
+    .login-buttons-container {
+      margin-left: 20%;
+      padding-bottom: 2em;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 </style>

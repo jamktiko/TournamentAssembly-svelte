@@ -23,7 +23,7 @@
     "/signup": Signup,
     "/scoreboard": Scoreboard,
     "/customizer/:id": Customizer,
-    "/group/:tourdata": Group,
+    "/groups/:tourdata": Group,
     "/playoffs/:tourdata": Playoffs,
     "/league/:tourdata": League,
     "/devinfo": DevInfo,

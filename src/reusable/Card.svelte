@@ -87,4 +87,15 @@
   .button :global(button) {
     margin: 0.3em;
   }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1150px) {
+    .card {
+      padding: 2em 4em;
+    }
+
+    .card-image {
+      font-size: 6em;
+    }
+  }
 </style>
