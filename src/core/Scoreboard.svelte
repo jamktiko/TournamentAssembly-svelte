@@ -70,10 +70,14 @@
   }
 
   $: gridData = [...gridData]; // Trigger reactivity
-
+  let total = 0
+  let caculator = 0
   function calculateRowTotal(row) {
-    return row.columns.reduce((acc, val) => acc + parseFloat(val) || 0, 0);
-  }
+  return row.columns.reduce((acc, val) => {
+    const num = parseFloat(val);
+    return !isNaN(num) ? acc + num : acc;
+  }, 0);
+}
 </script>
 
 <main in:slide>
