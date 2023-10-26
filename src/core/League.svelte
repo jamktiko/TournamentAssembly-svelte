@@ -255,6 +255,7 @@
     agmatches = [...agmatches];
   }
   function playGeneratedMatches(player1, player2) {
+    toggleMatches()
     console.log(player1, player2);
     addToMatch(player1.id);
     addToMatch(player2.id);
@@ -271,6 +272,11 @@
       finder += 1;
       agmatches = [...agmatches];
     }
+    toggleMatches()
+  }
+  let showmatches = false
+  function toggleMatches(){
+    showmatches = !showmatches
   }
 </script>
 
@@ -387,9 +393,18 @@
     {/if}
     <div class="results-button-container">
       <Button
-        disabled={agmatches.length > 0}
-        on:cClick={() => autoCreateMatch(1)}>Auto matches</Button
-      >
+                class="resolve-button"
+                disabled={agmatches.length > 0}
+                on:cClick={() => autoCreateMatch(1)}
+                >GENERATE A MATCH SCHEDULE</Button
+              >
+      <Button
+                class="resolve-button"
+                disabled={agmatches.length == 0}
+                on:cClick={toggleMatches}
+                >Show matches</Button
+              >
+              
       {#if showResults == 0}
         <Button on:cClick={() => toggleResults()}>Show results</Button>
       {/if}
@@ -410,21 +425,34 @@
       </div>
     {/if}
   </div>
+  {#if showmatches}
   {#if agmatches.length > 0}
-    <div class="match-list">
-      <h2 class="list-header">Matches</h2>
-      <p id="match-count">Matches Remaining: {agmatches.length}</p>
-      <Button on:cClick={() => (agmatches = [])}>Cancel matches</Button>
-      <div transition:slide>
-        {#each agmatches as agmatch}
-          <Automatches
-            {agmatch}
-            on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
-          />
-        {/each}
+    <div class="backdrop" />
+    <div class="modal">
+      <h1 class="list-header">MATCH SCHEDULE</h1>
+      <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
+      <div class="schedule-content">
+        <h3>MATCHES</h3>
+        <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
+          >Cancel matches</Button
+        >
+        <div class="matches-container" transition:slide>
+          
+          {#each agmatches as agmatch}
+            <Automatches
+              {agmatch}
+              on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+            />
+          {/each}
+          
+        </div>
+        
+        <Button class="add-player-exit-button" on:cClick={toggleMatches}
+          >Exit</Button
+        >
       </div>
     </div>
-  {/if}
+  {/if}{/if}
 </main>
 
 <style>
@@ -577,27 +605,7 @@
     justify-content: center;
     margin-bottom: 1em;
   }
-  .match-list {
-    text-align: center;
-    padding: 0.5em;
-    width: 12.5em;
-    position: absolute;
-    top: 16em;
-    left: 0.75em;
-    background: linear-gradient(
-      129deg,
-      rgba(0, 0, 0, 0.366) 0%,
-      rgba(5, 0, 24, 0.285) 100%
-    );
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    font-size: 1em;
-    color: white;
-    border: solid 1px #ffffff3c;
-    border-radius: 5px;
-    z-index: 50;
-    overflow-y: auto;
-    max-height: 50%;
-  }
+  
   .list-header {
     text-transform: uppercase;
   }
