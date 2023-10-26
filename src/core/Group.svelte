@@ -1,17 +1,21 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
-  import Automatches from '../reusable/Automatches.svelte';
-  import { onDestroy } from 'svelte';
-  import { push } from 'svelte-spa-router';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
+  import cch from "../utils/cache";
+  import stateController from "../utils/stateStore";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+  import Automatches from "../reusable/Automatches.svelte";
+  import { onDestroy } from "svelte";
+  import { push } from "svelte-spa-router";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
 
   export let params;
+
+  let user;
+  const unsub = stateController.subscribe((userData) => (user = userData));
 
   let match = [];
   let matchResults = [];
@@ -25,14 +29,24 @@
   let blacklisted = [];
 
   onDestroy(() => {
-    cch.saveToCache('groups', groups);
-    cch.saveToCache('groupsConf', config);
+    cch.saveToCache("groups", groups);
+    cch.saveToCache("groupsConf", config);
+
+    if (unsub) unsub();
   });
 
-  if (cch.isInCache('groups')) {
-    groups = cch.getFromCache('groups');
+  if (cch.isInCache("groups")) {
+    groups = cch.getFromCache("groups");
   } else {
     generateGroups(config);
+  }
+
+  console.log(user);
+
+  if (user.state && user.config) {
+    console.log(user);
+    groups = user.state;
+    config = user.config;
   }
 
   let showResults = false;
@@ -53,7 +67,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: '',
+          name: "",
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -79,12 +93,12 @@
   function checkIfBlacklisted() {
     return blacklisted.includes(selected.id);
   }
-  let value = '';
+  let value = "";
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -143,7 +157,7 @@
           },
         ],
         draw: true,
-        group: 'group ' + (selected.id + 1),
+        group: "group " + (selected.id + 1),
       });
       console.log(selected.id);
     } else {
@@ -171,7 +185,7 @@
               },
             ],
             draw: false,
-            group: 'group ' + (selected.id + 1),
+            group: "group " + (selected.id + 1),
           },
         ]);
       } else {
@@ -190,18 +204,18 @@
               },
             ],
             draw: false,
-            group: 'group ' + (selected.id + 1),
+            group: "group " + (selected.id + 1),
           },
         ]);
       }
     }
     console.log(sortBy);
 
-    sortBy = '';
-    if (sortBy === 'score') {
-      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
+    sortBy = "";
+    if (sortBy === "score") {
+      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
     } else {
-      toggleSortOrder('score', selected.id);
+      toggleSortOrder("score", selected.id);
     }
 
     match = [];
@@ -221,7 +235,7 @@
     console.log(groupWinners);
     selected = null;
     blacklisted.push(group.id);
-    groupWinners = [...groupWinners]
+    groupWinners = [...groupWinners];
   }
 
   function closeGroup() {
@@ -269,7 +283,7 @@
     agmatches = [...agmatches];
   }
   function playGeneratedMatches(player1, player2) {
-    toggleMatches()
+    toggleMatches();
     console.log(player1, player2);
     addToMatch(player1.id, selected.index);
     addToMatch(player2.id, selected.index);
@@ -287,66 +301,69 @@
       finder += 1;
       agmatches = [...agmatches];
     }
-    toggleMatches()
+    toggleMatches();
   }
 
-let playoffconfig = {
-    tournamentName: '',
-    organizerName: '',
-    numberOfGroups: '',
-    teamsInGroup: '',
-    tourDecider: '',
-    pointsPerWin: '',
-    pointsPerDraw: '',
-    numberOfRounds: '',
-    bestOf: '',
+  let playoffconfig = {
+    tournamentName: "",
+    organizerName: "",
+    numberOfGroups: "",
+    teamsInGroup: "",
+    tourDecider: "",
+    pointsPerWin: "",
+    pointsPerDraw: "",
+    numberOfRounds: "",
+    bestOf: "",
     players: [],
   };
-  function leaveGroup(){
-    let pusher = 0
-    console.log(groupWinners)
-    playoffconfig.tournamentName = config.tournamentName
-    playoffconfig.organizerName = config.organizerName
-    playoffconfig.tourDecider = ""
-    playoffconfig.bestOf = 3
-    playoffconfig.players = []
-    while (pusher < groupWinners.length){
-      playoffconfig.players.push(groupWinners[pusher].name)
-      pusher += 1
+  function leaveGroup() {
+    let pusher = 0;
+    console.log(groupWinners);
+    playoffconfig.tournamentName = config.tournamentName;
+    playoffconfig.organizerName = config.organizerName;
+    playoffconfig.tourDecider = "";
+    playoffconfig.bestOf = 3;
+    playoffconfig.players = [];
+    while (pusher < groupWinners.length) {
+      playoffconfig.players.push(groupWinners[pusher].name);
+      pusher += 1;
     }
-    AddCorrectAmount()
+    AddCorrectAmount();
     push(`/playoffs/${cch.tokenify(playoffconfig)}`);
   }
-  let num = 0
+  let num = 0;
   function randomnum() {
     num = Math.floor(Math.random() * 10000);
   }
-  function AddCorrectAmount(){
-    if (playoffconfig.players.length == 3){
+  function AddCorrectAmount() {
+    if (playoffconfig.players.length == 3) {
       randomnum();
-      playoffconfig.players.push('PLAYER_' + num);
+      playoffconfig.players.push("PLAYER_" + num);
       playoffconfig.players = [...playoffconfig.players];
     }
-    let place = 3
-    while (playoffconfig.players.length > 4 && playoffconfig.players.length < 8)
-    {
+    let place = 3;
+    while (
+      playoffconfig.players.length > 4 &&
+      playoffconfig.players.length < 8
+    ) {
       randomnum();
-      playoffconfig.players.splice(place,0,('PLAYER_' + num));
+      playoffconfig.players.splice(place, 0, "PLAYER_" + num);
       playoffconfig.players = [...playoffconfig.players];
-      place += 2
+      place += 2;
     }
-    
   }
-  let showmatches = false
-  function toggleMatches(){
-    showmatches = !showmatches
+  let showmatches = false;
+  function toggleMatches() {
+    showmatches = !showmatches;
   }
+
+  console.log(groups)
 </script>
 
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
-    <h3>Organized by: {config.organizerName || '-'}</h3>
+    <h3>Organized by: {config.organizerName || "-"}</h3>
   </div>
   <div class="grid-container">
     <div id="group-manage" in:slide>
@@ -354,18 +371,14 @@ let playoffconfig = {
         {#if selected}
           {#if group.name == selected.name}
             <h2 class="group-header-focused">{group.name}</h2>
-            <Button on:cClick={() => closeGroup()}>Close group</Button>
+            <Button on:cClick={() => closeGroup()}>Close</Button>
           {:else}
             <h2 class="group-header-unselected">{group.name}</h2>
-            <Button on:cClick={() => selectGroup(group, i)}
-              >Click to manage group</Button
-            >
+            <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
           {/if}
         {:else}
           <h2 class="group-header">{group.name}</h2>
-          <Button on:cClick={() => selectGroup(group, i)}
-            >Click to manage group</Button
-          >
+          <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
         {/if}
       {/each}
     </div>
@@ -386,20 +399,20 @@ let playoffconfig = {
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder('playedMatches', selected.index)}>PL</th
+                  toggleSortOrder("playedMatches", selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder('score', selected.index)}
+              <th on:click={() => toggleSortOrder("score", selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
+              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder('draws', selected.index)}
+              <th on:click={() => toggleSortOrder("draws", selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder('losses', selected.index)}
+              <th on:click={() => toggleSortOrder("losses", selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
+              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
                 >GD</th
               >
             </tr>
@@ -437,8 +450,7 @@ let playoffconfig = {
               <Button
                 class="resolve-button"
                 disabled={agmatches.length == 0}
-                on:cClick={toggleMatches}
-                >Show matches</Button
+                on:cClick={toggleMatches}>Show matches</Button
               >
             {/if}
           </div>
@@ -463,7 +475,7 @@ let playoffconfig = {
 
     <div class="results-button-container">
       <Button class="results-toggle-button" on:cClick={toggleResults}
-        >{showResults ? 'Hide Results' : 'Show Results'}</Button
+        >{showResults ? "Hide Results" : "Show Results"}</Button
       >
       {#if showResults}
         <div class="flex-container" transition:slide>
@@ -477,7 +489,9 @@ let playoffconfig = {
           {/each}
         </div>
       {/if}
-      <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}>Playoffs</Button>
+      <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}
+        >Playoffs</Button
+      >
     </div>
     {#if match[0] && match[1]}
       <div
@@ -496,33 +510,31 @@ let playoffconfig = {
     {/if}
   </div>
   {#if showmatches}
-  {#if agmatches.length > 0}
-    <div class="backdrop" />
-    <div class="modal">
-      <h1 class="list-header">MATCH SCHEDULE</h1>
-      <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
-      <div class="schedule-content">
-        <h3>MATCHES</h3>
-        <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
-          >Cancel matches</Button
-        >
-        <div class="matches-container" transition:slide>
-          
-          {#each agmatches as agmatch}
-            <Automatches
-              {agmatch}
-              on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
-            />
-          {/each}
-          
+    {#if agmatches.length > 0}
+      <div class="backdrop" />
+      <div class="modal">
+        <h1 class="list-header">MATCH SCHEDULE</h1>
+        <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
+        <div class="schedule-content">
+          <h3>MATCHES</h3>
+          <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
+            >Cancel matches</Button
+          >
+          <div class="matches-container" transition:slide>
+            {#each agmatches as agmatch}
+              <Automatches
+                {agmatch}
+                on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+              />
+            {/each}
+          </div>
+
+          <Button class="add-player-exit-button" on:cClick={toggleMatches}
+            >Exit</Button
+          >
         </div>
-        
-        <Button class="add-player-exit-button" on:cClick={toggleMatches}
-          >Exit</Button
-        >
       </div>
-    </div>
-  {/if}{/if}
+    {/if}{/if}
 </main>
 
 <style>
@@ -785,5 +797,21 @@ let playoffconfig = {
     width: 30%;
     align-items: center;
   }
-</style>
+  /* Tablet Portrait 
+  @media only screen and (max-width: 1150px) {
+    .grid-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
 
+    #group-manage {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #group-view {
+    }
+    
+  }
+  */
+</style>

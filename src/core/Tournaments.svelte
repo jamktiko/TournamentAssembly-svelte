@@ -2,6 +2,8 @@
   import { onDestroy } from "svelte";
   import Button from "../reusable/Button.svelte";
   import stateController from "../utils/stateStore";
+  import { push } from "svelte-spa-router";
+  import cch from "../utils/cache";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
@@ -11,6 +13,19 @@
   });
 
   const tournaments = user.tournaments;
+
+  function openTournament(tournament) {
+    const configTkn = cch.tokenify(tournament.config);
+
+    if (tournament.state) {
+      user.state = tournament.state;
+      user.config = tournament.config;
+    }
+
+    stateController.set(user);
+
+    push(`/${tournament.type}/${configTkn}`);
+  }
 </script>
 
 <main>
@@ -37,7 +52,9 @@
       <tbody>
         {#each tournaments as tournament (tournament.id)}
           <tr>
-            <td><Button>Open</Button></td>
+            <td>
+              <Button on:cClick={() => openTournament(tournament)}>Open</Button>
+            </td>
             <td>{tournament.config.tournamentName}</td>
             <td>{tournament.config.tourDecider}</td>
             <td>{tournament.config.numberOfGroups}</td>

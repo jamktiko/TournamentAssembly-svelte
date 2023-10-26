@@ -1,8 +1,8 @@
 <script>
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quadInOut, quintInOut, quintOut } from "svelte/easing";
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quadInOut, quintInOut, quintOut } from 'svelte/easing';
 
   export let bgheader;
 </script>
@@ -86,5 +86,16 @@
 
   .button :global(button) {
     margin: 0.3em;
+  }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1150px) {
+    .card {
+      padding: 2em 4em;
+    }
+
+    .card-image {
+      font-size: 6em;
+    }
   }
 </style>
