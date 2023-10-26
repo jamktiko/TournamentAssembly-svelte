@@ -3,6 +3,15 @@
   import Header from './core/Header.svelte';
   import Button from './reusable/Button.svelte';
   import { pop, location, push } from 'svelte-spa-router';
+  import stateController from './utils/stateStore';
+
+  let userData;
+
+  stateController.subscribe(($userData) => {
+    userData = $userData;
+  });
+
+  console.log(userData);
 </script>
 
 <Header />
@@ -21,9 +30,22 @@
     >
   {:else}
     <Button class="back-button" on:cClick={() => push('/selection')}
-      >Back</Button
+      ><svg
+        class="back-arrow"
+        xmlns="http://www.w3.org/2000/svg"
+        height="48"
+        fill="#ffffff"
+        viewBox="0 -960 960 960"
+        width="48"><path d="M560-280 360-480l200-200v400Z" /></svg
+      > Back</Button
     >
   {/if}
+{/if}
+
+{#if userData.username !== 'guest'}
+  <Button class="profile-button" on:cClick={() => push('/profile')}
+    >Profile</Button
+  >
 {/if}
 
 <Router />
