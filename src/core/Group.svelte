@@ -371,18 +371,14 @@
         {#if selected}
           {#if group.name == selected.name}
             <h2 class="group-header-focused">{group.name}</h2>
-            <Button on:cClick={() => closeGroup()}>Close group</Button>
+            <Button on:cClick={() => closeGroup()}>Close</Button>
           {:else}
             <h2 class="group-header-unselected">{group.name}</h2>
-            <Button on:cClick={() => selectGroup(group, i)}
-              >Click to manage group</Button
-            >
+            <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
           {/if}
         {:else}
           <h2 class="group-header">{group.name}</h2>
-          <Button on:cClick={() => selectGroup(group, i)}
-            >Click to manage group</Button
-          >
+          <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
         {/if}
       {/each}
     </div>
@@ -801,4 +797,21 @@
     width: 30%;
     align-items: center;
   }
+  /* Tablet Portrait 
+  @media only screen and (max-width: 1150px) {
+    .grid-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #group-manage {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #group-view {
+    }
+    
+  }
+  */
 </style>

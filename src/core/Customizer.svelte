@@ -1,13 +1,13 @@
 <script>
-  import cch from "../utils/cache";
-  import { slide } from "svelte/transition";
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import Playerlist from "../reusable/Playerlist.svelte";
-  import { quintOut } from "svelte/easing";
+  import cch from '../utils/cache';
+  import { slide } from 'svelte/transition';
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import Playerlist from '../reusable/Playerlist.svelte';
+  import { quintOut } from 'svelte/easing';
 
-  import stateController from "../utils/stateStore";
-  import { onDestroy } from "svelte";
+  import stateController from '../utils/stateStore';
+  import { onDestroy } from 'svelte';
 
   export let params;
   console.log(params);
@@ -24,48 +24,48 @@
   let selectedMenu = params.id;
 
   let config = {
-    tournamentName: "",
-    organizerName: "",
-    numberOfGroups: "",
-    teamsInGroup: "",
-    tourDecider: "",
-    pointsPerWin: "",
-    pointsPerDraw: "",
-    numberOfRounds: "",
-    bestOf: "",
+    tournamentName: '',
+    organizerName: '',
+    numberOfGroups: '',
+    teamsInGroup: '',
+    tourDecider: '',
+    pointsPerWin: '',
+    pointsPerDraw: '',
+    numberOfRounds: '',
+    bestOf: '',
     players: [],
   };
 
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ["Goal Difference"];
+  const tournamentDeciders = ['Goal Difference'];
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [3, 4, 5];
   const pointsForDraw = [0, 1];
 
   const bestOf = [3, 5, 7];
-  const deciderTypes = ["Wins"];
+  const deciderTypes = ['Wins'];
 
-  let selectedDecider = "";
+  let selectedDecider = '';
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case "groups":
+      case 'groups':
         selectedGroups = value;
         break;
-      case "tournamentDecider":
+      case 'tournamentDecider':
         selectedTournamentDecider = value;
         break;
-      case "teamgroups":
+      case 'teamgroups':
         selectedTeamGroups = value;
         break;
-      case "pointsperwin":
+      case 'pointsperwin':
         selectedPointsPerWin = value;
         break;
-      case "pointsfordraw":
+      case 'pointsfordraw':
         selectedPointsForDraw = value;
         break;
-      case "decider":
+      case 'decider':
         selectedDecider = value;
         break;
       default:
@@ -74,7 +74,7 @@
   }
 
   function handlePlayerList(ce) {
-    if (ce.detail != ".") {
+    if (ce.detail != '.') {
       ce.detail.forEach((i) => config.players.push(i));
       config.players = [...config.players];
     } else {
@@ -94,13 +94,13 @@
     }
 
     switch (params.id) {
-      case "playoffs":
+      case 'playoffs':
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
       case "groups":
         push(`/groups/${cch.tokenify(config)}`);
         break;
-      case "league":
+      case 'league':
         push(`/league/${cch.tokenify(config)}`);
     }
   }
@@ -150,14 +150,14 @@
   function fill() {
     while (config.players.length < 4) {
       randomnum();
-      config.players.push("PLAYER_" + num);
+      config.players.push('PLAYER_' + num);
       config.players = [...config.players];
       checkplayers();
     }
     if (config.players.length > 4 && config.players.length < 8) {
       while (config.players.length < 8) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
@@ -165,7 +165,7 @@
     if (config.players.length > 8 && config.players.length < 16) {
       while (config.players.length < 16) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
@@ -173,7 +173,7 @@
     if (config.players.length > 16 && config.players.length < 32) {
       while (config.players.length < 32) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
@@ -181,7 +181,7 @@
     if (config.players.length > 32 && config.players.length < 64) {
       while (config.players.length < 64) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
@@ -189,7 +189,7 @@
     if (config.players.length > 64 && config.players.length < 128) {
       while (config.players.length < 128) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.push('PLAYER_' + num);
         config.players = [...config.players];
         checkplayers();
       }
@@ -204,7 +204,7 @@
   function scrollToTop() {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // Use 'auto' for instant scrolling
+      behavior: 'smooth', // Use 'auto' for instant scrolling
     });
   }
 </script>
@@ -229,7 +229,7 @@
               event.target.value = event.target.value.replace(
                 /[^A-Za-z0-9\s]/g,
 
-                ""
+                ''
               ); // Remove invalid characters
               config.tournamentName = event.target.value;
             }
@@ -249,7 +249,7 @@
               event.target.value = event.target.value.replace(
                 /[^A-Za-z0-9\s]/g,
 
-                ""
+                ''
               ); // Remove invalid characters
               config.organizerName = event.target.value;
             }
@@ -258,7 +258,7 @@
       </div>
     </div>
     <!-- Groups Menu -->
-    {#if selectedMenu == "groups"}
+    {#if selectedMenu == 'groups'}
       <div class="customizer-settings">
         <div>
           <label for="numberofGroups">Number of Groups</label>
@@ -333,12 +333,12 @@
       </div>
     {/if}
     <!-- Playoffs Menu -->
-    {#if params.id == "playoffs"}
+    {#if params.id == 'playoffs'}
       <div class="playerlist">
         <h2 class="list-header">List of players</h2>
         <p id="player-count">Player count: {config.players.length}</p>
         <Button class="expand-button" on:cClick={togglePlayerlist}>
-          {showPlayerlist ? "Hide Players" : "Show Players"}
+          {showPlayerlist ? 'Hide Players' : 'Show Players'}
         </Button>
         {#if showPlayerlist}
           <div transition:slide>
@@ -359,13 +359,13 @@
         {/if}
       </div>
     {/if}
-    {#if selectedMenu == "playoffs"}
+    {#if selectedMenu == 'playoffs'}
       <div
         class="customizer-settings"
         in:slide={{
           duration: 700,
           easing: quintOut,
-          axis: "y",
+          axis: 'y',
         }}
       >
         {#if playerListVisible}
@@ -414,13 +414,13 @@
       </div>
     {/if}
     <!-- League Menu -->
-    {#if selectedMenu == "league"}
+    {#if selectedMenu == 'league'}
       <div
         class="customizer-settings"
         in:slide={{
           duration: 700,
           easing: quintOut,
-          axis: "y",
+          axis: 'y',
         }}
       >
         <div>
@@ -468,7 +468,7 @@
       </div>
     {/if}
     <!-- Create buttons -->
-    {#if params.id == "playoffs"}
+    {#if params.id == 'playoffs'}
       <div>
         <p class="fill-info-text">
           Fills the game with enough placeholder players to start the game
@@ -480,17 +480,17 @@
         >
       </div>
     {/if}
-    {#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
+    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == "groups" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == "league" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
@@ -514,7 +514,6 @@
     margin-bottom: 2em;
     flex-direction: column;
     width: 50%;
-
     border-radius: 40px;
     background-color: rgba(0, 0, 0, 0.5);
   }
@@ -652,5 +651,17 @@
     white-space: nowrap;
     font-size: 1.2em;
     overflow-x: auto;
+  }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1150px) {
+    main {
+      padding-left: 1em;
+      padding-right: 1em;
+      margin-left: 12.5%;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      width: 75%;
+    }
   }
 </style>

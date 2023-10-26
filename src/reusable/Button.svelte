@@ -440,4 +440,12 @@
     transition-duration: 0.1s;
     right: 0;
   }
+
+  @media only screen and (max-width: 1150px) {
+    .back-button {
+      scale: 0.9;
+      margin: 0em;
+      margin-top: 0.25em;
+    }
+  }
 </style>
