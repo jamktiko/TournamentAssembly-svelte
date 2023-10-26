@@ -220,6 +220,7 @@
     if (match.includes(team)) {
       match = [];
     }
+    agmatches = []
   }
   let agmatches = []
   function autoCreateMatch(num){
