@@ -5,6 +5,9 @@
 
   import stateController from '../utils/stateStore';
   import { onDestroy } from 'svelte';
+  import Loading from '../reusable/Loading.svelte';
+  import LoginUser from '../reusable/LoginUser.svelte';
+  import Signup from '../reusable/Signup.svelte';
 
   let stateLocal;
   const unsub = stateController.subscribe((state) => (stateLocal = state));
@@ -16,6 +19,16 @@
   function loginAsGuest() {
     stateController.loginAsGuest();
     push('/selection');
+  }
+
+  let openLogin = false;
+  function toggleLogin() {
+    openLogin = !openLogin;
+  }
+
+  let openSignup = false;
+  function toggleSignup() {
+    openSignup = !openSignup;
   }
 </script>
 
@@ -33,18 +46,40 @@
     <div class="button-container">
       <Button on:cClick={loginAsGuest}>CREATE A TOURNAMENT AS GUEST</Button>
       <h2>OR</h2>
-      <Button on:cClick={() => push('/LoginUser')}>LOG IN</Button>
-      <br />
-      <Button on:cClick={() => push('/Signup')}>SIGN UP</Button>
+    </div>
+    <div class="login-buttons-container">
+      <Button class="login-button" on:cClick={() => toggleLogin()}
+        >LOG IN</Button
+      >
+      <Button class="login-button2" on:cClick={() => toggleSignup()}
+        >SIGN UP</Button
+      >
+    </div>
+    <div class="login-ad">
+      <p>
+        By creating an account and logging in you can experience the full
+        potential of Tournament Assembly by saving your custom tournaments and
+        continuing them later when you choose to.
+      </p>
     </div>
   </div>
 </main>
+
+{#if openLogin}
+  <LoginUser on:closeLogin={toggleLogin} />
+{/if}
+
+{#if openSignup}
+  <Signup on:closeSignup={toggleSignup} />
+{/if}
+
 <Footer />
 
 <style>
   main {
     padding-bottom: 1em;
-    margin: auto;
+    margin-top: 2em;
+    margin-left: 25%;
     align-items: center;
     height: 100%;
     width: 50%;
@@ -79,11 +114,28 @@
   }
 
   .button-container {
-    padding: 4em;
+    padding-top: 4em;
+    padding-bottom: 1em;
     margin: auto;
     width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .login-buttons-container {
+    margin-left: 20%;
+    padding-bottom: 2em;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .login-ad {
+    width: 60%;
+    margin: auto;
+    font-size: 1.3em;
   }
 </style>

@@ -4,12 +4,14 @@ import { calcId } from './lib';
 const stateStore = writable({});
 
 const stateController = {
-  apiUrl: 'http://localhost:3000/',
+
+  apiUrl: "http://localhost:3000/",
   subscribe: stateStore.subscribe,
 
   loginAsGuest() {
     const guest = {
-      username: 'guest',
+
+     username: "guest",
       password: null,
       isGuest: true,
       tournamentData: null,
@@ -25,11 +27,12 @@ const stateController = {
   },
 
   async register(user) {
-    const res = await this.customFetch('register', {
-      method: 'POST',
-      mode: 'cors',
+
+    const res = await this.customFetch("register", {
+      method: "POST",
+      mode: "cors",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
@@ -38,11 +41,12 @@ const stateController = {
   },
 
   async login(user) {
-    const res = await this.customFetch('login', {
-      method: 'POST',
-      mode: 'cors',
+
+    const res = await this.customFetch("login", {
+      method: "POST",
+      mode: "cors",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
@@ -62,12 +66,16 @@ const stateController = {
     return res;
   },
 
-  async createTournament(tournament, tournamentType) {
+  async createTournament(tournament, type) {
     let user;
     const unsub = this.subscribe((userData) => (user = userData));
     unsub();
 
     tournament.id = calcId(user.tournaments);
+
+    tournament.type = type;
+
+    console.log(tournament);
 
     const tourData = {
       username: user.username,
@@ -81,11 +89,18 @@ const stateController = {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
+    };
+
+    const opt = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(tourData),
     };
 
-    const res = await this.customFetch('addTour', opt);
+    const res = await this.customFetch("addTour", opt);
     console.log(res);
   },
 };

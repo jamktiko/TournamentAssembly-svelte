@@ -185,6 +185,20 @@
     tournamentWinner = null;
     staticbutton = true;
   }
+
+  function checkifresolved(winners, i, match){
+    if (winners.find(
+                  (id) =>
+                    (id.round === i && id.winner === match.home.id) == true)){
+                      return true
+                    }
+    if (winners.find(
+                  (id) =>
+                    (id.round === i && id.winner === match.away.id) == true)){
+                      return true
+                    }
+    return false
+  }
 </script>
 
 <main>
@@ -206,7 +220,7 @@
             {#if i !== 0}
               <Button
                 class="revert-button"
-                disabled={staticbutton}
+                disabled={staticbutton || match.home.name == null || match.away.name == null || checkifresolved(winners, i, match)}
                 on:cClick={() => revertMatch({ round: i, match: mi })}
                 >UNDO MATCH</Button
               >
@@ -318,7 +332,7 @@
     background: linear-gradient(
       129deg,
       rgb(11, 11, 52, 0.5) 0%,
-      rgb(34, 5, 32, 0.5) 100%
+      rgba(35, 27, 117, 0.5) 100%
     );
   }
 

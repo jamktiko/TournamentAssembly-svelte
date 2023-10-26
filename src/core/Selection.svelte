@@ -1,16 +1,16 @@
 <script>
-  import { push } from 'svelte-spa-router';
+  import { push } from "svelte-spa-router";
 
-  import Button from '../reusable/Button.svelte';
-  import Card from '../reusable/Card.svelte';
+  import Button from "../reusable/Button.svelte";
+  import Card from "../reusable/Card.svelte";
 
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
 
-  import cch from '../utils/cache';
-  import stateController from '../utils/stateStore';
+  import cch from "../utils/cache";
+  import stateController from "../utils/stateStore";
 
   let user;
   stateController.subscribe((userData) => (user = userData));
@@ -25,7 +25,7 @@
   function showConfirmation(key, path) {
     if (cch.isInCache(key)) {
       const isConfirmed = window.confirm(
-        'This will delete ongoing tournament! Continue?'
+        "This will delete ongoing tournament! Continue?"
       );
       if (isConfirmed) {
         navigate(key, path);
@@ -40,7 +40,7 @@
   transition:slide={{
     duration: 700,
     easing: quintOut,
-    axis: 'y',
+    axis: "y",
   }}
 >
   <div class="text-container">
@@ -60,22 +60,26 @@
       delay: 600,
       duration: 1000,
       easing: quadInOut,
-      axis: 'y',
+      axis: "y",
     }}
   >
-    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
-      <!-- Example: Custom background image -->
+    <Card
+      background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
+      bgheader="GROUPS"
+    >
       <div slot="header" class="card-header">
         <h2>GROUPS</h2>
       </div>
       <div slot="button">
         <Button
-          on:cClick={() => showConfirmation('groups', '/customizer/groups')}
+          on:cClick={() => showConfirmation("groups", "/customizer/groups")}
           >CHOOSE</Button
         >
 
-        {#if cch.isInCache('groups')}
-          <Button on:cClick={() => push(`/group/${cch.getToken('groupsConf')}`)}
+        {#if cch.isInCache("groups")}
+          <Button
+            class="continue-button"
+            on:cClick={() => push(`/group/${cch.getToken("groupsConf")}`)}
             >Continue</Button
           >
         {/if}
@@ -87,13 +91,15 @@
         </p>
       </div>
     </Card>
-    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
-      <!-- Example: Custom background image -->
+    <Card
+      background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
+      bgheader="PLAYOFFS"
+    >
       <div slot="header">
         <h2>PLAYOFFS</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => push('/customizer/playoffs')}>CHOOSE</Button>
+        <Button on:cClick={() => push("/customizer/playoffs")}>CHOOSE</Button>
       </div>
       <div slot="footer">
         <p>
@@ -102,18 +108,22 @@
         </p>
       </div>
     </Card>
-    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
-      <!-- Example: Custom background image -->
+    <Card
+      background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
+      bgheader="SCOREBOARD"
+    >
       <div slot="header">
         <h2>SCOREBOARD</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => showConfirmation('scoreboard', '/scoreboard')}
+        <Button on:cClick={() => showConfirmation("scoreboard", "/scoreboard")}
           >CHOOSE</Button
         >
 
-        {#if cch.isInCache('scoreboard')}
-          <Button on:cClick={() => push(`/scoreboard`)}>Continue</Button>
+        {#if cch.isInCache("scoreboard")}
+          <Button class="continue-button" on:cClick={() => push(`/scoreboard`)}
+            >Continue</Button
+          >
         {/if}
       </div>
       <div slot="footer">
@@ -123,19 +133,22 @@
         </p>
       </div>
     </Card>
-    <Card background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)">
-      <!-- Example: Custom background image -->
+    <Card
+      background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
+      bgheader="LEAGUE"
+    >
       <div slot="header">
         <h2>LEAGUE</h2>
       </div>
       <div slot="button">
         <Button
-          on:cClick={() => showConfirmation('league', '/customizer/league')}
+          on:cClick={() => showConfirmation("league", "/customizer/league")}
           >CHOOSE</Button
         >
-        {#if cch.isInCache('league')}
+        {#if cch.isInCache("league")}
           <Button
-            on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
+            class="continue-button"
+            on:cClick={() => push(`/league/${cch.getToken("leagueConf")}`)}
             >Continue</Button
           >
         {/if}

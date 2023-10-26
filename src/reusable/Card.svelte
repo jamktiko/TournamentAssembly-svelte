@@ -1,7 +1,14 @@
 <script>
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quadInOut, quintInOut, quintOut } from "svelte/easing";
+
+  export let bgheader;
 </script>
 
 <div class="card">
+  <h1 class="card-image">{bgheader}</h1>
   <div class="header">
     <slot name="header" />
   </div>
@@ -28,14 +35,24 @@
     transition-duration: 0.3s;
   }
 
+  .card-image {
+    margin-top: 0.5em;
+    opacity: 0;
+    filter: blur(3px);
+    position: absolute;
+    font-size: 9em;
+    z-index: -99;
+    transition-duration: 0.3s;
+  }
+  .card:hover .card-image {
+    scale: 1.1;
+    opacity: 0.2;
+    filter: drop-shadow(0px 0px 20px rgba(255, 255, 255, 0.5)) brightness(1)
+      blur(6px);
+  }
+
   .card:hover {
-    filter: brightness(1.2);
-    background: radial-gradient(
-      rgba(20, 1, 50, 0.5) 0%,
-      rgb(0, 0, 0, 0.5) 100%
-    );
-    filter: drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.171));
-    scale: 1.03;
+    scale: 1.01;
   }
   .header {
     text-align: center;

@@ -23,6 +23,7 @@
     text-align: center;
     width: 100%;
     border-radius: 0px;
+    border-top: solid 2px #ffffff;
     background-color: rgba(0, 0, 0, 0.308);
   }
 </style>

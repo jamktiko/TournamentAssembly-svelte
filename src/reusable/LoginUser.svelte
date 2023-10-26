@@ -1,10 +1,9 @@
 <script>
   import { push } from 'svelte-spa-router';
   import Button from '../reusable/Button.svelte';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
   import { scale } from 'svelte/transition';
   import { bounceInOut, quadInOut, quintOut } from 'svelte/easing';
+  import { createEventDispatcher } from 'svelte';
 
   import stateController from '../utils/stateStore';
 
@@ -28,6 +27,11 @@
       setInterval(() => (invalidLogin = false), 1000);
     }
   }
+
+  const dispatch = createEventDispatcher();
+  function closeLogin() {
+    dispatch('closeLogin');
+  }
 </script>
 
 <div class="backdrop" />
@@ -42,12 +46,12 @@
   }}
 >
   <div class="closeButton">
-    <Button on:cClick={() => push('/')}>
+    <Button on:cClick={closeLogin}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        height="24"
-        viewBox="0 -960 960 960"
-        width="24"
+        height="48"
+        viewBox="0 -1080 960 960"
+        width="48"
         ><path
           d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
         /></svg
@@ -89,17 +93,18 @@
   }
 
   .modal {
-    margin: auto;
+    margin-left: 24.1%;
     display: flex;
     color: #ffffff;
     padding: 1rem;
     position: relative;
+    margin-top: -40em;
     width: 50%;
     max-height: 80vh;
     background: linear-gradient(
       129deg,
-      rgb(11, 11, 52) 0%,
-      rgba(24, 0, 23, 0.285) 100%
+      rgb(4, 4, 27) 0%,
+      rgba(10, 3, 47, 0.856) 100%
     );
     border-radius: 40px;
     z-index: 100;
@@ -127,12 +132,14 @@
     font-size: 1.3em;
     padding: 0.5em 2em;
     border-radius: 20px;
-    background-color: rgb(21, 21, 21);
+    border: 1px solid #ffffff3f;
+    background-color: rgba(0, 0, 0, 0.208);
     color: #ffffff;
     text-align: center;
   }
 
   .login-input {
+    padding-bottom: 2em;
     align-items: center;
     display: flex;
     margin: auto;

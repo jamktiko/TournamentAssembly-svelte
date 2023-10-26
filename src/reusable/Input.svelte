@@ -13,9 +13,9 @@
     display: block;
     justify-content: center;
     color: white;
-    border-radius: 1em;
-    background-color: rgb(69, 69, 69);
-    border-color: rgb(74, 11, 50);
+    background-color: rgba(5, 2, 45, 0.226);
+    text-align: center;
+    border: 1px solid #ffffffae;
   }
 
   .input-field {
