@@ -86,7 +86,8 @@
       const tournament = {
         config,
       };
-
+      
+      console.log(params.id);
       stateController.createTournament(tournament, params.id);
     }
 
