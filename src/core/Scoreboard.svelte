@@ -9,7 +9,7 @@
   import { onDestroy } from 'svelte';
   import cch from '../utils/cache';
 
-  let gridData = [{ name: '', columns: [0] }];
+  let gridData = [{ name: '', columns: [""] }];
 
   onDestroy(() => {
     if (
@@ -35,14 +35,14 @@
     const numColumns = gridData[0].columns.length;
     const newRow = {
       name: '',
-      columns: Array(numColumns).fill(0), // Create an array with the same number of empty strings as columns
+      columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
   }
 
   function addColumn() {
     gridData.forEach((row) => {
-      row.columns.push(0);
+      row.columns.push("");
     });
     gridData = [...gridData];
   }
