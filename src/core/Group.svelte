@@ -254,7 +254,7 @@
       }
       num = num - 1;
     }
-    toggleMatches()
+
     randomizeMatches(agmatches);
     console.log(agmatches.length);
     agmatches = [...agmatches];
