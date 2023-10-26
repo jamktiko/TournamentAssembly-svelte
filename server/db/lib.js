@@ -73,6 +73,16 @@ const lib = {
       };
     }
 
+    // Validate that the username is a valid email address
+    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+    if (!emailRegex.test(username)) {
+      console.error('Invalid email format');
+      return {
+        msg: 'Invalid email format',
+        success: false,
+      };
+    }
+
     // Check if the username is already taken
     const existingUser = await collection.findOne({ username });
     try {
