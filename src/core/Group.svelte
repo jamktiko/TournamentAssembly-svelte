@@ -39,7 +39,7 @@
   function toggleResults() {
     showResults = !showResults;
   }
-  
+
   function generateGroups(conf) {
     for (let i = 0; i < conf.numberOfGroups; i++) {
       const group = {
@@ -119,7 +119,7 @@
   }
 
   function resolve(ce) {
-    deleteFromGenMatch(match[0], match[1])
+    deleteFromGenMatch(match[0], match[1]);
     if (ce.detail.draw) {
       ce.detail.contestants[0].draws++;
       ce.detail.contestants[0].playedMatches++;
@@ -227,29 +227,36 @@
   function closeGroup() {
     selected = null;
   }
-  let contA = null
-  let agmatches = []
+  let contA = null;
+  let agmatches = [];
 
-  function autoCreateMatch(num){
+  function autoCreateMatch(num) {
+    agmatches = [];
 
-    agmatches = []
-
-    while (num > 0){
-      let contA = 0
-      let contB = 1
-      while (contA < selected.participants.length){
-        while (contB < selected.participants.length){
-          if (selected.participants[contA].name.length > 0 && (selected.participants[contB].name.length > 0)) {
-            agmatches.push([selected.participants[contA], selected.participants[contB]])}
-          contB += 1}
-        contA += 1
-      contB = contA + 1
+    while (num > 0) {
+      let contA = 0;
+      let contB = 1;
+      while (contA < selected.participants.length) {
+        while (contB < selected.participants.length) {
+          if (
+            selected.participants[contA].name.length > 0 &&
+            selected.participants[contB].name.length > 0
+          ) {
+            agmatches.push([
+              selected.participants[contA],
+              selected.participants[contB],
+            ]);
+          }
+          contB += 1;
+        }
+        contA += 1;
+        contB = contA + 1;
+      }
+      num = num - 1;
     }
-  num = num - 1
-  }
-    randomizeMatches(agmatches)
-    console.log(agmatches.length)
-    agmatches = [...agmatches]
+    randomizeMatches(agmatches);
+    console.log(agmatches.length);
+    agmatches = [...agmatches];
   }
   function randomizeMatches(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -259,25 +266,27 @@
       array[j] = temp;
     }
     agmatches = [...agmatches];
-
   }
-  function playGeneratedMatches(player1, player2){
-    console.log(player1, player2)
-    addToMatch(player1.id,selected.index)
-    addToMatch(player2.id,selected.index)
-
+  function playGeneratedMatches(player1, player2) {
+    console.log(player1, player2);
+    addToMatch(player1.id, selected.index);
+    addToMatch(player2.id, selected.index);
   }
 
-  function deleteFromGenMatch(player1, player2){
-    let finder = 0
-    while (finder < agmatches.length){
-      if (agmatches[finder][0].name == player1.name && agmatches[finder][1].name == player2.name){
-        agmatches.splice(finder, 1)
+  function deleteFromGenMatch(player1, player2) {
+    let finder = 0;
+    while (finder < agmatches.length) {
+      if (
+        agmatches[finder][0].name == player1.name &&
+        agmatches[finder][1].name == player2.name
+      ) {
+        agmatches.splice(finder, 1);
       }
-      finder += 1
-    agmatches = [...agmatches]
+      finder += 1;
+      agmatches = [...agmatches];
+    }
   }
-}
+
 let playoffconfig = {
     tournamentName: '',
     organizerName: '',
@@ -367,7 +376,6 @@ let playoffconfig = {
           <h2 id="group-name">{selected.name}</h2>
           <table>
             <tr>
-              <th />
               <th> Name </th>
               <th
                 on:click={() =>
@@ -391,17 +399,6 @@ let playoffconfig = {
             {#each selected.participants as participant}
               <tr>
                 <td>
-                  {#if participant.name != '' && !checkIfBlacklisted(selected)}
-                    <Button
-                      class="group-adjust-button"
-                      disabled={match[0] && participant.id === match[0].id}
-                      on:cClick={() =>
-                        addToMatch(participant.id, selected.index)}
-                      >Add to match</Button
-                    >
-                  {/if}
-                </td>
-                <td>
                   <input
                     type="text"
                     placeholder="Insert name here"
@@ -424,8 +421,12 @@ let playoffconfig = {
                 class="resolve-button"
                 on:cClick={() => calcWinner(selected)}>Finish this Group</Button
               >
-              <Button disabled={agmatches.length > 0} on:cClick={() => autoCreateMatch(1)}>Auto matches</Button>
-              
+              <Button
+                class="resolve-button"
+                disabled={agmatches.length > 0}
+                on:cClick={() => autoCreateMatch(1)}
+                >GENERATE A MATCH SCHEDULE</Button
+              >
             {/if}
           </div>
         </div>
@@ -446,8 +447,6 @@ let playoffconfig = {
         </div>
       {/if}
     </div>
-
-
 
     <div class="results-button-container">
       <Button class="results-toggle-button" on:cClick={toggleResults}
@@ -483,22 +482,31 @@ let playoffconfig = {
       </div>
     {/if}
   </div>
-  
 
   {#if agmatches.length > 0}
-      <div class="match-list">
-        <h2 class="list-header">Matches</h2>
-        <p id="match-count">Matches Remaining: {agmatches.length}</p>
-        <Button on:cClick={() => agmatches = []}>Cancel matches</Button>
-          <div transition:slide>
-            {#each agmatches as agmatch}
-            <Automatches {agmatch} on:chooseevent={playGeneratedMatches(agmatch[0],agmatch[1])}/>
-            
-            {/each}
-          </div>
-        
+    <div class="backdrop" />
+    <div class="modal">
+      <h1 class="list-header">MATCH SCHEDULE</h1>
+      <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
+      <div class="schedule-content">
+        <h3>MATCHES</h3>
+        <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
+          >Cancel matches</Button
+        >
+        <div class="matches-container" transition:slide>
+          {#each agmatches as agmatch}
+            <Automatches
+              {agmatch}
+              on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+            />
+          {/each}
+        </div>
+        <Button class="add-player-exit-button" on:cClick={() => TÄÄLOLOLOL()}
+          >Exit</Button
+        >
       </div>
-    {/if}
+    </div>
+  {/if}
 </main>
 
 <style>
@@ -718,33 +726,48 @@ let playoffconfig = {
     justify-content: center;
     margin-bottom: 1em;
   }
-  .match-list {
-    text-align: center;
-    padding: 0.5em;
-    width: 12.5em;
-    position: absolute;
-    top: 16em;
-    left: 0.75em;
-    background: linear-gradient(
-      129deg,
-      rgba(0, 0, 0, 0.366) 0%,
-      rgba(5, 0, 24, 0.285) 100%
-    );
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    font-size: 1em;
-    color: white;
-    border: solid 1px #ffffff3c;
-    border-radius: 5px;
-    z-index: 50;
-    overflow-y: auto;
-    max-height: 50%;
-  }
+
   .list-header {
     text-transform: uppercase;
   }
   #match-count {
     text-transform: uppercase;
     font-size: 0.9em;
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.423);
+    z-index: 10;
+  }
+
+  .modal {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 40%;
+    height: 60%;
+    position: absolute;
+    top: 16em;
+    left: 30%;
+    color: #ffffff;
+    padding: 1em 3em;
+    background: linear-gradient(129deg, rgb(5, 5, 40) 0%, rgb(15, 11, 40) 100%);
+    border-radius: 40px;
+    z-index: 100;
+    border: solid 1px #ffffff3f;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    overflow-y: auto;
+  }
+
+  .schedule-content {
+    margin: auto;
+    width: 30%;
+    align-items: center;
   }
 </style>
 

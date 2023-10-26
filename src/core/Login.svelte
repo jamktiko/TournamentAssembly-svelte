@@ -6,6 +6,8 @@
   import stateController from '../utils/stateStore';
   import { onDestroy } from 'svelte';
   import Loading from '../reusable/Loading.svelte';
+  import LoginUser from '../reusable/LoginUser.svelte';
+  import Signup from '../reusable/Signup.svelte';
 
   let stateLocal;
   const unsub = stateController.subscribe((state) => (stateLocal = state));
@@ -17,6 +19,16 @@
   function loginAsGuest() {
     stateController.loginAsGuest();
     push('/selection');
+  }
+
+  let openLogin = false;
+  function toggleLogin() {
+    openLogin = !openLogin;
+  }
+
+  let openSignup = false;
+  function toggleSignup() {
+    openSignup = !openSignup;
   }
 </script>
 
@@ -36,10 +48,10 @@
       <h2>OR</h2>
     </div>
     <div class="login-buttons-container">
-      <Button class="login-button" on:cClick={() => push('/LoginUser')}
+      <Button class="login-button" on:cClick={() => toggleLogin()}
         >LOG IN</Button
       >
-      <Button class="login-button2" on:cClick={() => push('/Signup')}
+      <Button class="login-button2" on:cClick={() => toggleSignup()}
         >SIGN UP</Button
       >
     </div>
@@ -52,6 +64,14 @@
     </div>
   </div>
 </main>
+
+{#if openLogin}
+  <LoginUser on:closeLogin={toggleLogin} />
+{/if}
+
+{#if openSignup}
+  <Signup on:closeSignup={toggleSignup} />
+{/if}
 
 <Footer />
 

@@ -1,16 +1,16 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import { onDestroy } from 'svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
-  import { push } from 'svelte-spa-router';
-  import Winner from '../reusable/Winner.svelte';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, quadInOut } from 'svelte/easing';
-  import Automatches from '../reusable/Automatches.svelte';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import { onDestroy } from "svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+  import { push } from "svelte-spa-router";
+  import Winner from "../reusable/Winner.svelte";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, quadInOut } from "svelte/easing";
+  import Automatches from "../reusable/Automatches.svelte";
 
   export let params;
   let matchResults = [];
@@ -30,20 +30,20 @@
   let config = cch.detokenify(params.tourdata)[0];
 
   onDestroy(() => {
-    cch.saveToCache('league', teams);
-    cch.saveToCache('leagueConf', config);
+    cch.saveToCache("league", teams);
+    cch.saveToCache("leagueConf", config);
   });
 
   let teams = [];
   let match = [];
 
-  if (cch.isInCache('league') && cch.isInCache('leagueConf')) {
-    teams = cch.getFromCache('league');
+  if (cch.isInCache("league") && cch.isInCache("leagueConf")) {
+    teams = cch.getFromCache("league");
 
     console.log(teams);
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column) {
@@ -94,9 +94,9 @@
       selected = id;
     } else {
       setTimeout(() => {
-        const titleElement = document.querySelector('.match-header');
+        const titleElement = document.querySelector(".match-header");
         if (!titleElement) return;
-        titleElement.scrollIntoView({ behavior: 'smooth' });
+        titleElement.scrollIntoView({ behavior: "smooth" });
       }, 20);
 
       selected = null;
@@ -111,7 +111,7 @@
    * @param ce custom event received from Match-component, contains the winner and loser
    */
   function resolve(ce) {
-    deleteFromGenMatch(match[0], match[1])
+    deleteFromGenMatch(match[0], match[1]);
     if (ce.detail.draw) {
       ce.detail.contestants[0].draws++;
       ce.detail.contestants[0].playedMatches++;
@@ -134,7 +134,7 @@
           },
         ],
         draw: true,
-        group: ' ',
+        group: " ",
       });
     } else {
       ce.detail.winner.wins++;
@@ -161,7 +161,7 @@
               },
             ],
             draw: false,
-            group: ' ',
+            group: " ",
           },
         ]);
       } else {
@@ -180,7 +180,7 @@
               },
             ],
             draw: false,
-            group: ' ',
+            group: " ",
           },
         ]);
       }
@@ -198,7 +198,7 @@
     return 0;
   }
 
-  let largest = '';
+  let largest = "";
   function largestScore() {
     let i = 0;
     largest = teams[i];
@@ -210,7 +210,7 @@
     }
   }
   function closewindow() {
-    largest = '';
+    largest = "";
   }
 
   function deleteTeam(team) {
@@ -222,28 +222,28 @@
     }
     agmatches = []
   }
-  let agmatches = []
-  function autoCreateMatch(num){
-    
+  let agmatches = [];
+  function autoCreateMatch(num) {
+    agmatches = [];
 
-agmatches = []
-
-while (num > 0){
-  let contA = 0
-  let contB = 1
-  while (contA < teams.length){
-    while (contB < teams.length){
-      if (teams[contA].name.length > 0 && (teams[contB].name.length > 0)) {
-        agmatches.push([teams[contA], teams[contB]])}
-      contB += 1}
-    contA += 1
-  contB = contA + 1
-  }
-    num = num - 1
-  }
-    randomizeMatches(agmatches)
-    console.log(agmatches)
-    agmatches = [...agmatches]
+    while (num > 0) {
+      let contA = 0;
+      let contB = 1;
+      while (contA < teams.length) {
+        while (contB < teams.length) {
+          if (teams[contA].name.length > 0 && teams[contB].name.length > 0) {
+            agmatches.push([teams[contA], teams[contB]]);
+          }
+          contB += 1;
+        }
+        contA += 1;
+        contB = contA + 1;
+      }
+      num = num - 1;
+    }
+    randomizeMatches(agmatches);
+    console.log(agmatches);
+    agmatches = [...agmatches];
   }
   function randomizeMatches(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -253,31 +253,32 @@ while (num > 0){
       array[j] = temp;
     }
     agmatches = [...agmatches];
-
   }
-  function playGeneratedMatches(player1, player2){
-    console.log(player1, player2)
-    addToMatch(player1.id)
-    addToMatch(player2.id)
-
+  function playGeneratedMatches(player1, player2) {
+    console.log(player1, player2);
+    addToMatch(player1.id);
+    addToMatch(player2.id);
   }
-  function deleteFromGenMatch(player1, player2){
-    let finder = 0
-    while (finder < agmatches.length){
-      if (agmatches[finder][0].name == player1.name && agmatches[finder][1].name == player2.name){
-        agmatches.splice(finder, 1)
+  function deleteFromGenMatch(player1, player2) {
+    let finder = 0;
+    while (finder < agmatches.length) {
+      if (
+        agmatches[finder][0].name == player1.name &&
+        agmatches[finder][1].name == player2.name
+      ) {
+        agmatches.splice(finder, 1);
       }
-      finder += 1
-    agmatches = [...agmatches]
+      finder += 1;
+      agmatches = [...agmatches];
+    }
   }
-}
 </script>
 
 <main
   in:slide={{
     duration: 700,
     easing: quintOut,
-    axis: 'y',
+    axis: "y",
   }}
 >
   <h1 class="league-name">{config.tournamentName}</h1>
@@ -323,7 +324,7 @@ while (num > 0){
         >
       {/if}
     </div>
-    {#if largest != ''}
+    {#if largest != ""}
       <Winner {config} winner={largest} on:closeevent={closewindow} />
     {/if}
     <Button class="league-resolve-button" on:cClick={() => largestScore()}
@@ -333,13 +334,13 @@ while (num > 0){
       <table>
         <thead>
           <tr>
-            <th on:click={() => toggleSortOrder('name')}>Team Name</th>
-            <th on:click={() => toggleSortOrder('playedMatches')}>PL</th>
-            <th on:click={() => toggleSortOrder('score')}>Score</th>
-            <th on:click={() => toggleSortOrder('wins')}>W</th>
-            <th on:click={() => toggleSortOrder('draws')}>D</th>
-            <th on:click={() => toggleSortOrder('losses')}>L</th>
-            <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
+            <th on:click={() => toggleSortOrder("name")}>Team Name</th>
+            <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
+            <th on:click={() => toggleSortOrder("score")}>Score</th>
+            <th on:click={() => toggleSortOrder("wins")}>W</th>
+            <th on:click={() => toggleSortOrder("draws")}>D</th>
+            <th on:click={() => toggleSortOrder("losses")}>L</th>
+            <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
           </tr>
         </thead>
         <tbody class="scoreboard-lined-cell">
@@ -349,7 +350,7 @@ while (num > 0){
               in:fade={{
                 duration: 2000,
                 easing: quintOut,
-                axis: 'y',
+                axis: "y",
               }}
             >
               <td>{team.name}</td>
@@ -385,7 +386,10 @@ while (num > 0){
       />
     {/if}
     <div class="results-button-container">
-      <Button disabled={agmatches.length > 0} on:cClick={() => autoCreateMatch(1)}>Auto matches</Button>
+      <Button
+        disabled={agmatches.length > 0}
+        on:cClick={() => autoCreateMatch(1)}>Auto matches</Button
+      >
       {#if showResults == 0}
         <Button on:cClick={() => toggleResults()}>Show results</Button>
       {/if}
@@ -407,19 +411,20 @@ while (num > 0){
     {/if}
   </div>
   {#if agmatches.length > 0}
-      <div class="match-list">
-        <h2 class="list-header">Matches</h2>
-        <p id="match-count">Matches Remaining: {agmatches.length}</p>
-        <Button on:cClick={() => agmatches = []}>Cancel matches</Button>
-          <div transition:slide>
-            {#each agmatches as agmatch}
-            <Automatches {agmatch} on:chooseevent={playGeneratedMatches(agmatch[0],agmatch[1])}/>
-            
-            {/each}
-          </div>
-        
+    <div class="match-list">
+      <h2 class="list-header">Matches</h2>
+      <p id="match-count">Matches Remaining: {agmatches.length}</p>
+      <Button on:cClick={() => (agmatches = [])}>Cancel matches</Button>
+      <div transition:slide>
+        {#each agmatches as agmatch}
+          <Automatches
+            {agmatch}
+            on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+          />
+        {/each}
       </div>
-    {/if}
+    </div>
+  {/if}
 </main>
 
 <style>

@@ -213,6 +213,9 @@
   }
 
   .back-button {
+    padding-left: 2.2em;
+    display: flex;
+    flex-direction: row;
     text-transform: uppercase;
     scale: 1;
     border-radius: 10px;
@@ -424,5 +427,17 @@
 
   .league-resolve-button:disabled {
     cursor: default;
+  }
+
+  .profile-button {
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    scale: 1;
+    border-radius: 10px;
+    position: absolute;
+    margin: 0.5em;
+    transition-duration: 0.1s;
+    right: 0;
   }
 </style>

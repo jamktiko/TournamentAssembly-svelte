@@ -1,6 +1,6 @@
 <script>
-  import { onDestroy } from "svelte";
-  import stateController from "../utils/stateStore";
+  import { onDestroy } from 'svelte';
+  import stateController from '../utils/stateStore';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
@@ -14,12 +14,12 @@
   console.log(tournaments);
 
   let testData = [
-    { name: "Tournament 1", type: "League" },
-    { name: "Tournament 2", type: "Playoffs" },
-    { name: "Tournament 3", type: "Groups" },
-    { name: "Scoreboard 1", type: "Scoreboard" },
-    { name: "Scoreboard 2", type: "Scoreboard" },
-    { name: "Scoreboard 3", type: "Scoreboard" },
+    { name: 'Tournament 1', type: 'League' },
+    { name: 'Tournament 2', type: 'Playoffs' },
+    { name: 'Tournament 3', type: 'Groups' },
+    { name: 'Scoreboard 1', type: 'Scoreboard' },
+    { name: 'Scoreboard 2', type: 'Scoreboard' },
+    { name: 'Scoreboard 3', type: 'Scoreboard' },
   ];
 </script>
 
@@ -35,14 +35,22 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Type</th>
+          <th>Decider</th>
+          <th>Groups</th>
+          <th>Teams in Group</th>
+          <th>Points for Win</th>
+          <th>Points for Draw</th>
         </tr>
       </thead>
       <tbody>
-        {#each testData as data (data.name)}
+        {#each tournaments as tournament (tournament.id)}
           <tr>
-            <td>{data.name}</td>
-            <td>{data.type}</td>
+            <td>{tournament.config.tournamentName}</td>
+            <td>{tournament.config.tourDecider}</td>
+            <td>{tournament.config.numberOfGroups}</td>
+            <td>{tournament.config.teamsInGroup}</td>
+            <td>{tournament.config.pointsPerWin}</td>
+            <td>{tournament.config.pointsPerDraw}</td>
           </tr>
         {/each}
       </tbody>
@@ -87,6 +95,7 @@
     background-color: rgba(0, 0, 0, 0.3);
     border: 1px solid white;
     text-align: center;
+    padding: 0em 1em;
   }
 
   td {

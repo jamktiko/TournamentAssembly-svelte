@@ -15,17 +15,50 @@
 </script>
 
 <main>
-  <h1>WELCOME {currentUser.username.toUpperCase()}!</h1>
+  <div class="profile-header">
+    <h1>WELCOME {currentUser.username.toUpperCase()}!</h1>
+  </div>
+  <div class="profile-description">
+    <p>
+      Choose below if you want to create a new Tournament & Scoreboard or if you
+      want view your previously created Tournaments & Scoreboards
+    </p>
+  </div>
   <div class="buttons">
     <Button on:cClick={() => push('/selection')}>Create A Tournament</Button>
-    <Button>My Tournaments</Button>
+    <Button on:cClick={() => push('/tournaments')}>My Tournaments</Button>
   </div>
 </main>
 
 <style>
+  main {
+    margin-left: 15%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 70%;
+    padding-top: 4em;
+    padding-bottom: 3em;
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  h1 {
+    text-transform: uppercase;
+    font-size: 2em;
+  }
+
+  .profile-description {
+    text-align: center;
+  }
+
   .buttons {
     display: flex;
     justify-content: space-evenly;
-    padding: 5em;
+    margin: 1em;
   }
 </style>
