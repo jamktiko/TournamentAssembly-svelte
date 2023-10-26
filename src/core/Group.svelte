@@ -221,7 +221,7 @@
     console.log(groupWinners);
     selected = null;
     blacklisted.push(group.id);
-    groupWinners = [...groupWinners]
+    groupWinners = [...groupWinners];
   }
 
   function closeGroup() {
@@ -269,7 +269,7 @@
     agmatches = [...agmatches];
   }
   function playGeneratedMatches(player1, player2) {
-    toggleMatches()
+    toggleMatches();
     console.log(player1, player2);
     addToMatch(player1.id, selected.index);
     addToMatch(player2.id, selected.index);
@@ -287,10 +287,10 @@
       finder += 1;
       agmatches = [...agmatches];
     }
-    toggleMatches()
+    toggleMatches();
   }
 
-let playoffconfig = {
+  let playoffconfig = {
     tournamentName: '',
     organizerName: '',
     numberOfGroups: '',
@@ -302,44 +302,45 @@ let playoffconfig = {
     bestOf: '',
     players: [],
   };
-  function leaveGroup(){
-    let pusher = 0
-    console.log(groupWinners)
-    playoffconfig.tournamentName = config.tournamentName
-    playoffconfig.organizerName = config.organizerName
-    playoffconfig.tourDecider = ""
-    playoffconfig.bestOf = 3
-    playoffconfig.players = []
-    while (pusher < groupWinners.length){
-      playoffconfig.players.push(groupWinners[pusher].name)
-      pusher += 1
+  function leaveGroup() {
+    let pusher = 0;
+    console.log(groupWinners);
+    playoffconfig.tournamentName = config.tournamentName;
+    playoffconfig.organizerName = config.organizerName;
+    playoffconfig.tourDecider = '';
+    playoffconfig.bestOf = 3;
+    playoffconfig.players = [];
+    while (pusher < groupWinners.length) {
+      playoffconfig.players.push(groupWinners[pusher].name);
+      pusher += 1;
     }
-    AddCorrectAmount()
+    AddCorrectAmount();
     push(`/playoffs/${cch.tokenify(playoffconfig)}`);
   }
-  let num = 0
+  let num = 0;
   function randomnum() {
     num = Math.floor(Math.random() * 10000);
   }
-  function AddCorrectAmount(){
-    if (playoffconfig.players.length == 3){
+  function AddCorrectAmount() {
+    if (playoffconfig.players.length == 3) {
       randomnum();
       playoffconfig.players.push('PLAYER_' + num);
       playoffconfig.players = [...playoffconfig.players];
     }
-    let place = 3
-    while (playoffconfig.players.length > 4 && playoffconfig.players.length < 8)
-    {
+    let place = 3;
+    while (
+      playoffconfig.players.length > 4 &&
+      playoffconfig.players.length < 8
+    ) {
       randomnum();
-      playoffconfig.players.splice(place,0,('PLAYER_' + num));
+      playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
       playoffconfig.players = [...playoffconfig.players];
-      place += 2
+      place += 2;
     }
-    
   }
-  let showmatches = false
-  function toggleMatches(){
-    showmatches = !showmatches
+  let showmatches = false;
+  function toggleMatches() {
+    showmatches = !showmatches;
   }
 </script>
 
@@ -347,6 +348,9 @@ let playoffconfig = {
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
     <h3>Organized by: {config.organizerName || '-'}</h3>
+    <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}
+      >EXPORT TO PLAYOFFS</Button
+    >
   </div>
   <div class="grid-container">
     <div id="group-manage" in:slide>
@@ -425,11 +429,12 @@ let playoffconfig = {
           <div class="resolve-button-container">
             {#if selected && !checkIfBlacklisted()}
               <Button
-                class="resolve-button"
+                class="finish-button"
                 on:cClick={() => calcWinner(selected)}>Finish this Group</Button
               >
+
               <Button
-                class="resolve-button"
+                class="schedule-create-button"
                 disabled={agmatches.length > 0}
                 on:cClick={() => autoCreateMatch(1)}
                 >GENERATE A MATCH SCHEDULE</Button
@@ -437,8 +442,7 @@ let playoffconfig = {
               <Button
                 class="resolve-button"
                 disabled={agmatches.length == 0}
-                on:cClick={toggleMatches}
-                >Show matches</Button
+                on:cClick={toggleMatches}>Show matches</Button
               >
             {/if}
           </div>
@@ -477,7 +481,6 @@ let playoffconfig = {
           {/each}
         </div>
       {/if}
-      <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}>Playoffs</Button>
     </div>
     {#if match[0] && match[1]}
       <div
@@ -496,33 +499,31 @@ let playoffconfig = {
     {/if}
   </div>
   {#if showmatches}
-  {#if agmatches.length > 0}
-    <div class="backdrop" />
-    <div class="modal">
-      <h1 class="list-header">MATCH SCHEDULE</h1>
-      <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
-      <div class="schedule-content">
-        <h3>MATCHES</h3>
-        <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
-          >Cancel matches</Button
-        >
-        <div class="matches-container" transition:slide>
-          
-          {#each agmatches as agmatch}
-            <Automatches
-              {agmatch}
-              on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
-            />
-          {/each}
-          
+    {#if agmatches.length > 0}
+      <div class="backdrop" />
+      <div class="modal">
+        <h1 class="list-header">MATCH SCHEDULE</h1>
+        <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
+        <div class="schedule-content">
+          <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
+            >Cancel matches</Button
+          >
+
+          <div class="matches-container" transition:slide>
+            {#each agmatches as agmatch}
+              <Automatches
+                {agmatch}
+                on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+              />
+            {/each}
+          </div>
+
+          <Button class="add-player-exit-button" on:cClick={toggleMatches}
+            >CLOSE</Button
+          >
         </div>
-        
-        <Button class="add-player-exit-button" on:cClick={toggleMatches}
-          >Exit</Button
-        >
       </div>
-    </div>
-  {/if}{/if}
+    {/if}{/if}
 </main>
 
 <style>
@@ -618,9 +619,9 @@ let playoffconfig = {
     text-transform: uppercase;
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     margin-top: 2em;
     margin-bottom: 2em;
     grid-column: 2;
@@ -658,10 +659,12 @@ let playoffconfig = {
 
   input {
     color: rgb(255, 255, 255);
-    font-size: 1em;
-    padding: 0.5em 1.8em;
+    margin-bottom: 1em;
+    font-size: 1.3em;
+    padding: 0.5em 2em;
     border-radius: 20px;
-    background-color: rgb(21, 21, 21);
+    border: 1px solid #ffffff3f;
+    background-color: rgba(0, 0, 0, 0.58);
     color: #ffffff;
     text-align: center;
   }
@@ -757,7 +760,7 @@ let playoffconfig = {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.423);
+    background: rgba(0, 0, 0, 0.83);
     z-index: 10;
   }
 
@@ -765,14 +768,18 @@ let playoffconfig = {
     display: flex;
     flex-direction: column;
     text-align: center;
-    width: 40%;
+    width: 50%;
     height: 60%;
     position: absolute;
-    top: 16em;
-    left: 30%;
+    top: 18em;
+    left: 23%;
     color: #ffffff;
     padding: 1em 3em;
-    background: linear-gradient(129deg, rgb(5, 5, 40) 0%, rgb(15, 11, 40) 100%);
+    background: linear-gradient(
+      129deg,
+      rgba(5, 5, 40, 0.7) 0%,
+      rgba(15, 11, 40, 0.7) 100%
+    );
     border-radius: 40px;
     z-index: 100;
     border: solid 1px #ffffff3f;
@@ -782,8 +789,15 @@ let playoffconfig = {
 
   .schedule-content {
     margin: auto;
-    width: 30%;
+    width: 90%;
     align-items: center;
+    padding-bottom: 2em;
+  }
+
+  .matches-container {
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5em;
   }
 </style>
-

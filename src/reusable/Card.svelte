@@ -1,8 +1,8 @@
 <script>
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quadInOut, quintInOut, quintOut } from "svelte/easing";
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quadInOut, quintInOut, quintOut } from 'svelte/easing';
 
   export let bgheader;
 </script>
@@ -40,7 +40,7 @@
     opacity: 0;
     filter: blur(3px);
     position: absolute;
-    font-size: 9em;
+    font-size: 7em;
     z-index: -99;
     transition-duration: 0.3s;
   }
