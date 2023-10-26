@@ -254,6 +254,7 @@
       }
       num = num - 1;
     }
+    toggleMatches()
     randomizeMatches(agmatches);
     console.log(agmatches.length);
     agmatches = [...agmatches];
@@ -268,6 +269,7 @@
     agmatches = [...agmatches];
   }
   function playGeneratedMatches(player1, player2) {
+    toggleMatches()
     console.log(player1, player2);
     addToMatch(player1.id, selected.index);
     addToMatch(player2.id, selected.index);
@@ -285,6 +287,7 @@
       finder += 1;
       agmatches = [...agmatches];
     }
+    toggleMatches()
   }
 
 let playoffconfig = {
@@ -333,6 +336,10 @@ let playoffconfig = {
       place += 2
     }
     
+  }
+  let showmatches = false
+  function toggleMatches(){
+    showmatches = !showmatches
   }
 </script>
 
@@ -427,6 +434,12 @@ let playoffconfig = {
                 on:cClick={() => autoCreateMatch(1)}
                 >GENERATE A MATCH SCHEDULE</Button
               >
+              <Button
+                class="resolve-button"
+                disabled={agmatches.length == 0}
+                on:cClick={toggleMatches}
+                >Show matches</Button
+              >
             {/if}
           </div>
         </div>
@@ -482,7 +495,7 @@ let playoffconfig = {
       </div>
     {/if}
   </div>
-
+  {#if showmatches}
   {#if agmatches.length > 0}
     <div class="backdrop" />
     <div class="modal">
@@ -494,19 +507,22 @@ let playoffconfig = {
           >Cancel matches</Button
         >
         <div class="matches-container" transition:slide>
+          
           {#each agmatches as agmatch}
             <Automatches
               {agmatch}
               on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
             />
           {/each}
+          
         </div>
-        <Button class="add-player-exit-button" on:cClick={() => TÄÄLOLOLOL()}
+        
+        <Button class="add-player-exit-button" on:cClick={toggleMatches}
           >Exit</Button
         >
       </div>
     </div>
-  {/if}
+  {/if}{/if}
 </main>
 
 <style>
