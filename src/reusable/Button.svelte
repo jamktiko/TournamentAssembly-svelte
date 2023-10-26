@@ -343,7 +343,7 @@
 
   .resolve-button {
     width: auto;
-    margin: 0em 5em;
+    margin: 0em 0.2em;
     border-radius: 10px;
   }
 
@@ -441,6 +441,46 @@
     right: 0;
   }
 
+  .finish-button {
+    margin: 0em 0.2em;
+    border: solid 1px #7396ff;
+    border-radius: 10px;
+    background: linear-gradient(
+      180deg,
+      #7396ff6b 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+    color: #fff;
+    transition-duration: 0.1s;
+    cursor: pointer;
+  }
+
+  .finish-button:hover {
+    border: solid 1px #7396ff;
+    filter: brightness(1.2);
+    filter: contrast(1.4);
+  }
+
+  .schedule-create-button {
+    margin: 0em 0.2em;
+    border: solid 1px #7396ff;
+    border-radius: 10px;
+    background: linear-gradient(
+      129deg,
+      rgba(0, 0, 0, 0.227) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+    color: #7396ff;
+    transition-duration: 0.1s;
+    cursor: pointer;
+  }
+
+  .schedule-create-button:hover {
+    border: solid 1px #7396ff;
+    filter: brightness(1.2);
+    filter: contrast(1.4);
+  }
+  
   @media only screen and (max-width: 1150px) {
     .back-button {
       scale: 0.9;
