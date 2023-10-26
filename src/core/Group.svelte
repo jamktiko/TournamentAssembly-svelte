@@ -221,7 +221,7 @@
     console.log(groupWinners);
     selected = null;
     blacklisted.push(group.id);
-    groupWinners = [...groupWinners]
+    groupWinners = [...groupWinners];
   }
 
   function closeGroup() {
@@ -269,7 +269,7 @@
     agmatches = [...agmatches];
   }
   function playGeneratedMatches(player1, player2) {
-    toggleMatches()
+    toggleMatches();
     console.log(player1, player2);
     addToMatch(player1.id, selected.index);
     addToMatch(player2.id, selected.index);
@@ -287,10 +287,10 @@
       finder += 1;
       agmatches = [...agmatches];
     }
-    toggleMatches()
+    toggleMatches();
   }
 
-let playoffconfig = {
+  let playoffconfig = {
     tournamentName: '',
     organizerName: '',
     numberOfGroups: '',
@@ -302,44 +302,45 @@ let playoffconfig = {
     bestOf: '',
     players: [],
   };
-  function leaveGroup(){
-    let pusher = 0
-    console.log(groupWinners)
-    playoffconfig.tournamentName = config.tournamentName
-    playoffconfig.organizerName = config.organizerName
-    playoffconfig.tourDecider = ""
-    playoffconfig.bestOf = 3
-    playoffconfig.players = []
-    while (pusher < groupWinners.length){
-      playoffconfig.players.push(groupWinners[pusher].name)
-      pusher += 1
+  function leaveGroup() {
+    let pusher = 0;
+    console.log(groupWinners);
+    playoffconfig.tournamentName = config.tournamentName;
+    playoffconfig.organizerName = config.organizerName;
+    playoffconfig.tourDecider = '';
+    playoffconfig.bestOf = 3;
+    playoffconfig.players = [];
+    while (pusher < groupWinners.length) {
+      playoffconfig.players.push(groupWinners[pusher].name);
+      pusher += 1;
     }
-    AddCorrectAmount()
+    AddCorrectAmount();
     push(`/playoffs/${cch.tokenify(playoffconfig)}`);
   }
-  let num = 0
+  let num = 0;
   function randomnum() {
     num = Math.floor(Math.random() * 10000);
   }
-  function AddCorrectAmount(){
-    if (playoffconfig.players.length == 3){
+  function AddCorrectAmount() {
+    if (playoffconfig.players.length == 3) {
       randomnum();
       playoffconfig.players.push('PLAYER_' + num);
       playoffconfig.players = [...playoffconfig.players];
     }
-    let place = 3
-    while (playoffconfig.players.length > 4 && playoffconfig.players.length < 8)
-    {
+    let place = 3;
+    while (
+      playoffconfig.players.length > 4 &&
+      playoffconfig.players.length < 8
+    ) {
       randomnum();
-      playoffconfig.players.splice(place,0,('PLAYER_' + num));
+      playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
       playoffconfig.players = [...playoffconfig.players];
-      place += 2
+      place += 2;
     }
-    
   }
-  let showmatches = false
-  function toggleMatches(){
-    showmatches = !showmatches
+  let showmatches = false;
+  function toggleMatches() {
+    showmatches = !showmatches;
   }
 </script>
 
@@ -354,18 +355,14 @@ let playoffconfig = {
         {#if selected}
           {#if group.name == selected.name}
             <h2 class="group-header-focused">{group.name}</h2>
-            <Button on:cClick={() => closeGroup()}>Close group</Button>
+            <Button on:cClick={() => closeGroup()}>Close</Button>
           {:else}
             <h2 class="group-header-unselected">{group.name}</h2>
-            <Button on:cClick={() => selectGroup(group, i)}
-              >Click to manage group</Button
-            >
+            <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
           {/if}
         {:else}
           <h2 class="group-header">{group.name}</h2>
-          <Button on:cClick={() => selectGroup(group, i)}
-            >Click to manage group</Button
-          >
+          <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
         {/if}
       {/each}
     </div>
@@ -437,8 +434,7 @@ let playoffconfig = {
               <Button
                 class="resolve-button"
                 disabled={agmatches.length == 0}
-                on:cClick={toggleMatches}
-                >Show matches</Button
+                on:cClick={toggleMatches}>Show matches</Button
               >
             {/if}
           </div>
@@ -477,7 +473,9 @@ let playoffconfig = {
           {/each}
         </div>
       {/if}
-      <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}>Playoffs</Button>
+      <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}
+        >Playoffs</Button
+      >
     </div>
     {#if match[0] && match[1]}
       <div
@@ -496,33 +494,31 @@ let playoffconfig = {
     {/if}
   </div>
   {#if showmatches}
-  {#if agmatches.length > 0}
-    <div class="backdrop" />
-    <div class="modal">
-      <h1 class="list-header">MATCH SCHEDULE</h1>
-      <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
-      <div class="schedule-content">
-        <h3>MATCHES</h3>
-        <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
-          >Cancel matches</Button
-        >
-        <div class="matches-container" transition:slide>
-          
-          {#each agmatches as agmatch}
-            <Automatches
-              {agmatch}
-              on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
-            />
-          {/each}
-          
+    {#if agmatches.length > 0}
+      <div class="backdrop" />
+      <div class="modal">
+        <h1 class="list-header">MATCH SCHEDULE</h1>
+        <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
+        <div class="schedule-content">
+          <h3>MATCHES</h3>
+          <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
+            >Cancel matches</Button
+          >
+          <div class="matches-container" transition:slide>
+            {#each agmatches as agmatch}
+              <Automatches
+                {agmatch}
+                on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+              />
+            {/each}
+          </div>
+
+          <Button class="add-player-exit-button" on:cClick={toggleMatches}
+            >Exit</Button
+          >
         </div>
-        
-        <Button class="add-player-exit-button" on:cClick={toggleMatches}
-          >Exit</Button
-        >
       </div>
-    </div>
-  {/if}{/if}
+    {/if}{/if}
 </main>
 
 <style>
@@ -785,5 +781,22 @@ let playoffconfig = {
     width: 30%;
     align-items: center;
   }
-</style>
 
+  /* Tablet Portrait 
+  @media only screen and (max-width: 1150px) {
+    .grid-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #group-manage {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #group-view {
+    }
+    
+  }
+  */
+</style>
