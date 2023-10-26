@@ -42,7 +42,7 @@
   {/if}
 {/if}
 
-{#if userData.username !== 'guest'}
+{#if userData.username !== 'guest' && userData.username}
   <Button class="profile-button" on:cClick={() => push('/profile')}
     >Profile</Button
   >

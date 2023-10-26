@@ -221,6 +221,7 @@
     console.log(groupWinners);
     selected = null;
     blacklisted.push(group.id);
+    groupWinners = [...groupWinners]
   }
 
   function closeGroup() {
@@ -253,6 +254,7 @@
       }
       num = num - 1;
     }
+
     randomizeMatches(agmatches);
     console.log(agmatches.length);
     agmatches = [...agmatches];
@@ -267,6 +269,7 @@
     agmatches = [...agmatches];
   }
   function playGeneratedMatches(player1, player2) {
+    toggleMatches()
     console.log(player1, player2);
     addToMatch(player1.id, selected.index);
     addToMatch(player2.id, selected.index);
@@ -284,6 +287,59 @@
       finder += 1;
       agmatches = [...agmatches];
     }
+    toggleMatches()
+  }
+
+let playoffconfig = {
+    tournamentName: '',
+    organizerName: '',
+    numberOfGroups: '',
+    teamsInGroup: '',
+    tourDecider: '',
+    pointsPerWin: '',
+    pointsPerDraw: '',
+    numberOfRounds: '',
+    bestOf: '',
+    players: [],
+  };
+  function leaveGroup(){
+    let pusher = 0
+    console.log(groupWinners)
+    playoffconfig.tournamentName = config.tournamentName
+    playoffconfig.organizerName = config.organizerName
+    playoffconfig.tourDecider = ""
+    playoffconfig.bestOf = 3
+    playoffconfig.players = []
+    while (pusher < groupWinners.length){
+      playoffconfig.players.push(groupWinners[pusher].name)
+      pusher += 1
+    }
+    AddCorrectAmount()
+    push(`/playoffs/${cch.tokenify(playoffconfig)}`);
+  }
+  let num = 0
+  function randomnum() {
+    num = Math.floor(Math.random() * 10000);
+  }
+  function AddCorrectAmount(){
+    if (playoffconfig.players.length == 3){
+      randomnum();
+      playoffconfig.players.push('PLAYER_' + num);
+      playoffconfig.players = [...playoffconfig.players];
+    }
+    let place = 3
+    while (playoffconfig.players.length > 4 && playoffconfig.players.length < 8)
+    {
+      randomnum();
+      playoffconfig.players.splice(place,0,('PLAYER_' + num));
+      playoffconfig.players = [...playoffconfig.players];
+      place += 2
+    }
+    
+  }
+  let showmatches = false
+  function toggleMatches(){
+    showmatches = !showmatches
   }
 </script>
 
@@ -378,6 +434,12 @@
                 on:cClick={() => autoCreateMatch(1)}
                 >GENERATE A MATCH SCHEDULE</Button
               >
+              <Button
+                class="resolve-button"
+                disabled={agmatches.length == 0}
+                on:cClick={toggleMatches}
+                >Show matches</Button
+              >
             {/if}
           </div>
         </div>
@@ -415,6 +477,7 @@
           {/each}
         </div>
       {/if}
+      <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}>Playoffs</Button>
     </div>
     {#if match[0] && match[1]}
       <div
@@ -432,7 +495,7 @@
       </div>
     {/if}
   </div>
-
+  {#if showmatches}
   {#if agmatches.length > 0}
     <div class="backdrop" />
     <div class="modal">
@@ -444,19 +507,22 @@
           >Cancel matches</Button
         >
         <div class="matches-container" transition:slide>
+          
           {#each agmatches as agmatch}
             <Automatches
               {agmatch}
               on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
             />
           {/each}
+          
         </div>
-        <Button class="add-player-exit-button" on:cClick={() => TÄÄLOLOLOL()}
+        
+        <Button class="add-player-exit-button" on:cClick={toggleMatches}
           >Exit</Button
         >
       </div>
     </div>
-  {/if}
+  {/if}{/if}
 </main>
 
 <style>
@@ -720,3 +786,4 @@
     align-items: center;
   }
 </style>
+
