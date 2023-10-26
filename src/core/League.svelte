@@ -10,6 +10,7 @@
   import { fade } from "svelte/transition";
   import { scale } from "svelte/transition";
   import { quintOut, quadInOut } from "svelte/easing";
+  import Automatches from "../reusable/Automatches.svelte";
 
   export let params;
   let matchResults = [];
@@ -110,6 +111,7 @@
    * @param ce custom event received from Match-component, contains the winner and loser
    */
   function resolve(ce) {
+    deleteFromGenMatch(match[0], match[1]);
     if (ce.detail.draw) {
       ce.detail.contestants[0].draws++;
       ce.detail.contestants[0].playedMatches++;
@@ -217,6 +219,56 @@
     console.log(teams);
     if (match.includes(team)) {
       match = [];
+    }
+  }
+  let agmatches = [];
+  function autoCreateMatch(num) {
+    agmatches = [];
+
+    while (num > 0) {
+      let contA = 0;
+      let contB = 1;
+      while (contA < teams.length) {
+        while (contB < teams.length) {
+          if (teams[contA].name.length > 0 && teams[contB].name.length > 0) {
+            agmatches.push([teams[contA], teams[contB]]);
+          }
+          contB += 1;
+        }
+        contA += 1;
+        contB = contA + 1;
+      }
+      num = num - 1;
+    }
+    randomizeMatches(agmatches);
+    console.log(agmatches);
+    agmatches = [...agmatches];
+  }
+  function randomizeMatches(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    agmatches = [...agmatches];
+  }
+  function playGeneratedMatches(player1, player2) {
+    console.log(player1, player2);
+    addToMatch(player1.id);
+    addToMatch(player2.id);
+  }
+  function deleteFromGenMatch(player1, player2) {
+    let finder = 0;
+    while (finder < agmatches.length) {
+      if (
+        agmatches[finder][0].name == player1.name &&
+        agmatches[finder][1].name == player2.name
+      ) {
+        agmatches.splice(finder, 1);
+      }
+      finder += 1;
+      agmatches = [...agmatches];
     }
   }
 </script>
@@ -333,6 +385,10 @@
       />
     {/if}
     <div class="results-button-container">
+      <Button
+        disabled={agmatches.length > 0}
+        on:cClick={() => autoCreateMatch(1)}>Auto matches</Button
+      >
       {#if showResults == 0}
         <Button on:cClick={() => toggleResults()}>Show results</Button>
       {/if}
@@ -353,6 +409,21 @@
       </div>
     {/if}
   </div>
+  {#if agmatches.length > 0}
+    <div class="match-list">
+      <h2 class="list-header">Matches</h2>
+      <p id="match-count">Matches Remaining: {agmatches.length}</p>
+      <Button on:cClick={() => (agmatches = [])}>Cancel matches</Button>
+      <div transition:slide>
+        {#each agmatches as agmatch}
+          <Automatches
+            {agmatch}
+            on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+          />
+        {/each}
+      </div>
+    </div>
+  {/if}
 </main>
 
 <style>
@@ -504,5 +575,33 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 1em;
+  }
+  .match-list {
+    text-align: center;
+    padding: 0.5em;
+    width: 12.5em;
+    position: absolute;
+    top: 16em;
+    left: 0.75em;
+    background: linear-gradient(
+      129deg,
+      rgba(0, 0, 0, 0.366) 0%,
+      rgba(5, 0, 24, 0.285) 100%
+    );
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    font-size: 1em;
+    color: white;
+    border: solid 1px #ffffff3c;
+    border-radius: 5px;
+    z-index: 50;
+    overflow-y: auto;
+    max-height: 50%;
+  }
+  .list-header {
+    text-transform: uppercase;
+  }
+  #match-count {
+    text-transform: uppercase;
+    font-size: 0.9em;
   }
 </style>

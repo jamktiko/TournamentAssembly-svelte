@@ -61,15 +61,12 @@ const stateController = {
     return res;
   },
 
-  async createTournament(tournament, type) {
+  async createTournament(tournament) {
     let user;
     const unsub = this.subscribe((userData) => (user = userData));
     unsub();
 
     tournament.id = calcId(user.tournaments);
-    tournament.type = type;
-
-    console.log(tournament);
 
     const tourData = {
       username: user.username,

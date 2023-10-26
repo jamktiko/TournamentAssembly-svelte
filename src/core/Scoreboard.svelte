@@ -9,7 +9,7 @@
   import { onDestroy } from 'svelte';
   import cch from '../utils/cache';
 
-  let gridData = [{ name: '', columns: [0] }];
+  let gridData = [{ name: '', columns: [""] }];
 
   onDestroy(() => {
     if (
@@ -35,14 +35,14 @@
     const numColumns = gridData[0].columns.length;
     const newRow = {
       name: '',
-      columns: Array(numColumns).fill(0), // Create an array with the same number of empty strings as columns
+      columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
   }
 
   function addColumn() {
     gridData.forEach((row) => {
-      row.columns.push(0);
+      row.columns.push("");
     });
     gridData = [...gridData];
   }
@@ -70,10 +70,14 @@
   }
 
   $: gridData = [...gridData]; // Trigger reactivity
-
+  let total = 0
+  let caculator = 0
   function calculateRowTotal(row) {
-    return row.columns.reduce((acc, val) => acc + parseFloat(val) || 0, 0);
-  }
+  return row.columns.reduce((acc, val) => {
+    const num = parseFloat(val);
+    return !isNaN(num) ? acc + num : acc;
+  }, 0);
+}
 </script>
 
 <main in:slide>

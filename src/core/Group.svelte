@@ -376,7 +376,7 @@
                 class="resolve-button"
                 on:cClick={() => calcWinner(selected)}>Finish this Group</Button
               >
-              <Button on:cClick={() => autoCreateMatch(1)}>Auto matches</Button>
+              <Button disabled={agmatches.length > 0} on:cClick={() => autoCreateMatch(1)}>Auto matches</Button>
               
             {/if}
           </div>
@@ -440,7 +440,7 @@
       <div class="match-list">
         <h2 class="list-header">Matches</h2>
         <p id="match-count">Matches Remaining: {agmatches.length}</p>
-
+        <Button on:cClick={() => agmatches = []}>Cancel matches</Button>
           <div transition:slide>
             {#each agmatches as agmatch}
             <Automatches {agmatch} on:chooseevent={playGeneratedMatches(agmatch[0],agmatch[1])}/>

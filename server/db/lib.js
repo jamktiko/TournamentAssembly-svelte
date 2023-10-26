@@ -171,6 +171,18 @@ const lib = {
     return updateResult;
   },
 
+  async updateTournamentState(username, state, id) {
+    const collection = client.db('touras').collection('users');
+
+    try {
+      await collection.findOneAndUpdate({ username: username, 'tournaments.id': id }, { $set: { 'tournaments.$.state': state } });
+      console.log('Document updated successfully');
+    } catch (error) {
+      console.error('Error updating document:', error);
+      throw error;
+    }
+  },
+
   // Function to update a document in a collection by ID
   async updateById(id, update) {
     const collection = client.db("touras").collection("users");
