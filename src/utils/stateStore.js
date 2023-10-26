@@ -1,15 +1,17 @@
-import { writable } from "svelte/store";
-import { calcId } from "./lib";
+import { writable } from 'svelte/store';
+import { calcId } from './lib';
 
 const stateStore = writable({});
 
 const stateController = {
+
   apiUrl: "http://localhost:3000/",
   subscribe: stateStore.subscribe,
 
   loginAsGuest() {
     const guest = {
-      username: "guest",
+
+     username: "guest",
       password: null,
       isGuest: true,
       tournamentData: null,
@@ -25,6 +27,7 @@ const stateController = {
   },
 
   async register(user) {
+
     const res = await this.customFetch("register", {
       method: "POST",
       mode: "cors",
@@ -38,6 +41,7 @@ const stateController = {
   },
 
   async login(user) {
+
     const res = await this.customFetch("login", {
       method: "POST",
       mode: "cors",
@@ -58,6 +62,7 @@ const stateController = {
 
       stateStore.set(userData);
     }
+
     return res;
   },
 
@@ -67,6 +72,7 @@ const stateController = {
     unsub();
 
     tournament.id = calcId(user.tournaments);
+
     tournament.type = type;
 
     console.log(tournament);
@@ -75,6 +81,14 @@ const stateController = {
       username: user.username,
       tournament,
       token: user.token,
+      tournamentType,
+    };
+
+    const opt = {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
     };
 
     const opt = {
