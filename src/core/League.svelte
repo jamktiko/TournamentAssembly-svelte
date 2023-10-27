@@ -201,6 +201,7 @@
 
   let largest = '';
   function largestScore() {
+    if (teams.length != 0){
     let i = 0;
     largest = teams[i];
     while (i < teams.length) {
@@ -209,7 +210,7 @@
       }
       i += 1;
     }
-  }
+  }}
   function closewindow() {
     largest = '';
   }
