@@ -376,6 +376,10 @@
   }
 
   console.log(groups)
+  function cancelmatch(){
+    match = []
+    toggleMatches()
+  }
 </script>
 
 <main>
@@ -525,7 +529,7 @@
         <Match
           {match}
           on:winnerevent={resolve}
-          on:cancelevent={() => (match = [])}
+          on:cancelevent={cancelmatch}
         />
       </div>
     {/if}
