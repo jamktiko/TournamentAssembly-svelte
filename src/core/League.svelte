@@ -1,16 +1,16 @@
 <script>
-  import cch from "../utils/cache";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import { onDestroy } from "svelte";
-  import MatchResults from "../reusable/MatchResults.svelte";
-  import { push } from "svelte-spa-router";
-  import Winner from "../reusable/Winner.svelte";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, quadInOut } from "svelte/easing";
-  import Automatches from "../reusable/Automatches.svelte";
+  import cch from '../utils/cache';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import { onDestroy } from 'svelte';
+  import MatchResults from '../reusable/MatchResults.svelte';
+  import { push } from 'svelte-spa-router';
+  import Winner from '../reusable/Winner.svelte';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, quadInOut } from 'svelte/easing';
+  import Automatches from '../reusable/Automatches.svelte';
 
   export let params;
   let matchResults = [];
@@ -30,20 +30,20 @@
   let config = cch.detokenify(params.tourdata)[0];
 
   onDestroy(() => {
-    cch.saveToCache("league", teams);
-    cch.saveToCache("leagueConf", config);
+    cch.saveToCache('league', teams);
+    cch.saveToCache('leagueConf', config);
   });
 
   let teams = [];
   let match = [];
 
-  if (cch.isInCache("league") && cch.isInCache("leagueConf")) {
-    teams = cch.getFromCache("league");
+  if (cch.isInCache('league') && cch.isInCache('leagueConf')) {
+    teams = cch.getFromCache('league');
 
     console.log(teams);
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column) {
@@ -94,9 +94,9 @@
       selected = id;
     } else {
       setTimeout(() => {
-        const titleElement = document.querySelector(".match-header");
+        const titleElement = document.querySelector('.match-header');
         if (!titleElement) return;
-        titleElement.scrollIntoView({ behavior: "smooth" });
+        titleElement.scrollIntoView({ behavior: 'smooth' });
       }, 20);
 
       selected = null;
@@ -134,7 +134,7 @@
           },
         ],
         draw: true,
-        group: " ",
+        group: ' ',
       });
     } else {
       ce.detail.winner.wins++;
@@ -161,7 +161,7 @@
               },
             ],
             draw: false,
-            group: " ",
+            group: ' ',
           },
         ]);
       } else {
@@ -180,7 +180,7 @@
               },
             ],
             draw: false,
-            group: " ",
+            group: ' ',
           },
         ]);
       }
@@ -198,7 +198,7 @@
     return 0;
   }
 
-  let largest = "";
+  let largest = '';
   function largestScore() {
     let i = 0;
     largest = teams[i];
@@ -210,7 +210,7 @@
     }
   }
   function closewindow() {
-    largest = "";
+    largest = '';
   }
 
   function deleteTeam(team) {
@@ -220,7 +220,7 @@
     if (match.includes(team)) {
       match = [];
     }
-    agmatches = []
+    agmatches = [];
   }
   let agmatches = [];
   function autoCreateMatch(num) {
@@ -255,7 +255,7 @@
     agmatches = [...agmatches];
   }
   function playGeneratedMatches(player1, player2) {
-    toggleMatches()
+    toggleMatches();
     console.log(player1, player2);
     addToMatch(player1.id);
     addToMatch(player2.id);
@@ -272,11 +272,11 @@
       finder += 1;
       agmatches = [...agmatches];
     }
-    toggleMatches()
+    toggleMatches();
   }
-  let showmatches = false
-  function toggleMatches(){
-    showmatches = !showmatches
+  let showmatches = false;
+  function toggleMatches() {
+    showmatches = !showmatches;
   }
 </script>
 
@@ -284,7 +284,7 @@
   in:slide={{
     duration: 700,
     easing: quintOut,
-    axis: "y",
+    axis: 'y',
   }}
 >
   <h1 class="league-name">{config.tournamentName}</h1>
@@ -330,7 +330,7 @@
         >
       {/if}
     </div>
-    {#if largest != ""}
+    {#if largest != ''}
       <Winner {config} winner={largest} on:closeevent={closewindow} />
     {/if}
     <Button class="league-resolve-button" on:cClick={() => largestScore()}
@@ -340,13 +340,13 @@
       <table>
         <thead>
           <tr>
-            <th on:click={() => toggleSortOrder("name")}>Team Name</th>
-            <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
-            <th on:click={() => toggleSortOrder("score")}>Score</th>
-            <th on:click={() => toggleSortOrder("wins")}>W</th>
-            <th on:click={() => toggleSortOrder("draws")}>D</th>
-            <th on:click={() => toggleSortOrder("losses")}>L</th>
-            <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
+            <th on:click={() => toggleSortOrder('name')}>Team Name</th>
+            <th on:click={() => toggleSortOrder('playedMatches')}>PL</th>
+            <th on:click={() => toggleSortOrder('score')}>Score</th>
+            <th on:click={() => toggleSortOrder('wins')}>W</th>
+            <th on:click={() => toggleSortOrder('draws')}>D</th>
+            <th on:click={() => toggleSortOrder('losses')}>L</th>
+            <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
           </tr>
         </thead>
         <tbody class="scoreboard-lined-cell">
@@ -356,7 +356,7 @@
               in:fade={{
                 duration: 2000,
                 easing: quintOut,
-                axis: "y",
+                axis: 'y',
               }}
             >
               <td>{team.name}</td>
@@ -367,12 +367,6 @@
               <td>{team.losses}</td>
               <td>{team.goalDiff}</td>
               <td>
-                <Button
-                  disabled={selected === team.id}
-                  class="add-team-button"
-                  on:cClick={() => addToMatch(team.id)}
-                  >Add team to match</Button
-                >
                 <Button
                   disabled={selected === team.id}
                   class="delete-team-button"
@@ -393,18 +387,17 @@
     {/if}
     <div class="results-button-container">
       <Button
-                class="resolve-button"
-                disabled={agmatches.length > 0}
-                on:cClick={() => autoCreateMatch(1)}
-                >GENERATE A MATCH SCHEDULE</Button
-              >
+        class="schedule-create-button"
+        disabled={agmatches.length > 0}
+        on:cClick={() => autoCreateMatch(1)}>GENERATE A MATCH SCHEDULE</Button
+      >
       <Button
-                class="resolve-button"
-                disabled={agmatches.length == 0}
-                on:cClick={toggleMatches}
-                >Show matches</Button
-              >
-              
+        class="resolve-button"
+        disabled={agmatches.length == 0}
+        on:cClick={toggleMatches}>Show matches</Button
+      >
+    </div>
+    <div class="results-button-container">
       {#if showResults == 0}
         <Button on:cClick={() => toggleResults()}>Show results</Button>
       {/if}
@@ -426,33 +419,31 @@
     {/if}
   </div>
   {#if showmatches}
-  {#if agmatches.length > 0}
-    <div class="backdrop" />
-    <div class="modal">
-      <h1 class="list-header">MATCH SCHEDULE</h1>
-      <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
-      <div class="schedule-content">
-        <h3>MATCHES</h3>
-        <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
-          >Cancel matches</Button
-        >
-        <div class="matches-container" transition:slide>
-          
-          {#each agmatches as agmatch}
-            <Automatches
-              {agmatch}
-              on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
-            />
-          {/each}
-          
+    {#if agmatches.length > 0}
+      <div class="backdrop" />
+      <div class="modal">
+        <h1 class="list-header">MATCH SCHEDULE</h1>
+        <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
+        <div class="schedule-content">
+          <h3>MATCHES</h3>
+          <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
+            >Cancel matches</Button
+          >
+          <div class="matches-container" transition:slide>
+            {#each agmatches as agmatch}
+              <Automatches
+                {agmatch}
+                on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+              />
+            {/each}
+          </div>
+
+          <Button class="add-player-exit-button" on:cClick={toggleMatches}
+            >Exit</Button
+          >
         </div>
-        
-        <Button class="add-player-exit-button" on:cClick={toggleMatches}
-          >Exit</Button
-        >
       </div>
-    </div>
-  {/if}{/if}
+    {/if}{/if}
 </main>
 
 <style>
@@ -605,7 +596,7 @@
     justify-content: center;
     margin-bottom: 1em;
   }
-  
+
   .list-header {
     text-transform: uppercase;
   }

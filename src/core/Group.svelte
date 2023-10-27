@@ -1,16 +1,17 @@
 <script>
-  import cch from "../utils/cache";
-  import stateController from "../utils/stateStore";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import MatchResults from "../reusable/MatchResults.svelte";
-  import Automatches from "../reusable/Automatches.svelte";
-  import { onDestroy } from "svelte";
-  import { push } from "svelte-spa-router";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut } from "svelte/easing";
+  import cch from '../utils/cache';
+  import stateController from '../utils/stateStore';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import MatchResults from '../reusable/MatchResults.svelte';
+  import Automatches from '../reusable/Automatches.svelte';
+  import { onDestroy } from 'svelte';
+  import { push } from 'svelte-spa-router';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
+  import Tooltip from '../reusable/Tooltip.svelte';
 
   export let params;
 
@@ -29,14 +30,14 @@
   let blacklisted = [];
 
   onDestroy(() => {
-    cch.saveToCache("groups", groups);
-    cch.saveToCache("groupsConf", config);
+    cch.saveToCache('groups', groups);
+    cch.saveToCache('groupsConf', config);
 
     if (unsub) unsub();
   });
 
-  if (cch.isInCache("groups")) {
-    groups = cch.getFromCache("groups");
+  if (cch.isInCache('groups')) {
+    groups = cch.getFromCache('groups');
   } else {
     generateGroups(config);
   }
@@ -67,7 +68,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: "",
+          name: '',
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -103,12 +104,12 @@
   function checkIfBlacklisted() {
     return blacklisted.includes(selected.id);
   }
-  let value = "";
+  let value = '';
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -167,7 +168,7 @@
           },
         ],
         draw: true,
-        group: "group " + (selected.id + 1),
+        group: 'group ' + (selected.id + 1),
       });
       console.log(selected.id);
     } else {
@@ -195,7 +196,7 @@
               },
             ],
             draw: false,
-            group: "group " + (selected.id + 1),
+            group: 'group ' + (selected.id + 1),
           },
         ]);
       } else {
@@ -214,18 +215,18 @@
               },
             ],
             draw: false,
-            group: "group " + (selected.id + 1),
+            group: 'group ' + (selected.id + 1),
           },
         ]);
       }
     }
     console.log(sortBy);
 
-    sortBy = "";
-    if (sortBy === "score") {
-      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
+    sortBy = '';
+    if (sortBy === 'score') {
+      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
     } else {
-      toggleSortOrder("score", selected.id);
+      toggleSortOrder('score', selected.id);
     }
 
     match = [];
@@ -355,7 +356,7 @@
   function AddCorrectAmount() {
     if (playoffconfig.players.length == 3) {
       randomnum();
-      playoffconfig.players.push("PLAYER_" + num);
+      playoffconfig.players.push('PLAYER_' + num);
       playoffconfig.players = [...playoffconfig.players];
     }
     let place = 3;
@@ -375,18 +376,31 @@
     showmatches = !showmatches;
   }
 
-  console.log(groups)
+  console.log(groups);
+
+  let showTooltip = false;
+
+  function toggleTooltip() {
+    showTooltip = !showTooltip;
+  }
 </script>
 
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
     <h3>Organized by: {config.organizerName || '-'}</h3>
-    <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}
-      >EXPORT TO PLAYOFFS</Button
+    <Tooltip
+      text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
-
+      <Button
+        disabled={groupWinners.length < 2}
+        on:cClick={leaveGroup}
+        on:mouseenter={toggleTooltip}
+        on:mouseleave={toggleTooltip}>EXPORT TO PLAYOFFS</Button
+      >
+    </Tooltip>
   </div>
+
   <div class="grid-container">
     <div id="group-manage" in:slide>
       {#each groups as group, i}
@@ -421,20 +435,20 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder("playedMatches", selected.index)}>PL</th
+                  toggleSortOrder('playedMatches', selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder("score", selected.index)}
+              <th on:click={() => toggleSortOrder('score', selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
+              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder("draws", selected.index)}
+              <th on:click={() => toggleSortOrder('draws', selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder("losses", selected.index)}
+              <th on:click={() => toggleSortOrder('losses', selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
+              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
                 >GD</th
               >
             </tr>
@@ -459,21 +473,29 @@
           </table>
           <div class="resolve-button-container">
             {#if selected && !checkIfBlacklisted()}
-              <Button
-                class="finish-button"
-                on:cClick={() => calcWinner(selected)}>Finish this Group</Button
+              <Tooltip
+                text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
               >
-
-              <Button
-                class="schedule-create-button"
-                disabled={agmatches.length > 0}
-                on:cClick={() => autoCreateMatch(1)}
-                >GENERATE A MATCH SCHEDULE</Button
+                <Button
+                  class="finish-button"
+                  on:cClick={() => calcWinner(selected)}
+                  >Finish this Group</Button
+                >
+              </Tooltip>
+              <Tooltip
+                text="Press to create a match schedule for all the group's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
               >
+                <Button
+                  class="schedule-create-button"
+                  disabled={agmatches.length > 0}
+                  on:cClick={() => autoCreateMatch(1)}
+                  >GENERATE A MATCH SCHEDULE</Button
+                >
+              </Tooltip>
               <Button
                 class="resolve-button"
                 disabled={agmatches.length == 0}
-                on:cClick={toggleMatches}>Show matches</Button
+                on:cClick={toggleMatches}>Show schedule</Button
               >
             {/if}
           </div>
@@ -497,22 +519,23 @@
     </div>
 
     <div class="results-button-container">
-      <Button class="results-toggle-button" on:cClick={toggleResults}
-        >{showResults ? "Hide Results" : "Show Results"}</Button
+      <Tooltip
+        text="Below is a list of concluded matches and their results in all groups. You can hide
+      the results from view by toggling the SHOW/HIDE RESULTS button."
       >
+        <Button class="results-toggle-button" on:cClick={toggleResults}
+          >{showResults ? 'Hide Results' : 'Show Results'}</Button
+        >
+      </Tooltip>
       {#if showResults}
         <div class="flex-container" transition:slide>
           <h1 class="results-header">RESULTS</h1>
-          <p>
-            Below is a list of concluded matches and their results. You can hide
-            the results from view by clicking the HIDE RESULTS button.
-          </p>
+
           {#each matchResultsR as matchResult}
             <MatchResults {matchResult} />
           {/each}
         </div>
       {/if}
-
     </div>
     {#if match[0] && match[1]}
       <div
@@ -541,7 +564,6 @@
             >Cancel matches</Button
           >
 
-
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
               <Automatches
@@ -553,7 +575,6 @@
 
           <Button class="add-player-exit-button" on:cClick={toggleMatches}
             >CLOSE</Button
-
           >
         </div>
       </div>
@@ -851,5 +872,4 @@
     
   }
   */
-
 </style>
