@@ -38,6 +38,7 @@
   .matches-list:hover {
     scale: 1.01;
   }
+
   .matchup-header {
     font-size: 1.3em;
     padding-bottom: 1em;
@@ -52,10 +53,17 @@
     z-index: -99;
     transition-duration: 0.3s;
   }
+
   .matches-list:hover .card-image {
     scale: 1.1;
     opacity: 0.3;
     filter: drop-shadow(0px 0px 20px rgba(255, 255, 255, 0.5)) brightness(1)
       blur(2px);
+  }
+
+  @media only screen and (max-width: 1150px) {
+    .matchup-header {
+      font-size: 1.5em;
+    }
   }
 </style>

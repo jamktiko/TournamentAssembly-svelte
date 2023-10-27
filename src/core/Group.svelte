@@ -1,16 +1,17 @@
 <script>
-  import cch from "../utils/cache";
-  import stateController from "../utils/stateStore";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import MatchResults from "../reusable/MatchResults.svelte";
-  import Automatches from "../reusable/Automatches.svelte";
-  import { onDestroy } from "svelte";
-  import { push } from "svelte-spa-router";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut } from "svelte/easing";
+  import cch from '../utils/cache';
+  import stateController from '../utils/stateStore';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import MatchResults from '../reusable/MatchResults.svelte';
+  import Automatches from '../reusable/Automatches.svelte';
+  import { onDestroy } from 'svelte';
+  import { push } from 'svelte-spa-router';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
+  import Tooltip from '../reusable/Tooltip.svelte';
 
   export let params;
 
@@ -29,14 +30,14 @@
   let blacklisted = [];
 
   onDestroy(() => {
-    cch.saveToCache("groups", groups);
-    cch.saveToCache("groupsConf", config);
+    cch.saveToCache('groups', groups);
+    cch.saveToCache('groupsConf', config);
 
     if (unsub) unsub();
   });
 
-  if (cch.isInCache("groups")) {
-    groups = cch.getFromCache("groups");
+  if (cch.isInCache('groups')) {
+    groups = cch.getFromCache('groups');
   } else {
     generateGroups(config);
   }
@@ -67,7 +68,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: "",
+          name: '',
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -83,32 +84,32 @@
   $: selected = null;
 
   function selectGroup(group, i) {
-    if (selected){
-    othermatches[selected.id] = agmatches}
-
+    if (selected) {
+      othermatches[selected.id] = agmatches;
+    }
 
     console.log(selected, group.id);
 
     selected = group;
     selected.index = i;
-    match = []; 
+    match = [];
 
-    if (othermatches[selected.id]){
-      agmatches = othermatches[selected.id]
-    } else{
-      agmatches = []
+    if (othermatches[selected.id]) {
+      agmatches = othermatches[selected.id];
+    } else {
+      agmatches = [];
     }
   }
 
   function checkIfBlacklisted() {
     return blacklisted.includes(selected.id);
   }
-  let value = "";
+  let value = '';
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -167,7 +168,7 @@
           },
         ],
         draw: true,
-        group: "group " + (selected.id + 1),
+        group: 'group ' + (selected.id + 1),
       });
       console.log(selected.id);
     } else {
@@ -195,7 +196,7 @@
               },
             ],
             draw: false,
-            group: "group " + (selected.id + 1),
+            group: 'group ' + (selected.id + 1),
           },
         ]);
       } else {
@@ -214,18 +215,18 @@
               },
             ],
             draw: false,
-            group: "group " + (selected.id + 1),
+            group: 'group ' + (selected.id + 1),
           },
         ]);
       }
     }
     console.log(sortBy);
 
-    sortBy = "";
-    if (sortBy === "score") {
-      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
+    sortBy = '';
+    if (sortBy === 'score') {
+      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
     } else {
-      toggleSortOrder("score", selected.id);
+      toggleSortOrder('score', selected.id);
     }
 
     match = [];
@@ -240,13 +241,12 @@
 
     let winner = selected.participants.sort((a, b) => a.score < b.score)[0];
 
-    if (winner.name != ""){
-     
-    groupWinners.push(winner);
-    console.log(groupWinners);
-    selected = null;
-    blacklisted.push(group.id);
-    groupWinners = [...groupWinners]
+    if (winner.name != '') {
+      groupWinners.push(winner);
+      console.log(groupWinners);
+      selected = null;
+      blacklisted.push(group.id);
+      groupWinners = [...groupWinners];
     }
   }
 
@@ -255,10 +255,9 @@
   }
   let contA = null;
   let agmatches = [];
-  let othermatches = []
+  let othermatches = [];
 
   function autoCreateMatch(num) {
-    
     while (num > 0) {
       let contA = 0;
       let contB = 1;
@@ -284,7 +283,7 @@
     randomizeMatches(agmatches);
     console.log(agmatches);
     agmatches = [...agmatches];
-    othermatches[selected.id] = agmatches
+    othermatches[selected.id] = agmatches;
     console.log(selected.id);
     console.log(othermatches);
   }
@@ -355,7 +354,7 @@
   function AddCorrectAmount() {
     if (playoffconfig.players.length == 3) {
       randomnum();
-      playoffconfig.players.push("PLAYER_" + num);
+      playoffconfig.players.push('PLAYER_' + num);
       playoffconfig.players = [...playoffconfig.players];
     }
     let place = 3;
@@ -375,10 +374,12 @@
     showmatches = !showmatches;
   }
 
-  console.log(groups)
-  function cancelmatch(){
-    match = []
-    toggleMatches()
+  console.log(groups);
+
+  let showTooltip = false;
+
+  function toggleTooltip() {
+    showTooltip = !showTooltip;
   }
 </script>
 
@@ -386,25 +387,36 @@
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
     <h3>Organized by: {config.organizerName || '-'}</h3>
-    <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}
-      >EXPORT TO PLAYOFFS</Button
+    <Tooltip
+      text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
-
+      <Button
+        disabled={groupWinners.length < 2}
+        on:cClick={leaveGroup}
+        on:mouseenter={toggleTooltip}
+        on:mouseleave={toggleTooltip}>EXPORT TO PLAYOFFS</Button
+      >
+    </Tooltip>
   </div>
+
   <div class="grid-container">
     <div id="group-manage" in:slide>
       {#each groups as group, i}
         {#if selected}
-          {#if group.name == selected.name}
-            <h2 class="group-header-focused">{group.name}</h2>
-            <Button on:cClick={() => closeGroup()}>Close</Button>
-          {:else}
-            <h2 class="group-header-unselected">{group.name}</h2>
-            <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
-          {/if}
+          <div class="group-content">
+            {#if group.name == selected.name}
+              <h2 class="group-header-focused">{group.name}</h2>
+              <Button on:cClick={() => closeGroup()}>Close</Button>
+            {:else}
+              <h2 class="group-header-unselected">{group.name}</h2>
+              <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
+            {/if}
+          </div>
         {:else}
-          <h2 class="group-header">{group.name}</h2>
-          <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
+          <div class="group-content">
+            <h2 class="group-header">{group.name}</h2>
+            <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
+          </div>
         {/if}
       {/each}
     </div>
@@ -425,20 +437,20 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder("playedMatches", selected.index)}>PL</th
+                  toggleSortOrder('playedMatches', selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder("score", selected.index)}
+              <th on:click={() => toggleSortOrder('score', selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
+              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder("draws", selected.index)}
+              <th on:click={() => toggleSortOrder('draws', selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder("losses", selected.index)}
+              <th on:click={() => toggleSortOrder('losses', selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
+              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
                 >GD</th
               >
             </tr>
@@ -463,21 +475,29 @@
           </table>
           <div class="resolve-button-container">
             {#if selected && !checkIfBlacklisted()}
-              <Button
-                class="finish-button"
-                on:cClick={() => calcWinner(selected)}>Finish this Group</Button
+              <Tooltip
+                text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
               >
-
-              <Button
-                class="schedule-create-button"
-                disabled={agmatches.length > 0}
-                on:cClick={() => autoCreateMatch(1)}
-                >GENERATE A MATCH SCHEDULE</Button
+                <Button
+                  class="finish-button"
+                  on:cClick={() => calcWinner(selected)}
+                  >Finish this Group</Button
+                >
+              </Tooltip>
+              <Tooltip
+                text="Press to create a match schedule for all the group's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
               >
+                <Button
+                  class="schedule-create-button"
+                  disabled={agmatches.length > 0}
+                  on:cClick={() => autoCreateMatch(1)}
+                  >GENERATE A MATCH SCHEDULE</Button
+                >
+              </Tooltip>
               <Button
                 class="resolve-button"
                 disabled={agmatches.length == 0}
-                on:cClick={toggleMatches}>Show matches</Button
+                on:cClick={toggleMatches}>Show schedule</Button
               >
             {/if}
           </div>
@@ -499,28 +519,28 @@
         </div>
       {/if}
     </div>
-
     <div class="results-button-container">
-      <Button class="results-toggle-button" on:cClick={toggleResults}
-        >{showResults ? "Hide Results" : "Show Results"}</Button
+      <Tooltip
+        text="Below is a list of concluded matches and their results in all groups. You can hide
+      the results from view by toggling the SHOW/HIDE RESULTS button."
       >
+        <Button class="results-toggle-button" on:cClick={toggleResults}
+          >{showResults ? 'Hide Results' : 'Show Results'}</Button
+        >
+      </Tooltip>
       {#if showResults}
         <div class="flex-container" transition:slide>
           <h1 class="results-header">RESULTS</h1>
-          <p>
-            Below is a list of concluded matches and their results. You can hide
-            the results from view by clicking the HIDE RESULTS button.
-          </p>
+
           {#each matchResultsR as matchResult}
             <MatchResults {matchResult} />
           {/each}
         </div>
       {/if}
-
     </div>
     {#if match[0] && match[1]}
       <div
-        class="test"
+        class="match-modal"
         in:fade={{
           duration: 500,
           easing: quintOut,
@@ -529,7 +549,7 @@
         <Match
           {match}
           on:winnerevent={resolve}
-          on:cancelevent={cancelmatch}
+          on:cancelevent={() => (match = [])}
         />
       </div>
     {/if}
@@ -545,7 +565,6 @@
             >Cancel matches</Button
           >
 
-
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
               <Automatches
@@ -554,10 +573,8 @@
               />
             {/each}
           </div>
-
           <Button class="add-player-exit-button" on:cClick={toggleMatches}
             >CLOSE</Button
-
           >
         </div>
       </div>
@@ -664,6 +681,7 @@
     margin-bottom: 2em;
     grid-column: 2;
   }
+
   #group {
     display: flex;
     justify-content: center;
@@ -711,17 +729,6 @@
     padding: 20px;
   }
 
-  .test {
-    opacity: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    width: 100%;
-    height: 100%;
-  }
-
   h1 {
     font-size: 3em;
   }
@@ -757,6 +764,7 @@
     font-size: 1.6em;
     animation: pulse 3s infinite;
   }
+
   #group-name {
     text-transform: uppercase;
     font-size: 2.2em;
@@ -787,11 +795,22 @@
   .list-header {
     text-transform: uppercase;
   }
+
   #match-count {
     text-transform: uppercase;
     font-size: 0.9em;
   }
 
+  .match-modal {
+    opacity: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    width: 100%;
+    height: 100%;
+  }
   .backdrop {
     position: fixed;
     top: 0;
@@ -838,22 +857,63 @@
     grid-template-columns: 1fr 1fr;
     column-gap: 5em;
   }
-  /* Tablet Portrait 
+
+  .group-content {
+    text-align: center;
+  }
+  /* Tablet Portrait */
   @media only screen and (max-width: 1150px) {
+    input {
+      margin-bottom: 0em;
+      font-size: 1.3em;
+      padding: 0.5em 0.5em;
+    }
+
     .grid-container {
+      width: 80%;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      height: 100%;
     }
 
     #group-manage {
-      display: flex;
-      flex-wrap: wrap;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      column-gap: 1em;
+      margin: 0em;
+      padding: 1em;
+      text-align: center;
     }
 
     #group-view {
+      width: 100%;
+      margin-top: 1em;
     }
-    
-  }
-  */
 
+    .group-header-focused {
+      font-size: 1.6em;
+    }
+
+    .resolve-button-container {
+      justify-content: center;
+      width: 100%;
+      margin-top: 0em;
+      margin-bottom: 2em;
+    }
+    .modal {
+      width: 80%;
+      height: auto;
+      position: absolute;
+      top: 14em;
+      left: 3%;
+      padding: 1em 3em;
+      overflow-x: none;
+    }
+
+    #match-count {
+      font-size: 1em;
+      scale: 1.7;
+    }
+  }
 </style>
