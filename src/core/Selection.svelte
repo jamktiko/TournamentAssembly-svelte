@@ -11,6 +11,7 @@
 
   import cch from '../utils/cache';
   import stateController from '../utils/stateStore';
+  import Tooltip from '../reusable/Tooltip.svelte';
 
   let user;
   stateController.subscribe((userData) => (user = userData));
@@ -33,6 +34,12 @@
     } else {
       navigate(key, path);
     }
+  }
+
+  let showTooltip = false;
+
+  function toggleTooltip() {
+    showTooltip = !showTooltip;
   }
 </script>
 
@@ -75,13 +82,16 @@
           on:cClick={() => showConfirmation('groups', '/customizer/groups')}
           >SELECT</Button
         >
-
         {#if cch.isInCache('groups')}
-          <Button
-            class="continue-button"
-            on:cClick={() => push(`/groups/${cch.getToken('groupsConf')}`)}
-            >Continue</Button
+          <Tooltip
+            text="You have an unfinished tournament. Press to continue playing it."
           >
+            <Button
+              class="continue-button"
+              on:cClick={() => push(`/groups/${cch.getToken('groupsConf')}`)}
+              >Continue</Button
+            >
+          </Tooltip>
         {/if}
       </div>
       <div slot="footer">
@@ -121,9 +131,14 @@
         >
 
         {#if cch.isInCache('scoreboard')}
-          <Button class="continue-button" on:cClick={() => push(`/scoreboard`)}
-            >Continue</Button
+          <Tooltip
+            text="You have an unfinished tournament. Press to continue playing it."
           >
+            <Button
+              class="continue-button"
+              on:cClick={() => push(`/scoreboard`)}>Continue</Button
+            >
+          </Tooltip>
         {/if}
       </div>
       <div slot="footer">
@@ -146,11 +161,15 @@
           >SELECT</Button
         >
         {#if cch.isInCache('league')}
-          <Button
-            class="continue-button"
-            on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
-            >Continue</Button
+          <Tooltip
+            text="You have an unfinished tournament. Press to continue playing it."
           >
+            <Button
+              class="continue-button"
+              on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
+              >Continue</Button
+            >
+          </Tooltip>
         {/if}
       </div>
       <div slot="footer">

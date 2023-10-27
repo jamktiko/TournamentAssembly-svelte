@@ -11,6 +11,7 @@
   import { scale } from 'svelte/transition';
   import { quintOut, quadInOut } from 'svelte/easing';
   import Automatches from '../reusable/Automatches.svelte';
+  import Tooltip from '../reusable/Tooltip.svelte';
 
   export let params;
   let matchResults = [];
@@ -278,6 +279,12 @@
   function toggleMatches() {
     showmatches = !showmatches;
   }
+
+  let showTooltip = false;
+
+  function toggleTooltip() {
+    showTooltip = !showTooltip;
+  }
 </script>
 
 <main
@@ -333,8 +340,12 @@
     {#if largest != ''}
       <Winner {config} winner={largest} on:closeevent={closewindow} />
     {/if}
-    <Button class="league-resolve-button" on:cClick={() => largestScore()}
-      >FINISH LEAGUE</Button
+    <Tooltip
+      text="Once you have played all the matches in the league press this button to finalize the results and declare a winner."
+    >
+      <Button class="league-resolve-button" on:cClick={() => largestScore()}
+        >FINISH LEAGUE</Button
+      ></Tooltip
     >
     <div class="league-scoreboard-container">
       <table>
@@ -386,32 +397,43 @@
       />
     {/if}
     <div class="results-button-container">
-      <Button
-        class="schedule-create-button"
-        disabled={agmatches.length > 0}
-        on:cClick={() => autoCreateMatch(1)}>GENERATE A MATCH SCHEDULE</Button
+      <Tooltip
+        text="Press to create a match schedule for all the league's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
+      >
+        <Button
+          class="schedule-create-button"
+          disabled={agmatches.length > 0}
+          on:cClick={() => autoCreateMatch(1)}>GENERATE A MATCH SCHEDULE</Button
+        ></Tooltip
       >
       <Button
         class="resolve-button"
         disabled={agmatches.length == 0}
-        on:cClick={toggleMatches}>Show matches</Button
+        on:cClick={toggleMatches}>Show schedule</Button
       >
     </div>
     <div class="results-button-container">
       {#if showResults == 0}
-        <Button on:cClick={() => toggleResults()}>Show results</Button>
+        <Tooltip
+          text="Below is a list of concluded matches and their results in all groups. You can hide
+    the results from view by toggling the SHOW/HIDE RESULTS button."
+        >
+          <Button on:cClick={() => toggleResults()}>Show results</Button>
+        </Tooltip>
       {/if}
       {#if showResults == 1}
-        <Button on:cClick={() => toggleResults()}>Hide results</Button>
+        <Tooltip
+          text="Below is a list of concluded matches and their results in all groups. You can hide
+    the results from view by toggling the SHOW/HIDE RESULTS button."
+        >
+          <Button on:cClick={() => toggleResults()}>Hide results</Button
+          ></Tooltip
+        >
       {/if}
     </div>
     {#if showResults == 1}
       <div class="results-container" transition:slide>
         <h1 class="results-header">RESULTS</h1>
-        <p>
-          Below is a list of concluded matches and their results. You can hide
-          the results from view by clicking the HIDE RESULTS button.
-        </p>
         {#each matchResultsR.slice() as matchResult}
           <MatchResults {matchResult} />
         {/each}
@@ -425,10 +447,15 @@
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
         <div class="schedule-content">
-          <h3>MATCHES</h3>
-          <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
-            >Cancel matches</Button
+          <Tooltip
+            text="Clears and cancels the remaining schedule made for this group."
           >
+            <Button
+              class="cancel-match-button"
+              on:cClick={() => (agmatches = [])}>Cancel matches</Button
+            >
+          </Tooltip>
+
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
               <Automatches
@@ -437,9 +464,8 @@
               />
             {/each}
           </div>
-
           <Button class="add-player-exit-button" on:cClick={toggleMatches}
-            >Exit</Button
+            >CLOSE SCHEDULE</Button
           >
         </div>
       </div>
@@ -600,8 +626,56 @@
   .list-header {
     text-transform: uppercase;
   }
+
   #match-count {
     text-transform: uppercase;
     font-size: 0.9em;
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.83);
+    z-index: 10;
+  }
+
+  .modal {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 50%;
+    height: 60%;
+    position: absolute;
+    top: 18em;
+    left: 23%;
+    color: #ffffff;
+    padding: 1em 3em;
+    background: linear-gradient(
+      129deg,
+      rgba(5, 5, 40, 0.7) 0%,
+      rgba(15, 11, 40, 0.7) 100%
+    );
+    border-radius: 40px;
+    z-index: 100;
+    border: solid 1px #ffffff3f;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    overflow-y: auto;
+  }
+
+  .schedule-content {
+    margin: auto;
+    width: 90%;
+    align-items: center;
+    padding-bottom: 2em;
+  }
+
+  .matches-container {
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5em;
   }
 </style>

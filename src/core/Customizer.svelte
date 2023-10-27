@@ -2,6 +2,7 @@
   import cch from "../utils/cache";
   import { calcId } from "../utils/lib";
 
+  import Tooltip from "../reusable/Tooltip.svelte";
   import { slide } from "svelte/transition";
   import { push } from "svelte-spa-router";
   import Button from "../reusable/Button.svelte";
@@ -81,9 +82,9 @@
     }
     checkplayers();
   }
-
   async function setParticipants() {
-    if (!user.isGuest) {
+    if (!user.isGuest && user.state) {
+      console.log("test");
       config.id = calcId(user.tournaments);
       user.config = config;
 
@@ -152,52 +153,49 @@
     num = Math.floor(Math.random() * 10000);
   }
   function fill() {
-    while (config.players.length < 4) {
-      randomnum();
-      config.players.push("PLAYER_" + num);
-      config.players = [...config.players];
-      checkplayers();
-    }
-    if (config.players.length > 4 && config.players.length < 8) {
-      while (config.players.length < 8) {
+    while (true) {
+      if (
+        config.players.length != 4 &&
+        config.players.length != 8 &&
+        config.players.length != 16 &&
+        config.players.length != 32 &&
+        config.players.length != 64 &&
+        config.players.length != 128 &&
+        config.players.length != 256 &&
+        config.players.length != 512 &&
+        config.players.length != 1024
+      ) {
         randomnum();
         config.players.push("PLAYER_" + num);
+      } else {
         config.players = [...config.players];
-        checkplayers();
+        break;
       }
     }
-    if (config.players.length > 8 && config.players.length < 16) {
-      while (config.players.length < 16) {
+  }
+  function autofill() {
+    let place = 1;
+    while (true) {
+      if (
+        config.players.length != 4 &&
+        config.players.length != 8 &&
+        config.players.length != 16 &&
+        config.players.length != 32 &&
+        config.players.length != 64 &&
+        config.players.length != 128 &&
+        config.players.length != 256 &&
+        config.players.length != 512 &&
+        config.players.length != 1024
+      ) {
         randomnum();
-        config.players.push("PLAYER_" + num);
+        config.players.splice(place, 0, "PLAYER_" + num);
+        place += 2;
+      } else {
         config.players = [...config.players];
-        checkplayers();
+        break;
       }
     }
-    if (config.players.length > 16 && config.players.length < 32) {
-      while (config.players.length < 32) {
-        randomnum();
-        config.players.push("PLAYER_" + num);
-        config.players = [...config.players];
-        checkplayers();
-      }
-    }
-    if (config.players.length > 32 && config.players.length < 64) {
-      while (config.players.length < 64) {
-        randomnum();
-        config.players.push("PLAYER_" + num);
-        config.players = [...config.players];
-        checkplayers();
-      }
-    }
-    if (config.players.length > 64 && config.players.length < 128) {
-      while (config.players.length < 128) {
-        randomnum();
-        config.players.push("PLAYER_" + num);
-        config.players = [...config.players];
-        checkplayers();
-      }
-    }
+    setParticipants();
   }
 
   let showPlayerlist = false;
@@ -210,6 +208,12 @@
       top: 0,
       behavior: "smooth", // Use 'auto' for instant scrolling
     });
+  }
+
+  let showTooltip = false;
+
+  function toggleTooltip() {
+    showTooltip = !showTooltip;
   }
 </script>
 
@@ -378,16 +382,20 @@
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
-          <select
-            id="roundSelection"
-            bind:value={config.bestOf}
-            on:change={handleSelection}
+          <Tooltip
+            text="Defines how many match wins are needed in order to advance to the next round."
           >
-            <option value="" disabled selected>SELECT</option>
-            {#each bestOf as numberRound (numberRound)}
-              <option value={numberRound}>{numberRound}</option>
-            {/each}
-          </select>
+            <select
+              id="roundSelection"
+              bind:value={config.bestOf}
+              on:change={handleSelection}
+            >
+              <option value="" disabled selected>SELECT</option>
+              {#each bestOf as numberRound (numberRound)}
+                <option value={numberRound}>{numberRound}</option>
+              {/each}
+            </select>
+          </Tooltip>
         </div>
         <div>
           <label for="deciderType">Decider Type</label>
@@ -410,10 +418,14 @@
             on:cClick={() => (playerListVisible = !playerListVisible)}
             >Add Players</Button
           >
-          <Button
-            class="playoffs-buttons"
-            on:cClick={randomizePlayers(config.players)}>Randomize</Button
+          <Tooltip
+            text="Puts the players participating in random order for the playoff brackets."
           >
+            <Button
+              class="playoffs-buttons"
+              on:cClick={randomizePlayers(config.players)}>Randomize</Button
+            >
+          </Tooltip>
         </div>
       </div>
     {/if}
@@ -475,7 +487,7 @@
     {#if params.id == "playoffs"}
       <div>
         <p class="fill-info-text">
-          Fills the game with enough placeholder players to start the game
+          Fills the game with enough placeholder players to start the game.
         </p>
         <Button
           class="playoffs-buttons"
@@ -484,9 +496,9 @@
         >
       </div>
     {/if}
-    {#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
+    {#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
       <div class="createButton">
-        <Button on:cClick={setParticipants}>CREATE</Button>
+        <Button on:cClick={autofill}>CREATE</Button>
       </div>
     {/if}
     {#if params.id == "groups" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
