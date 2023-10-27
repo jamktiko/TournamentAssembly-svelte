@@ -1,12 +1,21 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Winner from '../reusable/Winner.svelte';
-  import { push } from 'svelte-spa-router';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Winner from "../reusable/Winner.svelte";
+  import { push } from "svelte-spa-router";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
+  import stateController from "../utils/stateStore";
+  import { onDestroy } from "svelte";
+
+  let user;
+  const unsub = stateController.subscribe((userData) => (user = userData));
+
+  onDestroy(() => {
+    if (unsub) unsub();
+  });
 
   export let params;
 
@@ -21,7 +30,7 @@
   let winners = [];
   let tournamentWinner = null;
 
-  const placeholder = 'Waiting for results';
+  const placeholder = "Waiting for results";
 
   function parseContestants(contestants) {
     const parsed = [];
@@ -152,18 +161,18 @@
 
   function assignRoundNames(rounds) {
     const roundNames = [
-      'ROUND 1',
-      'ROUND 2',
-      'ROUND 3',
-      'ROUND 4',
-      'ROUND 5',
-      'ROUND 6',
+      "ROUND 1",
+      "ROUND 2",
+      "ROUND 3",
+      "ROUND 4",
+      "ROUND 5",
+      "ROUND 6",
     ];
     const specialRoundNames = [
-      'PRE-QUARTERFINALS',
-      'QUARTERFINALS',
-      'SEMIFINALS',
-      'FINALS',
+      "PRE-QUARTERFINALS",
+      "QUARTERFINALS",
+      "SEMIFINALS",
+      "FINALS",
     ];
 
     for (let i = 0; i < rounds.length; i++) {
@@ -177,7 +186,13 @@
     }
   }
 
-  calcMatchups(contestants.length);
+  if (!user.isGuest && user.state) {
+    rounds = user.state.rounds;
+    winners = user.state.winners;
+  } else {
+    calcMatchups(contestants.length);
+  }
+
   assignRoundNames(rounds);
   console.log(rounds);
 
@@ -186,30 +201,52 @@
     staticbutton = true;
   }
 
-  function checkifresolved(winners, i, match){
-    if (winners.find(
-                  (id) =>
-                    (id.round === i && id.winner === match.home.id) == true)){
-                      return true
-                    }
-    if (winners.find(
-                  (id) =>
-                    (id.round === i && id.winner === match.away.id) == true)){
-                      return true
-                    }
-    return false
+  function checkifresolved(winners, i, match) {
+    if (
+      winners.find(
+        (id) => (id.round === i && id.winner === match.home.id) == true
+      )
+    ) {
+      return true;
+    }
+    if (
+      winners.find(
+        (id) => (id.round === i && id.winner === match.away.id) == true
+      )
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  async function save() {
+    const state = {
+      winners,
+      rounds,
+    };
+
+    const res = await stateController.updateTourState(
+      state,
+      user.config.id,
+      user.username
+    );
+
+    console.log(res);
   }
 </script>
 
 <main>
   <h1>{contestantData.tournamentName}</h1>
   <h3>Organized by: {contestantData.organizerName}</h3>
+  {#if user.username}
+    <Button on:cClick={save}>SAVE</Button>
+  {/if}
   <div
     class="playoff-container"
     transition:slide={{
       duration: 700,
       easing: quadInOut,
-      axis: 'x',
+      axis: "x",
     }}
   >
     {#each rounds as round, i}
@@ -220,7 +257,10 @@
             {#if i !== 0}
               <Button
                 class="revert-button"
-                disabled={staticbutton || match.home.name == null || match.away.name == null || checkifresolved(winners, i, match)}
+                disabled={staticbutton ||
+                  match.home.name == null ||
+                  match.away.name == null ||
+                  checkifresolved(winners, i, match)}
                 on:cClick={() => revertMatch({ round: i, match: mi })}
                 >UNDO MATCH</Button
               >

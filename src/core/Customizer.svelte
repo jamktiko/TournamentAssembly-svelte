@@ -83,8 +83,7 @@
     checkplayers();
   }
   async function setParticipants() {
-    if (!user.isGuest && user.state) {
-      console.log("test");
+    if (!user.isGuest && user.username) {
       config.id = calcId(user.tournaments);
       user.config = config;
 
