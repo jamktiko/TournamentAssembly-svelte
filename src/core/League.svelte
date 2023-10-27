@@ -387,7 +387,7 @@
     {/if}
     <div class="results-button-container">
       <Button
-        class="resolve-button"
+        class="schedule-create-button"
         disabled={agmatches.length > 0}
         on:cClick={() => autoCreateMatch(1)}>GENERATE A MATCH SCHEDULE</Button
       >
@@ -396,7 +396,8 @@
         disabled={agmatches.length == 0}
         on:cClick={toggleMatches}>Show matches</Button
       >
-
+    </div>
+    <div class="results-button-container">
       {#if showResults == 0}
         <Button on:cClick={() => toggleResults()}>Show results</Button>
       {/if}
