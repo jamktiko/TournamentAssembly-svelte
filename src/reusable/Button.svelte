@@ -495,6 +495,26 @@
     filter: contrast(1.4);
   }
 
+  /* Show playerlist Button */
+  .show-playerlist-button {
+    font-size: 1.1em;
+    padding: 0.25em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
+
+  .show-playerlist-button2 {
+    scale: 1;
+    font-size: 1.1em;
+    padding: 0.05em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
+
   @media only screen and (max-width: 1150px) {
     /* Sitewide Back Button */
     .back-button {
@@ -540,6 +560,11 @@
 
     .league-plus-minus-button {
       scale: 1.5;
+    }
+
+    /* Playerlist Buttons */
+    .show-playerlist-button {
+      background: #060048;
     }
   }
 </style>
