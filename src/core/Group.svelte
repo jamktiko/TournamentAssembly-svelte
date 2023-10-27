@@ -575,9 +575,14 @@
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
         <div class="schedule-content">
-          <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
-            >Cancel matches</Button
+          <Tooltip
+            text="Clears and cancels the remaining schedule made for this group."
           >
+            <Button
+              class="cancel-match-button"
+              on:cClick={() => (agmatches = [])}>Cancel matches</Button
+            >
+          </Tooltip>
 
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
@@ -588,7 +593,7 @@
             {/each}
           </div>
           <Button class="add-player-exit-button" on:cClick={toggleMatches}
-            >CLOSE</Button
+            >CLOSE SCHEDULE</Button
           >
         </div>
       </div>
@@ -669,7 +674,14 @@
   }
 
   .flex-container {
-    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-left: 0%;
+    margin-top: 1em;
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .results-button-container {
