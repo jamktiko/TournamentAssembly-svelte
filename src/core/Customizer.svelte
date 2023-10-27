@@ -8,14 +8,12 @@
 
   import stateController from '../utils/stateStore';
   import { onDestroy } from 'svelte';
-
+  import Tooltip from '../reusable/Tooltip.svelte';
   export let params;
   console.log(params);
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
-
-
 
   onDestroy(() => {
     if (unsub) unsub();
@@ -97,7 +95,7 @@
       case 'playoffs':
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case "groups":
+      case 'groups':
         push(`/groups/${cch.tokenify(config)}`);
         break;
       case 'league':
@@ -206,6 +204,12 @@
       top: 0,
       behavior: 'smooth', // Use 'auto' for instant scrolling
     });
+  }
+
+  let showTooltip = false;
+
+  function toggleTooltip() {
+    showTooltip = !showTooltip;
   }
 </script>
 
@@ -374,16 +378,20 @@
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
-          <select
-            id="roundSelection"
-            bind:value={config.bestOf}
-            on:change={handleSelection}
+          <Tooltip
+            text="Defines how many match wins are needed in order to advance to the next round."
           >
-            <option value="" disabled selected>SELECT</option>
-            {#each bestOf as numberRound (numberRound)}
-              <option value={numberRound}>{numberRound}</option>
-            {/each}
-          </select>
+            <select
+              id="roundSelection"
+              bind:value={config.bestOf}
+              on:change={handleSelection}
+            >
+              <option value="" disabled selected>SELECT</option>
+              {#each bestOf as numberRound (numberRound)}
+                <option value={numberRound}>{numberRound}</option>
+              {/each}
+            </select>
+          </Tooltip>
         </div>
         <div>
           <label for="deciderType">Decider Type</label>
@@ -406,10 +414,14 @@
             on:cClick={() => (playerListVisible = !playerListVisible)}
             >Add Players</Button
           >
-          <Button
-            class="playoffs-buttons"
-            on:cClick={randomizePlayers(config.players)}>Randomize</Button
+          <Tooltip
+            text="Puts the players participating in random order for the playoff brackets."
           >
+            <Button
+              class="playoffs-buttons"
+              on:cClick={randomizePlayers(config.players)}>Randomize</Button
+            >
+          </Tooltip>
         </div>
       </div>
     {/if}
@@ -471,7 +483,7 @@
     {#if params.id == 'playoffs'}
       <div>
         <p class="fill-info-text">
-          Fills the game with enough placeholder players to start the game
+          Fills the game with enough placeholder players to start the game.
         </p>
         <Button
           class="playoffs-buttons"
