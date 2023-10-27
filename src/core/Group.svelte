@@ -1,12 +1,16 @@
 <script>
   import cch from "../utils/cache";
   import stateController from "../utils/stateStore";
+
   import Button from "../reusable/Button.svelte";
   import Match from "../reusable/Match.svelte";
+
   import MatchResults from "../reusable/MatchResults.svelte";
   import Automatches from "../reusable/Automatches.svelte";
+
   import { onDestroy } from "svelte";
   import { push } from "svelte-spa-router";
+
   import { slide } from "svelte/transition";
   import { fade } from "svelte/transition";
   import { scale } from "svelte/transition";
@@ -305,15 +309,15 @@
   }
 
   let playoffconfig = {
-    tournamentName: '',
-    organizerName: '',
-    numberOfGroups: '',
-    teamsInGroup: '',
-    tourDecider: '',
-    pointsPerWin: '',
-    pointsPerDraw: '',
-    numberOfRounds: '',
-    bestOf: '',
+    tournamentName: "",
+    organizerName: "",
+    numberOfGroups: "",
+    teamsInGroup: "",
+    tourDecider: "",
+    pointsPerWin: "",
+    pointsPerDraw: "",
+    numberOfRounds: "",
+    bestOf: "",
 
     players: [],
   };
@@ -322,7 +326,7 @@
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
     playoffconfig.organizerName = config.organizerName;
-    playoffconfig.tourDecider = '';
+    playoffconfig.tourDecider = "";
 
     playoffconfig.bestOf = 3;
     playoffconfig.players = [];
@@ -349,7 +353,7 @@
       playoffconfig.players.length < 8
     ) {
       randomnum();
-      playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
+      playoffconfig.players.splice(place, 0, "PLAYER_" + num);
 
       playoffconfig.players = [...playoffconfig.players];
       place += 2;
@@ -360,17 +364,27 @@
     showmatches = !showmatches;
   }
 
-  console.log(groups)
+  async function save(state) {
+    const res = await stateController.updateTourState(
+      state,
+      user.config.id,
+      user.username
+    );
+
+    console.log(res);
+  }
 </script>
 
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
-    <h3>Organized by: {config.organizerName || '-'}</h3>
+    <h3>Organized by: {config.organizerName || "-"}</h3>
     <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}
       >EXPORT TO PLAYOFFS</Button
     >
-
+    {#if !user.isGuest}
+      <Button on:cClick={() => save(groups)}>SAVE</Button>
+    {/if}
   </div>
   <div class="grid-container">
     <div id="group-manage" in:slide>
@@ -497,7 +511,6 @@
           {/each}
         </div>
       {/if}
-
     </div>
     {#if match[0] && match[1]}
       <div
@@ -526,7 +539,6 @@
             >Cancel matches</Button
           >
 
-
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
               <Automatches
@@ -538,7 +550,6 @@
 
           <Button class="add-player-exit-button" on:cClick={toggleMatches}
             >CLOSE</Button
-
           >
         </div>
       </div>
@@ -836,5 +847,4 @@
     
   }
   */
-
 </style>
