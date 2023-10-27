@@ -152,52 +152,48 @@
     num = Math.floor(Math.random() * 10000);
   }
   function fill() {
-    while (config.players.length < 4) {
+    while (true){
+    if (config.players.length != 4 
+    && config.players.length != 8 
+    && config.players.length != 16
+    && config.players.length != 32
+    && config.players.length != 64
+    && config.players.length != 128
+    && config.players.length != 256
+    && config.players.length != 512
+    && config.players.length != 1024)
+    {
       randomnum();
-      config.players.push("PLAYER_" + num);
+      config.players.push('PLAYER_' + num);
+    } else {
       config.players = [...config.players];
-      checkplayers();
+      break
     }
-    if (config.players.length > 4 && config.players.length < 8) {
-      while (config.players.length < 8) {
-        randomnum();
-        config.players.push("PLAYER_" + num);
-        config.players = [...config.players];
-        checkplayers();
-      }
+  }
+  }
+  function autofill() {
+    let place = 1
+    while (true){
+    if (config.players.length != 4 
+    && config.players.length != 8 
+    && config.players.length != 16
+    && config.players.length != 32
+    && config.players.length != 64
+    && config.players.length != 128
+    && config.players.length != 256
+    && config.players.length != 512
+    && config.players.length != 1024)
+    {
+      randomnum();
+      config.players.splice(place, 0, 'PLAYER_' + num);
+      place += 2
+
+    } else {
+      config.players = [...config.players];
+      break
     }
-    if (config.players.length > 8 && config.players.length < 16) {
-      while (config.players.length < 16) {
-        randomnum();
-        config.players.push("PLAYER_" + num);
-        config.players = [...config.players];
-        checkplayers();
-      }
-    }
-    if (config.players.length > 16 && config.players.length < 32) {
-      while (config.players.length < 32) {
-        randomnum();
-        config.players.push("PLAYER_" + num);
-        config.players = [...config.players];
-        checkplayers();
-      }
-    }
-    if (config.players.length > 32 && config.players.length < 64) {
-      while (config.players.length < 64) {
-        randomnum();
-        config.players.push("PLAYER_" + num);
-        config.players = [...config.players];
-        checkplayers();
-      }
-    }
-    if (config.players.length > 64 && config.players.length < 128) {
-      while (config.players.length < 128) {
-        randomnum();
-        config.players.push("PLAYER_" + num);
-        config.players = [...config.players];
-        checkplayers();
-      }
-    }
+  }
+  setParticipants()
   }
 
   let showPlayerlist = false;
@@ -484,9 +480,9 @@
         >
       </div>
     {/if}
-    {#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && playerAmountOk}
+    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
       <div class="createButton">
-        <Button on:cClick={setParticipants}>CREATE</Button>
+        <Button on:cClick={autofill}>CREATE</Button>
       </div>
     {/if}
     {#if params.id == "groups" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != "" && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
