@@ -83,11 +83,21 @@
   $: selected = null;
 
   function selectGroup(group, i) {
+    if (selected){
+    othermatches[selected.id] = agmatches}
+
+
     console.log(selected, group.id);
 
     selected = group;
     selected.index = i;
-    match = [];
+    match = []; 
+
+    if (othermatches[selected.id]){
+      agmatches = othermatches[selected.id]
+    } else{
+      agmatches = []
+    }
   }
 
   function checkIfBlacklisted() {
@@ -228,14 +238,16 @@
   function calcWinner(group) {
     // Needs to be attached to customizations
 
-    const winner = selected.participants.sort((a, b) => a.score < b.score)[0];
+    let winner = selected.participants.sort((a, b) => a.score < b.score)[0];
 
+    if (winner.name != ""){
+     
     groupWinners.push(winner);
-
     console.log(groupWinners);
     selected = null;
     blacklisted.push(group.id);
-    groupWinners = [...groupWinners];
+    groupWinners = [...groupWinners]
+    }
   }
 
   function closeGroup() {
@@ -243,10 +255,10 @@
   }
   let contA = null;
   let agmatches = [];
+  let othermatches = []
 
   function autoCreateMatch(num) {
-    agmatches = [];
-
+    
     while (num > 0) {
       let contA = 0;
       let contB = 1;
@@ -270,8 +282,11 @@
     }
 
     randomizeMatches(agmatches);
-    console.log(agmatches.length);
+    console.log(agmatches);
     agmatches = [...agmatches];
+    othermatches[selected.id] = agmatches
+    console.log(selected.id);
+    console.log(othermatches);
   }
   function randomizeMatches(array) {
     for (var i = array.length - 1; i > 0; i--) {
