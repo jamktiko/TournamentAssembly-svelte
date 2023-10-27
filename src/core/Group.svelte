@@ -11,6 +11,7 @@
   import { fade } from 'svelte/transition';
   import { scale } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
+  import Tooltip from '../reusable/Tooltip.svelte';
 
   export let params;
 
@@ -83,11 +84,21 @@
   $: selected = null;
 
   function selectGroup(group, i) {
+    if (selected){
+    othermatches[selected.id] = agmatches}
+
+
     console.log(selected, group.id);
 
     selected = group;
     selected.index = i;
-    match = [];
+    match = []; 
+
+    if (othermatches[selected.id]){
+      agmatches = othermatches[selected.id]
+    } else{
+      agmatches = []
+    }
   }
 
   function checkIfBlacklisted() {
@@ -228,14 +239,16 @@
   function calcWinner(group) {
     // Needs to be attached to customizations
 
-    const winner = selected.participants.sort((a, b) => a.score < b.score)[0];
+    let winner = selected.participants.sort((a, b) => a.score < b.score)[0];
 
+    if (winner.name != ""){
+     
     groupWinners.push(winner);
-
     console.log(groupWinners);
     selected = null;
     blacklisted.push(group.id);
-    groupWinners = [...groupWinners];
+    groupWinners = [...groupWinners]
+    }
   }
 
   function closeGroup() {
@@ -243,10 +256,10 @@
   }
   let contA = null;
   let agmatches = [];
+  let othermatches = []
 
   function autoCreateMatch(num) {
-    agmatches = [];
-
+    
     while (num > 0) {
       let contA = 0;
       let contB = 1;
@@ -270,8 +283,11 @@
     }
 
     randomizeMatches(agmatches);
-    console.log(agmatches.length);
+    console.log(agmatches);
     agmatches = [...agmatches];
+    othermatches[selected.id] = agmatches
+    console.log(selected.id);
+    console.log(othermatches);
   }
   function randomizeMatches(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -361,16 +377,31 @@
   }
 
   console.log(groups);
+
+
+  let showTooltip = false;
+
+  function toggleTooltip() {
+    showTooltip = !showTooltip;
+  }
 </script>
 
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
     <h3>Organized by: {config.organizerName || '-'}</h3>
-    <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup}
-      >EXPORT TO PLAYOFFS</Button
+    <Tooltip
+      text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
+      <Button
+        disabled={groupWinners.length < 2}
+        on:cClick={leaveGroup}
+        on:mouseenter={toggleTooltip}
+        on:mouseleave={toggleTooltip}>EXPORT TO PLAYOFFS</Button
+      >
+    </Tooltip>
   </div>
+
   <div class="grid-container">
     <div id="group-manage" in:slide>
       {#each groups as group, i}
@@ -447,20 +478,34 @@
           </table>
           <div class="resolve-button-container">
             {#if selected && !checkIfBlacklisted()}
-              <Button
-                class="finish-button"
-                on:cClick={() => calcWinner(selected)}>Finish this Group</Button
+              <Tooltip
+                text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
               >
               <Button
                 class="schedule-create-button"
                 disabled={agmatches.length > 0}
                 on:cClick={() => autoCreateMatch(1)}
                 >GENERATE A MATCH SCHEDULE</Button
+                <Button
+                  class="finish-button"
+                  on:cClick={() => calcWinner(selected)}
+                  >Finish this Group</Button
+                >
+              </Tooltip>
+              <Tooltip
+                text="Press to create a match schedule for all the group's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
               >
+                <Button
+                  class="schedule-create-button"
+                  disabled={agmatches.length > 0}
+                  on:cClick={() => autoCreateMatch(1)}
+                  >GENERATE A MATCH SCHEDULE</Button
+                >
+              </Tooltip>
               <Button
                 class="resolve-button"
                 disabled={agmatches.length == 0}
-                on:cClick={toggleMatches}>Show matches</Button
+                on:cClick={toggleMatches}>Show schedule</Button
               >
             {/if}
           </div>
@@ -483,16 +528,18 @@
       {/if}
     </div>
     <div class="results-button-container">
-      <Button class="results-toggle-button" on:cClick={toggleResults}
-        >{showResults ? 'Hide Results' : 'Show Results'}</Button
+      <Tooltip
+        text="Below is a list of concluded matches and their results in all groups. You can hide
+      the results from view by toggling the SHOW/HIDE RESULTS button."
       >
+        <Button class="results-toggle-button" on:cClick={toggleResults}
+          >{showResults ? 'Hide Results' : 'Show Results'}</Button
+        >
+      </Tooltip>
       {#if showResults}
         <div class="flex-container" transition:slide>
           <h1 class="results-header">RESULTS</h1>
-          <p>
-            Below is a list of concluded matches and their results. You can hide
-            the results from view by clicking the HIDE RESULTS button.
-          </p>
+
           {#each matchResultsR as matchResult}
             <MatchResults {matchResult} />
           {/each}
@@ -847,7 +894,6 @@
       margin-top: 0em;
       margin-bottom: 2em;
     }
-
     .modal {
       width: 80%;
       height: auto;
@@ -863,4 +909,5 @@
       scale: 1.7;
     }
   }
+
 </style>

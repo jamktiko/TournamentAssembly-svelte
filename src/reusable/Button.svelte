@@ -414,11 +414,25 @@
   .league-resolve-button {
     font-size: 1.3em;
     padding: 0.25em 2.2em;
+    border: solid 1px #7396ff;
     border-radius: 10px;
-    text-transform: uppercase;
+    background: linear-gradient(
+      180deg,
+      #7396ff6b 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+    color: #fff;
+    transition-duration: 0.1s;
+    cursor: pointer;
     transition-duration: 0.1s;
     margin-top: 0.5em;
     margin-bottom: 2em;
+  }
+
+  .league-resolve-button:hover {
+    border: solid 1px #7396ff;
+    filter: brightness(1.2);
+    filter: contrast(1.4);
   }
 
   .league-resolve-button:active {
