@@ -76,9 +76,9 @@ const lib = {
     // Validate that the username is a valid email address
     const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     if (!emailRegex.test(username)) {
-      console.error('Invalid email format');
+      console.error("Invalid email format");
       return {
-        msg: 'Invalid email format',
+        msg: "Invalid email format",
         success: false,
       };
     }
@@ -182,13 +182,18 @@ const lib = {
   },
 
   async updateTournamentState(username, state, id) {
-    const collection = client.db('touras').collection('users');
+    const collection = client.db("touras").collection("users");
+
+    console.log(state);
 
     try {
-      await collection.findOneAndUpdate({ username: username, 'tournaments.id': id }, { $set: { 'tournaments.$.state': state } });
-      console.log('Document updated successfully');
+      await collection.findOneAndUpdate(
+        { username: username, "tournaments.id": id },
+        { $set: { "tournaments.$.state": state } }
+      );
+      console.log("Document updated successfully");
     } catch (error) {
-      console.error('Error updating document:', error);
+      console.error("Error updating document:", error);
       throw error;
     }
   },
