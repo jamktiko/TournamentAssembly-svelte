@@ -1,4 +1,5 @@
 <script>
+
   import cch from '../utils/cache';
   import stateController from '../utils/stateStore';
   import Button from '../reusable/Button.svelte';
@@ -319,15 +320,15 @@
   }
 
   let playoffconfig = {
-    tournamentName: '',
-    organizerName: '',
-    numberOfGroups: '',
-    teamsInGroup: '',
-    tourDecider: '',
-    pointsPerWin: '',
-    pointsPerDraw: '',
-    numberOfRounds: '',
-    bestOf: '',
+    tournamentName: "",
+    organizerName: "",
+    numberOfGroups: "",
+    teamsInGroup: "",
+    tourDecider: "",
+    pointsPerWin: "",
+    pointsPerDraw: "",
+    numberOfRounds: "",
+    bestOf: "",
 
     players: [],
   };
@@ -336,7 +337,7 @@
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
     playoffconfig.organizerName = config.organizerName;
-    playoffconfig.tourDecider = '';
+    playoffconfig.tourDecider = "";
 
     playoffconfig.bestOf = 3;
     playoffconfig.players = [];
@@ -363,7 +364,7 @@
       playoffconfig.players.length < 8
     ) {
       randomnum();
-      playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
+      playoffconfig.players.splice(place, 0, "PLAYER_" + num);
 
       playoffconfig.players = [...playoffconfig.players];
       place += 2;
@@ -374,7 +375,16 @@
     showmatches = !showmatches;
   }
 
-  console.log(groups);
+  async function save(state) {
+    const res = await stateController.updateTourState(
+      state,
+      user.config.id,
+      user.username
+    );
+
+    console.log(res);
+  }
+
 
   let showTooltip = false;
 
@@ -386,6 +396,7 @@
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
+
     <h3>Organized by: {config.organizerName || '-'}</h3>
     <Tooltip
       text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
@@ -397,6 +408,9 @@
         on:mouseleave={toggleTooltip}>EXPORT TO PLAYOFFS</Button
       >
     </Tooltip>
+    {#if !user.isGuest}
+      <Button on:cClick={() => save(groups)}>SAVE</Button>
+    {/if}
   </div>
 
   <div class="grid-container">
@@ -561,9 +575,14 @@
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
         <div class="schedule-content">
-          <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
-            >Cancel matches</Button
+          <Tooltip
+            text="Clears and cancels the remaining schedule made for this group."
           >
+            <Button
+              class="cancel-match-button"
+              on:cClick={() => (agmatches = [])}>Cancel matches</Button
+            >
+          </Tooltip>
 
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
@@ -574,7 +593,7 @@
             {/each}
           </div>
           <Button class="add-player-exit-button" on:cClick={toggleMatches}
-            >CLOSE</Button
+            >CLOSE SCHEDULE</Button
           >
         </div>
       </div>
@@ -655,7 +674,14 @@
   }
 
   .flex-container {
-    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-left: 0%;
+    margin-top: 1em;
+    border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .results-button-container {

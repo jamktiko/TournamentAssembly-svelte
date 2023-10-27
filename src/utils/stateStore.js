@@ -70,7 +70,6 @@ const stateController = {
     const unsub = this.subscribe((userData) => (user = userData));
     unsub();
 
-    tournament.id = calcId(user.tournaments);
     tournament.type = type;
 
     const tourData = {
@@ -89,7 +88,33 @@ const stateController = {
     };
 
     const res = await this.customFetch("addTour", opt);
-    console.log(res);
+    return { res, id: tournament.id };
+  },
+
+  async updateTourState(state, id, username) {
+    let user;
+    const unsub = this.subscribe((userData) => (user = userData));
+    unsub();
+
+    const tourData = {
+      username,
+      id,
+      state,
+      token: user.token,
+    };
+
+    const opt = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(tourData),
+    };
+
+    const res = await this.customFetch("tourState", opt);
+    return res;
   },
 };
 
