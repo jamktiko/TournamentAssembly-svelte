@@ -84,20 +84,20 @@
   $: selected = null;
 
   function selectGroup(group, i) {
-    if (selected){
-    othermatches[selected.id] = agmatches}
-
+    if (selected) {
+      othermatches[selected.id] = agmatches;
+    }
 
     console.log(selected, group.id);
 
     selected = group;
     selected.index = i;
-    match = []; 
+    match = [];
 
-    if (othermatches[selected.id]){
-      agmatches = othermatches[selected.id]
-    } else{
-      agmatches = []
+    if (othermatches[selected.id]) {
+      agmatches = othermatches[selected.id];
+    } else {
+      agmatches = [];
     }
   }
 
@@ -241,13 +241,12 @@
 
     let winner = selected.participants.sort((a, b) => a.score < b.score)[0];
 
-    if (winner.name != ""){
-     
-    groupWinners.push(winner);
-    console.log(groupWinners);
-    selected = null;
-    blacklisted.push(group.id);
-    groupWinners = [...groupWinners]
+    if (winner.name != '') {
+      groupWinners.push(winner);
+      console.log(groupWinners);
+      selected = null;
+      blacklisted.push(group.id);
+      groupWinners = [...groupWinners];
     }
   }
 
@@ -256,10 +255,9 @@
   }
   let contA = null;
   let agmatches = [];
-  let othermatches = []
+  let othermatches = [];
 
   function autoCreateMatch(num) {
-    
     while (num > 0) {
       let contA = 0;
       let contB = 1;
@@ -285,7 +283,7 @@
     randomizeMatches(agmatches);
     console.log(agmatches);
     agmatches = [...agmatches];
-    othermatches[selected.id] = agmatches
+    othermatches[selected.id] = agmatches;
     console.log(selected.id);
     console.log(othermatches);
   }
@@ -378,7 +376,6 @@
 
   console.log(groups);
 
-
   let showTooltip = false;
 
   function toggleTooltip() {
@@ -406,7 +403,7 @@
     <div id="group-manage" in:slide>
       {#each groups as group, i}
         {#if selected}
-          <div>
+          <div class="group-content">
             {#if group.name == selected.name}
               <h2 class="group-header-focused">{group.name}</h2>
               <Button on:cClick={() => closeGroup()}>Close</Button>
@@ -416,7 +413,7 @@
             {/if}
           </div>
         {:else}
-          <div>
+          <div class="group-content">
             <h2 class="group-header">{group.name}</h2>
             <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
           </div>
@@ -481,11 +478,6 @@
               <Tooltip
                 text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
               >
-              <Button
-                class="schedule-create-button"
-                disabled={agmatches.length > 0}
-                on:cClick={() => autoCreateMatch(1)}
-                >GENERATE A MATCH SCHEDULE</Button
                 <Button
                   class="finish-button"
                   on:cClick={() => calcWinner(selected)}
@@ -854,6 +846,9 @@
     column-gap: 5em;
   }
 
+  .group-content {
+    text-align: center;
+  }
   /* Tablet Portrait */
   @media only screen and (max-width: 1150px) {
     input {
@@ -909,5 +904,4 @@
       scale: 1.7;
     }
   }
-
 </style>
