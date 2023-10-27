@@ -30,11 +30,6 @@
   let winners = [];
   let tournamentWinner = null;
 
-  if (!user.isGuest && user.state) {
-    rounds = user.state.rounds;
-    winners = winners.state.winners;
-  }
-
   const placeholder = "Waiting for results";
 
   function parseContestants(contestants) {
@@ -191,7 +186,13 @@
     }
   }
 
-  calcMatchups(contestants.length);
+  if (!user.isGuest && user.state) {
+    rounds = user.state.rounds;
+    winners = user.state.winners;
+  } else {
+    calcMatchups(contestants.length);
+  }
+
   assignRoundNames(rounds);
   console.log(rounds);
 
@@ -217,11 +218,29 @@
     }
     return false;
   }
+
+  async function save() {
+    const state = {
+      winners,
+      rounds,
+    };
+
+    const res = await stateController.updateTourState(
+      state,
+      user.config.id,
+      user.username
+    );
+
+    console.log(res);
+  }
 </script>
 
 <main>
   <h1>{contestantData.tournamentName}</h1>
   <h3>Organized by: {contestantData.organizerName}</h3>
+  {#if user.username}
+    <Button on:cClick={save}>SAVE</Button>
+  {/if}
   <div
     class="playoff-container"
     transition:slide={{
