@@ -496,10 +496,50 @@
   }
 
   @media only screen and (max-width: 1150px) {
+    /* Sitewide Back Button */
     .back-button {
       scale: 0.9;
       margin: 0em;
       margin-top: 0.25em;
+    }
+
+    /* Groups Resolve Buttons */
+    .finish-button {
+      scale: 0.9;
+      margin: 0em 0.2em;
+    }
+
+    .schedule-create-button {
+      scale: 0.9;
+      margin: 0em 0.2em;
+    }
+
+    .resolve-button {
+      scale: 0.9;
+      width: auto;
+      margin: 0em 0.2em;
+    }
+
+    /* Match Schedule Buttons */
+    .cancel-match-button {
+      scale: 1.5;
+    }
+
+    .group-adjust-button {
+      scale: 1.4;
+    }
+
+    .add-player-exit-button {
+      scale: 1.5;
+    }
+
+    /* Match Scoring Buttons */
+    .cancel-match-button {
+      scale: 1.5;
+    }
+
+    .league-plus-minus-button {
+      scale: 1.5;
     }
   }
 </style>

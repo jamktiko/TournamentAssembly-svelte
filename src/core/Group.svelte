@@ -378,6 +378,7 @@
 
   console.log(groups);
 
+
   let showTooltip = false;
 
   function toggleTooltip() {
@@ -405,16 +406,20 @@
     <div id="group-manage" in:slide>
       {#each groups as group, i}
         {#if selected}
-          {#if group.name == selected.name}
-            <h2 class="group-header-focused">{group.name}</h2>
-            <Button on:cClick={() => closeGroup()}>Close</Button>
-          {:else}
-            <h2 class="group-header-unselected">{group.name}</h2>
-            <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
-          {/if}
+          <div>
+            {#if group.name == selected.name}
+              <h2 class="group-header-focused">{group.name}</h2>
+              <Button on:cClick={() => closeGroup()}>Close</Button>
+            {:else}
+              <h2 class="group-header-unselected">{group.name}</h2>
+              <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
+            {/if}
+          </div>
         {:else}
-          <h2 class="group-header">{group.name}</h2>
-          <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
+          <div>
+            <h2 class="group-header">{group.name}</h2>
+            <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
+          </div>
         {/if}
       {/each}
     </div>
@@ -476,6 +481,11 @@
               <Tooltip
                 text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
               >
+              <Button
+                class="schedule-create-button"
+                disabled={agmatches.length > 0}
+                on:cClick={() => autoCreateMatch(1)}
+                >GENERATE A MATCH SCHEDULE</Button
                 <Button
                   class="finish-button"
                   on:cClick={() => calcWinner(selected)}
@@ -517,7 +527,6 @@
         </div>
       {/if}
     </div>
-
     <div class="results-button-container">
       <Tooltip
         text="Below is a list of concluded matches and their results in all groups. You can hide
@@ -539,7 +548,6 @@
     </div>
     {#if match[0] && match[1]}
       <div
-        class="test"
         in:fade={{
           duration: 500,
           easing: quintOut,
@@ -563,7 +571,6 @@
           <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
             >Cancel matches</Button
           >
-
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
               <Automatches
@@ -572,7 +579,6 @@
               />
             {/each}
           </div>
-
           <Button class="add-player-exit-button" on:cClick={toggleMatches}
             >CLOSE</Button
           >
@@ -681,6 +687,7 @@
     margin-bottom: 2em;
     grid-column: 2;
   }
+
   #group {
     display: flex;
     justify-content: center;
@@ -728,17 +735,6 @@
     padding: 20px;
   }
 
-  .test {
-    opacity: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    width: 100%;
-    height: 100%;
-  }
-
   h1 {
     font-size: 3em;
   }
@@ -774,6 +770,7 @@
     font-size: 1.6em;
     animation: pulse 3s infinite;
   }
+
   #group-name {
     text-transform: uppercase;
     font-size: 2.2em;
@@ -804,6 +801,7 @@
   .list-header {
     text-transform: uppercase;
   }
+
   #match-count {
     text-transform: uppercase;
     font-size: 0.9em;
@@ -855,21 +853,61 @@
     grid-template-columns: 1fr 1fr;
     column-gap: 5em;
   }
-  /* Tablet Portrait 
+
+  /* Tablet Portrait */
   @media only screen and (max-width: 1150px) {
+    input {
+      margin-bottom: 0em;
+      font-size: 1.3em;
+      padding: 0.5em 0.5em;
+    }
+
     .grid-container {
+      width: 80%;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      height: 100%;
     }
 
     #group-manage {
-      display: flex;
-      flex-wrap: wrap;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      column-gap: 1em;
+      margin: 0em;
+      padding: 1em;
+      text-align: center;
     }
 
     #group-view {
+      width: 100%;
+      margin-top: 1em;
     }
-    
+
+    .group-header-focused {
+      font-size: 1.6em;
+    }
+
+    .resolve-button-container {
+      justify-content: center;
+      width: 100%;
+      margin-top: 0em;
+      margin-bottom: 2em;
+    }
+    .modal {
+      width: 80%;
+      height: auto;
+      position: absolute;
+      top: 14em;
+      left: 3%;
+      padding: 1em 3em;
+      overflow-x: none;
+    }
+
+    #match-count {
+      font-size: 1em;
+      scale: 1.7;
+    }
   }
-  */
+
 </style>
