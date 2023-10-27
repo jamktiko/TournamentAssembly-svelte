@@ -15,8 +15,6 @@
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-
-
   onDestroy(() => {
     if (unsub) unsub();
   });
@@ -97,7 +95,7 @@
       case 'playoffs':
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case "groups":
+      case 'groups':
         push(`/groups/${cch.tokenify(config)}`);
         break;
       case 'league':
@@ -199,6 +197,11 @@
   let showPlayerlist = false;
   function togglePlayerlist() {
     showPlayerlist = !showPlayerlist;
+  }
+
+  let playerlistExpanded = false;
+  function expandPlayerlist() {
+    playerlistExpanded = !playerlistExpanded;
   }
 
   function scrollToTop() {
@@ -334,30 +337,38 @@
     {/if}
     <!-- Playoffs Menu -->
     {#if params.id == 'playoffs'}
-      <div class="playerlist">
-        <h2 class="list-header">List of players</h2>
-        <p id="player-count">Player count: {config.players.length}</p>
-        <Button class="expand-button" on:cClick={togglePlayerlist}>
-          {showPlayerlist ? 'Hide Players' : 'Show Players'}
-        </Button>
-        {#if showPlayerlist}
-          <div transition:slide>
-            {#each config.players as player}
-              <div class="single-player-content">
-                <div class="player-name">
-                  {player}
+      {#if playerlistExpanded}
+        <div class="backdrop" />
+        <div class="playerlist" transition:slide={{ axis: 'y', duration: 500 }}>
+          <h2 class="list-header">List of players</h2>
+          <p id="player-count">Player count: {config.players.length}</p>
+          <Button class="show-playerlist-button2" on:cClick={expandPlayerlist}
+            >{playerlistExpanded
+              ? 'Hide Playerlist'
+              : 'Show Playerlist'}</Button
+          >
+          <Button class="expand-button" on:cClick={togglePlayerlist}>
+            {showPlayerlist ? 'Hide Players' : 'Show Players'}
+          </Button>
+          {#if showPlayerlist}
+            <div transition:slide>
+              {#each config.players as player}
+                <div class="single-player-content">
+                  <div class="player-name">
+                    {player}
+                  </div>
+                  <div>
+                    <Button
+                      class="remove-player-button"
+                      on:cClick={removePlayer(player)}>Delete</Button
+                    >
+                  </div>
                 </div>
-                <div>
-                  <Button
-                    class="remove-player-button"
-                    on:cClick={removePlayer(player)}>Delete</Button
-                  >
-                </div>
-              </div>
-            {/each}
-          </div>
-        {/if}
-      </div>
+              {/each}
+            </div>
+          {/if}
+        </div>
+      {/if}
     {/if}
     {#if selectedMenu == 'playoffs'}
       <div
@@ -409,6 +420,11 @@
           <Button
             class="playoffs-buttons"
             on:cClick={randomizePlayers(config.players)}>Randomize</Button
+          >
+          <Button class="show-playerlist-button" on:cClick={expandPlayerlist}
+            >{playerlistExpanded
+              ? 'Hide Playerlist'
+              : 'Show Playerlist'}</Button
           >
         </div>
       </div>
@@ -658,10 +674,31 @@
     main {
       padding-left: 1em;
       padding-right: 1em;
-      margin-left: 12.5%;
-      margin-top: 2em;
+      margin-left: 10%;
+      margin-top: 4em;
       margin-bottom: 2em;
       width: 75%;
+    }
+
+    .playerlist {
+      text-align: center;
+      padding: 0em;
+      width: 12.5em;
+      position: absolute;
+      top: 14em;
+      left: 30%;
+      margin-left: 0.25em;
+      background: #060048;
+    }
+
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 10;
     }
   }
 </style>
