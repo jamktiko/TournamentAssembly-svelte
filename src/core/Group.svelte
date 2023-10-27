@@ -540,6 +540,7 @@
     </div>
     {#if match[0] && match[1]}
       <div
+        class="match-modal"
         in:fade={{
           duration: 500,
           easing: quintOut,
@@ -563,6 +564,7 @@
           <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}
             >Cancel matches</Button
           >
+
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
               <Automatches
@@ -799,6 +801,16 @@
     font-size: 0.9em;
   }
 
+  .match-modal {
+    opacity: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    width: 100%;
+    height: 100%;
+  }
   .backdrop {
     position: fixed;
     top: 0;
