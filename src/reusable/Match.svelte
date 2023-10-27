@@ -178,6 +178,7 @@
     margin-top: 0.5em;
     font-size: 1em;
   }
+
   #vs-header {
     font-size: 3.5em;
     padding-left: 1em;
@@ -197,6 +198,15 @@
 
     100% {
       filter: brightness(1) drop-shadow(0 0 0.1rem rgb(255, 255, 255, 0));
+    }
+  }
+
+  @media only screen and (max-width: 1150px) {
+    .match-container {
+      width: 100%;
+    }
+    .team-content-container {
+      width: 80vw;
     }
   }
 </style>
