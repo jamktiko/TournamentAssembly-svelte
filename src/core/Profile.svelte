@@ -25,8 +25,12 @@
     </p>
   </div>
   <div class="buttons">
-    <Button on:cClick={() => push('/selection')}>Create A Tournament</Button>
-    <Button on:cClick={() => push('/tournaments')}>My Tournaments</Button>
+    <Button class="login-button" on:cClick={() => push('/selection')}
+      >Create A Tournament</Button
+    >
+    <Button class="login-button2" on:cClick={() => push('/tournaments')}
+      >My Tournaments</Button
+    >
   </div>
 </main>
 
