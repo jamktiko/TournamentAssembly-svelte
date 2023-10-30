@@ -24,7 +24,8 @@
   }
 </script>
 
-<div class="backdrop" />
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div class="backdrop" on:click={closeSignup} />
 
 <div
   class="modal"

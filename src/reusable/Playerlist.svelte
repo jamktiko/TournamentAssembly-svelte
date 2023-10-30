@@ -34,9 +34,14 @@
     const regex = /^[A-Za-z0-9\s]+$/; // Only allow letters, numbers, and spaces
     return regex.test(input);
   }
+
+  function closeWindow() {
+    dp('closeWindow');
+  }
 </script>
 
-<div class="backdrop" />
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div class="backdrop" on:click={closeWindow} />
 <div class="modal">
   <div class="add-player-content">
     <h3>TYPE PLAYER NAME BELOW</h3>
@@ -111,5 +116,11 @@
     margin: auto;
     flex-direction: column;
     justify-content: space-around;
+  }
+
+  @media only screen and (max-width: 1450px) {
+    .modal {
+      left: 42%;
+    }
   }
 </style>
