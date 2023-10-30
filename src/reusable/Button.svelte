@@ -516,7 +516,7 @@
     margin: 0.25em;
   }
 
-  @media only screen and (max-width: 1150px) {
+  @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
     .back-button {
       scale: 0.9;
@@ -551,7 +551,7 @@
     }
 
     .add-player-exit-button {
-      scale: 1.5;
+      scale: 1;
     }
 
     /* Match Scoring Buttons */
@@ -566,6 +566,20 @@
     /* Playerlist Buttons */
     .show-playerlist-button {
       background: #060048;
+    }
+
+    .expand-playerlist-button-open {
+      scale: 1;
+      font-size: 1.1em;
+      padding: 0.05em 1em;
+      border-radius: 10px;
+      text-transform: uppercase;
+      transition-duration: 0.1s;
+      margin: 0.25em;
+      position: absolute;
+      top: 35%;
+      left: 0;
+      z-index: 11;
     }
   }
 </style>

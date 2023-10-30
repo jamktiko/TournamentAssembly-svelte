@@ -89,13 +89,18 @@
   }
 
   /* Tablet Portrait */
-  @media only screen and (max-width: 1150px) {
+  @media only screen and (max-width: 1450px) {
     .card {
       padding: 2em 4em;
     }
 
     .card-image {
       font-size: 6em;
+    }
+
+    .card-image {
+      margin-top: 1.5em;
+      font-size: 4em;
     }
   }
 </style>

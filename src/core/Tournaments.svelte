@@ -1,13 +1,13 @@
 <script>
-  import { onDestroy } from 'svelte';
-  import Button from '../reusable/Button.svelte';
-  import stateController from '../utils/stateStore';
-  import { push } from 'svelte-spa-router';
-  import cch from '../utils/cache';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import { onDestroy } from "svelte";
+  import Button from "../reusable/Button.svelte";
+  import stateController from "../utils/stateStore";
+  import { push } from "svelte-spa-router";
+  import cch from "../utils/cache";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
@@ -20,15 +20,17 @@
 
   function openTournament(tournament) {
     const configTkn = cch.tokenify(tournament.config);
-
     if (tournament.state) {
       user.state = tournament.state;
       user.config = tournament.config;
     }
 
     stateController.set(user);
-
-    push(`/${tournament.type}/${configTkn}`);
+    if (tournament.type === "scoreboard") {
+      push(`/${tournament.type}/`);
+    } else {
+      push(`/${tournament.type}/${configTkn}`);
+    }
   }
 </script>
 
@@ -36,7 +38,7 @@
   transition:slide={{
     duration: 700,
     easing: quintOut,
-    axis: 'y',
+    axis: "y",
   }}
 >
   <div class="tournaments-header">
