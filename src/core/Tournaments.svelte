@@ -1,9 +1,13 @@
 <script>
-  import { onDestroy } from "svelte";
-  import Button from "../reusable/Button.svelte";
-  import stateController from "../utils/stateStore";
-  import { push } from "svelte-spa-router";
-  import cch from "../utils/cache";
+  import { onDestroy } from 'svelte';
+  import Button from '../reusable/Button.svelte';
+  import stateController from '../utils/stateStore';
+  import { push } from 'svelte-spa-router';
+  import cch from '../utils/cache';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
@@ -28,7 +32,13 @@
   }
 </script>
 
-<main>
+<main
+  transition:slide={{
+    duration: 700,
+    easing: quintOut,
+    axis: 'y',
+  }}
+>
   <div class="tournaments-header">
     <h1>Tournaments & Scoreboards</h1>
   </div>
@@ -53,7 +63,10 @@
         {#each tournaments as tournament (tournament.id)}
           <tr>
             <td>
-              <Button on:cClick={() => openTournament(tournament)}>Open</Button>
+              <Button
+                class="add-player-button"
+                on:cClick={() => openTournament(tournament)}>Open</Button
+              >
             </td>
             <td>{tournament.config.tournamentName}</td>
             <td>{tournament.config.tourDecider}</td>
@@ -86,9 +99,14 @@
     background-color: rgba(0, 0, 0, 0.5);
   }
 
+  table {
+    text-transform: uppercase;
+    border-collapse: separate;
+  }
+
   h1 {
     text-transform: uppercase;
-    font-size: 2em;
+    font-size: 3em;
   }
 
   table {
@@ -103,8 +121,8 @@
   th {
     text-transform: uppercase;
     font-weight: 700;
-    background-color: rgba(0, 0, 0, 0.3);
-    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom: 1px solid white;
     text-align: center;
     padding: 0em 1em;
   }
@@ -112,9 +130,10 @@
   td {
     font-weight: 700;
     padding: 0.5em;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0);
     text-align: center;
-    border-bottom: 1px solid white;
+    border-top: 1px solid rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(255, 255, 255);
   }
 
   tr:nth-child(even) {

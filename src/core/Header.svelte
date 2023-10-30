@@ -1,8 +1,20 @@
 <script>
+  import { push, location } from 'svelte-spa-router';
+
+  function goToSelection() {
+    console.log($location);
+    if ($location !== '/' && $location !== '/DevInfo') push('/Selection');
+  }
 </script>
 
 <header>
-  <img id="logo" src="./images/TourAssLogo.svg" alt="..." />
+  <img
+    id="logo"
+    src="./images/TourAssLogo.svg"
+    alt="..."
+    on:click={goToSelection}
+    on:keydown
+  />
   <div class="light x1" />
   <div class="light x2" />
   <div class="light x3" />
