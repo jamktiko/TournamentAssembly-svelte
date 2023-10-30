@@ -15,6 +15,8 @@
 
   onDestroy(() => {
     if (unsub) unsub();
+
+    if (user.state) delete user.state;
   });
 
   export let params;
