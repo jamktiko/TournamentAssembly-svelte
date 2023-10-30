@@ -551,7 +551,7 @@
     }
 
     .add-player-exit-button {
-      scale: 1.5;
+      scale: 1;
     }
 
     /* Match Scoring Buttons */

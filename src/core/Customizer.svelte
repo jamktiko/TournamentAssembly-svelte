@@ -429,7 +429,11 @@
         }}
       >
         {#if playerListVisible}
-          <Playerlist {config} on:playersEvent={handlePlayerList} />
+          <Playerlist
+            {config}
+            on:playersEvent={handlePlayerList}
+            on:closeWindow={() => (playerListVisible = false)}
+          />
         {/if}
         <div>
           <label for="roundSelection">Best of X</label>
@@ -464,11 +468,14 @@
           </select>
         </div>
         <div class="playoffs-button-container">
+          {#if isTablet}
+            <p id="player-count">Player count: {config.players.length}</p>
+          {/if}
           <Button
             class="playoffs-buttons"
             on:cClick={scrollToTop}
             on:cClick={() => (playerListVisible = !playerListVisible)}
-            >Add Players</Button
+            on:cClick={() => (playerlistExpanded = true)}>Add Players</Button
           >
           <Tooltip
             text="Puts the players participating in random order for the playoff brackets."
