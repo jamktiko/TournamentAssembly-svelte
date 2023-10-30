@@ -41,6 +41,9 @@
   onDestroy(() => {
     cch.saveToCache("league", teams);
     cch.saveToCache("leagueConf", config);
+
+    if(user.state) delete user.state;
+
   });
 
   let teams = [];
@@ -50,7 +53,11 @@
     teams = cch.getFromCache("league");
 
     console.log(teams);
+  } else if(user.state) {
+    teams = user.state;
   }
+
+
 
   let sortBy = "";
   let sortOrder = 1;
