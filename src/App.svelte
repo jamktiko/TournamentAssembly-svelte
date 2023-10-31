@@ -14,6 +14,8 @@
   function logout() {
     window.sessionStorage.removeItem("user");
     stateController.set({});
+
+    push("/");
   }
 
   console.log(userData);
@@ -21,7 +23,9 @@
 
 <Header />
 
-<Button on:cClick={logout}>Log out</Button>
+{#if userData.username !== "guest" && userData.username}
+  <Button on:cClick={logout}>Log out</Button>
+{/if}
 
 {#if $location !== "/" && $location !== "/errorpage" && $location !== "/LoginUser" && $location !== "/Signup"}
   {#if $location == "/selection"}

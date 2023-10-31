@@ -23,7 +23,7 @@
 
 <main>
   <div class="profile-header">
-    <h1>WELCOME {user.username.toUpperCase()}!</h1>
+    <h1>WELCOME {user.username ? user.username.toUpperCase() : ""}!</h1>
   </div>
   <div class="profile-description">
     <p>
