@@ -1,13 +1,20 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
 
-  import stateController from '../utils/stateStore';
-  import { onDestroy } from 'svelte';
+  import stateController from "../utils/stateStore";
+  import { onDestroy } from "svelte";
 
-  let currentUser;
+  import { loadFromSession } from "../utils/lib";
 
-  const unsub = stateController.subscribe((user) => (currentUser = user));
+  let user;
+
+  const unsub = stateController.subscribe((userData) => (user = userData));
+
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
+    stateController.set(user);
+  }
 
   onDestroy(() => {
     if (unsub) unsub();
@@ -16,7 +23,7 @@
 
 <main>
   <div class="profile-header">
-    <h1>WELCOME {currentUser.username.toUpperCase()}!</h1>
+    <h1>WELCOME {user.username.toUpperCase()}!</h1>
   </div>
   <div class="profile-description">
     <p>
@@ -25,10 +32,10 @@
     </p>
   </div>
   <div class="buttons">
-    <Button class="login-button" on:cClick={() => push('/selection')}
+    <Button class="login-button" on:cClick={() => push("/selection")}
       >Create A Tournament</Button
     >
-    <Button class="login-button2" on:cClick={() => push('/tournaments')}
+    <Button class="login-button2" on:cClick={() => push("/tournaments")}
       >My Tournaments</Button
     >
   </div>
