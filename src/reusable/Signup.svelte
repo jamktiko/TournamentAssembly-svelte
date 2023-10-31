@@ -1,26 +1,43 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import stateController from '../utils/stateStore';
-  import { scale } from 'svelte/transition';
-  import { bounceInOut, quadInOut, quintOut } from 'svelte/easing';
-  import { createEventDispatcher } from 'svelte';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import stateController from "../utils/stateStore";
+  import { scale } from "svelte/transition";
+  import { bounceInOut, quadInOut, quintOut } from "svelte/easing";
+  import { createEventDispatcher } from "svelte";
 
-  let username = '';
-  let password = '';
+  let username = "";
+  let password = "";
 
-  function register() {
+  let invalidRegister = false;
+  let errorMsg = "";
+
+  async function register() {
     const user = {
       username: username,
       password: password,
       tournaments: [],
     };
-    stateController.register(user);
+    const res = await stateController.register(user);
+
+    if (res.success) {
+      const loginUser = { username: user.username, password: user.password };
+      await stateController.login(loginUser);
+
+      push("/profile");
+    } else {
+      invalidRegister = true;
+      errorMsg = res.msg;
+
+      setTimeout(() => {
+        invalidRegister = false;
+      }, 2000);
+    }
   }
 
   const dispatch = createEventDispatcher();
   function closeSignup() {
-    dispatch('closeSignup');
+    dispatch("closeSignup");
   }
 </script>
 
@@ -68,6 +85,9 @@
     />
     <Button on:cClick={register}>SIGN UP</Button>
   </div>
+  {#if invalidRegister}
+    <p>Username already taken!</p>
+  {/if}
 </div>
 
 <style>
