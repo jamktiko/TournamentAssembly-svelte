@@ -13,9 +13,16 @@
   import stateController from "../utils/stateStore";
   import Tooltip from "../reusable/Tooltip.svelte";
   import { calcId } from "../utils/lib";
+  import {loadFromSession} from "../utils/lib";
+
 
   let user;
   stateController.subscribe((userData) => (user = userData));
+
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
+    stateController.set(user);
+  }
 
   console.log(user);
 

@@ -12,14 +12,18 @@
   import { scale } from "svelte/transition";
   import { quintOut } from "svelte/easing";
   import Tooltip from "../reusable/Tooltip.svelte";
+  import {loadFromSession} from "../utils/lib";
+
 
   export let params;
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  console.log(user);
-
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
+    stateController.set(user);
+  }
 
   let match = [];
   let matchResults = [];
@@ -36,8 +40,8 @@
     cch.saveToCache("groups", groups);
     cch.saveToCache("groupsConf", config);
 
-    if(user.state) delete user.state;
-    console.log(user)
+    if (user.state) delete user.state;
+    console.log(user);
 
     if (unsub) unsub();
   });
@@ -47,7 +51,6 @@
   } else {
     generateGroups(config);
   }
-
 
   if (user.state && user.config) {
     console.log(user);

@@ -1,9 +1,9 @@
 <script>
-  import Router from './utils/Router.svelte';
-  import Header from './core/Header.svelte';
-  import Button from './reusable/Button.svelte';
-  import { pop, location, push } from 'svelte-spa-router';
-  import stateController from './utils/stateStore';
+  import Router from "./utils/Router.svelte";
+  import Header from "./core/Header.svelte";
+  import Button from "./reusable/Button.svelte";
+  import { pop, location, push } from "svelte-spa-router";
+  import stateController from "./utils/stateStore";
 
   let userData;
 
@@ -11,14 +11,21 @@
     userData = $userData;
   });
 
+  function logout() {
+    window.sessionStorage.removeItem("user");
+    stateController.set({});
+  }
+
   console.log(userData);
 </script>
 
 <Header />
 
-{#if $location !== '/' && $location !== '/errorpage' && $location !== '/LoginUser' && $location !== '/Signup'}
-  {#if $location == '/selection'}
-    <Button class="back-button" on:cClick={() => push('/')}
+<Button on:cClick={logout}>Log out</Button>
+
+{#if $location !== "/" && $location !== "/errorpage" && $location !== "/LoginUser" && $location !== "/Signup"}
+  {#if $location == "/selection"}
+    <Button class="back-button" on:cClick={() => push("/")}
       ><svg
         class="back-arrow"
         xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +36,7 @@
       > Back</Button
     >
   {:else}
-    <Button class="back-button" on:cClick={() => push('/selection')}
+    <Button class="back-button" on:cClick={() => push("/selection")}
       ><svg
         class="back-arrow"
         xmlns="http://www.w3.org/2000/svg"
@@ -42,8 +49,8 @@
   {/if}
 {/if}
 
-{#if userData.username !== 'guest' && userData.username}
-  <Button class="profile-button" on:cClick={() => push('/profile')}
+{#if userData.username !== "guest" && userData.username}
+  <Button class="profile-button" on:cClick={() => push("/profile")}
     ><svg
       class="profile"
       xmlns="http://www.w3.org/2000/svg"

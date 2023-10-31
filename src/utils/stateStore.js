@@ -61,6 +61,7 @@ const stateController = {
       };
 
       stateStore.set(userData);
+      window.sessionStorage.setItem("user", JSON.stringify(userData));
     }
     return res;
   },
@@ -88,6 +89,10 @@ const stateController = {
     };
 
     const res = await this.customFetch("addTour", opt);
+
+    user.tournaments.push(tournament);
+    window.sessionStorage.setItem("user", JSON.stringify(user));
+
     return { res, id: tournament.id };
   },
 
@@ -112,6 +117,8 @@ const stateController = {
 
       body: JSON.stringify(tourData),
     };
+
+    window.sessionStorage.setItem("user", JSON.stringify(user));
 
     const res = await this.customFetch("tourState", opt);
     return res;
