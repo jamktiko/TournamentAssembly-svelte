@@ -154,4 +154,11 @@
     top: 0;
     fill: rgb(255, 255, 255);
   }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1450px) {
+    .modal {
+      margin-top: -52.5em;
+    }
+  }
 </style>
