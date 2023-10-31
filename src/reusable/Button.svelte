@@ -443,6 +443,7 @@
     cursor: default;
   }
 
+  /* Sitewide Profile Button */
   .profile-button {
     padding-left: 2.2em;
     display: flex;
@@ -516,18 +517,42 @@
     margin: 0.25em;
   }
 
+  /* Sitewide Logout Button */
+  .logout-button {
+    padding-left: 2.15em;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    scale: 1;
+    border-radius: 10px;
+    position: absolute;
+    margin-top: 4em;
+    transition-duration: 0.1s;
+    right: 0em;
+  }
+
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
     .back-button {
-      scale: 0.9;
+      scale: 0.8;
       margin: 0em;
-      margin-top: 0.25em;
+      margin-top: 0em;
+      left: -0.4em;
     }
 
     /* Sitewide Profile Button */
     .profile-button {
-      scale: 0.9;
+      scale: 0.8;
       margin: 0;
+      margin-top: 0em;
+      right: -0.5em;
+    }
+
+    /* Sitewide Logout Button */
+    .logout-button {
+      scale: 0.8;
+      margin-top: 2.5em;
+      right: -0.5em;
     }
 
     /* Groups Resolve Buttons */
