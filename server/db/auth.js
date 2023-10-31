@@ -39,7 +39,7 @@ function verifyToken(req, res, next) {
   }
 }
 
-const transporter = nodemailer.createTransport({
+/*const transporter = nodemailer.createTransport({
   pool: true,
   host: 'smtp.gmail.com',
   port: 25,
@@ -71,6 +71,6 @@ function sendConfirmationEmail(email, confirmationToken) {
       }
     });
   });
-}
+}*/
 
-module.exports = { createToken, verifyToken, sendConfirmationEmail };
+module.exports = { createToken, verifyToken };
