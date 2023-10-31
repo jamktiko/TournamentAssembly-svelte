@@ -13,7 +13,8 @@
   }
 </script>
 
-<div class="backdrop" />
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div class="backdrop" on:click={closewinnerwindow} />
 
 <div id="container">
   <div class="modal">
@@ -464,5 +465,14 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+  }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1450px) {
+    .modal {
+      top: -62.5%;
+      width: 55%;
+      height: 42.5vh;
+    }
   }
 </style>

@@ -1,4 +1,5 @@
 <script>
+
   import cch from "../utils/cache";
   import Button from "../reusable/Button.svelte";
   import Winner from "../reusable/Winner.svelte";
@@ -29,22 +30,22 @@
   export let params;
 
   console.log(params);
+  
   let staticbutton = false;
   const contestantData = cch.detokenify(params.tourdata)[0];
 
   const contestants = parseContestants(contestantData.players);
   console.log(contestants);
-
   let rounds = [];
   let winners = [];
   let tournamentWinner = null;
 
-  const placeholder = "Waiting for results";
+  const placeholder = 'Waiting for results';
 
   function parseContestants(contestants) {
     const parsed = [];
     for (let contestant of contestants) {
-      const consObj = { name: contestant, id: calcId(parsed) };
+      const consObj = { name: contestant, id: calcId(parsed), score: 0 };
       parsed.push(consObj);
     }
     return parsed;
@@ -55,8 +56,11 @@
     return 0;
   }
 
-  function revertMatch(matchData) {
+  function revertMatch(matchData, game) {
     if (!staticbutton) {
+      game.home.score = 0
+      game.away.score = 0
+      rounds = [...rounds]
       const { round, match } = matchData;
       console.log(round);
       if (round === 0) return;
@@ -78,6 +82,11 @@
 
       rounds[round][match].home = false;
       rounds[round][match].away = false;
+      rounds[round-1][match].home.score = 0
+      rounds[round-1][match].away.score = 0
+      rounds[round-1][match+1].home.score = 0
+      rounds[round-1][match+1].away.score = 0
+
 
       winners.splice(homeIndex, 1);
       winners.splice(awayIndex - 1, 1);
@@ -111,6 +120,17 @@
   }
 
   function moveToNextRound(winner, loser, match, round) {
+    if (!winners.find(
+        (id) =>
+          (id.round === rounds.indexOf(round) && id.winner === loser.id) ||
+          winners.find(
+            (id) => id.round === rounds.indexOf(round) && id.winner === winner.id
+          )
+      )){winner.score += 1}
+    
+    rounds = [...rounds]
+    if (winner.score >= bestOfvalue){
+      winner.score = 0
     const roundIndex = rounds.indexOf(round);
 
     if (
@@ -159,6 +179,7 @@
       }
     }
   }
+}
 
   function resolveWinner(rdi, winner) {
     if (rdi === rounds.length - 1) {
@@ -170,18 +191,18 @@
 
   function assignRoundNames(rounds) {
     const roundNames = [
-      "ROUND 1",
-      "ROUND 2",
-      "ROUND 3",
-      "ROUND 4",
-      "ROUND 5",
-      "ROUND 6",
+      'ROUND 1',
+      'ROUND 2',
+      'ROUND 3',
+      'ROUND 4',
+      'ROUND 5',
+      'ROUND 6',
     ];
     const specialRoundNames = [
-      "PRE-QUARTERFINALS",
-      "QUARTERFINALS",
-      "SEMIFINALS",
-      "FINALS",
+      'PRE-QUARTERFINALS',
+      'QUARTERFINALS',
+      'SEMIFINALS',
+      'FINALS',
     ];
 
     for (let i = 0; i < rounds.length; i++) {
@@ -242,6 +263,22 @@
 
     console.log(res);
   }
+  function bestOfTransformation(){
+    if (contestantData.bestOf == 3){
+      return 2
+    }
+    if (contestantData.bestOf == 5){
+      return 3
+    }
+    if (contestantData.bestOf == 7){
+      return 4
+    }
+    if (contestantData.bestOf == 1){
+      return 1
+    }
+  }
+  let bestOfvalue = bestOfTransformation()
+  console.log(bestOfvalue)
 </script>
 
 <main>
@@ -255,7 +292,7 @@
     transition:slide={{
       duration: 700,
       easing: quadInOut,
-      axis: "x",
+      axis: 'x',
     }}
   >
     {#each rounds as round, i}
@@ -270,7 +307,7 @@
                   match.home.name == null ||
                   match.away.name == null ||
                   checkifresolved(winners, i, match)}
-                on:cClick={() => revertMatch({ round: i, match: mi })}
+                on:cClick={() => revertMatch({ round: i, match: mi }, match)}
                 >UNDO MATCH</Button
               >
             {/if}
@@ -287,11 +324,18 @@
                   tournamentWinner === match.home
               )}
               on:keydown={() => {}}
-              on:click={() =>
+              on:click={() => 
                 moveToNextRound(match.home, match.away, match, round)}
-            >
-              {match.home ? match.home.name : placeholder}
-            </p>
+            >   
+              {match.home ? match.home.name : placeholder} {#if winners.find((id) => (id.round === i && id.winner === match.home.id) == true)} {bestOfvalue} 
+              {:else}
+                {#if match.home.score}
+                {match.home.score}
+                {:else}
+                0
+                {/if}
+              {/if}
+            </p> 
 
             <hr class="separate-line" />
             <p
@@ -308,10 +352,21 @@
               )}
               id="lower-name"
               on:keydown={() => {}}
-              on:click={() =>
-                moveToNextRound(match.away, match.home, match, round)}
+              on:click={() => {if (!winners.find(
+                (id) =>
+                  (id.round === i && id.winner === match.away.id) ||
+                  tournamentWinner === match.away 
+              )){
+                moveToNextRound(match.away, match.home, match, round)}}}
             >
-              {match.away ? match.away.name : placeholder}
+              {match.away ? match.away.name : placeholder} {#if winners.find((id) => (id.round === i && id.winner === match.away.id) == true)} {bestOfvalue} 
+              {:else}
+                {#if match.away.score}
+                {match.away.score}
+                {:else}
+                0
+                {/if}
+              {/if}
             </p>
           </div>
         {/each}

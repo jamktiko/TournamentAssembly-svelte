@@ -39,19 +39,20 @@ function verifyToken(req, res, next) {
   }
 }
 
-// const transporter = nodemailer.createTransport({
-//   pool: true,
-//   host: 'smtp.gmail.com',
-//   port: 25,
-//   secure: false,
-//   auth: {
-//     user: 'myemail@pers.com', // Change to your email and password
-//     pass: 'grfj zzym odoj xens',
-//   },
-//   tls: {
-//     rejectUnauthorized: false,
-//   },
-// });
+
+/*const transporter = nodemailer.createTransport({
+  pool: true,
+  host: 'smtp.gmail.com',
+  port: 25,
+  secure: false,
+  auth: {
+    user: 'myemail@pers.com', // Change to your email and password
+    pass: 'grfj zzym odoj xens',
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
 
 // function sendConfirmationEmail(email, confirmationToken) {
 //   const confirmationLink = `http://yourwebsite.com/confirm?token=${confirmationToken}`;
@@ -62,15 +63,16 @@ function verifyToken(req, res, next) {
 //     text: `Click this link to confirm your email: ${confirmationLink}`,
 //   };
 
-//   return new Promise((resolve, reject) => {
-//     transporter.sendMail(mailOptions, (error, info) => {
-//       if (error) {
-//         reject(error);
-//       } else {
-//         resolve(info);
-//       }
-//     });
-//   });
-// }
+
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(info);
+      }
+    });
+  });
+}*/
 
 module.exports = { createToken, verifyToken };
