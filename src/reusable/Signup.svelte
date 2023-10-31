@@ -22,7 +22,7 @@
 
     if (res.success) {
       const loginUser = { username: user.username, password: user.password };
-      const loginRes = await stateController.login(loginUser);
+      await stateController.login(loginUser);
 
       push("/profile");
     } else {
