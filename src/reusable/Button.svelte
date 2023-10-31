@@ -569,11 +569,9 @@
     }
 
     .expand-playerlist-button-open {
-      scale: 1;
-      font-size: 1.1em;
-      padding: 0.05em 1em;
+      scale: 0.9;
+      padding: 0.4em 0.2em 0em 0.2em;
       border-radius: 10px;
-      text-transform: uppercase;
       transition-duration: 0.1s;
       margin: 0.25em;
       position: absolute;
