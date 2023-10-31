@@ -524,6 +524,12 @@
       margin-top: 0.25em;
     }
 
+    /* Sitewide Profile Button */
+    .profile-button {
+      scale: 0.9;
+      margin: 0;
+    }
+
     /* Groups Resolve Buttons */
     .finish-button {
       scale: 0.9;
