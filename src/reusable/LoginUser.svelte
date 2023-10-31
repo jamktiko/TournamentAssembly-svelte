@@ -1,14 +1,14 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import { scale } from 'svelte/transition';
-  import { bounceInOut, quadInOut, quintOut } from 'svelte/easing';
-  import { createEventDispatcher } from 'svelte';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import { scale } from "svelte/transition";
+  import { bounceInOut, quadInOut, quintOut } from "svelte/easing";
+  import { createEventDispatcher } from "svelte";
 
-  import stateController from '../utils/stateStore';
+  import stateController from "../utils/stateStore";
 
-  let username = '';
-  let password = '';
+  let username = "";
+  let password = "";
 
   let invalidLogin = false;
 
@@ -21,7 +21,7 @@
     const res = await stateController.login(user);
 
     if (res.success) {
-      push('/profile');
+      push("/profile");
     } else {
       invalidLogin = true;
       setInterval(() => (invalidLogin = false), 1000);
@@ -30,7 +30,7 @@
 
   const dispatch = createEventDispatcher();
   function closeLogin() {
-    dispatch('closeLogin');
+    dispatch("closeLogin");
   }
 </script>
 
