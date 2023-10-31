@@ -2,6 +2,8 @@ const { connect, client } = require('./conn');
 const { createToken } = require('./auth');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
+const Filter = require('bad-words');
+const filter = new Filter();
 
 const lib = {
   async getAll() {
@@ -74,11 +76,20 @@ const lib = {
     }
 
     // Validate that the username is a valid email address
-    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+    /*const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     if (!emailRegex.test(username)) {
       console.error('Invalid email format');
       return {
         msg: 'Invalid email format',
+        success: false,
+      };
+    }*/
+
+    // Check for offensive words in the username
+    if (filter.isProfane(username)) {
+      console.error('Username contains inappropriate language');
+      return {
+        msg: 'Username contains inappropriate language',
         success: false,
       };
     }
