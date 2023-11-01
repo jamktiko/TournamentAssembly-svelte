@@ -1,26 +1,26 @@
 <script>
-  import cch from "../utils/cache";
-  import stateController from "../utils/stateStore";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import MatchResults from "../reusable/MatchResults.svelte";
-  import Automatches from "../reusable/Automatches.svelte";
-  import { onDestroy } from "svelte";
-  import { push } from "svelte-spa-router";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut } from "svelte/easing";
-  import Tooltip from "../reusable/Tooltip.svelte";
-  import { loadFromSession } from "../utils/lib";
+  import cch from '../utils/cache';
+  import stateController from '../utils/stateStore';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import MatchResults from '../reusable/MatchResults.svelte';
+  import Automatches from '../reusable/Automatches.svelte';
+  import { onDestroy } from 'svelte';
+  import { push } from 'svelte-spa-router';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
+  import Tooltip from '../reusable/Tooltip.svelte';
+  import { loadFromSession } from '../utils/lib';
 
   export let params;
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -36,8 +36,8 @@
   let blacklisted = [];
 
   onDestroy(() => {
-    cch.saveToCache("groups", groups);
-    cch.saveToCache("groupsConf", config);
+    cch.saveToCache('groups', groups);
+    cch.saveToCache('groupsConf', config);
 
     if (user.state) delete user.state;
     console.log(user);
@@ -45,8 +45,8 @@
     if (unsub) unsub();
   });
 
-  if (cch.isInCache("groups")) {
-    groups = cch.getFromCache("groups");
+  if (cch.isInCache('groups')) {
+    groups = cch.getFromCache('groups');
   } else {
     generateGroups(config);
   }
@@ -75,7 +75,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: "",
+          name: '',
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -111,12 +111,12 @@
   function checkIfBlacklisted() {
     return blacklisted.includes(selected.id);
   }
-  let value = "";
+  let value = '';
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -175,7 +175,7 @@
           },
         ],
         draw: true,
-        group: "group " + (selected.id + 1),
+        group: 'group ' + (selected.id + 1),
       });
       console.log(selected.id);
     } else {
@@ -203,7 +203,7 @@
               },
             ],
             draw: false,
-            group: "group " + (selected.id + 1),
+            group: 'group ' + (selected.id + 1),
           },
         ]);
       } else {
@@ -222,18 +222,18 @@
               },
             ],
             draw: false,
-            group: "group " + (selected.id + 1),
+            group: 'group ' + (selected.id + 1),
           },
         ]);
       }
     }
     console.log(sortBy);
 
-    sortBy = "";
-    if (sortBy === "score") {
-      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
+    sortBy = '';
+    if (sortBy === 'score') {
+      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
     } else {
-      toggleSortOrder("score", selected.id);
+      toggleSortOrder('score', selected.id);
     }
 
     match = [];
@@ -245,23 +245,22 @@
 
   function calcWinner(group) {
     // Needs to be attached to customizations
-    let a = 0
+    let a = 0;
     let winner = selected.participants[a];
-    while (a < selected.participants.length){
-      if (winner.score < selected.participants[a].score){
-        winner = selected.participants[a]
-      } 
+    while (a < selected.participants.length) {
+      if (winner.score < selected.participants[a].score) {
+        winner = selected.participants[a];
+      }
 
-      if (winner.score == selected.participants[a].score ){
-
-      if (winner.goalDiff < selected.participants[a].goalDiff){
-
-        winner = selected.participants[a]
-      } }
-      a += 1
+      if (winner.score == selected.participants[a].score) {
+        if (winner.goalDiff < selected.participants[a].goalDiff) {
+          winner = selected.participants[a];
+        }
+      }
+      a += 1;
     }
 
-    if (winner.name != "") {
+    if (winner.name != '') {
       groupWinners.push(winner);
       console.log(groupWinners);
       selected = null;
@@ -339,15 +338,15 @@
   }
 
   let playoffconfig = {
-    tournamentName: "",
-    organizerName: "",
-    numberOfGroups: "",
-    teamsInGroup: "",
-    tourDecider: "",
-    pointsPerWin: "",
-    pointsPerDraw: "",
-    numberOfRounds: "",
-    bestOf: "",
+    tournamentName: '',
+    organizerName: '',
+    numberOfGroups: '',
+    teamsInGroup: '',
+    tourDecider: '',
+    pointsPerWin: '',
+    pointsPerDraw: '',
+    numberOfRounds: '',
+    bestOf: '',
 
     players: [],
   };
@@ -356,7 +355,7 @@
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
     playoffconfig.organizerName = config.organizerName;
-    playoffconfig.tourDecider = "";
+    playoffconfig.tourDecider = '';
 
     playoffconfig.bestOf = 3;
     playoffconfig.players = [];
@@ -374,7 +373,7 @@
   function AddCorrectAmount() {
     if (playoffconfig.players.length == 3) {
       randomnum();
-      playoffconfig.players.push("PLAYER_" + num);
+      playoffconfig.players.push('PLAYER_' + num);
       playoffconfig.players = [...playoffconfig.players];
     }
     let place = 3;
@@ -383,7 +382,7 @@
       playoffconfig.players.length < 8
     ) {
       randomnum();
-      playoffconfig.players.splice(place, 0, "PLAYER_" + num);
+      playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
 
       playoffconfig.players = [...playoffconfig.players];
       place += 2;
@@ -430,7 +429,7 @@
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
 
-    <h3>Organized by: {config.organizerName || "-"}</h3>
+    <h3>Organized by: {config.organizerName || '-'}</h3>
     <Tooltip
       text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
@@ -443,7 +442,11 @@
     </Tooltip>
 
     {#if !user.isGuest && user.username}
-      <Button class="save-button" on:cClick={() => save(groups)}>SAVE</Button>
+      <Tooltip
+        text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
+      >
+        <Button class="save-button" on:cClick={() => save(groups)}>SAVE</Button>
+      </Tooltip>
     {/if}
   </div>
 
@@ -530,7 +533,6 @@
           </table>
           <div class="resolve-button-container">
             {#if selected && !checkIfBlacklisted()}
-
               <Tooltip
                 text="Press to create a match schedule for all the group's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
               >
@@ -547,9 +549,7 @@
                 on:cClick={toggleMatches}>Show schedule</Button
               >
 
-              <Button class="resolve-button" on:cClick={resetscore}
-                >reset</Button
-              >
+              <Button class="reset-button" on:cClick={resetscore}>reset</Button>
             {/if}
           </div>
         </div>
@@ -607,7 +607,7 @@
   </div>
   {#if showmatches}
     {#if agmatches.length > 0}
-      <div class="backdrop" />
+      <div class="backdrop" on:click={toggleMatches} on:keydown />
       <div class="modal">
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
@@ -735,7 +735,7 @@
 
   .resolve-button-container {
     text-transform: uppercase;
-    width: 100%;
+    width: 85%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -834,6 +834,7 @@
     font-size: 2.2em;
     text-align: center;
     margin-bottom: 0.7em;
+    margin-top: 1em;
   }
 
   .group-MIA-container {
