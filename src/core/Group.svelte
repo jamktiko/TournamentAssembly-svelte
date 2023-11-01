@@ -380,6 +380,19 @@
   function toggleTooltip() {
     showTooltip = !showTooltip;
   }
+  function resetscore(){
+    let a = 0
+    while ( a < selected.participants.length){
+      selected.participants[a].draws = 0
+      selected.participants[a].goalDiff = 0
+      selected.participants[a].losses = 0
+      selected.participants[a].playedMatches = 0
+      selected.participants[a].score = 0
+      selected.participants[a].wins = 0
+    a += 1
+    }
+  }
+  console.log(groups)
 </script>
 
 <main>
@@ -468,7 +481,17 @@
                   >GENERATE A MATCH SCHEDULE</Button
                 >
               </Tooltip>
-              <Button class="resolve-button" disabled={agmatches.length == 0} on:cClick={toggleMatches}>Show schedule</Button>
+              <Button
+                class="resolve-button"
+                disabled={agmatches.length == 0}
+                on:cClick={toggleMatches}>Show schedule</Button
+              >
+              <Button
+              class="resolve-button"
+        
+              on:cClick={resetscore}>reset</Button
+            >
+
             {/if}
           </div>
         </div>
