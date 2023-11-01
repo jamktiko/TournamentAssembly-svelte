@@ -338,6 +338,7 @@
   }
 
   let playoffconfig = {
+
     tournamentName: '',
     organizerName: '',
     numberOfGroups: '',
@@ -357,14 +358,17 @@
     playoffconfig.organizerName = config.organizerName;
     playoffconfig.tourDecider = '';
 
-    playoffconfig.bestOf = 3;
+    if (!playoffconfig.bestOf){
+      playoffconfig.bestOf = 1
+    }
     playoffconfig.players = [];
     while (pusher < groupWinners.length) {
       playoffconfig.players.push(groupWinners[pusher].name);
       pusher += 1;
     }
+    config = playoffconfig
     AddCorrectAmount();
-    push(`/playoffs/${cch.tokenify(playoffconfig)}`);
+    push(`/playoffs/${cch.tokenify(config)}`);
   }
   let num = 0;
   function randomnum() {
