@@ -394,7 +394,7 @@
         >FINISH LEAGUE</Button
       ></Tooltip
     >
-    {#if !user.isGuest}
+    {#if !user.isGuest && user.username}
       <Button class="save-button" on:cClick={save}>SAVE</Button>
     {/if}
     <div class="league-scoreboard-container">
