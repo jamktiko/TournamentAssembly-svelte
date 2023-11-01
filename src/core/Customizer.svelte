@@ -8,6 +8,7 @@
   import Button from '../reusable/Button.svelte';
   import Playerlist from '../reusable/Playerlist.svelte';
   import { quintOut } from 'svelte/easing';
+  import { loadFromSession } from '../utils/lib';
 
   import stateController from '../utils/stateStore';
   import { onDestroy } from 'svelte';
@@ -16,6 +17,13 @@
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
+
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
+    stateController.set(user);
+  }
+
+  console.log(user);
 
   onDestroy(() => {
     if (unsub) unsub();
@@ -37,10 +45,10 @@
   };
 
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ['Goal Difference'];
+  const tournamentDeciders = ['Goal Difference', 'Wins'];
   const teamsGroups = [4, 6, 8];
-  const pointsPerWin = [3, 4, 5];
-  const pointsForDraw = [0, 1];
+  const pointsPerWin = [1, 2, 3, 4, 5];
+  const pointsForDraw = [0, 1, 2];
 
   const bestOf = [3, 5, 7];
   const deciderTypes = ['Wins'];
@@ -283,26 +291,17 @@
         <div>
           <label for="numberofGroups">Number of Groups</label>
           <br />
-          <select
-            id="numberofGroups"
-            bind:value={config.numberOfGroups}
-            on:change={handleSelection}
-          >
+          <select id="numberofGroups" bind:value={config.numberOfGroups} on:change={handleSelection}>
             <option value="" selected disabled>SELECT</option>
             {#each numberGroups as numberGroup (numberGroup)}
               <option value={numberGroup}>{numberGroup}</option>
             {/each}
           </select>
         </div>
-
         <div>
           <label for="teamsinGroup">Teams in Group</label>
           <br />
-          <select
-            id="teamsinGroup"
-            bind:value={config.teamsInGroup}
-            on:change={handleSelection}
-          >
+          <select id="teamsinGroup" bind:value={config.teamsInGroup} on:change={handleSelection}>
             <option value="" selected disabled>SELECT</option>
             {#each teamsGroups as teamGroup (teamGroup)}
               <option value={teamGroup}>{teamGroup}</option>
@@ -312,11 +311,7 @@
         <div>
           <label for="pointsPerWin">Points for Win</label>
           <br />
-          <select
-            id="pointsPerWin"
-            bind:value={config.pointsPerWin}
-            on:change={handleSelection}
-          >
+          <select id="pointsPerWin" bind:value={config.pointsPerWin} on:change={handleSelection}>
             <option value="" disabled selected>SELECT</option>
             {#each pointsPerWin as pointsPerWin (pointsPerWin)}
               <option value={pointsPerWin}>{pointsPerWin}</option>
@@ -326,11 +321,7 @@
         <div>
           <label for="pointsPerDraw">Points for Draw</label>
           <br />
-          <select
-            id="pointsPerDraw"
-            bind:value={config.pointsPerDraw}
-            on:change={handleSelection}
-          >
+          <select id="pointsPerDraw" bind:value={config.pointsPerDraw} on:change={handleSelection}>
             <option value="" disabled selected>SELECT</option>
             {#each pointsForDraw as pointsForDraw (pointsForDraw)}
               <option value={pointsForDraw}>{pointsForDraw}</option>
@@ -343,18 +334,18 @@
     {#if params.id == 'playoffs'}
       {#if isTablet}
         {#if !playerlistExpanded}
-          <Button
-            class="expand-playerlist-button-open"
-            on:cClick={expandPlayerlist}>Show</Button
+          <Button class="expand-playerlist-button-open" on:cClick={expandPlayerlist}
+            ><svg class="expand-arrows" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"
+              ><path
+                d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"
+              /></svg
+            ></Button
           >
         {/if}
         {#if playerlistExpanded}
           <!-- svelte-ignore a11y-click-events-have-key-events -->
           <div on:click={expandPlayerlist} class="backdrop" />
-          <div
-            class="playerlist"
-            transition:slide={{ axis: 'x', duration: 500 }}
-          >
+          <div class="playerlist" transition:slide={{ axis: 'x', duration: 500 }}>
             <h2 class="list-header">List of players</h2>
             <p id="player-count">Player count: {config.players.length}</p>
             <Button class="expand-button" on:cClick={togglePlayerlist}>
@@ -368,10 +359,7 @@
                       {player}
                     </div>
                     <div>
-                      <Button
-                        class="remove-player-button"
-                        on:cClick={removePlayer(player)}>Delete</Button
-                      >
+                      <Button class="remove-player-button" on:cClick={removePlayer(player)}>Delete</Button>
                     </div>
                   </div>
                 {/each}
@@ -394,10 +382,7 @@
                     {player}
                   </div>
                   <div>
-                    <Button
-                      class="remove-player-button"
-                      on:cClick={removePlayer(player)}>Delete</Button
-                    >
+                    <Button class="remove-player-button" on:cClick={removePlayer(player)}>Delete</Button>
                   </div>
                 </div>
               {/each}
@@ -419,20 +404,16 @@
           <Playerlist
             {config}
             on:playersEvent={handlePlayerList}
-            on:closeWindow={() => (playerListVisible = false)}
+            on:closeWindow={() => {
+              playerlistExpanded = false;
+            }}
           />
         {/if}
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
-          <Tooltip
-            text="Defines how many match wins are needed in order to advance to the next round."
-          >
-            <select
-              id="roundSelection"
-              bind:value={config.bestOf}
-              on:change={handleSelection}
-            >
+          <Tooltip text="Defines how many match wins are needed in order to advance to the next round.">
+            <select id="roundSelection" bind:value={config.bestOf} on:change={handleSelection}>
               <option value="" disabled selected>SELECT</option>
               {#each bestOf as numberRound (numberRound)}
                 <option value={numberRound}>{numberRound}</option>
@@ -441,7 +422,6 @@
           </Tooltip>
         </div>
         <div>
-
         </div>
         <div class="playoffs-button-container">
           {#if isTablet}
@@ -453,13 +433,8 @@
             on:cClick={() => (playerListVisible = !playerListVisible)}
             on:cClick={() => (playerlistExpanded = true)}>Add Players</Button
           >
-          <Tooltip
-            text="Puts the players participating in random order for the playoff brackets."
-          >
-            <Button
-              class="playoffs-buttons"
-              on:cClick={randomizePlayers(config.players)}>Randomize</Button
-            >
+          <Tooltip text="Puts the players participating in random order for the playoff brackets.">
+            <Button class="playoffs-buttons" on:cClick={randomizePlayers(config.players)}>Randomize</Button>
           </Tooltip>
         </div>
       </div>
@@ -474,15 +449,10 @@
           axis: 'y',
         }}
       >
-       
         <div>
           <label for="pointsPerWin">Points for Win</label>
           <br />
-          <select
-            id="pointsPerWin"
-            bind:value={config.pointsPerWin}
-            on:change={handleSelection}
-          >
+          <select id="pointsPerWin" bind:value={config.pointsPerWin} on:change={handleSelection}>
             <option value="" disabled selected>SELECT</option>
             {#each pointsPerWin as pointsPerWin (pointsPerWin)}
               <option value={pointsPerWin}>{pointsPerWin}</option>
@@ -492,11 +462,7 @@
         <div>
           <label for="pointsPerDraw">Points for Draw</label>
           <br />
-          <select
-            id="pointsPerDraw"
-            bind:value={config.pointsPerDraw}
-            on:change={handleSelection}
-          >
+          <select id="pointsPerDraw" bind:value={config.pointsPerDraw} on:change={handleSelection}>
             <option value="" disabled selected>SELECT</option>
             {#each pointsForDraw as pointsForDraw (pointsForDraw)}
               <option value={pointsForDraw}>{pointsForDraw}</option>
@@ -508,14 +474,8 @@
     <!-- Create buttons -->
     {#if params.id == 'playoffs'}
       <div>
-        <p class="fill-info-text">
-          Fills the game with enough placeholder players to start the game.
-        </p>
-        <Button
-          class="playoffs-buttons"
-          disabled={playerAmountOk == true}
-          on:cClick={fill}>Autofill Brackets</Button
-        >
+        <p class="fill-info-text">Fills the game with enough placeholder players to start the game.</p>
+        <Button class="playoffs-buttons" disabled={playerAmountOk == true} on:cClick={fill}>Autofill Brackets</Button>
       </div>
     {/if}
     {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
@@ -659,11 +619,7 @@
     position: absolute;
     top: 16em;
     left: 0.75em;
-    background: linear-gradient(
-      129deg,
-      rgba(0, 0, 0, 0.366) 0%,
-      rgba(5, 0, 24, 0.285) 100%
-    );
+    background: linear-gradient(129deg, rgba(0, 0, 0, 0.366) 0%, rgba(5, 0, 24, 0.285) 100%);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     font-size: 1em;
     color: white;
@@ -707,7 +663,7 @@
       padding: 0em;
       width: 12.5em;
       position: absolute;
-      top: 15em;
+      top: 30%;
       left: 0;
       background: #090728;
     }
@@ -720,6 +676,10 @@
       height: 100vh;
       background: rgba(0, 0, 0, 0.4);
       z-index: 10;
+    }
+
+    .expand-arrows {
+      fill: #fff;
     }
   }
 </style>

@@ -97,9 +97,12 @@
     .card-image {
       font-size: 6em;
     }
+  }
 
+  /* Tablet Landscape */
+  @media only screen and (max-height: 768px) {
     .card-image {
-      margin-top: 1.5em;
+      margin-top: 1em;
       font-size: 4em;
     }
   }

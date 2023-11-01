@@ -13,9 +13,16 @@
   import Automatches from "../reusable/Automatches.svelte";
   import Tooltip from "../reusable/Tooltip.svelte";
   import stateController from "../utils/stateStore";
+  import {loadFromSession} from "../utils/lib";
+
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
+
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
+    stateController.set(user);
+  }
 
   onDestroy(() => {
     if (unsub) unsub();
@@ -42,8 +49,7 @@
     cch.saveToCache("league", teams);
     cch.saveToCache("leagueConf", config);
 
-    if(user.state) delete user.state;
-
+    if (user.state) delete user.state;
   });
 
   let teams = [];
@@ -53,11 +59,9 @@
     teams = cch.getFromCache("league");
 
     console.log(teams);
-  } else if(user.state) {
+  } else if (user.state) {
     teams = user.state;
   }
-
-
 
   let sortBy = "";
   let sortOrder = 1;

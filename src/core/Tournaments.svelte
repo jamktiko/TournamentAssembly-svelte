@@ -8,9 +8,15 @@
   import { fade } from "svelte/transition";
   import { scale } from "svelte/transition";
   import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
+  import { loadFromSession } from "../utils/lib";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
+
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
+    stateController.set(user);
+  }
 
   onDestroy(() => {
     if (unsub) unsub();
