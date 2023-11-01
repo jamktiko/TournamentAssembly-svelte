@@ -345,6 +345,24 @@
             {/each}
           </select>
         </div>
+        <div>
+          <label for="roundSelection">Best of X</label>
+          <br />
+          <Tooltip
+            text="Defines how many match wins are needed in order to advance to the next round."
+          >
+            <select
+              id="roundSelection"
+              bind:value={config.bestOf}
+              on:change={handleSelection}
+            >
+              <option value="" disabled selected>SELECT</option>
+              {#each bestOf as numberRound (numberRound)}
+                <option value={numberRound}>{numberRound}</option>
+              {/each}
+            </select>
+          </Tooltip>
+        </div>
       </div>
     {/if}
     <!-- Playoffs Menu -->
