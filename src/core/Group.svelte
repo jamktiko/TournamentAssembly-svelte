@@ -410,6 +410,7 @@
     showTooltip = !showTooltip;
   }
   function resetscore() {
+    agmatches = []
     let a = 0;
     while (a < selected.participants.length) {
       selected.participants[a].draws = 0;

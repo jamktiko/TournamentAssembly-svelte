@@ -321,6 +321,7 @@
 
   $: console.log(teams);
   function resetscore(){
+    agmatches = []
     let a = 0
     while ( a < teams.length){
     teams[a].draws = 0
