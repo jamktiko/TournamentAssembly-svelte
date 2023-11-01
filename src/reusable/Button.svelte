@@ -531,6 +531,10 @@
     right: 0em;
   }
 
+  .save-button {
+    margin: 0.25em;
+  }
+
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
     .back-button {

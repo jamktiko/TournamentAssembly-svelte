@@ -1,20 +1,20 @@
 <script>
-  import { onDestroy } from "svelte";
-  import Button from "../reusable/Button.svelte";
-  import stateController from "../utils/stateStore";
-  import { push } from "svelte-spa-router";
-  import cch from "../utils/cache";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
-  import { loadFromSession } from "../utils/lib";
+  import { onDestroy } from 'svelte';
+  import Button from '../reusable/Button.svelte';
+  import stateController from '../utils/stateStore';
+  import { push } from 'svelte-spa-router';
+  import cch from '../utils/cache';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import { loadFromSession } from '../utils/lib';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -32,63 +32,125 @@
     }
 
     stateController.set(user);
-    if (tournament.type === "scoreboard") {
+    if (tournament.type === 'scoreboard') {
       push(`/${tournament.type}/`);
     } else {
       push(`/${tournament.type}/${configTkn}`);
     }
   }
+
+  /* Function check if the window is for tablet, used for alternative playerlist */
+  let isTablet = false;
+  const checkScreenSize = () => {
+    isTablet = window.matchMedia('(max-width: 1450px)').matches;
+  };
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
 </script>
 
-<main
-  transition:slide={{
-    duration: 700,
-    easing: quintOut,
-    axis: "y",
-  }}
->
-  <div class="tournaments-header">
-    <h1>Tournaments & Scoreboards</h1>
-  </div>
-  <div class="tournaments-description">
-    <p>Below is a list of your created Tournaments and Scoreboards</p>
-  </div>
-  <div class="list">
-    <table>
-      <thead>
-        <tr>
-          <th />
-          <th>Name</th>
-          <th>Decider</th>
-          <th>Groups</th>
-          <th>Teams in Group</th>
-          <th>Points for Win</th>
-          <th>Points for Draw</th>
-          <th>Type</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each tournaments as tournament (tournament.id)}
+{#if !isTablet}
+  <main
+    transition:slide={{
+      duration: 700,
+      easing: quintOut,
+      axis: 'y',
+    }}
+  >
+    <div class="tournaments-header">
+      <h1>Tournaments & Scoreboards</h1>
+    </div>
+    <div class="tournaments-description">
+      <p>Below is a list of your created Tournaments and Scoreboards</p>
+    </div>
+    <div class="list">
+      <table>
+        <thead>
           <tr>
-            <td>
-              <Button
-                class="add-player-button"
-                on:cClick={() => openTournament(tournament)}>Open</Button
-              >
-            </td>
-            <td>{tournament.config.tournamentName}</td>
-            <td>{tournament.config.tourDecider}</td>
-            <td>{tournament.config.numberOfGroups}</td>
-            <td>{tournament.config.teamsInGroup}</td>
-            <td>{tournament.config.pointsPerWin}</td>
-            <td>{tournament.config.pointsPerDraw}</td>
-            <td>{tournament.type.toUpperCase()}</td>
+            <th />
+            <th>Name</th>
+            <th>Decider</th>
+            <th>Groups</th>
+            <th>Teams in Group</th>
+            <th>Points for Win</th>
+            <th>Points for Draw</th>
+            <th>Type</th>
           </tr>
-        {/each}
-      </tbody>
-    </table>
-  </div>
-</main>
+        </thead>
+        <tbody>
+          {#each tournaments as tournament (tournament.id)}
+            <tr>
+              <td>
+                <Button
+                  class="add-player-button"
+                  on:cClick={() => openTournament(tournament)}>Open</Button
+                >
+              </td>
+              <td>{tournament.config.tournamentName}</td>
+              <td>{tournament.config.tourDecider}</td>
+              <td>{tournament.config.numberOfGroups}</td>
+              <td>{tournament.config.teamsInGroup}</td>
+              <td>{tournament.config.pointsPerWin}</td>
+              <td>{tournament.config.pointsPerDraw}</td>
+              <td>{tournament.type.toUpperCase()}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </main>
+{:else}
+  <main
+    transition:slide={{
+      duration: 700,
+      easing: quintOut,
+      axis: 'y',
+    }}
+  >
+    <div class="tablet-header">
+      <div class="tournaments-header">
+        <h1>Tournaments & Scoreboards</h1>
+      </div>
+      <div class="tournaments-description">
+        <p>Below is a list of your created Tournaments and Scoreboards</p>
+      </div>
+    </div>
+    <div class="list">
+      <table>
+        <thead>
+          <tr>
+            <th />
+            <th>Name</th>
+            <th>Decider</th>
+            <th>Groups</th>
+            <th>Teams in Group</th>
+            <th>Points for Win</th>
+            <th>Points for Draw</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each tournaments as tournament (tournament.id)}
+            <tr>
+              <td>
+                <Button
+                  class="add-player-button"
+                  on:cClick={() => openTournament(tournament)}>Open</Button
+                >
+              </td>
+              <td>{tournament.config.tournamentName}</td>
+              <td>{tournament.config.tourDecider}</td>
+              <td>{tournament.config.numberOfGroups}</td>
+              <td>{tournament.config.teamsInGroup}</td>
+              <td>{tournament.config.pointsPerWin}</td>
+              <td>{tournament.config.pointsPerDraw}</td>
+              <td>{tournament.type.toUpperCase()}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </main>
+{/if}
 
 <style>
   main {
@@ -107,11 +169,6 @@
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  table {
-    text-transform: uppercase;
-    border-collapse: separate;
-  }
-
   h1 {
     text-transform: uppercase;
     font-size: 3em;
@@ -120,6 +177,8 @@
   table {
     font-size: 1.3em;
     margin: 0em 1em;
+    text-transform: uppercase;
+    border-collapse: separate;
   }
 
   tr {
@@ -150,5 +209,39 @@
 
   .list {
     margin-top: 2em;
+  }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1450px) {
+    main {
+      width: 70%;
+      margin-left: 15%;
+      padding-top: 2em;
+      margin-top: 0em;
+      background-color: transparent;
+    }
+
+    .tablet-header {
+      text-align: center;
+      padding: 3em 2em;
+      border-radius: 40px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 135%;
+      margin: 1em 6em;
+      padding-top: 2em;
+      border-radius: 40px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    table {
+      margin-top: -3em;
+      scale: 0.8;
+    }
   }
 </style>

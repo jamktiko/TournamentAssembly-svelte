@@ -1,23 +1,21 @@
 <script>
-
-  import cch from "../utils/cache";
-  import Button from "../reusable/Button.svelte";
-  import Winner from "../reusable/Winner.svelte";
-  import { push } from "svelte-spa-router";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
-  import stateController from "../utils/stateStore";
-  import { onDestroy } from "svelte";
-  import {loadFromSession} from "../utils/lib";
-
+  import cch from '../utils/cache';
+  import Button from '../reusable/Button.svelte';
+  import Winner from '../reusable/Winner.svelte';
+  import { push } from 'svelte-spa-router';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import stateController from '../utils/stateStore';
+  import { onDestroy } from 'svelte';
+  import { loadFromSession } from '../utils/lib';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -30,7 +28,7 @@
   export let params;
 
   console.log(params);
-  
+
   let staticbutton = false;
   const contestantData = cch.detokenify(params.tourdata)[0];
 
@@ -58,9 +56,9 @@
 
   function revertMatch(matchData, game) {
     if (!staticbutton) {
-      game.home.score = 0
-      game.away.score = 0
-      rounds = [...rounds]
+      game.home.score = 0;
+      game.away.score = 0;
+      rounds = [...rounds];
       const { round, match } = matchData;
       console.log(round);
       if (round === 0) return;
@@ -82,11 +80,10 @@
 
       rounds[round][match].home = false;
       rounds[round][match].away = false;
-      rounds[round-1][match].home.score = 0
-      rounds[round-1][match].away.score = 0
-      rounds[round-1][match+1].home.score = 0
-      rounds[round-1][match+1].away.score = 0
-
+      rounds[round - 1][match].home.score = 0;
+      rounds[round - 1][match].away.score = 0;
+      rounds[round - 1][match + 1].home.score = 0;
+      rounds[round - 1][match + 1].away.score = 0;
 
       winners.splice(homeIndex, 1);
       winners.splice(awayIndex - 1, 1);
@@ -120,66 +117,71 @@
   }
 
   function moveToNextRound(winner, loser, match, round) {
-    if (!winners.find(
+    if (
+      !winners.find(
         (id) =>
           (id.round === rounds.indexOf(round) && id.winner === loser.id) ||
           winners.find(
-            (id) => id.round === rounds.indexOf(round) && id.winner === winner.id
-          )
-      )){winner.score += 1}
-    
-    rounds = [...rounds]
-    if (winner.score >= bestOfvalue){
-      winner.score = 0
-    const roundIndex = rounds.indexOf(round);
-
-    if (
-      !winner ||
-      !loser ||
-      winners.find(
-        (id) =>
-          (id.round === roundIndex && id.winner === loser.id) ||
-          winners.find(
-            (id) => id.round === roundIndex && id.winner === winner.id
+            (id) =>
+              id.round === rounds.indexOf(round) && id.winner === winner.id
           )
       )
-    )
-      return;
+    ) {
+      winner.score += 1;
+    }
 
-    const pointers = new Map();
+    rounds = [...rounds];
+    if (winner.score >= bestOfvalue) {
+      winner.score = 0;
+      const roundIndex = rounds.indexOf(round);
 
-    console.log(winners);
-    winners.push({ winner: winner.id, round: roundIndex });
+      if (
+        !winner ||
+        !loser ||
+        winners.find(
+          (id) =>
+            (id.round === roundIndex && id.winner === loser.id) ||
+            winners.find(
+              (id) => id.round === roundIndex && id.winner === winner.id
+            )
+        )
+      )
+        return;
 
-    if (resolveWinner(roundIndex, winner)) return;
+      const pointers = new Map();
 
-    for (let j = 0; j < rounds[roundIndex].length; j++) {
-      for (let i = 0; i < rounds[roundIndex + 1].length; i++) {
-        let total = 0;
-        pointers.forEach((value) => {
-          if (value === i) {
-            total++;
+      console.log(winners);
+      winners.push({ winner: winner.id, round: roundIndex });
+
+      if (resolveWinner(roundIndex, winner)) return;
+
+      for (let j = 0; j < rounds[roundIndex].length; j++) {
+        for (let i = 0; i < rounds[roundIndex + 1].length; i++) {
+          let total = 0;
+          pointers.forEach((value) => {
+            if (value === i) {
+              total++;
+            }
+          });
+          if (total < 2) {
+            pointers.set(j, i);
+            break;
           }
-        });
-        if (total < 2) {
-          pointers.set(j, i);
+        }
+      }
+
+      const matchIndex = rounds[roundIndex].indexOf(match);
+      const pointer = pointers.get(matchIndex);
+
+      // Searches for an empty spot in the pointed match and places winner when found
+      for (let team in rounds[roundIndex + 1][pointer]) {
+        if (!rounds[roundIndex + 1][pointer][team]) {
+          rounds[roundIndex + 1][pointer][team] = winner;
           break;
         }
       }
     }
-
-    const matchIndex = rounds[roundIndex].indexOf(match);
-    const pointer = pointers.get(matchIndex);
-
-    // Searches for an empty spot in the pointed match and places winner when found
-    for (let team in rounds[roundIndex + 1][pointer]) {
-      if (!rounds[roundIndex + 1][pointer][team]) {
-        rounds[roundIndex + 1][pointer][team] = winner;
-        break;
-      }
-    }
   }
-}
 
   function resolveWinner(rdi, winner) {
     if (rdi === rounds.length - 1) {
@@ -263,29 +265,29 @@
 
     console.log(res);
   }
-  function bestOfTransformation(){
-    if (contestantData.bestOf == 3){
-      return 2
+  function bestOfTransformation() {
+    if (contestantData.bestOf == 3) {
+      return 2;
     }
-    if (contestantData.bestOf == 5){
-      return 3
+    if (contestantData.bestOf == 5) {
+      return 3;
     }
-    if (contestantData.bestOf == 7){
-      return 4
+    if (contestantData.bestOf == 7) {
+      return 4;
     }
-    if (contestantData.bestOf == 1){
-      return 1
+    if (contestantData.bestOf == 1) {
+      return 1;
     }
   }
-  let bestOfvalue = bestOfTransformation()
-  console.log(bestOfvalue)
+  let bestOfvalue = bestOfTransformation();
+  console.log(bestOfvalue);
 </script>
 
 <main>
   <h1>{contestantData.tournamentName}</h1>
   <h3>Organized by: {contestantData.organizerName}</h3>
   {#if user.username}
-    <Button on:cClick={save}>SAVE</Button>
+    <Button class="save-button" on:cClick={save}>SAVE</Button>
   {/if}
   <div
     class="playoff-container"
@@ -324,18 +326,18 @@
                   tournamentWinner === match.home
               )}
               on:keydown={() => {}}
-              on:click={() => 
+              on:click={() =>
                 moveToNextRound(match.home, match.away, match, round)}
-            >   
-              {match.home ? match.home.name : placeholder} {#if winners.find((id) => (id.round === i && id.winner === match.home.id) == true)} {bestOfvalue} 
-              {:else}
-                {#if match.home.score}
+            >
+              {match.home ? match.home.name : placeholder}
+              {#if winners.find((id) => (id.round === i && id.winner === match.home.id) == true)}
+                {bestOfvalue}
+              {:else if match.home.score}
                 {match.home.score}
-                {:else}
+              {:else}
                 0
-                {/if}
               {/if}
-            </p> 
+            </p>
 
             <hr class="separate-line" />
             <p
@@ -352,20 +354,25 @@
               )}
               id="lower-name"
               on:keydown={() => {}}
-              on:click={() => {if (!winners.find(
-                (id) =>
-                  (id.round === i && id.winner === match.away.id) ||
-                  tournamentWinner === match.away 
-              )){
-                moveToNextRound(match.away, match.home, match, round)}}}
+              on:click={() => {
+                if (
+                  !winners.find(
+                    (id) =>
+                      (id.round === i && id.winner === match.away.id) ||
+                      tournamentWinner === match.away
+                  )
+                ) {
+                  moveToNextRound(match.away, match.home, match, round);
+                }
+              }}
             >
-              {match.away ? match.away.name : placeholder} {#if winners.find((id) => (id.round === i && id.winner === match.away.id) == true)} {bestOfvalue} 
-              {:else}
-                {#if match.away.score}
+              {match.away ? match.away.name : placeholder}
+              {#if winners.find((id) => (id.round === i && id.winner === match.away.id) == true)}
+                {bestOfvalue}
+              {:else if match.away.score}
                 {match.away.score}
-                {:else}
+              {:else}
                 0
-                {/if}
               {/if}
             </p>
           </div>
