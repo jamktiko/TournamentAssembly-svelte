@@ -128,8 +128,9 @@
     <Button class="add-button" on:cClick={addRow}>ADD PLAYER</Button>
     <Button class="add-button" on:cClick={addColumn}>ADD ROUND</Button>
   </div>
-  <div>
-    {#if !user.isGuest}
+
+  <div class="table-container">
+    {#if !user.isGuest && user.username}
       <Button class="save-button" on:cClick={save}>SAVE</Button>
     {/if}
   </div>
