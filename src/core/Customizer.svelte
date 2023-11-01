@@ -454,18 +454,7 @@
           </Tooltip>
         </div>
         <div>
-          <label for="deciderType">Decider Type</label>
-          <br />
-          <select
-            id="deciderType"
-            bind:value={selectedDecider}
-            on:change={handleSelection}
-          >
-            <option value="" disabled selected>SELECT</option>
-            {#each deciderTypes as deciderType (deciderType)}
-              <option value={deciderType}>{deciderType}</option>
-            {/each}
-          </select>
+
         </div>
         <div class="playoffs-button-container">
           {#if isTablet}
@@ -555,7 +544,7 @@
         >
       </div>
     {/if}
-    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
+    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
       <div class="createButton">
         <Button on:cClick={autofill}>CREATE</Button>
       </div>
