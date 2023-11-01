@@ -49,7 +49,7 @@
     filter: contrast(1.1);
   }
 
-  .login-button2 {
+  .signup-button {
     margin: 0.3em;
   }
   .login-button {
@@ -347,6 +347,22 @@
     border-radius: 10px;
   }
 
+  .reset-button {
+    width: auto;
+    margin: 0em 0.2em;
+    border-radius: 10px;
+    background: linear-gradient(
+      0deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+  }
+
+  .reset-button:hover {
+    border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
+  }
+
   /* Customizer Playoffs Buttons */
   .playoffs-buttons {
     font-size: 1.1em;
@@ -426,7 +442,7 @@
     cursor: pointer;
     transition-duration: 0.1s;
     margin-top: 0.5em;
-    margin-bottom: 2em;
+    margin-bottom: 0.2em;
   }
 
   .league-resolve-button:hover {
@@ -470,6 +486,16 @@
     margin-right: 0.5em;
     transition-duration: 0.1s;
     right: 0;
+    background: linear-gradient(
+      360deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+  }
+
+  .logout-button:hover {
+    border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
   }
 
   .finish-button {
@@ -547,9 +573,9 @@
   }
 
   .save-button {
-    margin: 0.25em;
+    margin-top: 0.25em;
+    margin-bottom: 0.5em;
   }
-
 
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
