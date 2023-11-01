@@ -8,8 +8,7 @@
   import Loading from "../reusable/Loading.svelte";
   import LoginUser from "../reusable/LoginUser.svelte";
   import Signup from "../reusable/Signup.svelte";
-  import {loadFromSession} from "../utils/lib";
-
+  import { loadFromSession } from "../utils/lib";
 
   let stateLocal;
   const unsub = stateController.subscribe((state) => (stateLocal = state));
@@ -46,7 +45,9 @@
       </p>
     </div>
     <div class="button-container">
-      <Button on:cClick={loginAsGuest}>CREATE A TOURNAMENT AS GUEST</Button>
+      <Button class="guest-login" on:cClick={loginAsGuest}
+        >CREATE A TOURNAMENT AS GUEST</Button
+      >
       <h2>OR</h2>
     </div>
     <div class="login-buttons-container">
