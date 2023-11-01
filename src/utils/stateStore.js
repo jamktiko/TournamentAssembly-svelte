@@ -100,7 +100,7 @@ const stateController = {
     let user;
     const unsub = this.subscribe((userData) => (user = userData));
     unsub();
-
+    console.log(username, id);
     const tourData = {
       username,
       id,
