@@ -1,14 +1,14 @@
 <script>
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import Footer from "../reusable/Footer.svelte";
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import Footer from '../reusable/Footer.svelte';
 
-  import stateController from "../utils/stateStore";
-  import { onDestroy } from "svelte";
-  import Loading from "../reusable/Loading.svelte";
-  import LoginUser from "../reusable/LoginUser.svelte";
-  import Signup from "../reusable/Signup.svelte";
-  import { loadFromSession } from "../utils/lib";
+  import stateController from '../utils/stateStore';
+  import { onDestroy } from 'svelte';
+  import Loading from '../reusable/Loading.svelte';
+  import LoginUser from '../reusable/LoginUser.svelte';
+  import Signup from '../reusable/Signup.svelte';
+  import { loadFromSession } from '../utils/lib';
 
   let stateLocal;
   const unsub = stateController.subscribe((state) => (stateLocal = state));
@@ -19,7 +19,7 @@
 
   function loginAsGuest() {
     stateController.loginAsGuest();
-    push("/selection");
+    push('/selection');
   }
 
   let openLogin = false;
@@ -54,7 +54,7 @@
       <Button class="login-button" on:cClick={() => toggleLogin()}
         >LOG IN</Button
       >
-      <Button class="login-button2" on:cClick={() => toggleSignup()}
+      <Button class="signup-button" on:cClick={() => toggleSignup()}
         >SIGN UP</Button
       >
     </div>

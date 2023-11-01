@@ -226,8 +226,11 @@
         if (largest.score < teams[i].score) {
           largest = teams[i];
         }
-        if (largest.score == teams[i].score && largest.goalDiff < teams[i].goalDiff){
-          largest = teams[i]
+        if (
+          largest.score == teams[i].score &&
+          largest.goalDiff < teams[i].goalDiff
+        ) {
+          largest = teams[i];
         }
         i += 1;
       }
@@ -320,6 +323,7 @@
   }
 
   $: console.log(teams);
+
   function resetscore(){
     agmatches = []
     let a = 0
@@ -396,7 +400,11 @@
       ></Tooltip
     >
     {#if !user.isGuest && user.username}
-      <Button class="save-button" on:cClick={save}>SAVE</Button>
+            <Tooltip
+        text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
+      >
+        <Button class="save-button" on:cClick={save}>SAVE</Button>
+      </Tooltip>
     {/if}
     <div class="league-scoreboard-container">
       <table>
@@ -462,11 +470,7 @@
         disabled={agmatches.length == 0}
         on:cClick={toggleMatches}>Show schedule</Button
       >
-      <Button
-      class="resolve-button"
-
-      on:cClick={resetscore}>reset</Button
-    >
+      <Button class="reset-button" on:cClick={resetscore}>reset</Button>
     </div>
     <div class="results-button-container">
       {#if showResults == 0}
@@ -498,7 +502,7 @@
   </div>
   {#if showmatches}
     {#if agmatches.length > 0}
-      <div class="backdrop" />
+      <div class="backdrop" on:click={toggleMatches} on:keydown />
       <div class="modal">
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
@@ -530,7 +534,8 @@
 
 <style>
   main {
-    margin: auto;
+    margin-left: 15%;
+    margin-bottom: 2em;
     width: 70%;
     display: flex;
     flex-direction: column;
