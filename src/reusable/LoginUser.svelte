@@ -78,7 +78,7 @@
     {#if invalidLogin}
       <p>Incorrect username or password!</p>
     {/if}
-    <Button on:cClick={login}>LOG IN</Button>
+    <Button class="login-confirm" on:cClick={login}>LOG IN</Button>
   </div>
 </div>
 
