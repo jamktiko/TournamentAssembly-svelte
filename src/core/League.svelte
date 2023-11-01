@@ -227,6 +227,9 @@
         if (largest.score < teams[i].score) {
           largest = teams[i];
         }
+        if (largest.score == teams[i].score && largest.goalDiff < teams[i].goalDiff){
+          largest = teams[i]
+        }
         i += 1;
       }
     }
@@ -318,6 +321,18 @@
   }
 
   $: console.log(teams);
+  function resetscore(){
+    let a = 0
+    while ( a < teams.length){
+    teams[a].draws = 0
+    teams[a].goalDiff = 0
+    teams[a].losses = 0
+    teams[a].playedMatches = 0
+    teams[a].score = 0
+    teams[a].wins = 0
+    a += 1
+    }
+  }
 </script>
 
 <main
@@ -447,6 +462,11 @@
         disabled={agmatches.length == 0}
         on:cClick={toggleMatches}>Show schedule</Button
       >
+      <Button
+      class="resolve-button"
+
+      on:cClick={resetscore}>reset</Button
+    >
     </div>
     <div class="results-button-container">
       {#if showResults == 0}
