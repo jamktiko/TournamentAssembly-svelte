@@ -294,20 +294,7 @@
             {/each}
           </select>
         </div>
-        <div>
-          <label for="deciderType">Decider Type</label>
-          <br />
-          <select
-            id="deciderType"
-            bind:value={config.tourDecider}
-            on:change={handleSelection}
-          >
-            <option value="" disabled>SELECT</option>
-            {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
-              <option value={tournamentDecider}>{tournamentDecider}</option>
-            {/each}
-          </select>
-        </div>
+
         <div>
           <label for="teamsinGroup">Teams in Group</label>
           <br />
@@ -487,20 +474,7 @@
           axis: 'y',
         }}
       >
-        <div>
-          <label for="deciderType">Decider Type</label>
-          <br />
-          <select
-            id="deciderType"
-            bind:value={config.tourDecider}
-            on:change={handleSelection}
-          >
-            <option value="" disabled selected>SELECT</option>
-            {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
-              <option value={tournamentDecider}>{tournamentDecider}</option>
-            {/each}
-          </select>
-        </div>
+       
         <div>
           <label for="pointsPerWin">Points for Win</label>
           <br />
@@ -549,12 +523,12 @@
         <Button on:cClick={autofill}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>

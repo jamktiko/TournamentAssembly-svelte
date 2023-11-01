@@ -223,6 +223,9 @@
         if (largest.score < teams[i].score) {
           largest = teams[i];
         }
+        if (largest.score == teams[i].score && largest.goalDiff < teams[i].goalDiff){
+          largest = teams[i]
+        }
         i += 1;
       }
     }
