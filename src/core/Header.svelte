@@ -11,7 +11,7 @@
   <img
     id="logo"
     src="./images/TourAssLogo.svg"
-    alt="..."
+    alt="HeaderImage, Tournament Assembly logo"
     on:click={goToSelection}
     on:keydown
   />

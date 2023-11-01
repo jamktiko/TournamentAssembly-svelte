@@ -15,6 +15,7 @@
   import { calcId } from '../utils/lib';
   import { loadFromSession } from '../utils/lib';
 
+
   let user;
   stateController.subscribe((userData) => (user = userData));
 
@@ -106,7 +107,9 @@
       </div>
       <div slot="button">
         <Button
-          on:cClick={() => showConfirmation('groups', '/customizer/groups')}
+
+          class="group-select"
+          on:cClick={() => showConfirmation("groups", "/customizer/groups")}
           >SELECT</Button
         >
         {#if cch.isInCache('groups')}

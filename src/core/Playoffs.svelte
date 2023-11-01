@@ -313,11 +313,22 @@
                 >UNDO MATCH</Button
               >
             {/if}
-            <p
-              class:match-winner={match.home &&
-                winners.find(
+            <div
+              class="player-info"
+              on:keydown={() => {}}
+              on:click={() =>
+                moveToNextRound(match.home, match.away, match, round)}
+            >
+              <p
+                class:match-winner={match.home &&
+                  winners.find(
+                    (id) =>
+                      (id.round === i && id.winner === match.home.id) ||
+                      tournamentWinner === match.home
+                  )}
+                class:match-loser={winners.find(
                   (id) =>
-                    (id.round === i && id.winner === match.home.id) ||
+                    (id.round === i && id.winner === match.away.id) ||
                     tournamentWinner === match.home
                 )}
               class:match-loser={winners.find(
@@ -339,12 +350,36 @@
               {/if}
             </p>
 
+              >
+                {match.home ? match.home.name : placeholder}
+              </p>
+              <p class="player-score">
+                {#if winners.find((id) => (id.round === i && id.winner === match.home.id) == true)}
+                  {bestOfvalue}
+                {:else if match.home.score}
+                  {match.home.score}
+                {:else}
+                  0
+                {/if}
+              </p>
+            </div>
             <hr class="separate-line" />
-            <p
-              class:match-winner={match.away &&
-                winners.find(
+            <div
+              class="player-info"
+              on:keydown={() => {}}
+              on:click={() =>
+                moveToNextRound(match.away, match.home, match, round)}
+            >
+              <p
+                class:match-winner={match.away &&
+                  winners.find(
+                    (id) =>
+                      (id.round === i && id.winner === match.away.id) ||
+                      tournamentWinner === match.home
+                  )}
+                class:match-loser={winners.find(
                   (id) =>
-                    (id.round === i && id.winner === match.away.id) ||
+                    (id.round === i && id.winner === match.home.id) ||
                     tournamentWinner === match.home
                 )}
               class:match-loser={winners.find(
@@ -375,6 +410,19 @@
                 0
               {/if}
             </p>
+              >
+                {match.away ? match.away.name : placeholder}
+              </p>
+              <p class="player-score">
+                {#if winners.find((id) => (id.round === i && id.winner === match.away.id) == true)}
+                  {bestOfvalue}
+                {:else if match.away.score}
+                  {match.away.score}
+                {:else}
+                  0
+                {/if}
+              </p>
+            </div>
           </div>
         {/each}
       </div>
@@ -449,9 +497,25 @@
 
   .separate-line {
     opacity: 0.3;
-    width: 250px;
+    width: 300px;
   }
 
+  .player-info {
+    width: calc(80%);
+    max-width: max-content;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .player-score {
+    position: absolute;
+    right: 0;
+    margin-right: 1.5em;
+    text-align: right;
+  }
   h1 {
     margin-top: 1em;
     font: 900;
