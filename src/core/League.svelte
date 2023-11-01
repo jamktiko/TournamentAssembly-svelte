@@ -323,16 +323,18 @@
   }
 
   $: console.log(teams);
-  function resetscore() {
-    let a = 0;
-    while (a < teams.length) {
-      teams[a].draws = 0;
-      teams[a].goalDiff = 0;
-      teams[a].losses = 0;
-      teams[a].playedMatches = 0;
-      teams[a].score = 0;
-      teams[a].wins = 0;
-      a += 1;
+
+  function resetscore(){
+    agmatches = []
+    let a = 0
+    while ( a < teams.length){
+    teams[a].draws = 0
+    teams[a].goalDiff = 0
+    teams[a].losses = 0
+    teams[a].playedMatches = 0
+    teams[a].score = 0
+    teams[a].wins = 0
+    a += 1
     }
   }
 </script>
@@ -397,8 +399,8 @@
         >FINISH LEAGUE</Button
       ></Tooltip
     >
-    {#if !user.isGuest}
-      <Tooltip
+    {#if !user.isGuest && user.username}
+            <Tooltip
         text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
       >
         <Button class="save-button" on:cClick={save}>SAVE</Button>

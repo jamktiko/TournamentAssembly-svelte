@@ -287,8 +287,9 @@
 <main>
   <h1>{contestantData.tournamentName}</h1>
   <h3>Organized by: {contestantData.organizerName}</h3>
-  {#if user.username}
-    <Tooltip
+
+  {#if !user.isGuest && user.username}
+        <Tooltip
       text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
     >
       <Button on:cClick={save}>SAVE</Button>

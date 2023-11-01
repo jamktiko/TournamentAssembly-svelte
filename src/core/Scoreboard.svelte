@@ -121,7 +121,7 @@
     <Button class="add-button" on:cClick={addColumn}>ADD ROUND</Button>
   </div>
   <div class="table-container">
-    {#if !user.isGuest}
+    {#if !user.isGuest && user.username}
       <Button class="save-button" on:cClick={save}>SAVE</Button>
     {/if}
     <table>
