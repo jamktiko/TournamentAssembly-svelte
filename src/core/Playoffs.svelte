@@ -287,7 +287,7 @@
   <h1>{contestantData.tournamentName}</h1>
   <h3>Organized by: {contestantData.organizerName}</h3>
   {#if user.username}
-    <Button on:cClick={save}>SAVE</Button>
+    <Button class="save-button" on:cClick={save}>SAVE</Button>
   {/if}
   <div
     class="playoff-container"
@@ -331,6 +331,25 @@
                     (id.round === i && id.winner === match.away.id) ||
                     tournamentWinner === match.home
                 )}
+              class:match-loser={winners.find(
+                (id) =>
+                  (id.round === i && id.winner === match.away.id) ||
+                  tournamentWinner === match.home
+              )}
+              on:keydown={() => {}}
+              on:click={() =>
+                moveToNextRound(match.home, match.away, match, round)}
+            >
+              {match.home ? match.home.name : placeholder}
+              {#if winners.find((id) => (id.round === i && id.winner === match.home.id) == true)}
+                {bestOfvalue}
+              {:else if match.home.score}
+                {match.home.score}
+              {:else}
+                0
+              {/if}
+            </p>
+
               >
                 {match.home ? match.home.name : placeholder}
               </p>
@@ -363,6 +382,34 @@
                     (id.round === i && id.winner === match.home.id) ||
                     tournamentWinner === match.home
                 )}
+              class:match-loser={winners.find(
+                (id) =>
+                  (id.round === i && id.winner === match.home.id) ||
+                  tournamentWinner === match.home
+              )}
+              id="lower-name"
+              on:keydown={() => {}}
+              on:click={() => {
+                if (
+                  !winners.find(
+                    (id) =>
+                      (id.round === i && id.winner === match.away.id) ||
+                      tournamentWinner === match.away
+                  )
+                ) {
+                  moveToNextRound(match.away, match.home, match, round);
+                }
+              }}
+            >
+              {match.away ? match.away.name : placeholder}
+              {#if winners.find((id) => (id.round === i && id.winner === match.away.id) == true)}
+                {bestOfvalue}
+              {:else if match.away.score}
+                {match.away.score}
+              {:else}
+                0
+              {/if}
+            </p>
               >
                 {match.away ? match.away.name : placeholder}
               </p>

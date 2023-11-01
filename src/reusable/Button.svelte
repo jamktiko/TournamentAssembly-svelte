@@ -532,6 +532,25 @@
     margin: 0.25em;
   }
 
+  /* Sitewide Logout Button */
+  .logout-button {
+    padding-left: 2.15em;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    scale: 1;
+    border-radius: 10px;
+    position: absolute;
+    margin-top: 4em;
+    transition-duration: 0.1s;
+    right: 0em;
+  }
+
+  .save-button {
+    margin: 0.25em;
+  }
+
+
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
     .back-button {

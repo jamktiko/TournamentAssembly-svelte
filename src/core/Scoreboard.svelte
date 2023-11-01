@@ -1,27 +1,27 @@
 <script>
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut } from "svelte/easing";
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
 
-  import { onDestroy } from "svelte";
-  import cch from "../utils/cache";
+  import { onDestroy } from 'svelte';
+  import cch from '../utils/cache';
 
-  import stateController from "../utils/stateStore";
+  import stateController from '../utils/stateStore';
 
-  import { loadFromSession } from "../utils/lib";
+  import { loadFromSession } from '../utils/lib';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
-  let gridData = [{ name: "", columns: [""] }];
+  let gridData = [{ name: '', columns: [''] }];
 
   onDestroy(() => {
     if (unsub) unsub();
@@ -32,12 +32,12 @@
       (gridData[0].name && gridData[0].columns[0]) ||
       gridData[0].columns[0] === 0
     ) {
-      cch.saveToCache("scoreboard", gridData);
+      cch.saveToCache('scoreboard', gridData);
     }
   });
 
-  if (cch.isInCache("scoreboard")) {
-    const cachedData = cch.getFromCache("scoreboard");
+  if (cch.isInCache('scoreboard')) {
+    const cachedData = cch.getFromCache('scoreboard');
     console.log(!Array.isArray(cachedData[0].columns));
     if (!Array.isArray(cachedData[0].columns)) {
       for (let unit of cachedData) {
@@ -46,22 +46,22 @@
     }
     gridData = cachedData;
   } else if (user.state) {
-    console.log(user.state, "testing");
+    console.log(user.state, 'testing');
     gridData = user.state;
   }
 
   function addRow() {
     const numColumns = gridData[0].columns.length;
     const newRow = {
-      name: "",
-      columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
+      name: '',
+      columns: Array(numColumns).fill(''), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
   }
 
   function addColumn() {
     gridData.forEach((row) => {
-      row.columns.push("");
+      row.columns.push('');
     });
     gridData = [...gridData];
   }
@@ -122,7 +122,7 @@
   </div>
   <div class="table-container">
     {#if !user.isGuest}
-      <Button on:cClick={save}>SAVE</Button>
+      <Button class="save-button" on:cClick={save}>SAVE</Button>
     {/if}
     <table>
       <thead>
@@ -238,7 +238,7 @@
   }
 
   /* Firefox */
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
     appearance: textfield;
   }

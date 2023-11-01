@@ -1,25 +1,26 @@
 <script>
-  import { push } from "svelte-spa-router";
+  import { push } from 'svelte-spa-router';
 
-  import Button from "../reusable/Button.svelte";
-  import Card from "../reusable/Card.svelte";
+  import Button from '../reusable/Button.svelte';
+  import Card from '../reusable/Card.svelte';
 
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
 
-  import cch from "../utils/cache";
-  import stateController from "../utils/stateStore";
-  import Tooltip from "../reusable/Tooltip.svelte";
-  import { calcId } from "../utils/lib";
-  import { loadFromSession } from "../utils/lib";
+  import cch from '../utils/cache';
+  import stateController from '../utils/stateStore';
+  import Tooltip from '../reusable/Tooltip.svelte';
+  import { calcId } from '../utils/lib';
+  import { loadFromSession } from '../utils/lib';
+
 
   let user;
   stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -33,7 +34,7 @@
   function showConfirmation(key, path) {
     if (cch.isInCache(key)) {
       const isConfirmed = window.confirm(
-        "This will delete ongoing tournament! Continue?"
+        'This will delete ongoing tournament! Continue?'
       );
       if (isConfirmed) {
         navigate(key, path);
@@ -51,7 +52,7 @@
 
   function createScoreboard() {
     if (!user.username || user.isGuest) {
-      showConfirmation("scoreboard", "/scoreboard");
+      showConfirmation('scoreboard', '/scoreboard');
     } else {
       const id = calcId(user.tournaments);
       user.config = { id };
@@ -63,9 +64,9 @@
           },
           id,
         },
-        "scoreboard"
+        'scoreboard'
       );
-      showConfirmation("scoreboard", "/scoreboard");
+      showConfirmation('scoreboard', '/scoreboard');
     }
   }
 </script>
@@ -74,7 +75,7 @@
   transition:slide={{
     duration: 700,
     easing: quintOut,
-    axis: "y",
+    axis: 'y',
   }}
 >
   <div class="text-container">
@@ -94,7 +95,7 @@
       delay: 600,
       duration: 1000,
       easing: quadInOut,
-      axis: "y",
+      axis: 'y',
     }}
   >
     <Card
@@ -106,17 +107,18 @@
       </div>
       <div slot="button">
         <Button
+
           class="group-select"
           on:cClick={() => showConfirmation("groups", "/customizer/groups")}
           >SELECT</Button
         >
-        {#if cch.isInCache("groups")}
+        {#if cch.isInCache('groups')}
           <Tooltip
             text="You have an unfinished tournament. Press to continue playing it."
           >
             <Button
               class="continue-button"
-              on:cClick={() => push(`/groups/${cch.getToken("groupsConf")}`)}
+              on:cClick={() => push(`/groups/${cch.getToken('groupsConf')}`)}
               >Continue</Button
             >
           </Tooltip>
@@ -137,7 +139,7 @@
         <h2>PLAYOFFS</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => push("/customizer/playoffs")}>SELECT</Button>
+        <Button on:cClick={() => push('/customizer/playoffs')}>SELECT</Button>
       </div>
       <div slot="footer">
         <p>
@@ -154,11 +156,11 @@
         <h2>SCOREBOARD</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => createScoreboard("scoreboard", "/scoreboard")}
+        <Button on:cClick={() => createScoreboard('scoreboard', '/scoreboard')}
           >SELECT</Button
         >
 
-        {#if cch.isInCache("scoreboard")}
+        {#if cch.isInCache('scoreboard')}
           <Tooltip
             text="You have an unfinished tournament. Press to continue playing it."
           >
@@ -185,16 +187,16 @@
       </div>
       <div slot="button">
         <Button
-          on:cClick={() => showConfirmation("league", "/customizer/league")}
+          on:cClick={() => showConfirmation('league', '/customizer/league')}
           >SELECT</Button
         >
-        {#if cch.isInCache("league")}
+        {#if cch.isInCache('league')}
           <Tooltip
             text="You have an unfinished tournament. Press to continue playing it."
           >
             <Button
               class="continue-button"
-              on:cClick={() => push(`/league/${cch.getToken("leagueConf")}`)}
+              on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
               >Continue</Button
             >
           </Tooltip>
@@ -263,5 +265,12 @@
     margin-bottom: 1em;
     font: 100;
     font-size: 1.3em;
+  }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1450px) {
+    main {
+      margin-left: 16%;
+    }
   }
 </style>

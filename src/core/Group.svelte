@@ -440,8 +440,9 @@
         on:mouseleave={toggleTooltip}>EXPORT TO PLAYOFFS</Button
       >
     </Tooltip>
+
     {#if !user.isGuest && user.username}
-      <Button on:cClick={() => save(groups)}>SAVE</Button>
+      <Button class="save-button" on:cClick={() => save(groups)}>SAVE</Button>
     {/if}
   </div>
 
@@ -504,7 +505,6 @@
                 >L</th
               >
               <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
-
                 >GD</th
               >
             </tr>
@@ -576,7 +576,6 @@
       >
         <Button class="results-toggle-button" on:cClick={toggleResults}
           >{showResults ? 'Hide Results' : 'Show Results'}</Button
-
         >
       </Tooltip>
       {#if showResults}
