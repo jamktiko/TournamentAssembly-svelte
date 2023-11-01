@@ -457,6 +457,21 @@
     right: 0;
   }
 
+  /* Sitewide Logout Button */
+  .logout-button {
+    padding-left: 2.15em;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    scale: 1;
+    border-radius: 10px;
+    position: absolute;
+    margin-top: 4em;
+    margin-right: 0.5em;
+    transition-duration: 0.1s;
+    right: 0;
+  }
+
   .finish-button {
     margin: 0em 0.2em;
     border: solid 1px #7396ff;
@@ -517,20 +532,6 @@
     margin: 0.25em;
   }
 
-  /* Sitewide Logout Button */
-  .logout-button {
-    padding-left: 2.15em;
-    display: flex;
-    flex-direction: row;
-    text-transform: uppercase;
-    scale: 1;
-    border-radius: 10px;
-    position: absolute;
-    margin-top: 4em;
-    transition-duration: 0.1s;
-    right: 0em;
-  }
-
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
     .back-button {
@@ -552,6 +553,7 @@
     .logout-button {
       scale: 0.8;
       margin-top: 2.5em;
+      margin-right: 0;
       right: -0.5em;
     }
 

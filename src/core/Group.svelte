@@ -477,26 +477,34 @@
             easing: quintOut,
           }}
         >
+          <Tooltip
+            text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
+          >
+            <Button class="finish-button" on:cClick={() => calcWinner(selected)}
+              >Finish this Group</Button
+            >
+          </Tooltip>
           <h2 id="group-name">{selected.name}</h2>
           <table>
             <tr>
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder("playedMatches", selected.index)}>PL</th
+                  toggleSortOrder('playedMatches', selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder("score", selected.index)}
+              <th on:click={() => toggleSortOrder('score', selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
+              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder("draws", selected.index)}
+              <th on:click={() => toggleSortOrder('draws', selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder("losses", selected.index)}
+              <th on:click={() => toggleSortOrder('losses', selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
+              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
+
                 >GD</th
               >
             </tr>
@@ -521,15 +529,7 @@
           </table>
           <div class="resolve-button-container">
             {#if selected && !checkIfBlacklisted()}
-              <Tooltip
-                text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
-              >
-                <Button
-                  class="finish-button"
-                  on:cClick={() => calcWinner(selected)}
-                  >Finish this Group</Button
-                >
-              </Tooltip>
+
               <Tooltip
                 text="Press to create a match schedule for all the group's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
               >
@@ -545,6 +545,7 @@
                 disabled={agmatches.length == 0}
                 on:cClick={toggleMatches}>Show schedule</Button
               >
+
               <Button class="resolve-button" on:cClick={resetscore}
                 >reset</Button
               >
@@ -574,7 +575,8 @@
       the results from view by toggling the SHOW/HIDE RESULTS button."
       >
         <Button class="results-toggle-button" on:cClick={toggleResults}
-          >{showResults ? "Hide Results" : "Show Results"}</Button
+          >{showResults ? 'Hide Results' : 'Show Results'}</Button
+
         >
       </Tooltip>
       {#if showResults}
@@ -746,6 +748,7 @@
   #group {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     flex-direction: column;
   }
