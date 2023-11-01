@@ -11,8 +11,15 @@
 
   import stateController from "../utils/stateStore";
 
+  import { loadFromSession } from "../utils/lib";
+
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
+
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
+    stateController.set(user);
+  }
 
   let gridData = [{ name: "", columns: [""] }];
 

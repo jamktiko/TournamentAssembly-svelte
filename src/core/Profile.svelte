@@ -5,9 +5,16 @@
   import stateController from '../utils/stateStore';
   import { onDestroy } from 'svelte';
 
-  let currentUser;
+  import { loadFromSession } from '../utils/lib';
 
-  const unsub = stateController.subscribe((user) => (currentUser = user));
+  let user;
+
+  const unsub = stateController.subscribe((userData) => (user = userData));
+
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
+    stateController.set(user);
+  }
 
   onDestroy(() => {
     if (unsub) unsub();
@@ -16,7 +23,7 @@
 
 <main>
   <div class="profile-header">
-    <h1>WELCOME {currentUser.username.toUpperCase()}!</h1>
+    <h1>WELCOME {user.username ? user.username.toUpperCase() : ''}!</h1>
   </div>
   <div class="profile-description">
     <p>
@@ -64,5 +71,19 @@
     display: flex;
     justify-content: space-evenly;
     margin: 1em;
+  }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1450px) {
+    main {
+      scale: 0.9;
+      margin-left: 12.5%;
+      height: 100%;
+      width: 70%;
+      padding-top: 4em;
+      padding-bottom: 3em;
+      padding-left: 1em;
+      padding-right: 1em;
+    }
   }
 </style>
