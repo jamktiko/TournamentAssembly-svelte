@@ -1,4 +1,5 @@
 <script>
+
   import cch from "../utils/cache";
   import Button from "../reusable/Button.svelte";
   import Winner from "../reusable/Winner.svelte";
@@ -9,9 +10,16 @@
   import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
   import stateController from "../utils/stateStore";
   import { onDestroy } from "svelte";
+  import {loadFromSession} from "../utils/lib";
+
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
+
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
+    stateController.set(user);
+  }
 
   onDestroy(() => {
     if (unsub) unsub();
@@ -32,7 +40,7 @@
   let winners = [];
   let tournamentWinner = null;
 
-  const placeholder = "Waiting for results";
+  const placeholder = 'Waiting for results';
 
   function parseContestants(contestants) {
     const parsed = [];
@@ -183,18 +191,18 @@
 
   function assignRoundNames(rounds) {
     const roundNames = [
-      "ROUND 1",
-      "ROUND 2",
-      "ROUND 3",
-      "ROUND 4",
-      "ROUND 5",
-      "ROUND 6",
+      'ROUND 1',
+      'ROUND 2',
+      'ROUND 3',
+      'ROUND 4',
+      'ROUND 5',
+      'ROUND 6',
     ];
     const specialRoundNames = [
-      "PRE-QUARTERFINALS",
-      "QUARTERFINALS",
-      "SEMIFINALS",
-      "FINALS",
+      'PRE-QUARTERFINALS',
+      'QUARTERFINALS',
+      'SEMIFINALS',
+      'FINALS',
     ];
 
     for (let i = 0; i < rounds.length; i++) {
@@ -284,7 +292,7 @@
     transition:slide={{
       duration: 700,
       easing: quadInOut,
-      axis: "x",
+      axis: 'x',
     }}
   >
     {#each rounds as round, i}
