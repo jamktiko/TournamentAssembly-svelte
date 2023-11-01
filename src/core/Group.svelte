@@ -590,7 +590,7 @@
       <div
         class="match-modal"
         in:fade={{
-          duration: 500,
+          duration: 0,
           easing: quintOut,
         }}
       >
