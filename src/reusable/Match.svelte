@@ -44,8 +44,8 @@
     <div
       class="team-content-container"
       transition:slide={{
-        delay: 500,
-        duration: 600,
+        delay: 0,
+        duration: 100,
         easing: quintOut,
         axis: 'y',
       }}
@@ -72,8 +72,8 @@
     <div
       class="team-content-container"
       transition:slide={{
-        delay: 500,
-        duration: 600,
+        delay: 0,
+        duration: 100,
         easing: quintOut,
         axis: 'y',
       }}
