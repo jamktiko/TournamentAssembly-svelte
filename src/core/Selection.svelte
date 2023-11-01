@@ -13,8 +13,7 @@
   import stateController from "../utils/stateStore";
   import Tooltip from "../reusable/Tooltip.svelte";
   import { calcId } from "../utils/lib";
-  import {loadFromSession} from "../utils/lib";
-
+  import { loadFromSession } from "../utils/lib";
 
   let user;
   stateController.subscribe((userData) => (user = userData));
@@ -107,6 +106,7 @@
       </div>
       <div slot="button">
         <Button
+          class="group-select"
           on:cClick={() => showConfirmation("groups", "/customizer/groups")}
           >SELECT</Button
         >

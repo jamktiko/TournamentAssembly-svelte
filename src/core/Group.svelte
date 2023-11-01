@@ -1,26 +1,26 @@
 <script>
-  import cch from '../utils/cache';
-  import stateController from '../utils/stateStore';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
-  import Automatches from '../reusable/Automatches.svelte';
-  import { onDestroy } from 'svelte';
-  import { push } from 'svelte-spa-router';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
-  import Tooltip from '../reusable/Tooltip.svelte';
-  import { loadFromSession } from '../utils/lib';
+  import cch from "../utils/cache";
+  import stateController from "../utils/stateStore";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+  import Automatches from "../reusable/Automatches.svelte";
+  import { onDestroy } from "svelte";
+  import { push } from "svelte-spa-router";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
+  import Tooltip from "../reusable/Tooltip.svelte";
+  import { loadFromSession } from "../utils/lib";
 
   export let params;
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem('user')) {
-    user = loadFromSession('user');
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
     stateController.set(user);
   }
 
@@ -36,8 +36,8 @@
   let blacklisted = [];
 
   onDestroy(() => {
-    cch.saveToCache('groups', groups);
-    cch.saveToCache('groupsConf', config);
+    cch.saveToCache("groups", groups);
+    cch.saveToCache("groupsConf", config);
 
     if (user.state) delete user.state;
     console.log(user);
@@ -45,8 +45,8 @@
     if (unsub) unsub();
   });
 
-  if (cch.isInCache('groups')) {
-    groups = cch.getFromCache('groups');
+  if (cch.isInCache("groups")) {
+    groups = cch.getFromCache("groups");
   } else {
     generateGroups(config);
   }
@@ -75,7 +75,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: '',
+          name: "",
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -111,12 +111,12 @@
   function checkIfBlacklisted() {
     return blacklisted.includes(selected.id);
   }
-  let value = '';
+  let value = "";
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -175,7 +175,7 @@
           },
         ],
         draw: true,
-        group: 'group ' + (selected.id + 1),
+        group: "group " + (selected.id + 1),
       });
       console.log(selected.id);
     } else {
@@ -203,7 +203,7 @@
               },
             ],
             draw: false,
-            group: 'group ' + (selected.id + 1),
+            group: "group " + (selected.id + 1),
           },
         ]);
       } else {
@@ -222,18 +222,18 @@
               },
             ],
             draw: false,
-            group: 'group ' + (selected.id + 1),
+            group: "group " + (selected.id + 1),
           },
         ]);
       }
     }
     console.log(sortBy);
 
-    sortBy = '';
-    if (sortBy === 'score') {
-      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
+    sortBy = "";
+    if (sortBy === "score") {
+      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
     } else {
-      toggleSortOrder('score', selected.id);
+      toggleSortOrder("score", selected.id);
     }
 
     match = [];
@@ -261,7 +261,7 @@
       a += 1
     }
 
-    if (winner.name != '') {
+    if (winner.name != "") {
       groupWinners.push(winner);
       console.log(groupWinners);
       selected = null;
@@ -283,8 +283,14 @@
       let contB = 1;
       while (contA < selected.participants.length) {
         while (contB < selected.participants.length) {
-          if (selected.participants[contA].name.length > 0 && selected.participants[contB].name.length > 0) {
-            agmatches.push([selected.participants[contA], selected.participants[contB]]);
+          if (
+            selected.participants[contA].name.length > 0 &&
+            selected.participants[contB].name.length > 0
+          ) {
+            agmatches.push([
+              selected.participants[contA],
+              selected.participants[contB],
+            ]);
           }
           contB += 1;
         }
@@ -320,7 +326,10 @@
   function deleteFromGenMatch(player1, player2) {
     let finder = 0;
     while (finder < agmatches.length) {
-      if (agmatches[finder][0].name == player1.name && agmatches[finder][1].name == player2.name) {
+      if (
+        agmatches[finder][0].name == player1.name &&
+        agmatches[finder][1].name == player2.name
+      ) {
         agmatches.splice(finder, 1);
       }
       finder += 1;
@@ -330,15 +339,15 @@
   }
 
   let playoffconfig = {
-    tournamentName: '',
-    organizerName: '',
-    numberOfGroups: '',
-    teamsInGroup: '',
-    tourDecider: '',
-    pointsPerWin: '',
-    pointsPerDraw: '',
-    numberOfRounds: '',
-    bestOf: '',
+    tournamentName: "",
+    organizerName: "",
+    numberOfGroups: "",
+    teamsInGroup: "",
+    tourDecider: "",
+    pointsPerWin: "",
+    pointsPerDraw: "",
+    numberOfRounds: "",
+    bestOf: "",
 
     players: [],
   };
@@ -347,7 +356,7 @@
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
     playoffconfig.organizerName = config.organizerName;
-    playoffconfig.tourDecider = '';
+    playoffconfig.tourDecider = "";
 
     playoffconfig.bestOf = 3;
     playoffconfig.players = [];
@@ -365,13 +374,16 @@
   function AddCorrectAmount() {
     if (playoffconfig.players.length == 3) {
       randomnum();
-      playoffconfig.players.push('PLAYER_' + num);
+      playoffconfig.players.push("PLAYER_" + num);
       playoffconfig.players = [...playoffconfig.players];
     }
     let place = 3;
-    while (playoffconfig.players.length > 4 && playoffconfig.players.length < 8) {
+    while (
+      playoffconfig.players.length > 4 &&
+      playoffconfig.players.length < 8
+    ) {
       randomnum();
-      playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
+      playoffconfig.players.splice(place, 0, "PLAYER_" + num);
 
       playoffconfig.players = [...playoffconfig.players];
       place += 2;
@@ -383,7 +395,11 @@
   }
 
   async function save(state) {
-    const res = await stateController.updateTourState(state, user.config.id, user.username);
+    const res = await stateController.updateTourState(
+      state,
+      user.config.id,
+      user.username
+    );
 
     console.log(res);
   }
@@ -393,34 +409,38 @@
   function toggleTooltip() {
     showTooltip = !showTooltip;
   }
-  function resetscore(){
-    let a = 0
-    while ( a < selected.participants.length){
-      selected.participants[a].draws = 0
-      selected.participants[a].goalDiff = 0
-      selected.participants[a].losses = 0
-      selected.participants[a].playedMatches = 0
-      selected.participants[a].score = 0
-      selected.participants[a].wins = 0
-    a += 1
+  function resetscore() {
+    let a = 0;
+    while (a < selected.participants.length) {
+      selected.participants[a].draws = 0;
+      selected.participants[a].goalDiff = 0;
+      selected.participants[a].losses = 0;
+      selected.participants[a].playedMatches = 0;
+      selected.participants[a].score = 0;
+      selected.participants[a].wins = 0;
+      a += 1;
     }
   }
-  console.log(groups)
+  console.log(groups);
+  console.log(user);
 </script>
 
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
 
-    <h3>Organized by: {config.organizerName || '-'}</h3>
+    <h3>Organized by: {config.organizerName || "-"}</h3>
     <Tooltip
       text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
-      <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup} on:mouseenter={toggleTooltip} on:mouseleave={toggleTooltip}
-        >EXPORT TO PLAYOFFS</Button
+      <Button
+        disabled={groupWinners.length < 2}
+        on:cClick={leaveGroup}
+        on:mouseenter={toggleTooltip}
+        on:mouseleave={toggleTooltip}>EXPORT TO PLAYOFFS</Button
       >
     </Tooltip>
-    {#if !user.isGuest}
+    {#if !user.isGuest && user.username}
       <Button on:cClick={() => save(groups)}>SAVE</Button>
     {/if}
   </div>
@@ -461,17 +481,34 @@
           <table>
             <tr>
               <th> Name </th>
-              <th on:click={() => toggleSortOrder('playedMatches', selected.index)}>PL</th>
-              <th on:click={() => toggleSortOrder('score', selected.index)}>Score</th>
-              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th>
-              <th on:click={() => toggleSortOrder('draws', selected.index)}>D</th>
-              <th on:click={() => toggleSortOrder('losses', selected.index)}>L</th>
-              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}>GD</th>
+              <th
+                on:click={() =>
+                  toggleSortOrder("playedMatches", selected.index)}>PL</th
+              >
+              <th on:click={() => toggleSortOrder("score", selected.index)}
+                >Score</th
+              >
+              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
+              >
+              <th on:click={() => toggleSortOrder("draws", selected.index)}
+                >D</th
+              >
+              <th on:click={() => toggleSortOrder("losses", selected.index)}
+                >L</th
+              >
+              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
+                >GD</th
+              >
             </tr>
             {#each selected.participants as participant}
               <tr>
                 <td>
-                  <input type="text" placeholder="Insert name here" bind:value={participant.name} on:input={updateName(participant.name)} />
+                  <input
+                    type="text"
+                    placeholder="Insert name here"
+                    bind:value={participant.name}
+                    on:input={updateName(participant.name)}
+                  />
                 </td>
                 <td>{participant.playedMatches}</td>
                 <td>{participant.score}</td>
@@ -484,13 +521,22 @@
           </table>
           <div class="resolve-button-container">
             {#if selected && !checkIfBlacklisted()}
-              <Tooltip text="Once you have played all the matches in this group press this button to finalize the results for the group in question.">
-                <Button class="finish-button" on:cClick={() => calcWinner(selected)}>Finish this Group</Button>
+              <Tooltip
+                text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
+              >
+                <Button
+                  class="finish-button"
+                  on:cClick={() => calcWinner(selected)}
+                  >Finish this Group</Button
+                >
               </Tooltip>
               <Tooltip
                 text="Press to create a match schedule for all the group's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
               >
-                <Button class="schedule-create-button" disabled={agmatches.length > 0} on:cClick={() => autoCreateMatch(1)}
+                <Button
+                  class="schedule-create-button"
+                  disabled={agmatches.length > 0}
+                  on:cClick={() => autoCreateMatch(1)}
                   >GENERATE A MATCH SCHEDULE</Button
                 >
               </Tooltip>
@@ -499,12 +545,9 @@
                 disabled={agmatches.length == 0}
                 on:cClick={toggleMatches}>Show schedule</Button
               >
-              <Button
-              class="resolve-button"
-        
-              on:cClick={resetscore}>reset</Button
-            >
-
+              <Button class="resolve-button" on:cClick={resetscore}
+                >reset</Button
+              >
             {/if}
           </div>
         </div>
@@ -518,7 +561,10 @@
           }}
         >
           <h1>NO GROUP SELECTED</h1>
-          <p>Select a group from the left menu to view and edit your groups in the tournament.</p>
+          <p>
+            Select a group from the left menu to view and edit your groups in
+            the tournament.
+          </p>
         </div>
       {/if}
     </div>
@@ -527,7 +573,9 @@
         text="Below is a list of concluded matches and their results in all groups. You can hide
       the results from view by toggling the SHOW/HIDE RESULTS button."
       >
-        <Button class="results-toggle-button" on:cClick={toggleResults}>{showResults ? 'Hide Results' : 'Show Results'}</Button>
+        <Button class="results-toggle-button" on:cClick={toggleResults}
+          >{showResults ? "Hide Results" : "Show Results"}</Button
+        >
       </Tooltip>
       {#if showResults}
         <div class="flex-container" transition:slide>
@@ -547,7 +595,11 @@
           easing: quintOut,
         }}
       >
-        <Match {match} on:winnerevent={resolve} on:cancelevent={() => (match = [])} />
+        <Match
+          {match}
+          on:winnerevent={resolve}
+          on:cancelevent={() => (match = [])}
+        />
       </div>
     {/if}
   </div>
@@ -558,16 +610,26 @@
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
         <div class="schedule-content">
-          <Tooltip text="Clears and cancels the remaining schedule made for this group.">
-            <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}>Cancel matches</Button>
+          <Tooltip
+            text="Clears and cancels the remaining schedule made for this group."
+          >
+            <Button
+              class="cancel-match-button"
+              on:cClick={() => (agmatches = [])}>Cancel matches</Button
+            >
           </Tooltip>
 
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
-              <Automatches {agmatch} on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])} />
+              <Automatches
+                {agmatch}
+                on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+              />
             {/each}
           </div>
-          <Button class="add-player-exit-button" on:cClick={toggleMatches}>CLOSE SCHEDULE</Button>
+          <Button class="add-player-exit-button" on:cClick={toggleMatches}
+            >CLOSE SCHEDULE</Button
+          >
         </div>
       </div>
     {/if}{/if}
@@ -831,7 +893,11 @@
     left: 23%;
     color: #ffffff;
     padding: 1em 3em;
-    background: linear-gradient(129deg, rgba(5, 5, 40, 0.7) 0%, rgba(15, 11, 40, 0.7) 100%);
+    background: linear-gradient(
+      129deg,
+      rgba(5, 5, 40, 0.7) 0%,
+      rgba(15, 11, 40, 0.7) 100%
+    );
     border-radius: 40px;
     z-index: 100;
     border: solid 1px #ffffff3f;
