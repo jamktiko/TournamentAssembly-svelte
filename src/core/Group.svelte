@@ -1,26 +1,26 @@
 <script>
-  import cch from '../utils/cache';
-  import stateController from '../utils/stateStore';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
-  import Automatches from '../reusable/Automatches.svelte';
-  import { onDestroy } from 'svelte';
-  import { push } from 'svelte-spa-router';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
-  import Tooltip from '../reusable/Tooltip.svelte';
-  import { loadFromSession } from '../utils/lib';
+  import cch from "../utils/cache";
+  import stateController from "../utils/stateStore";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+  import Automatches from "../reusable/Automatches.svelte";
+  import { onDestroy } from "svelte";
+  import { push } from "svelte-spa-router";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
+  import Tooltip from "../reusable/Tooltip.svelte";
+  import { loadFromSession } from "../utils/lib";
 
   export let params;
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem('user')) {
-    user = loadFromSession('user');
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
     stateController.set(user);
   }
 
@@ -36,8 +36,8 @@
   let blacklisted = [];
 
   onDestroy(() => {
-    cch.saveToCache('groups', groups);
-    cch.saveToCache('groupsConf', config);
+    cch.saveToCache("groups", groups);
+    cch.saveToCache("groupsConf", config);
 
     if (user.state) delete user.state;
     console.log(user);
@@ -45,8 +45,8 @@
     if (unsub) unsub();
   });
 
-  if (cch.isInCache('groups')) {
-    groups = cch.getFromCache('groups');
+  if (cch.isInCache("groups")) {
+    groups = cch.getFromCache("groups");
   } else {
     generateGroups(config);
   }
@@ -75,7 +75,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: '',
+          name: "",
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -111,12 +111,12 @@
   function checkIfBlacklisted() {
     return blacklisted.includes(selected.id);
   }
-  let value = '';
+  let value = "";
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -175,7 +175,7 @@
           },
         ],
         draw: true,
-        group: 'group ' + (selected.id + 1),
+        group: "group " + (selected.id + 1),
       });
       console.log(selected.id);
     } else {
@@ -203,7 +203,7 @@
               },
             ],
             draw: false,
-            group: 'group ' + (selected.id + 1),
+            group: "group " + (selected.id + 1),
           },
         ]);
       } else {
@@ -222,18 +222,18 @@
               },
             ],
             draw: false,
-            group: 'group ' + (selected.id + 1),
+            group: "group " + (selected.id + 1),
           },
         ]);
       }
     }
     console.log(sortBy);
 
-    sortBy = '';
-    if (sortBy === 'score') {
-      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
+    sortBy = "";
+    if (sortBy === "score") {
+      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
     } else {
-      toggleSortOrder('score', selected.id);
+      toggleSortOrder("score", selected.id);
     }
 
     match = [];
@@ -260,7 +260,7 @@
       a += 1;
     }
 
-    if (winner.name != '') {
+    if (winner.name != "") {
       groupWinners.push(winner);
       console.log(groupWinners);
       selected = null;
@@ -355,17 +355,17 @@
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
     playoffconfig.organizerName = config.organizerName;
-    playoffconfig.tourDecider = '';
+    playoffconfig.tourDecider = "";
 
-    if (!playoffconfig.bestOf){
-      playoffconfig.bestOf = 1
+    if (!playoffconfig.bestOf) {
+      playoffconfig.bestOf = 1;
     }
     playoffconfig.players = [];
     while (pusher < groupWinners.length) {
       playoffconfig.players.push(groupWinners[pusher].name);
       pusher += 1;
     }
-    config = playoffconfig
+    config = playoffconfig;
     AddCorrectAmount();
     push(`/playoffs/${cch.tokenify(config)}`);
   }
@@ -376,7 +376,7 @@
   function AddCorrectAmount() {
     if (playoffconfig.players.length == 3) {
       randomnum();
-      playoffconfig.players.push('PLAYER_' + num);
+      playoffconfig.players.push("PLAYER_" + num);
       playoffconfig.players = [...playoffconfig.players];
     }
     let place = 3;
@@ -385,7 +385,7 @@
       playoffconfig.players.length < 8
     ) {
       randomnum();
-      playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
+      playoffconfig.players.splice(place, 0, "PLAYER_" + num);
 
       playoffconfig.players = [...playoffconfig.players];
       place += 2;
@@ -412,7 +412,7 @@
     showTooltip = !showTooltip;
   }
   function resetscore() {
-    agmatches = []
+    agmatches = [];
     let a = 0;
     while (a < selected.participants.length) {
       selected.participants[a].draws = 0;
@@ -432,7 +432,7 @@
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
 
-    <h3>Organized by: {config.organizerName || '-'}</h3>
+    <h3>Organized by: {config.organizerName || "-"}</h3>
     <Tooltip
       text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
@@ -498,20 +498,20 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder('playedMatches', selected.index)}>PL</th
+                  toggleSortOrder("playedMatches", selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder('score', selected.index)}
+              <th on:click={() => toggleSortOrder("score", selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
+              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder('draws', selected.index)}
+              <th on:click={() => toggleSortOrder("draws", selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder('losses', selected.index)}
+              <th on:click={() => toggleSortOrder("losses", selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
+              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
                 >GD</th
               >
             </tr>
@@ -579,7 +579,7 @@
       the results from view by toggling the SHOW/HIDE RESULTS button."
       >
         <Button class="results-toggle-button" on:cClick={toggleResults}
-          >{showResults ? 'Hide Results' : 'Show Results'}</Button
+          >{showResults ? "Hide Results" : "Show Results"}</Button
         >
       </Tooltip>
       {#if showResults}

@@ -393,10 +393,11 @@
 
   .delete-round-button {
     font-size: 1.1em;
-    padding: 0.25em 0.75em;
+    padding: 0em 0.5em;
+    padding-top: 0.25em;
+    margin: 0em;
     border-radius: 10px;
     text-transform: uppercase;
-    margin: 0.25em;
     background: linear-gradient(
       180deg,
       rgba(167, 0, 0, 0.4) 0%,
@@ -411,10 +412,11 @@
 
   .delete-player-button {
     font-size: 1.1em;
-    padding: 0.25em 0.75em;
+    padding: 0em 0.5em;
+    padding-top: 0.25em;
+    margin: 0em;
     border-radius: 10px;
     text-transform: uppercase;
-    margin: 0.25em;
     background: linear-gradient(
       90deg,
       rgba(167, 0, 0, 0.4) 0%,
