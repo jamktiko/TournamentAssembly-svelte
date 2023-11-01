@@ -50,7 +50,7 @@
   const pointsPerWin = [1, 2, 3, 4, 5];
   const pointsForDraw = [0, 1, 2];
 
-  const bestOf = [3, 5, 7];
+  const bestOf = [1, 3, 5, 7];
   const deciderTypes = ['Wins'];
 
   let selectedDecider = '';
