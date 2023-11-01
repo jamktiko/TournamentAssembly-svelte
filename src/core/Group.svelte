@@ -245,8 +245,21 @@
 
   function calcWinner(group) {
     // Needs to be attached to customizations
+    let a = 0
+    let winner = selected.participants[a];
+    while (a < selected.participants.length){
+      if (winner.score < selected.participants[a].score){
+        winner = selected.participants[a]
+      } 
 
-    let winner = selected.participants.sort((a, b) => a.score < b.score)[0];
+      if (winner.score == selected.participants[a].score ){
+
+      if (winner.goalDiff < selected.participants[a].goalDiff){
+
+        winner = selected.participants[a]
+      } }
+      a += 1
+    }
 
     if (winner.name != '') {
       groupWinners.push(winner);

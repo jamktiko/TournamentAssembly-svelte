@@ -299,16 +299,6 @@
           </select>
         </div>
         <div>
-          <label for="deciderType">Decider Type</label>
-          <br />
-          <select id="deciderType" bind:value={config.tourDecider} on:change={handleSelection}>
-            <option value="" disabled>SELECT</option>
-            {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
-              <option value={tournamentDecider}>{tournamentDecider}</option>
-            {/each}
-          </select>
-        </div>
-        <div>
           <label for="teamsinGroup">Teams in Group</label>
           <br />
           <select id="teamsinGroup" bind:value={config.teamsInGroup} on:change={handleSelection}>
@@ -432,14 +422,6 @@
           </Tooltip>
         </div>
         <div>
-          <label for="deciderType">Decider Type</label>
-          <br />
-          <select id="deciderType" bind:value={selectedDecider} on:change={handleSelection}>
-            <option value="" disabled selected>SELECT</option>
-            {#each deciderTypes as deciderType (deciderType)}
-              <option value={deciderType}>{deciderType}</option>
-            {/each}
-          </select>
         </div>
         <div class="playoffs-button-container">
           {#if isTablet}
@@ -467,16 +449,6 @@
           axis: 'y',
         }}
       >
-        <div>
-          <label for="deciderType">Decider Type</label>
-          <br />
-          <select id="deciderType" bind:value={config.tourDecider} on:change={handleSelection}>
-            <option value="" disabled selected>SELECT</option>
-            {#each tournamentDeciders as tournamentDecider (tournamentDecider)}
-              <option value={tournamentDecider}>{tournamentDecider}</option>
-            {/each}
-          </select>
-        </div>
         <div>
           <label for="pointsPerWin">Points for Win</label>
           <br />
@@ -506,17 +478,17 @@
         <Button class="playoffs-buttons" disabled={playerAmountOk == true} on:cClick={fill}>Autofill Brackets</Button>
       </div>
     {/if}
-    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && selectedDecider.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
+    {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
       <div class="createButton">
         <Button on:cClick={autofill}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
     {/if}
-    {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.tourDecider != '' && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
+    {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
         <Button on:cClick={setParticipants}>CREATE</Button>
       </div>
