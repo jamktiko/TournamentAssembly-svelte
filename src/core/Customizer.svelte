@@ -1,25 +1,25 @@
 <script>
-  import cch from '../utils/cache';
-  import { calcId } from '../utils/lib';
+  import cch from "../utils/cache";
+  import { calcId } from "../utils/lib";
 
-  import Tooltip from '../reusable/Tooltip.svelte';
-  import { slide } from 'svelte/transition';
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import Playerlist from '../reusable/Playerlist.svelte';
-  import { quintOut } from 'svelte/easing';
-  import { loadFromSession } from '../utils/lib';
+  import Tooltip from "../reusable/Tooltip.svelte";
+  import { slide } from "svelte/transition";
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import Playerlist from "../reusable/Playerlist.svelte";
+  import { quintOut } from "svelte/easing";
+  import { loadFromSession } from "../utils/lib";
 
-  import stateController from '../utils/stateStore';
-  import { onDestroy } from 'svelte';
+  import stateController from "../utils/stateStore";
+  import { onDestroy } from "svelte";
 
   export let params;
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem('user')) {
-    user = loadFromSession('user');
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
     stateController.set(user);
   }
 
@@ -32,20 +32,20 @@
   let selectedMenu = params.id;
 
   let config = {
-    tournamentName: '',
-    organizerName: '',
-    numberOfGroups: '',
-    teamsInGroup: '',
-    tourDecider: '',
-    pointsPerWin: '',
-    pointsPerDraw: '',
-    numberOfRounds: '',
-    bestOf: '',
+    tournamentName: "",
+    organizerName: "",
+    numberOfGroups: "",
+    teamsInGroup: "",
+    tourDecider: "",
+    pointsPerWin: "",
+    pointsPerDraw: "",
+    numberOfRounds: "",
+    bestOf: "",
     players: [],
   };
 
   const numberGroups = [4, 6, 8];
-  const tournamentDeciders = ['Goal Difference', 'Wins'];
+  const tournamentDeciders = ["Goal Difference", "Wins"];
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [1, 2, 3, 4, 5];
   const pointsForDraw = [0, 1, 2];
@@ -53,27 +53,28 @@
   const bestOf = [1, 3, 5, 7];
   const deciderTypes = ['Wins'];
 
-  let selectedDecider = '';
+
+  let selectedDecider = "";
 
   function handleSelection(event, selectionType) {
     const value = event.target.value;
     switch (selectionType) {
-      case 'groups':
+      case "groups":
         selectedGroups = value;
         break;
-      case 'tournamentDecider':
+      case "tournamentDecider":
         selectedTournamentDecider = value;
         break;
-      case 'teamgroups':
+      case "teamgroups":
         selectedTeamGroups = value;
         break;
-      case 'pointsperwin':
+      case "pointsperwin":
         selectedPointsPerWin = value;
         break;
-      case 'pointsfordraw':
+      case "pointsfordraw":
         selectedPointsForDraw = value;
         break;
-      case 'decider':
+      case "decider":
         selectedDecider = value;
         break;
       default:
@@ -82,7 +83,7 @@
   }
 
   function handlePlayerList(ce) {
-    if (ce.detail != '.') {
+    if (ce.detail != ".") {
       ce.detail.forEach((i) => config.players.push(i));
       config.players = [...config.players];
     } else {
@@ -106,13 +107,13 @@
     }
 
     switch (params.id) {
-      case 'playoffs':
+      case "playoffs":
         push(`/playoffs/${cch.tokenify(config)}`);
         break;
-      case 'groups':
+      case "groups":
         push(`/groups/${cch.tokenify(config)}`);
         break;
-      case 'league':
+      case "league":
         push(`/league/${cch.tokenify(config)}`);
     }
   }
@@ -173,7 +174,7 @@
         config.players.length != 1024
       ) {
         randomnum();
-        config.players.push('PLAYER_' + num);
+        config.players.push("PLAYER_" + num);
       } else {
         config.players = [...config.players];
         break;
@@ -195,7 +196,7 @@
         config.players.length != 1024
       ) {
         randomnum();
-        config.players.splice(place, 0, 'PLAYER_' + num);
+        config.players.splice(place, 0, "PLAYER_" + num);
         place += 2;
       } else {
         config.players = [...config.players];
@@ -218,15 +219,15 @@
   /* Function check if the window is for tablet, used for alternative playerlist */
   let isTablet = false;
   const checkScreenSize = () => {
-    isTablet = window.matchMedia('(max-width: 1450px)').matches;
+    isTablet = window.matchMedia("(max-width: 1450px)").matches;
   };
   checkScreenSize();
-  window.addEventListener('resize', checkScreenSize);
+  window.addEventListener("resize", checkScreenSize);
 
   function scrollToTop() {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', // Use 'auto' for instant scrolling
+      behavior: "smooth", // Use 'auto' for instant scrolling
     });
   }
 
@@ -257,7 +258,7 @@
               event.target.value = event.target.value.replace(
                 /[^A-Za-z0-9\s]/g,
 
-                ''
+                ""
               ); // Remove invalid characters
               config.tournamentName = event.target.value;
             }
@@ -277,7 +278,7 @@
               event.target.value = event.target.value.replace(
                 /[^A-Za-z0-9\s]/g,
 
-                ''
+                ""
               ); // Remove invalid characters
               config.organizerName = event.target.value;
             }
@@ -286,12 +287,16 @@
       </div>
     </div>
     <!-- Groups Menu -->
-    {#if selectedMenu == 'groups'}
+    {#if selectedMenu == "groups"}
       <div class="customizer-settings">
         <div>
           <label for="numberofGroups">Number of Groups</label>
           <br />
-          <select id="numberofGroups" bind:value={config.numberOfGroups} on:change={handleSelection}>
+          <select
+            id="numberofGroups"
+            bind:value={config.numberOfGroups}
+            on:change={handleSelection}
+          >
             <option value="" selected disabled>SELECT</option>
             {#each numberGroups as numberGroup (numberGroup)}
               <option value={numberGroup}>{numberGroup}</option>
@@ -301,7 +306,11 @@
         <div>
           <label for="teamsinGroup">Teams in Group</label>
           <br />
-          <select id="teamsinGroup" bind:value={config.teamsInGroup} on:change={handleSelection}>
+          <select
+            id="teamsinGroup"
+            bind:value={config.teamsInGroup}
+            on:change={handleSelection}
+          >
             <option value="" selected disabled>SELECT</option>
             {#each teamsGroups as teamGroup (teamGroup)}
               <option value={teamGroup}>{teamGroup}</option>
@@ -311,7 +320,11 @@
         <div>
           <label for="pointsPerWin">Points for Win</label>
           <br />
-          <select id="pointsPerWin" bind:value={config.pointsPerWin} on:change={handleSelection}>
+          <select
+            id="pointsPerWin"
+            bind:value={config.pointsPerWin}
+            on:change={handleSelection}
+          >
             <option value="" disabled selected>SELECT</option>
             {#each pointsPerWin as pointsPerWin (pointsPerWin)}
               <option value={pointsPerWin}>{pointsPerWin}</option>
@@ -321,7 +334,11 @@
         <div>
           <label for="pointsPerDraw">Points for Draw</label>
           <br />
-          <select id="pointsPerDraw" bind:value={config.pointsPerDraw} on:change={handleSelection}>
+          <select
+            id="pointsPerDraw"
+            bind:value={config.pointsPerDraw}
+            on:change={handleSelection}
+          >
             <option value="" disabled selected>SELECT</option>
             {#each pointsForDraw as pointsForDraw (pointsForDraw)}
               <option value={pointsForDraw}>{pointsForDraw}</option>
@@ -331,11 +348,17 @@
       </div>
     {/if}
     <!-- Playoffs Menu -->
-    {#if params.id == 'playoffs'}
+    {#if params.id == "playoffs"}
       {#if isTablet}
         {#if !playerlistExpanded}
-          <Button class="expand-playerlist-button-open" on:cClick={expandPlayerlist}
-            ><svg class="expand-arrows" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"
+          <Button
+            class="expand-playerlist-button-open"
+            on:cClick={expandPlayerlist}
+            ><svg
+              class="expand-arrows"
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 512 512"
               ><path
                 d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"
               /></svg
@@ -345,11 +368,14 @@
         {#if playerlistExpanded}
           <!-- svelte-ignore a11y-click-events-have-key-events -->
           <div on:click={expandPlayerlist} class="backdrop" />
-          <div class="playerlist" transition:slide={{ axis: 'x', duration: 500 }}>
+          <div
+            class="playerlist"
+            transition:slide={{ axis: "x", duration: 500 }}
+          >
             <h2 class="list-header">List of players</h2>
             <p id="player-count">Player count: {config.players.length}</p>
             <Button class="expand-button" on:cClick={togglePlayerlist}>
-              {showPlayerlist ? 'Hide Players' : 'Show Players'}
+              {showPlayerlist ? "Hide Players" : "Show Players"}
             </Button>
             {#if showPlayerlist}
               <div transition:slide>
@@ -359,7 +385,10 @@
                       {player}
                     </div>
                     <div>
-                      <Button class="remove-player-button" on:cClick={removePlayer(player)}>Delete</Button>
+                      <Button
+                        class="remove-player-button"
+                        on:cClick={removePlayer(player)}>Delete</Button
+                      >
                     </div>
                   </div>
                 {/each}
@@ -368,11 +397,11 @@
           </div>
         {/if}
       {:else}
-        <div class="playerlist" transition:slide={{ axis: 'y', duration: 500 }}>
+        <div class="playerlist" transition:slide={{ axis: "y", duration: 500 }}>
           <h2 class="list-header">List of players</h2>
           <p id="player-count">Player count: {config.players.length}</p>
           <Button class="expand-button" on:cClick={togglePlayerlist}>
-            {showPlayerlist ? 'Hide Players' : 'Show Players'}
+            {showPlayerlist ? "Hide Players" : "Show Players"}
           </Button>
           {#if showPlayerlist}
             <div transition:slide>
@@ -382,7 +411,10 @@
                     {player}
                   </div>
                   <div>
-                    <Button class="remove-player-button" on:cClick={removePlayer(player)}>Delete</Button>
+                    <Button
+                      class="remove-player-button"
+                      on:cClick={removePlayer(player)}>Delete</Button
+                    >
                   </div>
                 </div>
               {/each}
@@ -391,13 +423,13 @@
         </div>
       {/if}
     {/if}
-    {#if selectedMenu == 'playoffs'}
+    {#if selectedMenu == "playoffs"}
       <div
         class="customizer-settings"
         in:slide={{
           duration: 700,
           easing: quintOut,
-          axis: 'y',
+          axis: "y",
         }}
       >
         {#if playerListVisible}
@@ -412,8 +444,14 @@
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
-          <Tooltip text="Defines how many match wins are needed in order to advance to the next round.">
-            <select id="roundSelection" bind:value={config.bestOf} on:change={handleSelection}>
+          <Tooltip
+            text="Defines how many match wins are needed in order to advance to the next round."
+          >
+            <select
+              id="roundSelection"
+              bind:value={config.bestOf}
+              on:change={handleSelection}
+            >
               <option value="" disabled selected>SELECT</option>
               {#each bestOf as numberRound (numberRound)}
                 <option value={numberRound}>{numberRound}</option>
@@ -433,26 +471,35 @@
             on:cClick={() => (playerListVisible = !playerListVisible)}
             on:cClick={() => (playerlistExpanded = true)}>Add Players</Button
           >
-          <Tooltip text="Puts the players participating in random order for the playoff brackets.">
-            <Button class="playoffs-buttons" on:cClick={randomizePlayers(config.players)}>Randomize</Button>
+          <Tooltip
+            text="Puts the players participating in random order for the playoff brackets."
+          >
+            <Button
+              class="playoffs-buttons"
+              on:cClick={randomizePlayers(config.players)}>Randomize</Button
+            >
           </Tooltip>
         </div>
       </div>
     {/if}
     <!-- League Menu -->
-    {#if selectedMenu == 'league'}
+    {#if selectedMenu == "league"}
       <div
         class="customizer-settings"
         in:slide={{
           duration: 700,
           easing: quintOut,
-          axis: 'y',
+          axis: "y",
         }}
       >
         <div>
           <label for="pointsPerWin">Points for Win</label>
           <br />
-          <select id="pointsPerWin" bind:value={config.pointsPerWin} on:change={handleSelection}>
+          <select
+            id="pointsPerWin"
+            bind:value={config.pointsPerWin}
+            on:change={handleSelection}
+          >
             <option value="" disabled selected>SELECT</option>
             {#each pointsPerWin as pointsPerWin (pointsPerWin)}
               <option value={pointsPerWin}>{pointsPerWin}</option>
@@ -462,7 +509,11 @@
         <div>
           <label for="pointsPerDraw">Points for Draw</label>
           <br />
-          <select id="pointsPerDraw" bind:value={config.pointsPerDraw} on:change={handleSelection}>
+          <select
+            id="pointsPerDraw"
+            bind:value={config.pointsPerDraw}
+            on:change={handleSelection}
+          >
             <option value="" disabled selected>SELECT</option>
             {#each pointsForDraw as pointsForDraw (pointsForDraw)}
               <option value={pointsForDraw}>{pointsForDraw}</option>
@@ -472,25 +523,35 @@
       </div>
     {/if}
     <!-- Create buttons -->
-    {#if params.id == 'playoffs'}
+    {#if params.id == "playoffs"}
       <div>
-        <p class="fill-info-text">Fills the game with enough placeholder players to start the game.</p>
-        <Button class="playoffs-buttons" disabled={playerAmountOk == true} on:cClick={fill}>Autofill Brackets</Button>
+        <p class="fill-info-text">
+          Fills the game with enough placeholder players to start the game.
+        </p>
+        <Button
+          class="playoffs-buttons"
+          disabled={playerAmountOk == true}
+          on:cClick={fill}>Autofill Brackets</Button
+        >
       </div>
     {/if}
+
     {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
       <div class="createButton">
-        <Button on:cClick={autofill}>CREATE</Button>
+        <Button class="create-button" on:cClick={autofill}>CREATE</Button>
       </div>
     {/if}
+
     {#if params.id == 'groups' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.numberOfGroups > 0 && config.teamsInGroup > 0 && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
-        <Button on:cClick={setParticipants}>CREATE</Button>
+        <Button class="create-button" on:cClick={setParticipants}>CREATE</Button
+        >
       </div>
     {/if}
     {#if params.id == 'league' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.pointsPerWin > 0 && config.pointsPerDraw >= 0}
       <div class="createButton">
-        <Button on:cClick={setParticipants}>CREATE</Button>
+        <Button class="create-button" on:cClick={setParticipants}>CREATE</Button
+        >
       </div>
     {/if}
   </div>
@@ -619,7 +680,11 @@
     position: absolute;
     top: 16em;
     left: 0.75em;
-    background: linear-gradient(129deg, rgba(0, 0, 0, 0.366) 0%, rgba(5, 0, 24, 0.285) 100%);
+    background: linear-gradient(
+      129deg,
+      rgba(0, 0, 0, 0.366) 0%,
+      rgba(5, 0, 24, 0.285) 100%
+    );
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     font-size: 1em;
     color: white;
