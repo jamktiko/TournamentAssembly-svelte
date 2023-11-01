@@ -107,6 +107,14 @@
 
     console.log(res);
   }
+
+  /* Function check if the window is for tablet, used for alternative playerlist */
+  let isTablet = false;
+  const checkScreenSize = () => {
+    isTablet = window.matchMedia('(max-width: 1450px)').matches;
+  };
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
 </script>
 
 <main in:slide>
@@ -120,70 +128,173 @@
     <Button class="add-button" on:cClick={addRow}>ADD PLAYER</Button>
     <Button class="add-button" on:cClick={addColumn}>ADD ROUND</Button>
   </div>
+
   <div class="table-container">
     {#if !user.isGuest && user.username}
       <Button class="save-button" on:cClick={save}>SAVE</Button>
     {/if}
-    <table>
-      <thead>
-        <tr>
-          <th class="custom-thead" />
-          <th class="custom-thead" />
-          {#each gridData[0].columns as column, colIdx}
-            <th class="custom-thead">
-              <Button
-                class="delete-round-button"
-                on:cClick={() => removeColumn(colIdx)}>Delete Round</Button
+  </div>
+  {#if !isTablet}
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th class="custom-thead" />
+            <th class="custom-thead" />
+            {#each gridData[0].columns as column, colIdx}
+              <th class="custom-thead">
+                <Button
+                  class="delete-round-button"
+                  on:cClick={() => removeColumn(colIdx)}
+                  ><svg
+                    class="trash-can"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="1em"
+                    viewBox="0 0 448 512"
+                    ><path
+                      d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"
+                    /></svg
+                  ></Button
+                >
+              </th>
+            {/each}
+            <th class="custom-thead" />
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th class="custom-thead" />
+            <th>NAME</th>
+            {#each gridData[0].columns as column, colIdx}
+              <th class="round-th">ROUND {colIdx + 1}</th>
+            {/each}
+            <th class="total-td">TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each gridData as row, rowIdx}
+            <tr transition:slide>
+              <td class="custom-thead"
+                ><Button
+                  class="delete-player-button"
+                  on:cClick={() => removeRow(rowIdx)}
+                  ><svg
+                    class="trash-can"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="1em"
+                    viewBox="0 0 448 512"
+                    ><path
+                      d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"
+                    /></svg
+                  ></Button
+                ></td
               >
-            </th>
-          {/each}
-          <th class="custom-thead" />
-        </tr>
-      </thead>
-      <thead>
-        <tr>
-          <th class="custom-thead" />
-          <th>NAME</th>
-          {#each gridData[0].columns as column, colIdx}
-            <th class="round-th">ROUND {colIdx + 1}</th>
-          {/each}
-          <th class="total-td">TOTAL</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each gridData as row, rowIdx}
-          <tr transition:slide>
-            <td class="custom-thead"
-              ><Button
-                class="delete-player-button"
-                on:cClick={() => removeRow(rowIdx)}>DELETE Player</Button
-              ></td
-            >
-            <td
-              ><input
-                type="text"
-                class="input-name"
-                placeholder="ENTER PLAYER NAME"
-                bind:value={row.name}
-                on:input={(event) => updateRowName(rowIdx, event)}
-              /></td
-            >
-            {#each row.columns as column, colIdx}
-              <td class="round-td" transition:fade
+              <td
                 ><input
-                  type="number"
-                  class="input-score"
-                  bind:value={column}
-                  on:input={(event) => updateCellValue(rowIdx, colIdx, event)}
+                  type="text"
+                  class="input-name"
+                  placeholder="ENTER PLAYER NAME"
+                  bind:value={row.name}
+                  on:input={(event) => updateRowName(rowIdx, event)}
                 /></td
               >
+              {#each row.columns as column, colIdx}
+                <td class="round-td" transition:fade
+                  ><input
+                    type="number"
+                    class="input-score"
+                    bind:value={column}
+                    on:input={(event) => updateCellValue(rowIdx, colIdx, event)}
+                  /></td
+                >
+              {/each}
+              <td class="total-td">{calculateRowTotal(row)}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {:else}
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th class="custom-thead" />
+            <th class="custom-thead" />
+            {#each gridData[0].columns as column, colIdx}
+              <th class="custom-thead">
+                <Button
+                  class="delete-round-button"
+                  on:cClick={() => removeColumn(colIdx)}
+                  ><svg
+                    class="trash-can"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="1em"
+                    viewBox="0 0 448 512"
+                    ><path
+                      d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"
+                    /></svg
+                  ></Button
+                >
+              </th>
             {/each}
-            <td class="total-td">{calculateRowTotal(row)}</td>
+            <th class="custom-thead" />
           </tr>
-        {/each}
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <thead>
+          <tr>
+            <th class="custom-thead" />
+            <th class="name-td">NAME</th>
+            {#each gridData[0].columns as column, colIdx}
+              <th class="round-th">ROUND {colIdx + 1}</th>
+            {/each}
+            <th class="total-td">TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each gridData as row, rowIdx}
+            <tr transition:slide>
+              <td class="custom-thead"
+                ><Button
+                  class="delete-player-button"
+                  on:cClick={() => removeRow(rowIdx)}
+                  ><svg
+                    class="trash-can"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="1em"
+                    viewBox="0 0 448 512"
+                    ><path
+                      d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"
+                    /></svg
+                  ></Button
+                ></td
+              >
+              <td class="name-td"
+                ><input
+                  type="text"
+                  class="input-name"
+                  placeholder="ENTER PLAYER NAME"
+                  bind:value={row.name}
+                  on:input={(event) => updateRowName(rowIdx, event)}
+                /></td
+              >
+              {#each row.columns as column, colIdx}
+                <td class="round-td" transition:fade
+                  ><input
+                    type="number"
+                    class="input-score"
+                    bind:value={column}
+                    on:input={(event) => updateCellValue(rowIdx, colIdx, event)}
+                  /></td
+                >
+              {/each}
+              <td class="total-td">{calculateRowTotal(row)}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {/if}
 </main>
 
 <style>
@@ -308,7 +419,7 @@
     justify-content: center;
     align-items: normal;
     align-content: normal;
-    margin: 2.5em 0em;
+    margin-top: 2.5em;
   }
 
   .table-container {
@@ -319,5 +430,29 @@
     justify-content: flex-start;
     align-items: center;
     align-content: center;
+  }
+
+  .trash-can {
+    fill: #fff;
+  }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1450px) {
+    table {
+      scale: 0.9;
+      margin: 0;
+      max-width: 100%;
+      overflow-anchor: left;
+    }
+
+    .name-td {
+      position: static;
+      left: 0;
+      background-color: #0a0630;
+    }
+
+    .total-td {
+      position: static;
+    }
   }
 </style>
