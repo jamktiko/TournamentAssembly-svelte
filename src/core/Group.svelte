@@ -270,8 +270,14 @@
       let contB = 1;
       while (contA < selected.participants.length) {
         while (contB < selected.participants.length) {
-          if (selected.participants[contA].name.length > 0 && selected.participants[contB].name.length > 0) {
-            agmatches.push([selected.participants[contA], selected.participants[contB]]);
+          if (
+            selected.participants[contA].name.length > 0 &&
+            selected.participants[contB].name.length > 0
+          ) {
+            agmatches.push([
+              selected.participants[contA],
+              selected.participants[contB],
+            ]);
           }
           contB += 1;
         }
@@ -307,7 +313,10 @@
   function deleteFromGenMatch(player1, player2) {
     let finder = 0;
     while (finder < agmatches.length) {
-      if (agmatches[finder][0].name == player1.name && agmatches[finder][1].name == player2.name) {
+      if (
+        agmatches[finder][0].name == player1.name &&
+        agmatches[finder][1].name == player2.name
+      ) {
         agmatches.splice(finder, 1);
       }
       finder += 1;
@@ -356,7 +365,10 @@
       playoffconfig.players = [...playoffconfig.players];
     }
     let place = 3;
-    while (playoffconfig.players.length > 4 && playoffconfig.players.length < 8) {
+    while (
+      playoffconfig.players.length > 4 &&
+      playoffconfig.players.length < 8
+    ) {
       randomnum();
       playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
 
@@ -370,7 +382,11 @@
   }
 
   async function save(state) {
-    const res = await stateController.updateTourState(state, user.config.id, user.username);
+    const res = await stateController.updateTourState(
+      state,
+      user.config.id,
+      user.username
+    );
 
     console.log(res);
   }
@@ -390,8 +406,11 @@
     <Tooltip
       text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
-      <Button disabled={groupWinners.length < 2} on:cClick={leaveGroup} on:mouseenter={toggleTooltip} on:mouseleave={toggleTooltip}
-        >EXPORT TO PLAYOFFS</Button
+      <Button
+        disabled={groupWinners.length < 2}
+        on:cClick={leaveGroup}
+        on:mouseenter={toggleTooltip}
+        on:mouseleave={toggleTooltip}>EXPORT TO PLAYOFFS</Button
       >
     </Tooltip>
     {#if !user.isGuest}
@@ -431,21 +450,45 @@
             easing: quintOut,
           }}
         >
+          <Tooltip
+            text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
+          >
+            <Button class="finish-button" on:cClick={() => calcWinner(selected)}
+              >Finish this Group</Button
+            >
+          </Tooltip>
           <h2 id="group-name">{selected.name}</h2>
           <table>
             <tr>
               <th> Name </th>
-              <th on:click={() => toggleSortOrder('playedMatches', selected.index)}>PL</th>
-              <th on:click={() => toggleSortOrder('score', selected.index)}>Score</th>
-              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th>
-              <th on:click={() => toggleSortOrder('draws', selected.index)}>D</th>
-              <th on:click={() => toggleSortOrder('losses', selected.index)}>L</th>
-              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}>GD</th>
+              <th
+                on:click={() =>
+                  toggleSortOrder('playedMatches', selected.index)}>PL</th
+              >
+              <th on:click={() => toggleSortOrder('score', selected.index)}
+                >Score</th
+              >
+              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
+              >
+              <th on:click={() => toggleSortOrder('draws', selected.index)}
+                >D</th
+              >
+              <th on:click={() => toggleSortOrder('losses', selected.index)}
+                >L</th
+              >
+              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
+                >GD</th
+              >
             </tr>
             {#each selected.participants as participant}
               <tr>
                 <td>
-                  <input type="text" placeholder="Insert name here" bind:value={participant.name} on:input={updateName(participant.name)} />
+                  <input
+                    type="text"
+                    placeholder="Insert name here"
+                    bind:value={participant.name}
+                    on:input={updateName(participant.name)}
+                  />
                 </td>
                 <td>{participant.playedMatches}</td>
                 <td>{participant.score}</td>
@@ -458,17 +501,21 @@
           </table>
           <div class="resolve-button-container">
             {#if selected && !checkIfBlacklisted()}
-              <Tooltip text="Once you have played all the matches in this group press this button to finalize the results for the group in question.">
-                <Button class="finish-button" on:cClick={() => calcWinner(selected)}>Finish this Group</Button>
-              </Tooltip>
               <Tooltip
                 text="Press to create a match schedule for all the group's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
               >
-                <Button class="schedule-create-button" disabled={agmatches.length > 0} on:cClick={() => autoCreateMatch(1)}
+                <Button
+                  class="schedule-create-button"
+                  disabled={agmatches.length > 0}
+                  on:cClick={() => autoCreateMatch(1)}
                   >GENERATE A MATCH SCHEDULE</Button
                 >
               </Tooltip>
-              <Button class="resolve-button" disabled={agmatches.length == 0} on:cClick={toggleMatches}>Show schedule</Button>
+              <Button
+                class="resolve-button"
+                disabled={agmatches.length == 0}
+                on:cClick={toggleMatches}>Show schedule</Button
+              >
             {/if}
           </div>
         </div>
@@ -482,7 +529,10 @@
           }}
         >
           <h1>NO GROUP SELECTED</h1>
-          <p>Select a group from the left menu to view and edit your groups in the tournament.</p>
+          <p>
+            Select a group from the left menu to view and edit your groups in
+            the tournament.
+          </p>
         </div>
       {/if}
     </div>
@@ -491,7 +541,9 @@
         text="Below is a list of concluded matches and their results in all groups. You can hide
       the results from view by toggling the SHOW/HIDE RESULTS button."
       >
-        <Button class="results-toggle-button" on:cClick={toggleResults}>{showResults ? 'Hide Results' : 'Show Results'}</Button>
+        <Button class="results-toggle-button" on:cClick={toggleResults}
+          >{showResults ? 'Hide Results' : 'Show Results'}</Button
+        >
       </Tooltip>
       {#if showResults}
         <div class="flex-container" transition:slide>
@@ -511,7 +563,11 @@
           easing: quintOut,
         }}
       >
-        <Match {match} on:winnerevent={resolve} on:cancelevent={() => (match = [])} />
+        <Match
+          {match}
+          on:winnerevent={resolve}
+          on:cancelevent={() => (match = [])}
+        />
       </div>
     {/if}
   </div>
@@ -522,16 +578,26 @@
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
         <div class="schedule-content">
-          <Tooltip text="Clears and cancels the remaining schedule made for this group.">
-            <Button class="cancel-match-button" on:cClick={() => (agmatches = [])}>Cancel matches</Button>
+          <Tooltip
+            text="Clears and cancels the remaining schedule made for this group."
+          >
+            <Button
+              class="cancel-match-button"
+              on:cClick={() => (agmatches = [])}>Cancel matches</Button
+            >
           </Tooltip>
 
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
-              <Automatches {agmatch} on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])} />
+              <Automatches
+                {agmatch}
+                on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+              />
             {/each}
           </div>
-          <Button class="add-player-exit-button" on:cClick={toggleMatches}>CLOSE SCHEDULE</Button>
+          <Button class="add-player-exit-button" on:cClick={toggleMatches}
+            >CLOSE SCHEDULE</Button
+          >
         </div>
       </div>
     {/if}{/if}
@@ -648,6 +714,7 @@
   #group {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     flex-direction: column;
   }
@@ -795,7 +862,11 @@
     left: 23%;
     color: #ffffff;
     padding: 1em 3em;
-    background: linear-gradient(129deg, rgba(5, 5, 40, 0.7) 0%, rgba(15, 11, 40, 0.7) 100%);
+    background: linear-gradient(
+      129deg,
+      rgba(5, 5, 40, 0.7) 0%,
+      rgba(15, 11, 40, 0.7) 100%
+    );
     border-radius: 40px;
     z-index: 100;
     border: solid 1px #ffffff3f;
