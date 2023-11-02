@@ -259,8 +259,9 @@
 
   assignRoundNames(rounds);
   console.log(rounds);
-
+  let winarrer = null 
   function closewindow() {
+    winarrer = tournamentWinner
     tournamentWinner = null;
     staticbutton = true;
   }
@@ -313,11 +314,13 @@
   }
   let bestOfvalue = bestOfTransformation();
   console.log(bestOfvalue);
-
+  function reopenWinner(){
+    tournamentWinner = winarrer
+  }
 </script>
 
 <main>
-  <h1>{contestantData.tournamentName}</h1>
+  <h1>{contestantData.tournamentName}</h1> {#if winarrer}<Button on:cClick={reopenWinner}>Reopen</Button> {/if}
   <h3>Organized by: {contestantData.organizerName}</h3>
 
   {#if !user.isGuest && user.username}
