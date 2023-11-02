@@ -144,8 +144,9 @@ const stateController = {
 
       body: JSON.stringify(tourData),
     };
-
     const res = this.customFetch("delTour", opt);
+
+    window.sessionStorage.setItem("user", JSON.stringify(user));
 
     return res;
   },
