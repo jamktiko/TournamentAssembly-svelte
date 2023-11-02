@@ -100,7 +100,7 @@ const stateController = {
     let user;
     const unsub = this.subscribe((userData) => (user = userData));
     unsub();
-    console.log(username, id);
+
     const tourData = {
       username,
       id,
@@ -121,6 +121,33 @@ const stateController = {
     window.sessionStorage.setItem("user", JSON.stringify(user));
 
     const res = await this.customFetch("tourState", opt);
+    return res;
+  },
+
+  async deleteTournament(id) {
+    let user;
+    const unsub = this.subscribe((userData) => (user = userData));
+    unsub();
+
+    const tourData = {
+      username: user.username,
+      id,
+      token: user.token,
+    };
+
+    const opt = {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(tourData),
+    };
+    const res = this.customFetch("delTour", opt);
+
+    window.sessionStorage.setItem("user", JSON.stringify(user));
+
     return res;
   },
 };
