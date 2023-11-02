@@ -40,7 +40,6 @@
     cch.saveToCache("groupsConf", config);
 
     if (user.state) delete user.state;
-    console.log(user);
 
     if (unsub) unsub();
   });
@@ -351,7 +350,6 @@
     players: [],
   };
   async function leaveGroup() {
-
     let pusher = 0;
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
@@ -368,11 +366,11 @@
     }
     config = playoffconfig;
     AddCorrectAmount();
-    config.id = user.tournaments.length
+    config.id = user.tournaments.length;
     const tournament = {
-        config,
-        id: config.id,
-      };
+      config,
+      id: config.id,
+    };
     const res = await stateController.createTournament(tournament, "playoffs");
     push(`/playoffs/${cch.tokenify(config)}`);
   }

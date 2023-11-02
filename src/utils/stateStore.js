@@ -118,6 +118,10 @@ const stateController = {
       body: JSON.stringify(tourData),
     };
 
+    const updated = user.tournaments.find((tour) => tour.id === id);
+    updated.state = state;
+
+    stateController.set(user);
     window.sessionStorage.setItem("user", JSON.stringify(user));
 
     const res = await this.customFetch("tourState", opt);
@@ -146,6 +150,7 @@ const stateController = {
     };
     const res = this.customFetch("delTour", opt);
 
+    stateController.set(user);
     window.sessionStorage.setItem("user", JSON.stringify(user));
 
     return res;
