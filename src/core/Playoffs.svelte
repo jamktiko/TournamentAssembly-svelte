@@ -12,6 +12,12 @@
   import { loadFromSession } from '../utils/lib';
   import Tooltip from '../reusable/Tooltip.svelte';
 
+  let showMatchWinPopup = false;
+  let matchWinPopupMessage = '';
+
+  let showRoundAdvancePopup = false;
+  let roundAdvancePopupMessage = '';
+
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
@@ -32,7 +38,7 @@
 
   let staticbutton = false;
   const contestantData = cch.detokenify(params.tourdata)[0];
-
+  
   const contestants = parseContestants(contestantData.players);
   console.log(contestants);
   let rounds = [];
@@ -116,8 +122,13 @@
       rounds.push(round);
     } while (amount > 1);
   }
-
+  let showpopupTimeout = 0
+  function stopTimeout() {
+  clearTimeout(showpopupTimeout);
+}
   function moveToNextRound(winner, loser, match, round) {
+    
+    if (winner && loser){
     if (
       !winners.find(
         (id) =>
@@ -129,6 +140,26 @@
       )
     ) {
       winner.score += 1;
+
+      if (winner.score >= bestOfvalue) {
+        stopTimeout()
+        // Player advances to the next round
+        roundAdvancePopupMessage = `${winner.name} advances to the next round!`;
+        showRoundAdvancePopup = true;
+        showMatchWinPopup = false;
+      } else {
+        stopTimeout()
+        // Player wins a match
+        matchWinPopupMessage = `${winner.name} won a match against ${loser.name} and the series is now ${winner.score}-${loser.score}.`;
+        showMatchWinPopup = true;
+        showRoundAdvancePopup = false;
+      }}
+
+
+      showpopupTimeout = setTimeout(() => {
+        showMatchWinPopup = false;
+        showRoundAdvancePopup = false;
+      }, 2000); // Adjust the delay as needed
     }
 
     rounds = [...rounds];
@@ -174,7 +205,7 @@
       const matchIndex = rounds[roundIndex].indexOf(match);
       const pointer = pointers.get(matchIndex);
 
-      // Searches for an empty spot in the pointed match and places winner when found
+      // Searches for an empty spot in the pointed match and places the winner when found
       for (let team in rounds[roundIndex + 1][pointer]) {
         if (!rounds[roundIndex + 1][pointer][team]) {
           rounds[roundIndex + 1][pointer][team] = winner;
@@ -290,7 +321,7 @@
   <h3>Organized by: {contestantData.organizerName}</h3>
 
   {#if !user.isGuest && user.username}
-        <Tooltip
+    <Tooltip
       text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
     >
       <Button on:cClick={save}>SAVE</Button>
@@ -388,6 +419,17 @@
       </div>
     {/each}
   </div>
+  {#if showMatchWinPopup && !tournamentWinner}
+    <div class="popup">
+      <p>{matchWinPopupMessage}</p>
+    </div>
+  {/if}
+
+  {#if showRoundAdvancePopup && !tournamentWinner}
+    <div class="popup">
+      <p>{roundAdvancePopupMessage}</p>
+    </div>
+  {/if}
   {#if tournamentWinner}
     <Winner
       config={contestantData}
@@ -395,7 +437,6 @@
       on:closeevent={closewindow}
     />
   {/if}
-
 </main>
 
 <style>
@@ -405,6 +446,18 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+  }
+
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    color: white;
+    border-radius: 5px;
+    z-index: 9999;
   }
 
   .playoff-container {
