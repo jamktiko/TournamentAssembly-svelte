@@ -22,10 +22,14 @@
     if (unsub) unsub();
   });
 
+  console.log(user.tournaments);
   let tournaments = user.tournaments;
 
   function openTournament(tournament) {
     const configTkn = cch.tokenify(tournament.config);
+
+    console.log(tournament, "tour");
+
     if (tournament.state) {
       user.state = tournament.state;
       user.config = tournament.config;
@@ -40,14 +44,14 @@
   }
 
   async function deleteTournament(id) {
-    const res = await stateController.deleteTournament(id);
-
     const deleted = tournaments.find((tour) => tour.id === id);
-    tournaments.splice(user.tournaments.indexOf(deleted), 1);
+    tournaments.splice(tournaments.indexOf(deleted), 1);
 
     tournaments = tournaments;
 
-    stateController.set(user);
+    user.tournaments = tournaments;
+
+    await stateController.deleteTournament(id);
   }
 
   /* Function check if the window is for tablet, used for alternative playerlist */
