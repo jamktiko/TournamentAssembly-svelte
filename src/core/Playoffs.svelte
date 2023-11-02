@@ -38,7 +38,7 @@
 
   let staticbutton = false;
   const contestantData = cch.detokenify(params.tourdata)[0];
-
+  
   const contestants = parseContestants(contestantData.players);
   console.log(contestants);
   let rounds = [];
@@ -122,8 +122,13 @@
       rounds.push(round);
     } while (amount > 1);
   }
-
+  let showpopupTimeout = 0
+  function stopTimeout() {
+  clearTimeout(showpopupTimeout);
+}
   function moveToNextRound(winner, loser, match, round) {
+    
+    if (winner && loser){
     if (
       !winners.find(
         (id) =>
@@ -137,19 +142,24 @@
       winner.score += 1;
 
       if (winner.score >= bestOfvalue) {
+        stopTimeout()
         // Player advances to the next round
         roundAdvancePopupMessage = `${winner.name} advances to the next round!`;
         showRoundAdvancePopup = true;
+        showMatchWinPopup = false;
       } else {
+        stopTimeout()
         // Player wins a match
         matchWinPopupMessage = `${winner.name} won a match against ${loser.name} and the series is now ${winner.score}-${loser.score}.`;
         showMatchWinPopup = true;
-      }
+        showRoundAdvancePopup = false;
+      }}
 
-      setTimeout(() => {
+
+      showpopupTimeout = setTimeout(() => {
         showMatchWinPopup = false;
         showRoundAdvancePopup = false;
-      }, 3000); // Adjust the delay as needed
+      }, 2000); // Adjust the delay as needed
     }
 
     rounds = [...rounds];
@@ -304,6 +314,7 @@
   }
   let bestOfvalue = bestOfTransformation();
   console.log(bestOfvalue);
+
 </script>
 
 <main>
@@ -414,13 +425,13 @@
       </div>
     {/each}
   </div>
-  {#if showMatchWinPopup}
+  {#if showMatchWinPopup && !tournamentWinner}
     <div class="popup">
       <p class="popup-message">{matchWinPopupMessage}</p>
     </div>
   {/if}
 
-  {#if showRoundAdvancePopup}
+  {#if showRoundAdvancePopup && !tournamentWinner}
     <div class="popup">
       <p class="popup-message">{roundAdvancePopupMessage}</p>
     </div>
