@@ -350,7 +350,8 @@
 
     players: [],
   };
-  function leaveGroup() {
+  async function leaveGroup() {
+
     let pusher = 0;
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
@@ -367,6 +368,12 @@
     }
     config = playoffconfig;
     AddCorrectAmount();
+    config.id = user.tournaments.length
+    const tournament = {
+        config,
+        id: config.id,
+      };
+    const res = await stateController.createTournament(tournament, "playoffs");
     push(`/playoffs/${cch.tokenify(config)}`);
   }
   let num = 0;
