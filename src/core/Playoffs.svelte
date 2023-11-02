@@ -282,6 +282,7 @@
   }
   let bestOfvalue = bestOfTransformation();
   console.log(bestOfvalue);
+
 </script>
 
 <main>
@@ -394,6 +395,7 @@
       on:closeevent={closewindow}
     />
   {/if}
+
 </main>
 
 <style>

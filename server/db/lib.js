@@ -157,10 +157,10 @@ const lib = {
     return { success: true, result: updateResult, msg: "Tournament created" };
   },
 
-  async delTournament(username, delData) {
+  async delTournament(username, id) {
     const collection = client.db("touras").collection("users");
 
-    if (!username || !tournament) {
+    if (!username) {
       console.error("Username or tournament must be correct");
       return {
         msg: "Username or tournament must be correct",
@@ -184,10 +184,13 @@ const lib = {
     }
 
     // Update the user's document in the database
+
     const updateResult = await collection.updateOne(
-      { username: username },
-      { $pull: { tournament: delData } }
+      { username: username, "tournaments.id": id },
+      { $pull: { tournaments: { id: id } } }
     );
+
+    console.log(updateResult);
 
     return updateResult;
   },
