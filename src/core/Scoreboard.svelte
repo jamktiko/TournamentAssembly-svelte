@@ -433,7 +433,7 @@
   }
 
   .trash-can {
-    fill: #fff;
+    fill: rgba(110, 0, 0);
   }
 
   /* Tablet Portrait */

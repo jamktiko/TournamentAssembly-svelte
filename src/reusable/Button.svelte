@@ -398,16 +398,14 @@
     margin: 0em;
     border-radius: 10px;
     text-transform: uppercase;
-    background: linear-gradient(
-      180deg,
-      rgba(167, 0, 0, 0.4) 0%,
-      rgba(14, 5, 34, 0.5) 100%
-    );
+    background: none;
+    border: none;
+    transition-duration: 0.2s;
   }
 
   .delete-round-button:hover {
-    border: solid 1px #5d0f0f;
-    color: rgb(255, 91, 91);
+    border: none;
+    filter: brightness(1.3) drop-shadow(0px 0px 5px rgba(255, 91, 91, 0.4));
   }
 
   .delete-player-button {
@@ -417,16 +415,14 @@
     margin: 0em;
     border-radius: 10px;
     text-transform: uppercase;
-    background: linear-gradient(
-      90deg,
-      rgba(167, 0, 0, 0.4) 0%,
-      rgba(14, 5, 34, 0.5) 100%
-    );
+    background: none;
+    border: none;
+    transition-duration: 0.2s;
   }
 
   .delete-player-button:hover {
-    border: solid 1px #5d0f0f;
-    color: rgb(255, 91, 91);
+    border: none;
+    filter: brightness(1.3) drop-shadow(0px 0px 5px rgba(255, 91, 91, 0.4));
   }
 
   .league-resolve-button {
