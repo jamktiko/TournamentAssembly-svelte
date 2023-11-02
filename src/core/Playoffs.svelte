@@ -317,6 +317,11 @@
       <Button on:cClick={save}>SAVE</Button>
     </Tooltip>
   {/if}
+  <p class="info-message">
+    In the playoffs participants play against each other in order to either
+    eliminate from the tournament or advance to the next round. CLICK on the
+    participant name to add a win to their series tally.
+  </p>
   <div
     class="playoff-container"
     transition:slide={{
@@ -411,13 +416,13 @@
   </div>
   {#if showMatchWinPopup}
     <div class="popup">
-      <p>{matchWinPopupMessage}</p>
+      <p class="popup-message">{matchWinPopupMessage}</p>
     </div>
   {/if}
 
   {#if showRoundAdvancePopup}
     <div class="popup">
-      <p>{roundAdvancePopupMessage}</p>
+      <p class="popup-message">{roundAdvancePopupMessage}</p>
     </div>
   {/if}
   {#if tournamentWinner}
@@ -439,7 +444,10 @@
   }
 
   .popup {
+    border-radius: 10px;
     position: fixed;
+    text-align: center;
+    font-size: 1.5em;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -459,7 +467,7 @@
     overflow-x: left;
     display: flex;
     justify-content: flex-start;
-    margin-top: 3em;
+    margin-top: 1em;
     margin-bottom: 3em;
   }
 
@@ -514,6 +522,10 @@
     white-space: nowrap;
   }
 
+  .player-info:hover {
+    opacity: 0.7;
+  }
+
   .player-score {
     position: absolute;
     right: 0;
@@ -538,6 +550,24 @@
 
   h3 {
     text-transform: uppercase;
+    margin-bottom: 0.5em;
+  }
+
+  .popup-message {
+    cursor: pointer;
+    color: #fff;
+    margin-left: 0.2em;
+    width: 100%;
+  }
+
+  .info-message {
+    font-size: 1.3em;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    margin-left: 0.2em;
+    margin-top: 2em;
+    width: 40%;
   }
 
   p {
@@ -545,22 +575,9 @@
     color: #fff;
     font-size: 1.1em;
     margin-left: 0.2em;
-    animation: pulse 3s infinite;
     width: 100%;
   }
-  @keyframes pulse {
-    0% {
-      filter: brightness(1);
-    }
 
-    50% {
-      filter: brightness(0.7);
-    }
-
-    100% {
-      filter: brightness(1);
-    }
-  }
   .match-winner {
     filter: drop-shadow(0px 0px 1px #9efb89);
     color: #00ff37;
