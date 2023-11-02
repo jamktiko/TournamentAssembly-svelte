@@ -26,10 +26,14 @@
 
   function openTournament(tournament) {
     const configTkn = cch.tokenify(tournament.config);
+
+    console.log(tournament,"tour")
+
     if (tournament.state) {
       user.state = tournament.state;
       user.config = tournament.config;
     }
+
 
     stateController.set(user);
     if (tournament.type === "scoreboard") {
@@ -43,7 +47,8 @@
     const res = await stateController.deleteTournament(id);
 
     const deleted = tournaments.find((tour) => tour.id === id);
-    tournaments.splice(user.tournaments.indexOf(deleted), 1);
+    tournaments.splice(tournaments.indexOf(deleted), 1);
+    user.tournaments.splice(user.tournaments.indexOf(deleted), 1);
 
     tournaments = tournaments;
 
