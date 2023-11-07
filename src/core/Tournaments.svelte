@@ -1,20 +1,20 @@
 <script>
-  import { onDestroy } from "svelte";
-  import Button from "../reusable/Button.svelte";
-  import stateController from "../utils/stateStore";
-  import { push } from "svelte-spa-router";
-  import cch from "../utils/cache";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
-  import { loadFromSession } from "../utils/lib";
+  import { onDestroy } from 'svelte';
+  import Button from '../reusable/Button.svelte';
+  import stateController from '../utils/stateStore';
+  import { push } from 'svelte-spa-router';
+  import cch from '../utils/cache';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import { loadFromSession } from '../utils/lib';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -28,7 +28,7 @@
   function openTournament(tournament) {
     const configTkn = cch.tokenify(tournament.config);
 
-    console.log(tournament, "tour");
+    console.log(tournament, 'tour');
 
     if (tournament.state) {
       user.state = tournament.state;
@@ -36,7 +36,7 @@
     }
 
     stateController.set(user);
-    if (tournament.type === "scoreboard") {
+    if (tournament.type === 'scoreboard') {
       push(`/${tournament.type}/`);
     } else {
       push(`/${tournament.type}/${configTkn}`);
@@ -57,10 +57,10 @@
   /* Function check if the window is for tablet, used for alternative playerlist */
   let isTablet = false;
   const checkScreenSize = () => {
-    isTablet = window.matchMedia("(max-width: 1450px)").matches;
+    isTablet = window.matchMedia('(max-width: 1450px)').matches;
   };
   checkScreenSize();
-  window.addEventListener("resize", checkScreenSize);
+  window.addEventListener('resize', checkScreenSize);
 </script>
 
 {#if !isTablet}
@@ -68,14 +68,17 @@
     transition:slide={{
       duration: 700,
       easing: quintOut,
-      axis: "y",
+      axis: 'y',
     }}
   >
     <div class="tournaments-header">
-      <h1>Tournaments & Scoreboards</h1>
+      <h1>My Tournaments</h1>
     </div>
     <div class="tournaments-description">
-      <p>Below is a list of your created Tournaments and Scoreboards</p>
+      <p>
+        Below is a list of all your saved tournaments and scoreboards. Choose
+        any of them to continue playing or delete them.
+      </p>
     </div>
     <div class="list">
       <table>
@@ -134,7 +137,7 @@
     transition:slide={{
       duration: 700,
       easing: quintOut,
-      axis: "y",
+      axis: 'y',
     }}
   >
     <div class="tablet-header">

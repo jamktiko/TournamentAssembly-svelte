@@ -1,16 +1,16 @@
 <script>
-  import cch from "../utils/cache";
-  import Button from "../reusable/Button.svelte";
-  import Winner from "../reusable/Winner.svelte";
-  import { push } from "svelte-spa-router";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
-  import stateController from "../utils/stateStore";
-  import { onDestroy } from "svelte";
-  import { loadFromSession } from "../utils/lib";
-  import Tooltip from "../reusable/Tooltip.svelte";
+  import cch from '../utils/cache';
+  import Button from '../reusable/Button.svelte';
+  import Winner from '../reusable/Winner.svelte';
+  import { push } from 'svelte-spa-router';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import stateController from '../utils/stateStore';
+  import { onDestroy } from 'svelte';
+  import { loadFromSession } from '../utils/lib';
+  import Tooltip from '../reusable/Tooltip.svelte';
 
   let showMatchWinPopup = false;
   let matchWinPopupMessage = '';
@@ -21,8 +21,8 @@
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -38,14 +38,14 @@
 
   let staticbutton = false;
   const contestantData = cch.detokenify(params.tourdata)[0];
-  
+
   const contestants = parseContestants(contestantData.players);
   console.log(contestants);
   let rounds = [];
   let winners = [];
   let tournamentWinner = null;
 
-  const placeholder = "Waiting for results";
+  const placeholder = 'Waiting for results';
 
   function parseContestants(contestants) {
     const parsed = [];
@@ -122,39 +122,38 @@
       rounds.push(round);
     } while (amount > 1);
   }
-  let showpopupTimeout = 0
+  let showpopupTimeout = 0;
   function stopTimeout() {
-  clearTimeout(showpopupTimeout);
-}
+    clearTimeout(showpopupTimeout);
+  }
   function moveToNextRound(winner, loser, match, round) {
-    
-    if (winner && loser){
-    if (
-      !winners.find(
-        (id) =>
-          (id.round === rounds.indexOf(round) && id.winner === loser.id) ||
-          winners.find(
-            (id) =>
-              id.round === rounds.indexOf(round) && id.winner === winner.id
-          )
-      )
-    ) {
-      winner.score += 1;
+    if (winner && loser) {
+      if (
+        !winners.find(
+          (id) =>
+            (id.round === rounds.indexOf(round) && id.winner === loser.id) ||
+            winners.find(
+              (id) =>
+                id.round === rounds.indexOf(round) && id.winner === winner.id
+            )
+        )
+      ) {
+        winner.score += 1;
 
-      if (winner.score >= bestOfvalue) {
-        stopTimeout()
-        // Player advances to the next round
-        roundAdvancePopupMessage = `${winner.name} advances to the next round!`;
-        showRoundAdvancePopup = true;
-        showMatchWinPopup = false;
-      } else {
-        stopTimeout()
-        // Player wins a match
-        matchWinPopupMessage = `${winner.name} won a match against ${loser.name} and the series is now ${winner.score}-${loser.score}.`;
-        showMatchWinPopup = true;
-        showRoundAdvancePopup = false;
-      }}
-
+        if (winner.score >= bestOfvalue) {
+          stopTimeout();
+          // Player advances to the next round
+          roundAdvancePopupMessage = `${winner.name} advances to the next round!`;
+          showRoundAdvancePopup = true;
+          showMatchWinPopup = false;
+        } else {
+          stopTimeout();
+          // Player wins a match
+          matchWinPopupMessage = `${winner.name} won a match against ${loser.name} and the series is now ${winner.score}-${loser.score}.`;
+          showMatchWinPopup = true;
+          showRoundAdvancePopup = false;
+        }
+      }
 
       showpopupTimeout = setTimeout(() => {
         showMatchWinPopup = false;
@@ -225,18 +224,18 @@
 
   function assignRoundNames(rounds) {
     const roundNames = [
-      "ROUND 1",
-      "ROUND 2",
-      "ROUND 3",
-      "ROUND 4",
-      "ROUND 5",
-      "ROUND 6",
+      'ROUND 1',
+      'ROUND 2',
+      'ROUND 3',
+      'ROUND 4',
+      'ROUND 5',
+      'ROUND 6',
     ];
     const specialRoundNames = [
-      "PRE-QUARTERFINALS",
-      "QUARTERFINALS",
-      "SEMIFINALS",
-      "FINALS",
+      'PRE-QUARTERFINALS',
+      'QUARTERFINALS',
+      'SEMIFINALS',
+      'FINALS',
     ];
 
     for (let i = 0; i < rounds.length; i++) {
@@ -253,16 +252,16 @@
     rounds = user.state.rounds;
     winners = user.state.winners;
 
-    console.log(winners, "winners");
+    console.log(winners, 'winners');
   } else {
     calcMatchups(contestants.length);
   }
 
   assignRoundNames(rounds);
   console.log(rounds);
-  let winarrer = null 
+  let winarrer = null;
   function closewindow() {
-    winarrer = tournamentWinner
+    winarrer = tournamentWinner;
     tournamentWinner = null;
     staticbutton = true;
   }
@@ -315,13 +314,15 @@
   }
   let bestOfvalue = bestOfTransformation();
   console.log(bestOfvalue);
-  function reopenWinner(){
-    tournamentWinner = winarrer
+  function reopenWinner() {
+    tournamentWinner = winarrer;
   }
 </script>
 
 <main>
-  <h1>{contestantData.tournamentName}</h1> {#if winarrer}<Button on:cClick={reopenWinner}>Reopen</Button> {/if}
+  <h1>{contestantData.tournamentName}</h1>
+  {#if winarrer}<Button on:cClick={reopenWinner}>TOGGLE WINNER MESSAGE</Button>
+  {/if}
   <h3>Organized by: {contestantData.organizerName}</h3>
 
   {#if !user.isGuest && user.username}
@@ -336,12 +337,19 @@
     eliminate from the tournament or advance to the next round. CLICK on the
     participant name to add a win to their series tally.
   </p>
+  {#if tournamentWinner}
+    <Winner
+      config={contestantData}
+      winner={tournamentWinner}
+      on:closeevent={closewindow}
+    />
+  {/if}
   <div
     class="playoff-container"
     transition:slide={{
       duration: 700,
       easing: quadInOut,
-      axis: "x",
+      axis: 'x',
     }}
   >
     {#each rounds as round, i}
@@ -438,13 +446,6 @@
     <div class="popup">
       <p class="popup-message">{roundAdvancePopupMessage}</p>
     </div>
-  {/if}
-  {#if tournamentWinner}
-    <Winner
-      config={contestantData}
-      winner={tournamentWinner}
-      on:closeevent={closewindow}
-    />
   {/if}
 </main>
 

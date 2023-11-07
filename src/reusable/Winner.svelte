@@ -73,7 +73,7 @@
     justify-content: center;
     color: #ffffff;
     position: relative;
-    top: -50%;
+    top: -40%;
     width: 50%;
     height: 60vh;
     background: radial-gradient(rgb(25, 6, 101) 50%, rgb(13, 0, 58) 100%);
