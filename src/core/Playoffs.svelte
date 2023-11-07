@@ -127,34 +127,34 @@
     clearTimeout(showpopupTimeout);
   }
   function moveToNextRound(winner, loser, match, round) {
-    if (winner && loser) {
-      if (
-        !winners.find(
-          (id) =>
-            (id.round === rounds.indexOf(round) && id.winner === loser.id) ||
-            winners.find(
-              (id) =>
-                id.round === rounds.indexOf(round) && id.winner === winner.id
-            )
-        )
-      ) {
-        winner.score += 1;
 
-        if (winner.score >= bestOfvalue) {
-          stopTimeout();
-          // Player advances to the next round
-          roundAdvancePopupMessage = `${winner.name} advances to the next round!`;
-          showRoundAdvancePopup = true;
-          showMatchWinPopup = false;
-        } else {
-          stopTimeout();
-          // Player wins a match
-          matchWinPopupMessage = `${winner.name} won a match against ${loser.name} and the series is now ${winner.score}-${loser.score}.`;
-          showMatchWinPopup = true;
-          showRoundAdvancePopup = false;
-        }
-      }
 
+    if (winner && loser){
+    if (
+      !winners.find(
+        (id) =>
+          (id.round === rounds.indexOf(round) && id.winner === loser.id) ||
+          winners.find(
+            (id) =>
+              id.round === rounds.indexOf(round) && id.winner === winner.id
+          )
+      )
+    ) {
+      winner.score += 1;
+
+      if (winner.score >= bestOfvalue) {
+        stopTimeout()
+        // Player advances to the next round
+        roundAdvancePopupMessage = `${winner.name} advances to the next round!`;
+        showRoundAdvancePopup = true;
+        showMatchWinPopup = false;
+      } else {
+        stopTimeout()
+        // Player wins a match
+        matchWinPopupMessage = `${winner.name} won a match against ${loser.name} and the series is now ${winner.score}-${loser.score}.`;
+        showMatchWinPopup = true;
+        showRoundAdvancePopup = false;
+      }}
       showpopupTimeout = setTimeout(() => {
         showMatchWinPopup = false;
         showRoundAdvancePopup = false;
@@ -185,7 +185,6 @@
       console.log(winners);
 
       if (resolveWinner(roundIndex, winner)) return;
-
       for (let j = 0; j < rounds[roundIndex].length; j++) {
         for (let i = 0; i < rounds[roundIndex + 1].length; i++) {
           let total = 0;
@@ -317,6 +316,17 @@
   function reopenWinner() {
     tournamentWinner = winarrer;
   }
+  let a = 0
+  let b = 0
+
+
+  while (a < rounds[0].length){
+    if (rounds[0][a].away.name[6] == "_") {
+        rounds[0][a].home.score = (bestOfvalue - 1)
+        moveToNextRound(rounds[0][a].home, rounds[0][a].away, rounds[0][a], rounds[0]) }
+    a += 1
+    }
+    
 </script>
 
 <main>
