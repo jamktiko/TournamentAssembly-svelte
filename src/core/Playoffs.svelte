@@ -127,7 +127,7 @@
   clearTimeout(showpopupTimeout);
 }
   function moveToNextRound(winner, loser, match, round) {
-    
+
     if (winner && loser){
     if (
       !winners.find(
@@ -186,7 +186,6 @@
       console.log(winners);
 
       if (resolveWinner(roundIndex, winner)) return;
-
       for (let j = 0; j < rounds[roundIndex].length; j++) {
         for (let i = 0; i < rounds[roundIndex + 1].length; i++) {
           let total = 0;
@@ -318,6 +317,17 @@
   function reopenWinner(){
     tournamentWinner = winarrer
   }
+  let a = 0
+  let b = 0
+
+
+  while (a < rounds[0].length){
+    if (rounds[0][a].away.name[6] == "_") {
+        rounds[0][a].home.score = (bestOfvalue - 1)
+        moveToNextRound(rounds[0][a].home, rounds[0][a].away, rounds[0][a], rounds[0]) }
+    a += 1
+    }
+    
 </script>
 
 <main>
