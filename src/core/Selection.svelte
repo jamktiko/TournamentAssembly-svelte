@@ -1,25 +1,25 @@
 <script>
-  import { push } from "svelte-spa-router";
+  import { push } from 'svelte-spa-router';
 
-  import Button from "../reusable/Button.svelte";
-  import Card from "../reusable/Card.svelte";
+  import Button from '../reusable/Button.svelte';
+  import Card from '../reusable/Card.svelte';
 
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
 
-  import cch from "../utils/cache";
-  import stateController from "../utils/stateStore";
-  import Tooltip from "../reusable/Tooltip.svelte";
-  import { calcId } from "../utils/lib";
-  import { loadFromSession } from "../utils/lib";
+  import cch from '../utils/cache';
+  import stateController from '../utils/stateStore';
+  import Tooltip from '../reusable/Tooltip.svelte';
+  import { calcId } from '../utils/lib';
+  import { loadFromSession } from '../utils/lib';
 
   let user;
   stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -33,7 +33,7 @@
   function showConfirmation(key, path) {
     if (cch.isInCache(key)) {
       const isConfirmed = window.confirm(
-        "This will delete ongoing tournament! Continue?"
+        'This will delete ongoing tournament! Continue?'
       );
       if (isConfirmed) {
         navigate(key, path);
@@ -51,7 +51,7 @@
 
   function createScoreboard() {
     if (!user.username || user.isGuest) {
-      showConfirmation("scoreboard", "/scoreboard");
+      showConfirmation('scoreboard', '/scoreboard');
     } else {
       const id = calcId(user.tournaments);
       user.config = { id };
@@ -63,9 +63,9 @@
           },
           id,
         },
-        "scoreboard"
+        'scoreboard'
       );
-      showConfirmation("scoreboard", "/scoreboard");
+      showConfirmation('scoreboard', '/scoreboard');
     }
   }
 </script>
@@ -74,7 +74,7 @@
   transition:slide={{
     duration: 700,
     easing: quintOut,
-    axis: "y",
+    axis: 'y',
   }}
 >
   <div class="text-container">
@@ -84,8 +84,8 @@
       <h1>WELCOME GUEST</h1>
     {/if}
     <p>
-      Choose a tournament type you want to play. All tournament styles are fully
-      customizable to your desires.
+      Choose a tournament type you want to play. All tournament types are fully
+      customizable to your desires and scalable to suit different player counts.
     </p>
   </div>
   <div
@@ -94,7 +94,7 @@
       delay: 600,
       duration: 1000,
       easing: quadInOut,
-      axis: "y",
+      axis: 'y',
     }}
   >
     <Card
@@ -107,16 +107,16 @@
       <div slot="button">
         <Button
           class="group-select"
-          on:cClick={() => showConfirmation("groups", "/customizer/groups")}
+          on:cClick={() => showConfirmation('groups', '/customizer/groups')}
           >SELECT</Button
         >
         <Tooltip
           text="You have an unfinished tournament. Press to continue playing it."
         >
-          {#if cch.isInCache("groups")}
+          {#if cch.isInCache('groups')}
             <Button
               class="continue-button"
-              on:cClick={() => push(`/groups/${cch.getToken("groupsConf")}`)}
+              on:cClick={() => push(`/groups/${cch.getToken('groupsConf')}`)}
               >Continue</Button
             >
           {/if}
@@ -124,8 +124,9 @@
       </div>
       <div slot="footer">
         <p>
-          Great for stage-based tournaments to qualify contestants into possible
-          later playoffs.
+          Groups is a great for hosting a regular season for a league. You can
+          also use the EXPORT feature to continue playing a post-season
+          directly.
         </p>
       </div>
     </Card>
@@ -137,12 +138,12 @@
         <h2>PLAYOFFS</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => push("/customizer/playoffs")}>SELECT</Button>
+        <Button on:cClick={() => push('/customizer/playoffs')}>SELECT</Button>
       </div>
       <div slot="footer">
         <p>
-          With playoffs you can have elimination-style tournaments to determine
-          the winner contestant.
+          With playoffs you can have an elimination-style tournament to
+          determine the winner.
         </p>
       </div>
     </Card>
@@ -154,11 +155,11 @@
         <h2>SCOREBOARD</h2>
       </div>
       <div slot="button">
-        <Button on:cClick={() => createScoreboard("scoreboard", "/scoreboard")}
+        <Button on:cClick={() => createScoreboard('scoreboard', '/scoreboard')}
           >SELECT</Button
         >
 
-        {#if cch.isInCache("scoreboard")}
+        {#if cch.isInCache('scoreboard')}
           <Tooltip
             text="You have an unfinished tournament. Press to continue playing it."
           >
@@ -185,16 +186,16 @@
       </div>
       <div slot="button">
         <Button
-          on:cClick={() => showConfirmation("league", "/customizer/league")}
+          on:cClick={() => showConfirmation('league', '/customizer/league')}
           >SELECT</Button
         >
-        {#if cch.isInCache("league")}
+        {#if cch.isInCache('league')}
           <Tooltip
             text="You have an unfinished tournament. Press to continue playing it."
           >
             <Button
               class="continue-button"
-              on:cClick={() => push(`/league/${cch.getToken("leagueConf")}`)}
+              on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
               >Continue</Button
             >
           </Tooltip>
@@ -202,8 +203,9 @@
       </div>
       <div slot="footer">
         <p>
-          League allows you to create and manage a tournament where with a
-          pre-determined amount of rounds for all contestants.
+          League allows you to create and manage a tournament where participants
+          play a certain number of rounds and determine a winner by the amount
+          of points.
         </p>
       </div>
     </Card>

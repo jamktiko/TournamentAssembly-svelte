@@ -40,7 +40,7 @@
     opacity: 0;
     filter: blur(3px);
     position: absolute;
-    font-size: 7em;
+    font-size: 6em;
     z-index: -99;
     transition-duration: 0.3s;
   }
