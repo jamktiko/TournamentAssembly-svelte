@@ -439,20 +439,19 @@
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     table {
-      scale: 0.9;
+      scale: 1;
       margin: 0;
-      max-width: 100%;
       overflow-anchor: left;
     }
 
     .name-td {
-      position: static;
+      position: sticky;
       left: 0;
       background-color: #0a0630;
     }
 
     .total-td {
-      position: static;
+      position: sticky;
     }
   }
 </style>
