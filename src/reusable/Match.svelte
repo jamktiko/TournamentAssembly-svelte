@@ -53,7 +53,7 @@
       <div class="team-container">
         <h2 class="team-name-header">Team</h2>
         <p class="team-name">{match[0].name}</p>
-        <h3>Score</h3>
+        <h3 class="score-header">Score</h3>
         <p class="team-score">{scores[0]}</p>
       </div>
 
@@ -114,6 +114,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     padding: 1em;
   }
 
@@ -165,6 +166,14 @@
     font-size: 1.6em;
   }
 
+  .score-header {
+    font-size: 2em;
+  }
+
+  .team-score {
+    font-size: 1.6em;
+  }
+
   .match-header {
     font-size: 2.2em;
     margin-top: 0.3em;
@@ -201,12 +210,22 @@
     }
   }
 
-  @media only screen and (max-width: 1150px) {
+  @media only screen and (max-width: 1450px) {
     .match-container {
       width: 100%;
+      padding: 1em;
+      margin: 0em 1em;
     }
+
     .team-content-container {
-      width: 80vw;
+      margin-top: 1em;
+      width: 25vw;
+      padding: 0.7em 0.7em;
+    }
+
+    #vs-header {
+      padding-left: 0em;
+      padding-right: 0em;
     }
   }
 </style>

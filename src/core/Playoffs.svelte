@@ -127,34 +127,33 @@
     clearTimeout(showpopupTimeout);
   }
   function moveToNextRound(winner, loser, match, round) {
+    if (winner && loser) {
+      if (
+        !winners.find(
+          (id) =>
+            (id.round === rounds.indexOf(round) && id.winner === loser.id) ||
+            winners.find(
+              (id) =>
+                id.round === rounds.indexOf(round) && id.winner === winner.id
+            )
+        )
+      ) {
+        winner.score += 1;
 
-
-    if (winner && loser){
-    if (
-      !winners.find(
-        (id) =>
-          (id.round === rounds.indexOf(round) && id.winner === loser.id) ||
-          winners.find(
-            (id) =>
-              id.round === rounds.indexOf(round) && id.winner === winner.id
-          )
-      )
-    ) {
-      winner.score += 1;
-
-      if (winner.score >= bestOfvalue) {
-        stopTimeout()
-        // Player advances to the next round
-        roundAdvancePopupMessage = `${winner.name} advances to the next round!`;
-        showRoundAdvancePopup = true;
-        showMatchWinPopup = false;
-      } else {
-        stopTimeout()
-        // Player wins a match
-        matchWinPopupMessage = `${winner.name} won a match against ${loser.name} and the series is now ${winner.score}-${loser.score}.`;
-        showMatchWinPopup = true;
-        showRoundAdvancePopup = false;
-      }}
+        if (winner.score >= bestOfvalue) {
+          stopTimeout();
+          // Player advances to the next round
+          roundAdvancePopupMessage = `${winner.name} advances to the next round!`;
+          showRoundAdvancePopup = true;
+          showMatchWinPopup = false;
+        } else {
+          stopTimeout();
+          // Player wins a match
+          matchWinPopupMessage = `${winner.name} won a match against ${loser.name} and the series is now ${winner.score}-${loser.score}.`;
+          showMatchWinPopup = true;
+          showRoundAdvancePopup = false;
+        }
+      }
       showpopupTimeout = setTimeout(() => {
         showMatchWinPopup = false;
         showRoundAdvancePopup = false;
@@ -316,30 +315,36 @@
   function reopenWinner() {
     tournamentWinner = winarrer;
   }
-  let a = 0
-  let b = 0
+  let a = 0;
+  let b = 0;
 
-
-  while (a < rounds[0].length){
-    if (rounds[0][a].away.name[6] == "_") {
-        rounds[0][a].home.score = (bestOfvalue - 1)
-        moveToNextRound(rounds[0][a].home, rounds[0][a].away, rounds[0][a], rounds[0]) }
-    a += 1
+  while (a < rounds[0].length) {
+    if (rounds[0][a].away.name[6] == '_') {
+      rounds[0][a].home.score = bestOfvalue - 1;
+      moveToNextRound(
+        rounds[0][a].home,
+        rounds[0][a].away,
+        rounds[0][a],
+        rounds[0]
+      );
     }
-    
+    a += 1;
+  }
 </script>
 
 <main>
   <h1>{contestantData.tournamentName}</h1>
-  {#if winarrer}<Button on:cClick={reopenWinner}>TOGGLE WINNER MESSAGE</Button>
-  {/if}
   <h3>Organized by: {contestantData.organizerName}</h3>
-
+  {#if winarrer}
+    <Button class="show-winner-button" on:cClick={reopenWinner}
+      >Show Winner Message</Button
+    >
+  {/if}
   {#if !user.isGuest && user.username}
     <Tooltip
       text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
     >
-      <Button on:cClick={save}>SAVE</Button>
+      <Button class="save-button" on:cClick={save}>SAVE</Button>
     </Tooltip>
   {/if}
   <p class="info-message">
@@ -613,5 +618,14 @@
     color: #b70000;
     filter: drop-shadow(0px 0px 1px #572b2b);
     animation: none;
+  }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1450px) {
+    .info-message {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+      width: 80%;
+    }
   }
 </style>

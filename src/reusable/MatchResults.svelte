@@ -4,10 +4,9 @@
 
 {#if !matchResult.group}
   {matchResult[0].group}
-  {:else}
+{:else}
   {matchResult.group}
-  {/if}
-
+{/if}
 
 <table>
   <thead>
@@ -84,5 +83,12 @@
     border: 1px solid #fff;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
+  }
+
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1450px) {
+    table {
+      margin: 0em 1em;
+    }
   }
 </style>

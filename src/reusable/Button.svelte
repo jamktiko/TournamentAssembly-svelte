@@ -575,6 +575,14 @@
     margin-bottom: 0.5em;
   }
 
+  .show-winner-button {
+    font-size: 1.2em;
+    padding: 0.3em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+  }
+
+  /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
     .back-button {
@@ -623,11 +631,11 @@
     }
 
     .group-adjust-button {
-      scale: 1.4;
+      scale: 1.25;
     }
 
     .add-player-exit-button {
-      scale: 1;
+      scale: 1.5;
     }
 
     /* Match Scoring Buttons */
@@ -654,6 +662,12 @@
       top: 35%;
       left: 0;
       z-index: 11;
+    }
+
+    .reset-button {
+      scale: 0.9;
+      width: auto;
+      margin: 0em 0.2em;
     }
   }
 </style>
