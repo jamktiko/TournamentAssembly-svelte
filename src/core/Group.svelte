@@ -51,8 +51,9 @@
   }
 
   if (user.state && user.config) {
-    console.log(user);
-    groups = user.state;
+    groups = user.state.groups;
+    matchResults = user.state.matchResults;
+    matchResultsR = [...matchResults].reverse()
     config = user.config;
   }
 
@@ -246,6 +247,7 @@
     let sorted2 = selected.participants.sort(function (a, b) {
       return b.score - a.score || b.goalDiff - a.goalDiff;
     });
+
     let sorted = sorted2.filter((sorted2) => sorted2.name != '');
     console.log(sorted);
     let winner = '';
@@ -266,6 +268,7 @@
       a += 1;
     }
     
+
 
 */  
   let a = 0
@@ -399,6 +402,7 @@
     if (user.tournaments) {
       const res = await stateController.createTournament(
         tournament,
+
         'playoffs'
       );
     }
@@ -440,7 +444,13 @@
     showmatches = !showmatches;
   }
 
-  async function save(state) {
+  async function save() {  
+
+    const state = {
+      groups,
+      matchResults:matchResults
+    };
+
     const res = await stateController.updateTourState(
       state,
       user.config.id,
@@ -468,8 +478,6 @@
       a += 1;
     }
   }
-  console.log(groups);
-  console.log(user);
 
   if (selected){
   selected = [...selected]}
@@ -495,6 +503,7 @@
       <Tooltip
         text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
       >
+
         <Button class="save-button" on:cClick={() => save(groups)}
           ><svg
             class="save-icon"
