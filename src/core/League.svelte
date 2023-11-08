@@ -235,6 +235,7 @@
         i += 1;
       }
     }
+    window.scrollTo(0, 0)
   }
   function closewindow() {
     largest = '';

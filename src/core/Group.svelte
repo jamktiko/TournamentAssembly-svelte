@@ -267,6 +267,7 @@
     }
     
 */  
+console.log(config.advance)
   let a = 0
   while (a < config.advance){
     if (a >= sorted.length){
@@ -369,6 +370,7 @@
     bestOf: config.bestOf,
 
     players: [],
+    advance: config.advance,
   };
   async function leaveGroup() {
     let pusher = 0;
@@ -410,16 +412,24 @@
       playoffconfig.players.push("PLAYER_" + num);
       playoffconfig.players = [...playoffconfig.players];
     }
-    let place = 3;
-    while (
-      playoffconfig.players.length > 4 &&
-      playoffconfig.players.length < 8
-    ) {
-      randomnum();
-      playoffconfig.players.splice(place, 0, "PLAYER_" + num);
-
-      playoffconfig.players = [...playoffconfig.players];
-      place += 2;
+    let place = 1;
+    while (true) {
+      if (
+        playoffconfig.players.length != 4 &&
+        playoffconfig.players.length != 8 &&
+        playoffconfig.players.length != 16 &&
+        playoffconfig.players.length != 32 &&
+        playoffconfig.players.length != 64 &&
+        playoffconfig.players.length != 128 &&
+        playoffconfig.players.length != 256 
+      ) {
+        randomnum();
+        playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
+        place += 2;
+      } else {
+        playoffconfig.players = [...playoffconfig.players];
+        break;
+      }
     }
   }
   let showmatches = false;
@@ -457,7 +467,8 @@
   }
   console.log(groups);
   console.log(user);
-
+  if (selected){
+  selected = [...selected]}
 </script>
 
 <main>
@@ -520,7 +531,7 @@
           <Tooltip
             text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
           >
-            <Button class="finish-button" on:cClick={() => calcWinner(selected)}
+            <Button disabled={blacklisted.includes(selected.id)} class="finish-button" on:cClick={() => calcWinner(selected)}
               >Finish this Group</Button
             >
           </Tooltip>
