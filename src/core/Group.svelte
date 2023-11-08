@@ -51,8 +51,9 @@
   }
 
   if (user.state && user.config) {
-    console.log(user);
-    groups = user.state;
+    groups = user.state.groups;
+    matchResults = user.state.matchResults;
+    matchResultsR = [...matchResults].reverse()
     config = user.config;
   }
 
@@ -244,11 +245,11 @@
 
   function calcWinner(group) {
     let sorted2 = selected.participants.sort(function (a, b) {
-  return b.score - a.score || b.goalDiff - a.goalDiff ;
-})
-  let sorted = sorted2.filter((sorted2) => sorted2.name != "")
-  console.log(sorted)
-  let winner = ""
+      return b.score - a.score || b.goalDiff - a.goalDiff;
+    });
+    let sorted = sorted2.filter((sorted2) => sorted2.name != "");
+    console.log(sorted);
+    let winner = "";
     // Needs to be attached to customizations
     /*
     let a = 0;
@@ -266,24 +267,22 @@
       a += 1;
     }
     
-*/  
-  let a = 0
-  while (a < config.advance){
-    if (a >= sorted.length){
-      break
-    }
-    winner = sorted[a]
-    if (winner.name == "") {
-      a += 1
-      continue
-    }
+*/
+    let a = 0;
+    while (a < config.advance) {
+      if (a >= sorted.length) {
+        break;
+      }
+      winner = sorted[a];
+      if (winner.name == "") {
+        a += 1;
+        continue;
+      }
       groupWinners.push(winner);
       selected = null;
       groupWinners = [...groupWinners];
-      
-    
 
-    a += 1
+      a += 1;
     }
     console.log(groupWinners);
     blacklisted.push(group.id);
@@ -387,17 +386,21 @@
     }
     config = playoffconfig;
     AddCorrectAmount();
-    if (user.tournaments){
-    config.id = user.tournaments.length;}
-    else{
-      config.id = 0
+    if (user.tournaments) {
+      config.id = user.tournaments.length;
+    } else {
+      config.id = 0;
     }
     const tournament = {
       config,
       id: config.id,
     };
-    if (user.tournaments){
-    const res = await stateController.createTournament(tournament, "playoffs");}
+    if (user.tournaments) {
+      const res = await stateController.createTournament(
+        tournament,
+        "playoffs"
+      );
+    }
     push(`/playoffs/${cch.tokenify(config)}`);
   }
   let num = 0;
@@ -427,7 +430,13 @@
     showmatches = !showmatches;
   }
 
-  async function save(state) {
+  async function save() {  
+
+    const state = {
+      groups,
+      matchResults:matchResults
+    };
+
     const res = await stateController.updateTourState(
       state,
       user.config.id,
@@ -455,8 +464,6 @@
       a += 1;
     }
   }
-  console.log(groups);
-  console.log(user);
 
 </script>
 
@@ -480,7 +487,7 @@
       <Tooltip
         text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
       >
-        <Button class="save-button" on:cClick={() => save(groups)}>SAVE</Button>
+        <Button class="save-button" on:cClick={() => save()}>SAVE</Button>
       </Tooltip>
     {/if}
   </div>
