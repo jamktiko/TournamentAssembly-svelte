@@ -42,6 +42,7 @@
     numberOfRounds: '',
     bestOf: '',
     players: [],
+    advance: 1,
   };
 
   const numberGroups = [4, 6, 8];
@@ -49,6 +50,7 @@
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [1, 2, 3, 4, 5];
   const pointsForDraw = [0, 1, 2];
+  const numberadvance = [1,2,3,4]
 
   const bestOf = [1, 3, 5, 7];
   const deciderTypes = ['Wins'];
@@ -76,6 +78,8 @@
       case 'decider':
         selectedDecider = value;
         break;
+      case 'advance':
+        selectedAdvance = value;
       default:
         break;
     }
@@ -341,6 +345,20 @@
             <option value="" disabled selected>SELECT</option>
             {#each pointsForDraw as pointsForDraw (pointsForDraw)}
               <option value={pointsForDraw}>{pointsForDraw}</option>
+            {/each}
+          </select>
+        </div>
+        <div>
+          <label for="advance">Number advance</label>
+          <br />
+          <select
+            id="advance"
+            bind:value={config.advance}
+            on:change={handleSelection}
+          >
+            <option value=1 disabled selected>SELECT</option>
+            {#each numberadvance as numberadvance (numberadvance)}
+              <option value={numberadvance}>{numberadvance}</option>
             {/each}
           </select>
         </div>

@@ -243,7 +243,14 @@
   }
 
   function calcWinner(group) {
+    let sorted2 = selected.participants.sort(function (a, b) {
+  return b.score - a.score || b.goalDiff - a.goalDiff ;
+})
+  let sorted = sorted2.filter((sorted2) => sorted2.name != "")
+  console.log(sorted)
+  let winner = ""
     // Needs to be attached to customizations
+    /*
     let a = 0;
     let winner = selected.participants[a];
     while (a < selected.participants.length) {
@@ -258,14 +265,28 @@
       }
       a += 1;
     }
-
-    if (winner.name != "") {
-      groupWinners.push(winner);
-      console.log(groupWinners);
-      selected = null;
-      blacklisted.push(group.id);
-      groupWinners = [...groupWinners];
+    
+*/  
+  let a = 0
+  while (a < config.advance){
+    if (a >= sorted.length){
+      break
     }
+    winner = sorted[a]
+    if (winner.name == "") {
+      a += 1
+      continue
+    }
+      groupWinners.push(winner);
+      selected = null;
+      groupWinners = [...groupWinners];
+      
+    
+
+    a += 1
+    }
+    console.log(groupWinners);
+    blacklisted.push(group.id);
   }
 
   function closeGroup() {
@@ -366,12 +387,17 @@
     }
     config = playoffconfig;
     AddCorrectAmount();
-    config.id = user.tournaments.length;
+    if (user.tournaments){
+    config.id = user.tournaments.length;}
+    else{
+      config.id = 0
+    }
     const tournament = {
       config,
       id: config.id,
     };
-    const res = await stateController.createTournament(tournament, "playoffs");
+    if (user.tournaments){
+    const res = await stateController.createTournament(tournament, "playoffs");}
     push(`/playoffs/${cch.tokenify(config)}`);
   }
   let num = 0;
@@ -431,6 +457,7 @@
   }
   console.log(groups);
   console.log(user);
+
 </script>
 
 <main>
