@@ -61,9 +61,16 @@
       blur(2px);
   }
 
-  @media only screen and (max-width: 1150px) {
+  @media only screen and (max-width: 1450px) {
     .matchup-header {
       font-size: 1.5em;
+    }
+
+    .matches-list {
+      width: 90%;
+      margin-bottom: 2em;
+      margin-top: 2em;
+      padding: 3em 1em;
     }
   }
 </style>

@@ -358,25 +358,27 @@
 
     <div class="addplayer-content">
       {#if playerNameInputVisible}
-        <p>Type your team name below</p>
-        <div class="playername-input">
-          <input
-            class="player-input"
-            type="text"
-            bind:value={newPlayerName}
-            placeholder="Team name"
-          />
-        </div>
-        <div class="addplayer-buttons">
-          <Button
-            class="adjust-button-league"
-            disabled={!newPlayerName ? true : false}
-            on:cClick={addPlayer}>Add</Button
-          >
-          <Button
-            class="adjust-button-league-close"
-            on:cClick={() => (playerNameInputVisible = false)}>Close</Button
-          >
+        <div class="addplayer-content" transition:slide>
+          <p>Type your team name below</p>
+          <div class="playername-input">
+            <input
+              class="player-input"
+              type="text"
+              bind:value={newPlayerName}
+              placeholder="Team name"
+            />
+          </div>
+          <div class="addplayer-buttons">
+            <Button
+              class="adjust-button-league"
+              disabled={!newPlayerName ? true : false}
+              on:cClick={addPlayer}>Add</Button
+            >
+            <Button
+              class="adjust-button-league-close"
+              on:cClick={() => (playerNameInputVisible = false)}>Close</Button
+            >
+          </div>
         </div>
         <div class="error-message-content">
           {#if nameInvalid}
@@ -479,7 +481,7 @@
         disabled={agmatches.length == 0}
         on:cClick={toggleMatches}>Show schedule</Button
       >
-      <Button class="reset-button" on:cClick={resetscore}>reset</Button>
+      <Button class="reset-button" on:cClick={resetscore}>Reset</Button>
     </div>
     <div class="results-button-container">
       {#if showResults == 0}
@@ -503,9 +505,13 @@
     {#if showResults == 1}
       <div class="results-container" transition:slide>
         <h1 class="results-header">RESULTS</h1>
-        {#each matchResultsR.slice() as matchResult}
-          <MatchResults {matchResult} />
-        {/each}
+        {#if matchResultsR.length === 0}
+          <p>There currently isnt any results to show.</p>
+        {:else}
+          {#each matchResultsR.slice() as matchResult}
+            <MatchResults {matchResult} />
+          {/each}
+        {/if}
       </div>
     {/if}
   </div>
@@ -690,7 +696,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1em;
+    font-size: 1.3em;
+    margin-bottom: 0.25em;
   }
 
   .list-header {
@@ -757,6 +764,23 @@
   @media only screen and (max-width: 1450px) {
     table {
       scale: 0.8;
+    }
+
+    .results-button-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .modal {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      height: 75%;
+      position: absolute;
+      top: 30%;
+      left: 10%;
+      padding: 0em 0em;
     }
   }
 </style>

@@ -271,7 +271,8 @@
       justify-content: center;
       width: 135%;
       margin: 1em 6em;
-      padding-top: 2em;
+      padding-top: 4em;
+      padding-bottom: 4em;
       border-radius: 40px;
       background-color: rgba(0, 0, 0, 0.5);
     }
