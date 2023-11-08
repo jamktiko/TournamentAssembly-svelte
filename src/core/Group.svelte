@@ -457,7 +457,8 @@
   }
   console.log(groups);
   console.log(user);
-
+  if (selected){
+  selected = [...selected]}
 </script>
 
 <main>
@@ -520,7 +521,7 @@
           <Tooltip
             text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
           >
-            <Button class="finish-button" on:cClick={() => calcWinner(selected)}
+            <Button disabled={blacklisted.includes(selected.id)} class="finish-button" on:cClick={() => calcWinner(selected)}
               >Finish this Group</Button
             >
           </Tooltip>
