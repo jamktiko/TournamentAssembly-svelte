@@ -313,7 +313,9 @@
   let bestOfvalue = bestOfTransformation();
   console.log(bestOfvalue);
   function reopenWinner() {
+    
     tournamentWinner = winarrer;
+    window.scrollTo(0, 0);
   }
   let a = 0;
   let b = 0;
@@ -353,6 +355,7 @@
     participant name to add a win to their series tally.
   </p>
   {#if tournamentWinner}
+    {window.scrollTo(0, 0)}
     <Winner
       config={contestantData}
       winner={tournamentWinner}
