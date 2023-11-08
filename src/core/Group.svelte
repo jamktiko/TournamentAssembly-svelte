@@ -413,15 +413,23 @@ console.log(config.advance)
       playoffconfig.players = [...playoffconfig.players];
     }
     let place = 1;
-    while (
-      playoffconfig.players.length > 4 &&
-      playoffconfig.players.length < 8
-    ) {
-      randomnum();
-      playoffconfig.players.splice(place, 0, "PLAYER_" + num);
-
-      playoffconfig.players = [...playoffconfig.players];
-      place += 2;
+    while (true) {
+      if (
+        playoffconfig.players.length != 4 &&
+        playoffconfig.players.length != 8 &&
+        playoffconfig.players.length != 16 &&
+        playoffconfig.players.length != 32 &&
+        playoffconfig.players.length != 64 &&
+        playoffconfig.players.length != 128 &&
+        playoffconfig.players.length != 256 
+      ) {
+        randomnum();
+        playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
+        place += 2;
+      } else {
+        playoffconfig.players = [...playoffconfig.players];
+        break;
+      }
     }
   }
   let showmatches = false;
