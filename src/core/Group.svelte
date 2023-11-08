@@ -387,12 +387,17 @@
     }
     config = playoffconfig;
     AddCorrectAmount();
-    config.id = user.tournaments.length;
+    if (user.tournaments){
+    config.id = user.tournaments.length;}
+    else{
+      config.id = 0
+    }
     const tournament = {
       config,
       id: config.id,
     };
-    const res = await stateController.createTournament(tournament, "playoffs");
+    if (user.tournaments){
+    const res = await stateController.createTournament(tournament, "playoffs");}
     push(`/playoffs/${cch.tokenify(config)}`);
   }
   let num = 0;
