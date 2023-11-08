@@ -100,6 +100,8 @@
     <Card
       background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
       bgheader="GROUPS"
+      minplayers="MINIMUM: 2"
+      recomplayers="RECOMMENDED: 8+"
     >
       <div slot="header" class="card-header">
         <h2>GROUPS</h2>
@@ -133,6 +135,8 @@
     <Card
       background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
       bgheader="PLAYOFFS"
+      minplayers="MINIMUM: 4"
+      recomplayers="RECOMMENDED: 8+"
     >
       <div slot="header">
         <h2>PLAYOFFS</h2>
@@ -150,6 +154,8 @@
     <Card
       background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
       bgheader="SCOREBOARD"
+      minplayers="MINIMUM: 2"
+      recomplayers="RECOMMENDED: 4+"
     >
       <div slot="header">
         <h2>SCOREBOARD</h2>
@@ -180,6 +186,8 @@
     <Card
       background="radial-gradient(rgb(1, 1, 50) 0%, rgb(0, 0, 0) 100%)"
       bgheader="LEAGUE"
+      minplayers="MINIMUM: 2"
+      recomplayers="RECOMMENDED: 4+"
     >
       <div slot="header">
         <h2>LEAGUE</h2>
