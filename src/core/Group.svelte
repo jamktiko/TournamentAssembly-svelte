@@ -267,6 +267,7 @@
     }
     
 */  
+console.log(config.advance)
   let a = 0
   while (a < config.advance){
     if (a >= sorted.length){
@@ -369,6 +370,7 @@
     bestOf: config.bestOf,
 
     players: [],
+    advance: config.advance,
   };
   async function leaveGroup() {
     let pusher = 0;
@@ -410,7 +412,7 @@
       playoffconfig.players.push("PLAYER_" + num);
       playoffconfig.players = [...playoffconfig.players];
     }
-    let place = 3;
+    let place = 1;
     while (
       playoffconfig.players.length > 4 &&
       playoffconfig.players.length < 8
