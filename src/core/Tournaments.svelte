@@ -103,13 +103,33 @@
                   on:cClick={() => openTournament(tournament)}>Open</Button
                 >
               </td>
-              <td>{tournament.config.tournamentName}</td>
-              <td>{tournament.config.tourDecider}</td>
-              <td>{tournament.config.numberOfGroups}</td>
-              <td>{tournament.config.teamsInGroup}</td>
-              <td>{tournament.config.pointsPerWin}</td>
-              <td>{tournament.config.pointsPerDraw}</td>
-              <td>{tournament.type.toUpperCase()}</td>
+              <td
+                >{tournament.config.tournamentName
+                  ? tournament.config.tournamentName
+                  : ""}</td
+              >
+              <td
+                >{tournament.config.tourDecider
+                  ? tournament.config.tourDecider
+                  : ""}</td
+              >
+              <td
+                >{tournament.config.numberOfGroups
+                  ? tournament.config.numberOfGroups
+                  : ""}</td
+              >
+              <td
+                >{tournament.config.teamsInGroup
+                  ? tournament.config.teamsInGroup
+                  : ""}</td
+              >
+              <td
+                >{tournament.config.pointsPerWin
+                  ? tournament.config.pointPerWin
+                  : ""}</td
+              >
+              <td>{tournament.config.pointsPerDraw ? tournament.config.pointsPerDraw : ""}</td>
+              <td>{tournament.type ? tournament.type.toUpperCase() : ""}</td>
               <td
                 ><Button
                   class="delete-player-button"
