@@ -314,7 +314,9 @@
   let bestOfvalue = bestOfTransformation();
   console.log(bestOfvalue);
   function reopenWinner() {
+    
     tournamentWinner = winarrer;
+    window.scrollTo(0, 0);
   }
   let a = 0;
   let b = 0;
@@ -353,7 +355,18 @@
     <Tooltip
       text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
     >
-      <Button class="save-button" on:cClick={save}>SAVE</Button>
+      <Button class="save-button" on:cClick={save}
+        ><svg
+          class="save-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          height="32"
+          viewBox="0 -960 960 960"
+          width="32"
+          ><path
+            d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"
+          /></svg
+        >SAVE</Button
+      >
     </Tooltip>
   {/if}
   <p class="info-message">
@@ -362,6 +375,7 @@
     participant name to add a win to their series tally.
   </p>
   {#if tournamentWinner}
+    {window.scrollTo(0, 0)}
     <Winner
       config={contestantData}
       winner={tournamentWinner}
@@ -772,6 +786,11 @@
     font-size: 1.1em;
     margin-left: 0.2em;
     width: 100%;
+  }
+
+  .save-icon {
+    padding-right: 0.3em;
+    fill: #7396ff;
   }
 
   .match-winner {

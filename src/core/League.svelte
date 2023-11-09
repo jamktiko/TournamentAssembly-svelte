@@ -1,25 +1,25 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import { onDestroy } from 'svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
-  import { push } from 'svelte-spa-router';
-  import Winner from '../reusable/Winner.svelte';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, quadInOut } from 'svelte/easing';
-  import Automatches from '../reusable/Automatches.svelte';
-  import Tooltip from '../reusable/Tooltip.svelte';
-  import stateController from '../utils/stateStore';
-  import { loadFromSession } from '../utils/lib';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import { onDestroy } from "svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+  import { push } from "svelte-spa-router";
+  import Winner from "../reusable/Winner.svelte";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, quadInOut } from "svelte/easing";
+  import Automatches from "../reusable/Automatches.svelte";
+  import Tooltip from "../reusable/Tooltip.svelte";
+  import stateController from "../utils/stateStore";
+  import { loadFromSession } from "../utils/lib";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem('user')) {
-    user = loadFromSession('user');
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
     stateController.set(user);
   }
 
@@ -45,8 +45,8 @@
   let config = cch.detokenify(params.tourdata)[0];
 
   onDestroy(() => {
-    cch.saveToCache('league', teams);
-    cch.saveToCache('leagueConf', config);
+    cch.saveToCache("league", teams);
+    cch.saveToCache("leagueConf", config);
 
     if (user.state) delete user.state;
   });
@@ -54,15 +54,19 @@
   let teams = [];
   let match = [];
 
-  if (cch.isInCache('league') && cch.isInCache('leagueConf')) {
-    teams = cch.getFromCache('league');
+  if (cch.isInCache("league") && cch.isInCache("leagueConf")) {
+    teams = cch.getFromCache("league");
 
     console.log(teams);
-  } else if (user.state) {
-    teams = user.state;
+  } 
+  if (user.state) {
+    teams = user.state.teams;
+    matchResults = user.state.matchResults;
+    matchResultsR = [...matchResults].reverse();
+    console.log(matchResultsR, "reversed");
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column) {
@@ -113,9 +117,9 @@
       selected = id;
     } else {
       setTimeout(() => {
-        const titleElement = document.querySelector('.match-header');
+        const titleElement = document.querySelector(".match-header");
         if (!titleElement) return;
-        titleElement.scrollIntoView({ behavior: 'smooth' });
+        titleElement.scrollIntoView({ behavior: "smooth" });
       }, 20);
 
       selected = null;
@@ -153,7 +157,7 @@
           },
         ],
         draw: true,
-        group: ' ',
+        group: " ",
       });
     } else {
       ce.detail.winner.wins++;
@@ -180,7 +184,7 @@
               },
             ],
             draw: false,
-            group: ' ',
+            group: " ",
           },
         ]);
       } else {
@@ -199,7 +203,7 @@
               },
             ],
             draw: false,
-            group: ' ',
+            group: " ",
           },
         ]);
       }
@@ -217,7 +221,7 @@
     return 0;
   }
 
-  let largest = '';
+  let largest = "";
   function largestScore() {
     if (teams.length != 0) {
       let i = 0;
@@ -235,9 +239,10 @@
         i += 1;
       }
     }
+    window.scrollTo(0, 0)
   }
   function closewindow() {
-    largest = '';
+    largest = "";
   }
 
   function deleteTeam(team) {
@@ -313,8 +318,13 @@
   }
 
   async function save() {
-    const res = await stateController.updateTourState(
+    const state = {
       teams,
+      matchResults,
+    };
+
+    const res = await stateController.updateTourState(
+      state,
       user.config.id,
       user.username
     );
@@ -343,7 +353,7 @@
   in:slide={{
     duration: 700,
     easing: quintOut,
-    axis: 'y',
+    axis: "y",
   }}
 >
   <h1 class="league-name">{config.tournamentName}</h1>
@@ -391,8 +401,26 @@
         >
       {/if}
     </div>
-    {#if largest != ''}
+    {#if largest != ""}
       <Winner {config} winner={largest} on:closeevent={closewindow} />
+    {/if}
+    {#if !user.isGuest && user.username}
+      <Tooltip
+        text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
+      >
+        <Button class="save-button" on:cClick={save}
+          ><svg
+            class="save-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            height="32"
+            viewBox="0 -960 960 960"
+            width="32"
+            ><path
+              d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"
+            /></svg
+          >SAVE</Button
+        >
+      </Tooltip>
     {/if}
     <Tooltip
       text="Once you have played all the matches in the league press this button to finalize the results and declare a winner."
@@ -401,24 +429,17 @@
         >FINISH LEAGUE</Button
       ></Tooltip
     >
-    {#if !user.isGuest && user.username}
-      <Tooltip
-        text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
-      >
-        <Button class="save-button" on:cClick={save}>SAVE</Button>
-      </Tooltip>
-    {/if}
     <div class="league-scoreboard-container">
       <table>
         <thead>
           <tr>
-            <th on:click={() => toggleSortOrder('name')}>Team Name</th>
-            <th on:click={() => toggleSortOrder('playedMatches')}>PL</th>
-            <th on:click={() => toggleSortOrder('score')}>Score</th>
-            <th on:click={() => toggleSortOrder('wins')}>W</th>
-            <th on:click={() => toggleSortOrder('draws')}>D</th>
-            <th on:click={() => toggleSortOrder('losses')}>L</th>
-            <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
+            <th on:click={() => toggleSortOrder("name")}>Team Name</th>
+            <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
+            <th on:click={() => toggleSortOrder("score")}>Score</th>
+            <th on:click={() => toggleSortOrder("wins")}>W</th>
+            <th on:click={() => toggleSortOrder("draws")}>D</th>
+            <th on:click={() => toggleSortOrder("losses")}>L</th>
+            <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
           </tr>
         </thead>
         <tbody class="scoreboard-lined-cell">
@@ -428,7 +449,7 @@
               in:fade={{
                 duration: 2000,
                 easing: quintOut,
-                axis: 'y',
+                axis: "y",
               }}
             >
               <td>{team.name}</td>
@@ -506,7 +527,7 @@
       <div class="results-container" transition:slide>
         <h1 class="results-header">RESULTS</h1>
         {#if matchResultsR.length === 0}
-          <p>There currently isnt any results to show.</p>
+          <p>There are currently no results to display.</p>
         {:else}
           {#each matchResultsR.slice() as matchResult}
             <MatchResults {matchResult} />
@@ -760,6 +781,10 @@
     fill: rgba(110, 0, 0);
   }
 
+  .save-icon {
+    padding-right: 0.3em;
+    fill: #7396ff;
+  }
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     table {

@@ -349,24 +349,29 @@
           </select>
         </div>
         <div>
-          <label for="advance">Number advance</label>
+          <label for="advance">Number of qualifiers</label>
           <br />
-          <select
-            id="advance"
-            bind:value={config.advance}
-            on:change={handleSelection}
+          <Tooltip
+            text="Defines how many patricipants advance to the possible playoff stage."
           >
-            <option value="1" disabled selected>SELECT</option>
-            {#each numberadvance as numberadvance (numberadvance)}
-              <option value={numberadvance}>{numberadvance}</option>
-            {/each}
-          </select>
+
+            <select
+              id="advance"
+              bind:value={config.advance}
+              on:change={handleSelection}
+            >
+              <option value="1" disabled selected>SELECT</option>
+              {#each numberadvance as numberadvance (numberadvance)}
+                <option value={numberadvance}>{numberadvance}</option>
+              {/each}
+            </select>
+          </Tooltip>
         </div>
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
           <Tooltip
-            text="Defines how many match wins are needed in order to advance to the next round."
+            text="Defines how many match wins are needed in order to advance to the next round in the possible playoff stage."
           >
             <select
               id="roundSelection"

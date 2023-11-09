@@ -440,7 +440,7 @@
     cursor: pointer;
     transition-duration: 0.1s;
     margin-top: 0.5em;
-    margin-bottom: 0.2em;
+    margin-bottom: 3em;
   }
 
   .league-resolve-button:hover {
@@ -571,8 +571,22 @@
   }
 
   .save-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     margin-top: 0.25em;
     margin-bottom: 0.5em;
+    border: solid 1px #7396ff;
+    border-radius: 40px;
+    background: linear-gradient(
+      129deg,
+      rgba(0, 0, 0, 0.227) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+    color: #7396ff;
+    transition-duration: 0.1s;
+    cursor: pointer;
   }
 
   .show-winner-button {
