@@ -1,26 +1,26 @@
 <script>
-  import cch from '../utils/cache';
-  import stateController from '../utils/stateStore';
-  import Button from '../reusable/Button.svelte';
-  import Match from '../reusable/Match.svelte';
-  import MatchResults from '../reusable/MatchResults.svelte';
-  import Automatches from '../reusable/Automatches.svelte';
-  import { onDestroy } from 'svelte';
-  import { push } from 'svelte-spa-router';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
-  import Tooltip from '../reusable/Tooltip.svelte';
-  import { loadFromSession } from '../utils/lib';
+  import cch from "../utils/cache";
+  import stateController from "../utils/stateStore";
+  import Button from "../reusable/Button.svelte";
+  import Match from "../reusable/Match.svelte";
+  import MatchResults from "../reusable/MatchResults.svelte";
+  import Automatches from "../reusable/Automatches.svelte";
+  import { onDestroy } from "svelte";
+  import { push } from "svelte-spa-router";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
+  import Tooltip from "../reusable/Tooltip.svelte";
+  import { loadFromSession } from "../utils/lib";
 
   export let params;
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem('user')) {
-    user = loadFromSession('user');
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
     stateController.set(user);
   }
 
@@ -36,16 +36,16 @@
   let blacklisted = [];
 
   onDestroy(() => {
-    cch.saveToCache('groups', groups);
-    cch.saveToCache('groupsConf', config);
+    cch.saveToCache("groups", groups);
+    cch.saveToCache("groupsConf", config);
 
     if (user.state) delete user.state;
 
     if (unsub) unsub();
   });
 
-  if (cch.isInCache('groups')) {
-    groups = cch.getFromCache('groups');
+  if (cch.isInCache("groups")) {
+    groups = cch.getFromCache("groups");
   } else {
     generateGroups(config);
   }
@@ -53,7 +53,7 @@
   if (user.state && user.config) {
     groups = user.state.groups;
     matchResults = user.state.matchResults;
-    matchResultsR = [...matchResults].reverse()
+    matchResultsR = [...matchResults].reverse();
     config = user.config;
   }
 
@@ -75,7 +75,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: '',
+          name: "",
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -111,12 +111,12 @@
   function checkIfBlacklisted() {
     return blacklisted.includes(selected.id);
   }
-  let value = '';
+  let value = "";
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = '';
+  let sortBy = "";
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -175,7 +175,7 @@
           },
         ],
         draw: true,
-        group: 'group ' + (selected.id + 1),
+        group: "group " + (selected.id + 1),
       });
       console.log(selected.id);
     } else {
@@ -203,7 +203,7 @@
               },
             ],
             draw: false,
-            group: 'group ' + (selected.id + 1),
+            group: "group " + (selected.id + 1),
           },
         ]);
       } else {
@@ -222,18 +222,18 @@
               },
             ],
             draw: false,
-            group: 'group ' + (selected.id + 1),
+            group: "group " + (selected.id + 1),
           },
         ]);
       }
     }
     console.log(sortBy);
 
-    sortBy = '';
-    if (sortBy === 'score') {
-      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
+    sortBy = "";
+    if (sortBy === "score") {
+      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
     } else {
-      toggleSortOrder('score', selected.id);
+      toggleSortOrder("score", selected.id);
     }
 
     match = [];
@@ -248,9 +248,9 @@
       return b.score - a.score || b.goalDiff - a.goalDiff;
     });
 
-    let sorted = sorted2.filter((sorted2) => sorted2.name != '');
+    let sorted = sorted2.filter((sorted2) => sorted2.name != "");
     console.log(sorted);
-    let winner = '';
+    let winner = "";
     // Needs to be attached to customizations
     /*
     let a = 0;
@@ -270,17 +270,17 @@
     
 
 
-*/  
-  let a = 0
-  while (a < config.advance){
-    if (a >= sorted.length){
-      break
-    }
-    winner = sorted[a]
-    if (winner.name == "") {
-      a += 1
-      continue
-    }
+*/
+    let a = 0;
+    while (a < config.advance) {
+      if (a >= sorted.length) {
+        break;
+      }
+      winner = sorted[a];
+      if (winner.name == "") {
+        a += 1;
+        continue;
+      }
       groupWinners.push(winner);
       selected = null;
       groupWinners = [...groupWinners];
@@ -360,14 +360,14 @@
   }
 
   let playoffconfig = {
-    tournamentName: '',
-    organizerName: '',
-    numberOfGroups: '',
-    teamsInGroup: '',
-    tourDecider: '',
-    pointsPerWin: '',
-    pointsPerDraw: '',
-    numberOfRounds: '',
+    tournamentName: "",
+    organizerName: "",
+    numberOfGroups: "",
+    teamsInGroup: "",
+    tourDecider: "",
+    pointsPerWin: "",
+    pointsPerDraw: "",
+    numberOfRounds: "",
     bestOf: config.bestOf,
 
     players: [],
@@ -378,7 +378,7 @@
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
     playoffconfig.organizerName = config.organizerName;
-    playoffconfig.tourDecider = '';
+    playoffconfig.tourDecider = "";
 
     if (!playoffconfig.bestOf) {
       playoffconfig.bestOf = 1;
@@ -388,25 +388,25 @@
       playoffconfig.players.push(groupWinners[pusher].name);
       pusher += 1;
     }
-    config = playoffconfig;
     AddCorrectAmount();
     if (user.tournaments) {
-      config.id = user.tournaments.length;
+      playoffconfig.id = calcId(user.tournaments);
     } else {
-      config.id = 0;
+      playoffconfig.id = 0;
     }
     const tournament = {
-      config,
-      id: config.id,
+      config: playoffconfig,
+      id: playoffconfig.id,
     };
     if (user.tournaments) {
+      user.config = playoffconfig;
       const res = await stateController.createTournament(
         tournament,
 
-        'playoffs'
+        "playoffs"
       );
     }
-    push(`/playoffs/${cch.tokenify(config)}`);
+    push(`/playoffs/${cch.tokenify(playoffconfig)}`);
   }
   let num = 0;
   function randomnum() {
@@ -415,7 +415,7 @@
   function AddCorrectAmount() {
     if (playoffconfig.players.length == 3) {
       randomnum();
-      playoffconfig.players.push('PLAYER_' + num);
+      playoffconfig.players.push("PLAYER_" + num);
       playoffconfig.players = [...playoffconfig.players];
     }
 
@@ -428,10 +428,10 @@
         playoffconfig.players.length != 32 &&
         playoffconfig.players.length != 64 &&
         playoffconfig.players.length != 128 &&
-        playoffconfig.players.length != 256 
+        playoffconfig.players.length != 256
       ) {
         randomnum();
-        playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
+        playoffconfig.players.splice(place, 0, "PLAYER_" + num);
         place += 2;
       } else {
         playoffconfig.players = [...playoffconfig.players];
@@ -444,11 +444,10 @@
     showmatches = !showmatches;
   }
 
-  async function save() {  
-
+  async function save() {
     const state = {
       groups,
-      matchResults:matchResults
+      matchResults: matchResults,
     };
 
     const res = await stateController.updateTourState(
@@ -466,28 +465,32 @@
     showTooltip = !showTooltip;
   }
   function resetscore() {
-    agmatches = [];
-    let a = 0;
-    while (a < selected.participants.length) {
-      selected.participants[a].draws = 0;
-      selected.participants[a].goalDiff = 0;
-      selected.participants[a].losses = 0;
-      selected.participants[a].playedMatches = 0;
-      selected.participants[a].score = 0;
-      selected.participants[a].wins = 0;
-      a += 1;
+    const confirm = window.confirm("All the scores will be reset!\nContinue?");
+    if (confirm) {
+      agmatches = [];
+      let a = 0;
+      while (a < selected.participants.length) {
+        selected.participants[a].draws = 0;
+        selected.participants[a].goalDiff = 0;
+        selected.participants[a].losses = 0;
+        selected.participants[a].playedMatches = 0;
+        selected.participants[a].score = 0;
+        selected.participants[a].wins = 0;
+        a += 1;
+      }
     }
   }
 
-  if (selected){
-  selected = [...selected]}
+  if (selected) {
+    selected = [...selected];
+  }
 </script>
 
 <main>
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
 
-    <h3>Organized by: {config.organizerName || '-'}</h3>
+    <h3>Organized by: {config.organizerName || "-"}</h3>
     <Tooltip
       text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
@@ -503,7 +506,6 @@
       <Tooltip
         text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
       >
-
         <Button class="save-button" on:cClick={() => save(groups)}
           ><svg
             class="save-icon"
@@ -555,8 +557,10 @@
           <Tooltip
             text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
           >
-            <Button disabled={blacklisted.includes(selected.id)} class="finish-button" on:cClick={() => calcWinner(selected)}
-              >Finish this Group</Button
+            <Button
+              disabled={blacklisted.includes(selected.id)}
+              class="finish-button"
+              on:cClick={() => calcWinner(selected)}>Finish this Group</Button
             >
           </Tooltip>
           <h2 id="group-name">{selected.name}</h2>
@@ -565,20 +569,20 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder('playedMatches', selected.index)}>PL</th
+                  toggleSortOrder("playedMatches", selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder('score', selected.index)}
+              <th on:click={() => toggleSortOrder("score", selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
+              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder('draws', selected.index)}
+              <th on:click={() => toggleSortOrder("draws", selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder('losses', selected.index)}
+              <th on:click={() => toggleSortOrder("losses", selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
+              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
                 >GD</th
               >
             </tr>
@@ -656,7 +660,7 @@
       the results from view by toggling the SHOW/HIDE RESULTS button."
       >
         <Button class="results-toggle-button" on:cClick={toggleResults}
-          >{showResults ? 'Hide Results' : 'Show Results'}</Button
+          >{showResults ? "Hide Results" : "Show Results"}</Button
         >
       </Tooltip>
       {#if showResults}

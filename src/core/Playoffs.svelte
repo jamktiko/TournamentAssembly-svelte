@@ -1,28 +1,28 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Winner from '../reusable/Winner.svelte';
-  import { push } from 'svelte-spa-router';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
-  import stateController from '../utils/stateStore';
-  import { onDestroy } from 'svelte';
-  import { loadFromSession } from '../utils/lib';
-  import Tooltip from '../reusable/Tooltip.svelte';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Winner from "../reusable/Winner.svelte";
+  import { push } from "svelte-spa-router";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
+  import stateController from "../utils/stateStore";
+  import { onDestroy } from "svelte";
+  import { loadFromSession } from "../utils/lib";
+  import Tooltip from "../reusable/Tooltip.svelte";
 
   let showMatchWinPopup = false;
-  let matchWinPopupMessage = '';
+  let matchWinPopupMessage = "";
 
   let showRoundAdvancePopup = false;
-  let roundAdvancePopupMessage = '';
+  let roundAdvancePopupMessage = "";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem('user')) {
-    user = loadFromSession('user');
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
     stateController.set(user);
   }
 
@@ -45,7 +45,7 @@
   let winners = [];
   let tournamentWinner = null;
 
-  const placeholder = 'Waiting for results';
+  const placeholder = "Waiting for results";
 
   function parseContestants(contestants) {
     const parsed = [];
@@ -222,18 +222,18 @@
 
   function assignRoundNames(rounds) {
     const roundNames = [
-      'ROUND 1',
-      'ROUND 2',
-      'ROUND 3',
-      'ROUND 4',
-      'ROUND 5',
-      'ROUND 6',
+      "ROUND 1",
+      "ROUND 2",
+      "ROUND 3",
+      "ROUND 4",
+      "ROUND 5",
+      "ROUND 6",
     ];
     const specialRoundNames = [
-      'PRE-QUARTERFINALS',
-      'QUARTERFINALS',
-      'SEMIFINALS',
-      'FINALS',
+      "PRE-QUARTERFINALS",
+      "QUARTERFINALS",
+      "SEMIFINALS",
+      "FINALS",
     ];
 
     for (let i = 0; i < rounds.length; i++) {
@@ -250,7 +250,7 @@
     rounds = user.state.rounds;
     winners = user.state.winners;
 
-    console.log(winners, 'winners');
+    console.log(winners, "winners");
   } else {
     calcMatchups(contestants.length);
   }
@@ -283,6 +283,7 @@
   }
 
   async function save() {
+    console.log(user.config.id,"user config");
     const state = {
       winners,
       rounds,
@@ -313,7 +314,6 @@
   let bestOfvalue = bestOfTransformation();
   console.log(bestOfvalue);
   function reopenWinner() {
-    
     tournamentWinner = winarrer;
     window.scrollTo(0, 0);
   }
@@ -321,7 +321,7 @@
   let b = 0;
 
   while (a < rounds[0].length) {
-    if (rounds[0][a].away.name[6] == '_') {
+    if (rounds[0][a].away.name[6] == "_") {
       rounds[0][a].home.score = bestOfvalue - 1;
       moveToNextRound(
         rounds[0][a].home,
@@ -378,7 +378,7 @@
     transition:slide={{
       duration: 700,
       easing: quadInOut,
-      axis: 'x',
+      axis: "x",
     }}
   >
     {#each rounds as round, i}
