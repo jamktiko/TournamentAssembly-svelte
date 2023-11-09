@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // Generate a token for the user
 function createToken(username) {
@@ -15,30 +15,29 @@ function createToken(username) {
 }
 
 function verifyToken(req, res, next) {
-  const token = req.body.token || req.headers["x-access-token"];
+  const token = req.body.token || req.headers['x-access-token'];
   if (token) {
-    // verify tutkii tokenin voimassaolon ja salausmuuttujan
+    // verify checks the validity of the token and the encryption variable
     jwt.verify(token, process.env.SECRET_KEY, function (err, decoded) {
       if (err) {
         return res.json({
           success: false,
-          msg: "Token is invalid or expired.",
+          msg: 'Token is invalid or expired.',
         });
       } else {
-        // Tallennetaan dekoodattu token request-olioon josta sitä voi jatkossa pyytää
+        // The decoded token is stored in the request object from which it can be requested in the future
         req.decoded = decoded;
-        next(); // siirrytään eteenpäin seuraaviin reitteihin
+        next(); // move on to the next routes
       }
     });
   } else {
     // if there is no token, it prompts an error
     return res.status(403).send({
       success: false,
-      msg: "Token does not exist",
+      msg: 'Token does not exist',
     });
   }
 }
-
 
 /*const transporter = nodemailer.createTransport({
   pool: true,
