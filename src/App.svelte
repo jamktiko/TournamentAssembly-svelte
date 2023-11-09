@@ -15,6 +15,7 @@
 
   function logout() {
     window.sessionStorage.removeItem("user");
+    localStorage.clear();
     stateController.set({});
 
     push("/");
