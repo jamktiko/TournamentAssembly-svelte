@@ -354,6 +354,7 @@
           <Tooltip
             text="Defines how many patricipants advance to the possible playoff stage."
           >
+
             <select
               id="advance"
               bind:value={config.advance}
@@ -507,7 +508,6 @@
             </select>
           </Tooltip>
         </div>
-        <div />
         <div class="playoffs-button-container">
           {#if isTablet}
             <p id="player-count">Player count: {config.players.length}</p>
