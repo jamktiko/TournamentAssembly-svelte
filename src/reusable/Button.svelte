@@ -596,6 +596,15 @@
     text-transform: uppercase;
   }
 
+  .carousel-button {
+    font-size: 1.1em;
+    padding: 0.25em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
@@ -649,7 +658,7 @@
     }
 
     .add-player-exit-button {
-      scale: 1.5;
+      scale: 1;
     }
 
     /* Match Scoring Buttons */
