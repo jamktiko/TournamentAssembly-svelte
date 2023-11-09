@@ -58,7 +58,7 @@
     teams = cch.getFromCache("league");
 
     console.log(teams);
-  } 
+  }
   if (user.state) {
     teams = user.state.teams;
     matchResults = user.state.matchResults;
@@ -239,7 +239,7 @@
         i += 1;
       }
     }
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
   }
   function closewindow() {
     largest = "";
@@ -335,16 +335,19 @@
   $: console.log(teams);
 
   function resetscore() {
-    agmatches = [];
-    let a = 0;
-    while (a < teams.length) {
-      teams[a].draws = 0;
-      teams[a].goalDiff = 0;
-      teams[a].losses = 0;
-      teams[a].playedMatches = 0;
-      teams[a].score = 0;
-      teams[a].wins = 0;
-      a += 1;
+    const confirm = window.confirm("All the scores will be reset!\nContinue?");
+    if (confirm) {
+      agmatches = [];
+      let a = 0;
+      while (a < teams.length) {
+        teams[a].draws = 0;
+        teams[a].goalDiff = 0;
+        teams[a].losses = 0;
+        teams[a].playedMatches = 0;
+        teams[a].score = 0;
+        teams[a].wins = 0;
+        a += 1;
+      }
     }
   }
 </script>

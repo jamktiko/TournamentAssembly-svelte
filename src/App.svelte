@@ -1,10 +1,11 @@
 <script>
-  import Router from './utils/Router.svelte';
-  import Header from './core/Header.svelte';
-  import Button from './reusable/Button.svelte';
-  import { pop, location, push } from 'svelte-spa-router';
-  import stateController from './utils/stateStore';
-  import { slide } from 'svelte/transition';
+  import Router from "./utils/Router.svelte";
+  import Header from "./core/Header.svelte";
+  import Button from "./reusable/Button.svelte";
+  import { pop, location, push } from "svelte-spa-router";
+  import stateController from "./utils/stateStore";
+  import { slide } from "svelte/transition";
+  import { backIn } from "svelte/easing";
 
   let userData;
 
@@ -13,10 +14,10 @@
   });
 
   function logout() {
-    window.sessionStorage.removeItem('user');
+    window.sessionStorage.removeItem("user");
     stateController.set({});
 
-    push('/');
+    push("/");
   }
 
   console.log(userData);
@@ -26,9 +27,9 @@
 
 <Header />
 
-{#if $location !== '/' && $location !== '/errorpage' && $location !== '/LoginUser' && $location !== '/Signup'}
-  {#if $location == '/selection'}
-    <Button class="back-button" on:cClick={() => push('/')}>
+{#if $location !== "/" && $location !== "/errorpage" && $location !== "/LoginUser" && $location !== "/Signup"}
+  {#if $location == "/selection"}
+    <Button class="back-button" on:cClick={() => push("/")}>
       <svg
         class="back-arrow"
         xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +41,7 @@
       Back
     </Button>
   {:else}
-    <Button class="back-button" on:cClick={() => push('/selection')}
+    <Button class="back-button" on:cClick={() => push("/selection")}
       ><svg
         class="back-arrow"
         xmlns="http://www.w3.org/2000/svg"
@@ -53,8 +54,8 @@
   {/if}
 {/if}
 
-{#if userData.username !== 'guest' && userData.username}
-  <Button class="profile-button" on:cClick={() => push('/profile')}
+{#if userData.username !== "guest" && userData.username}
+  <Button class="profile-button" on:cClick={() => push("/profile")}
     ><svg
       class="profile"
       xmlns="http://www.w3.org/2000/svg"
