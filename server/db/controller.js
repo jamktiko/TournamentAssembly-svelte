@@ -29,7 +29,7 @@ const userController = {
   },
 
   async updateTournamentState(req, res) {
-    res.send(await lib.updateTournamentState(req.body.username, req.body.state, req.body.id));
+    res.send(await lib.updateTournamentState(req.body.state, req.body.id));
   },
 
   async delTournament(req, res) {

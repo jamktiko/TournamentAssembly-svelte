@@ -6,6 +6,7 @@ const Filter = require('bad-words');
 const filter = new Filter();
 
 const User = require('../models/user');
+const Tournament = require('../models/tournament');
 
 const lib = {
   async getAll() {
@@ -120,31 +121,10 @@ const lib = {
   },
 
   async addTournament(username, newTournament) {
-    // Find the user by username
-    const user = await User.findOne({ username: username });
-    try {
-      if (!user) {
-        console.error('User not found');
-        return {
-          msg: 'User not found',
-          success: false,
-        };
-      }
-    } catch (error) {
-      console.error('Error finding user:', error);
-      return {
-        msg: 'Error finding user',
-        success: false,
-      };
-    }
-    // Add newTournamentData to the tournament array
+    newTournament.owner = username;
+    const result = Tournament.create(newTournament);
 
-    user.tournaments.push(newTournament);
-
-    // Update the user's document in the database
-    const updateResult = await User.updateOne({ username: username }, { $set: { tournaments: user.tournaments } });
-
-    return { success: true, result: updateResult, msg: 'Tournament created' };
+    return { success: true, result: result, msg: 'Tournament created' };
   },
 
   async delTournament(username, id) {
@@ -180,8 +160,8 @@ const lib = {
     return updateResult;
   },
 
-  async updateTournamentState(username, state, id) {
-    if (!username || (id !== 0 && !id)) {
+  async updateTournamentState(state, id) {
+    if (id !== 0 && !id) {
       console.error('Username or tournament id invalid');
       return {
         msg: 'Username or tournament id invalid',
@@ -192,7 +172,7 @@ const lib = {
     console.log(state);
 
     try {
-      await User.findOneAndUpdate({ username: username, 'tournaments.id': id }, { $set: { 'tournaments.$.state': state } });
+      await Tournament.findOneAndUpdate({ _id: id }, { $set: { state: state } });
       console.log('Document updated successfully');
     } catch (error) {
       console.error('Error updating document:', error);
