@@ -495,6 +495,7 @@
       text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
       <Button
+        class="export-playoffs-button"
         disabled={groupWinners.length < 2}
         on:cClick={leaveGroup}
         on:mouseenter={toggleTooltip}
@@ -529,17 +530,20 @@
           <div class="group-content">
             {#if group.name == selected.name}
               <Button class="focused-button" on:cClick={() => closeGroup()}
-                >Close Group</Button
+                >Close</Button
               >
             {:else}
-              <Button on:cClick={() => selectGroup(group, i)}
-                >{group.name}</Button
+              <Button
+                class="group-select-button"
+                on:cClick={() => selectGroup(group, i)}>{group.name}</Button
               >
             {/if}
           </div>
         {:else}
           <div class="group-content">
-            <Button on:cClick={() => selectGroup(group, i)}>{group.name}</Button
+            <Button
+              class="group-select-button"
+              on:cClick={() => selectGroup(group, i)}>{group.name}</Button
             >
           </div>
         {/if}
@@ -739,6 +743,7 @@
   .no-groups-icon {
     fill: #fff;
   }
+
   table {
     font-size: 1em;
     padding-left: 1em;
@@ -1013,7 +1018,7 @@
     text-align: center;
   }
   /* Tablet Portrait */
-  @media only screen and (max-width: 1150px) {
+  @media only screen and (max-width: 1450px) {
     input {
       margin-bottom: 0em;
       font-size: 1.3em;
@@ -1021,7 +1026,7 @@
     }
 
     .grid-container {
-      width: 80%;
+      width: 100%;
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -1044,10 +1049,11 @@
 
     .resolve-button-container {
       justify-content: center;
-      width: 100%;
+      width: 90%;
       margin-top: 0em;
       margin-bottom: 2em;
     }
+
     .modal {
       width: 80%;
       height: auto;
@@ -1061,6 +1067,24 @@
     #match-count {
       font-size: 1em;
       scale: 1.7;
+    }
+
+    table {
+      scale: 0.9;
+      padding-bottom: 0em;
+    }
+
+    p {
+      scale: 1.1;
+    }
+
+    .group-content {
+      padding: 0em 0em;
+    }
+
+    #group-name {
+      margin-bottom: 0em;
+      margin-top: 1em;
     }
   }
 </style>
