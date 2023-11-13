@@ -28,7 +28,7 @@
 
 <div
   class="sidebar"
-  transition:slide={{ x: -200, duration: 500, easing: linear }}
+  transition:slide={{ x: -200, duration: 300, easing: linear }}
 >
   <Button class="profile-button" on:cClick={() => push('/profile')}
     ><svg
@@ -73,17 +73,25 @@
   }
 
   .sidebar {
+    display: flex;
     position: absolute;
     right: 0;
     width: 5%;
-    height: 16%;
+    height: 25%;
     transition: right 0.3s ease-in-out;
     color: #ffffff;
-    padding: 1em 3em;
-    background: linear-gradient(129deg, rgb(5, 5, 40) 0%, rgb(15, 11, 40) 100%);
+    padding: 0.1em 3em;
+    background: none;
     border-radius: 10px;
     z-index: 100;
-    border: solid 1px #ffffff3f;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border: none;
+  }
+
+  @media only screen and (max-width: 1450px) {
+    .sidebar {
+      width: 7%;
+      right: 0.2em;
+      padding-top: 0.2em;
+    }
   }
 </style>

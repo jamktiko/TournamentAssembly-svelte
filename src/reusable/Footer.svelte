@@ -13,8 +13,8 @@
 
 <style>
   .footer-content {
-    margin-top: 22em;
-    position: fixed;
+    margin-top: 25em;
+    position: sticky;
     bottom: 0%;
     font-size: 0.7em;
     display: flex;
