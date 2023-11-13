@@ -42,7 +42,7 @@
     <li class="dev-card-content" in:slide={{ delay: 1700, duration: 1200 }}>
       <div class="developer-content">
         <h2>Nikolas Orava</h2>
-        <h3>Backend</h3>
+        <h3>Frontend</h3>
       </div>
       <img
         class="dev-pic"

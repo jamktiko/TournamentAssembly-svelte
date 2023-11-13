@@ -14,7 +14,7 @@
 <style>
   .footer-content {
     margin-top: 22em;
-    position: sticky;
+    position: fixed;
     bottom: 0%;
     font-size: 0.7em;
     display: flex;
