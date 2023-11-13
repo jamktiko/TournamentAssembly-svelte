@@ -67,7 +67,7 @@
     </div>
   </div>
 </main>
-
+<div class="spacer"></div>
 {#if openLogin}
   <LoginUser on:closeLogin={toggleLogin} />
 {/if}
@@ -140,6 +140,9 @@
     width: 60%;
     margin: auto;
     font-size: 1.3em;
+  }
+  .spacer {
+    margin-bottom: 4%;
   }
 
   /* Tablet Portrait */
