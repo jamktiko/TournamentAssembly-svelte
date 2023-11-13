@@ -22,7 +22,7 @@
 
   const dispatch = createEventDispatcher();
   function closeSidebar() {
-    dispatch('closeSidebar');
+    dispatch('toggleSidebar');
   }
 </script>
 
