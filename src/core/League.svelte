@@ -1,25 +1,25 @@
 <script>
-  import cch from "../utils/cache";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import { onDestroy } from "svelte";
-  import MatchResults from "../reusable/MatchResults.svelte";
-  import { push } from "svelte-spa-router";
-  import Winner from "../reusable/Winner.svelte";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, quadInOut } from "svelte/easing";
-  import Automatches from "../reusable/Automatches.svelte";
-  import Tooltip from "../reusable/Tooltip.svelte";
-  import stateController from "../utils/stateStore";
-  import { loadFromSession } from "../utils/lib";
+  import cch from '../utils/cache';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import { onDestroy } from 'svelte';
+  import MatchResults from '../reusable/MatchResults.svelte';
+  import { push } from 'svelte-spa-router';
+  import Winner from '../reusable/Winner.svelte';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, quadInOut } from 'svelte/easing';
+  import Automatches from '../reusable/Automatches.svelte';
+  import Tooltip from '../reusable/Tooltip.svelte';
+  import stateController from '../utils/stateStore';
+  import { loadFromSession } from '../utils/lib';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -45,8 +45,8 @@
   let config = cch.detokenify(params.tourdata)[0];
 
   onDestroy(() => {
-    cch.saveToCache("league", teams);
-    cch.saveToCache("leagueConf", config);
+    cch.saveToCache('league', teams);
+    cch.saveToCache('leagueConf', config);
 
     if (user.state) delete user.state;
   });
@@ -54,8 +54,8 @@
   let teams = [];
   let match = [];
 
-  if (cch.isInCache("league") && cch.isInCache("leagueConf")) {
-    teams = cch.getFromCache("league");
+  if (cch.isInCache('league') && cch.isInCache('leagueConf')) {
+    teams = cch.getFromCache('league');
 
     console.log(teams);
   }
@@ -63,10 +63,10 @@
     teams = user.state.teams;
     matchResults = user.state.matchResults;
     matchResultsR = [...matchResults].reverse();
-    console.log(matchResultsR, "reversed");
+    console.log(matchResultsR, 'reversed');
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column) {
@@ -117,9 +117,9 @@
       selected = id;
     } else {
       setTimeout(() => {
-        const titleElement = document.querySelector(".match-header");
+        const titleElement = document.querySelector('.match-header');
         if (!titleElement) return;
-        titleElement.scrollIntoView({ behavior: "smooth" });
+        titleElement.scrollIntoView({ behavior: 'smooth' });
       }, 20);
 
       selected = null;
@@ -157,7 +157,7 @@
           },
         ],
         draw: true,
-        group: " ",
+        group: ' ',
       });
     } else {
       ce.detail.winner.wins++;
@@ -184,7 +184,7 @@
               },
             ],
             draw: false,
-            group: " ",
+            group: ' ',
           },
         ]);
       } else {
@@ -203,7 +203,7 @@
               },
             ],
             draw: false,
-            group: " ",
+            group: ' ',
           },
         ]);
       }
@@ -221,7 +221,7 @@
     return 0;
   }
 
-  let largest = "";
+  let largest = '';
   function largestScore() {
     if (teams.length != 0) {
       let i = 0;
@@ -242,7 +242,7 @@
     window.scrollTo(0, 0);
   }
   function closewindow() {
-    largest = "";
+    largest = '';
   }
 
   function deleteTeam(team) {
@@ -335,7 +335,7 @@
   $: console.log(teams);
 
   function resetscore() {
-    const confirm = window.confirm("All the scores will be reset!\nContinue?");
+    const confirm = window.confirm('All the scores will be reset!\nContinue?');
     if (confirm) {
       agmatches = [];
       let a = 0;
@@ -356,7 +356,7 @@
   in:slide={{
     duration: 700,
     easing: quintOut,
-    axis: "y",
+    axis: 'y',
   }}
 >
   <h1 class="league-name">{config.tournamentName}</h1>
@@ -404,7 +404,7 @@
         >
       {/if}
     </div>
-    {#if largest != ""}
+    {#if largest != ''}
       <Winner {config} winner={largest} on:closeevent={closewindow} />
     {/if}
     {#if !user.isGuest && user.username}
@@ -436,13 +436,13 @@
       <table>
         <thead>
           <tr>
-            <th on:click={() => toggleSortOrder("name")}>Team Name</th>
-            <th on:click={() => toggleSortOrder("playedMatches")}>PL</th>
-            <th on:click={() => toggleSortOrder("score")}>Score</th>
-            <th on:click={() => toggleSortOrder("wins")}>W</th>
-            <th on:click={() => toggleSortOrder("draws")}>D</th>
-            <th on:click={() => toggleSortOrder("losses")}>L</th>
-            <th on:click={() => toggleSortOrder("goalDiff")}>GD</th>
+            <th on:click={() => toggleSortOrder('name')}>Team Name</th>
+            <th on:click={() => toggleSortOrder('playedMatches')}>PL</th>
+            <th on:click={() => toggleSortOrder('score')}>Score</th>
+            <th on:click={() => toggleSortOrder('wins')}>W</th>
+            <th on:click={() => toggleSortOrder('draws')}>D</th>
+            <th on:click={() => toggleSortOrder('losses')}>L</th>
+            <th on:click={() => toggleSortOrder('goalDiff')}>GD</th>
           </tr>
         </thead>
         <tbody class="scoreboard-lined-cell">
@@ -452,7 +452,7 @@
               in:fade={{
                 duration: 2000,
                 easing: quintOut,
-                axis: "y",
+                axis: 'y',
               }}
             >
               <td>{team.name}</td>
@@ -546,14 +546,17 @@
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
         <div class="schedule-content">
-          <Tooltip
-            text="Clears and cancels the remaining schedule made for this group."
-          >
-            <Button
-              class="cancel-match-button"
-              on:cClick={() => (agmatches = [])}>Cancel matches</Button
+          <div class="buttons-container">
+            <Button on:cClick={toggleMatches}>CLOSE SCHEDULE</Button>
+            <Tooltip
+              text="Clears and cancels the remaining schedule made for this group."
             >
-          </Tooltip>
+              <Button
+                class="cancel-match-button"
+                on:cClick={() => (agmatches = [])}>Cancel matches</Button
+              >
+            </Tooltip>
+          </div>
 
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
@@ -563,9 +566,6 @@
               />
             {/each}
           </div>
-          <Button class="add-player-exit-button" on:cClick={toggleMatches}
-            >CLOSE SCHEDULE</Button
-          >
         </div>
       </div>
     {/if}{/if}
@@ -615,7 +615,13 @@
     flex-direction: column;
     position: relative;
   }
-
+  .buttons-container {
+    padding-top: 1em;
+    margin: auto;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+  }
   input {
     text-align: center;
     color: black;
