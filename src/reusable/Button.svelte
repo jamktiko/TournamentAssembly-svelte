@@ -90,6 +90,23 @@
     filter: contrast(1.4);
   }
 
+  .focused-button {
+    border-radius: 40px;
+    background: linear-gradient(
+      270deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+
+    transition-duration: 0.3s;
+    cursor: pointer;
+  }
+
+  .focused-button:hover {
+    border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
+  }
+
   .footer-button {
     position: relative;
     text-transform: uppercase;
@@ -692,16 +709,16 @@
       width: auto;
       margin: 0em 0.2em;
     }
-  }
 
-  .revert-button {
-    font-size: 1.4em;
-    position: absolute;
-    text-transform: uppercase;
-    scale: 0.5;
-    border-radius: 10px;
-    transition-duration: 0.1s;
-    top: -82%;
-    left: 25%;
+    .revert-button {
+      font-size: 1.4em;
+      position: absolute;
+      text-transform: uppercase;
+      scale: 0.5;
+      border-radius: 10px;
+      transition-duration: 0.1s;
+      top: -82%;
+      left: 25%;
+    }
   }
 </style>
