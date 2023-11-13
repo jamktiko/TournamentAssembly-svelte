@@ -90,6 +90,23 @@
     filter: contrast(1.4);
   }
 
+  .focused-button {
+    border-radius: 40px;
+    background: linear-gradient(
+      0deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+
+    transition-duration: 0.3s;
+    cursor: pointer;
+  }
+
+  .focused-button:hover {
+    border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
+  }
+
   .footer-button {
     position: relative;
     text-transform: uppercase;
@@ -576,7 +593,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 0.25em;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.25em;
     border: solid 1px #7396ff;
     border-radius: 40px;
     background: linear-gradient(
@@ -603,6 +620,11 @@
     text-transform: uppercase;
     transition-duration: 0.1s;
     margin: 0.25em;
+  }
+
+  .export-playoffs-button {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
   }
 
   /* Tablet Portrait */
@@ -692,16 +714,22 @@
       width: auto;
       margin: 0em 0.2em;
     }
-  }
 
-  .revert-button {
-    font-size: 1.4em;
-    position: absolute;
-    text-transform: uppercase;
-    scale: 0.5;
-    border-radius: 10px;
-    transition-duration: 0.1s;
-    top: -82%;
-    left: 25%;
+    .revert-button {
+      font-size: 1.4em;
+      position: absolute;
+      text-transform: uppercase;
+      scale: 0.5;
+      border-radius: 10px;
+      transition-duration: 0.1s;
+      top: -82%;
+      left: 25%;
+    }
+
+    .group-select-button {
+      font-weight: 700;
+      font-size: 1.5em;
+      padding: 0.5em 1.4em;
+    }
   }
 </style>
