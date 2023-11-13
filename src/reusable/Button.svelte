@@ -627,6 +627,19 @@
     margin-bottom: 0.25em;
   }
 
+  .settings-button {
+    padding-left: 2.2em;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    scale: 1;
+    border-radius: 10px;
+    position: absolute;
+    margin: 0em;
+    transition-duration: 0.1s;
+    right: 0;
+  }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
@@ -730,6 +743,13 @@
       font-weight: 700;
       font-size: 1.5em;
       padding: 0.5em 1.4em;
+    }
+
+    .settings-button {
+      scale: 0.8;
+      margin: 0;
+      margin-top: 0em;
+      right: -0.5em;
     }
   }
 </style>
