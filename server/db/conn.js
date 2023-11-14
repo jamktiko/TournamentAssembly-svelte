@@ -1,13 +1,12 @@
-const MongoClient = require("mongodb").MongoClient;
+const mongoose = require("mongoose");
 require("dotenv").config();
-
-const client = new MongoClient(process.env.MONGODB_URI, {
-	useNewUrlParser: true,
-});
 
 async function connect() {
 	try {
-		await client.connect();
+		await mongoose.connect(process.env.MONGODB_URI, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		});
 		console.log("Connection established");
 		return true;
 	} catch {
@@ -16,4 +15,4 @@ async function connect() {
 	}
 }
 
-module.exports = { connect, client };
+module.exports = { connect };

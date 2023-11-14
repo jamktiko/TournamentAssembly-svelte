@@ -32,6 +32,7 @@
     if (tournament.state) {
       user.state = tournament.state;
       user.config = tournament.config;
+      user.config.id = tournament._id;
     }
 
     stateController.set(user);
@@ -43,7 +44,7 @@
   }
 
   async function deleteTournament(id) {
-    const deleted = tournaments.find((tour) => tour.id === id);
+    const deleted = tournaments.find((tour) => tour._id === id);
     tournaments.splice(tournaments.indexOf(deleted), 1);
 
     tournaments = tournaments;
@@ -95,7 +96,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each tournaments as tournament (tournament.id)}
+          {#each tournaments as tournament}
             <tr>
               <td>
                 <Button
@@ -125,15 +126,19 @@
               >
               <td
                 >{tournament.config.pointsPerWin
-                  ? tournament.config.pointPerWin
+                  ? tournament.config.pointsPerWin
                   : ""}</td
               >
-              <td>{tournament.config.pointsPerDraw ? tournament.config.pointsPerDraw : ""}</td>
+              <td
+                >{tournament.config.pointsPerDraw
+                  ? tournament.config.pointsPerDraw
+                  : 0}</td
+              >
               <td>{tournament.type ? tournament.type.toUpperCase() : ""}</td>
               <td
                 ><Button
                   class="delete-player-button"
-                  on:cClick={() => deleteTournament(tournament.id)}
+                  on:cClick={() => deleteTournament(tournament._id)}
                   ><svg
                     class="trash-can"
                     xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +188,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each tournaments as tournament (tournament.id)}
+          {#each tournaments as tournament (tournament._id)}
             <tr>
               <td>
                 <Button

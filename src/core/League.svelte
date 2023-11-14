@@ -320,20 +320,16 @@
     showTooltip = !showTooltip;
   }
 
-  async function save() {
-    const state = {
-      teams,
-      matchResults,
-    };
+ 	async function save() {
+		const state = {
+			teams,
+			matchResults,
+		};
 
-    const res = await stateController.updateTourState(
-      state,
-      user.config.id,
-      user.username
-    );
+		const res = await stateController.updateTourState(state, user.config.id);
 
-    console.log(res);
-  }
+		console.log(res);
+	}
 
   $: console.log(teams);
 

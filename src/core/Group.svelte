@@ -19,6 +19,7 @@
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
+
   if (!user.username && window.sessionStorage.getItem('user')) {
     user = loadFromSession('user');
     stateController.set(user);
@@ -405,14 +406,8 @@
     }
 
     AddCorrectAmount();
-    if (user.tournaments) {
-      playoffconfig.id = calcId(user.tournaments);
-    } else {
-      playoffconfig.id = 0;
-    }
     const tournament = {
       config: playoffconfig,
-      id: playoffconfig.id,
     };
     if (user.tournaments) {
       user.config = playoffconfig;
@@ -421,6 +416,8 @@
 
         'playoffs'
       );
+
+      user.config.id = res.result._id;
     }
     push(`/playoffs/${cch.tokenify(playoffconfig)}`);
   }
@@ -466,11 +463,7 @@
       matchResults: matchResults,
     };
 
-    const res = await stateController.updateTourState(
-      state,
-      user.config.id,
-      user.username
-    );
+    const res = await stateController.updateTourState(state, user.config.id);
 
     console.log(res);
   }
