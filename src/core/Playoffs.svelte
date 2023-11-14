@@ -647,6 +647,7 @@
 
 <style>
   main {
+    margin-top: 25vh;
     overflow-x: hidden;
     display: flex;
     align-items: center;

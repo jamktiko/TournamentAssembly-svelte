@@ -73,8 +73,9 @@
   }
 
   .sidebar {
+    top: 24vh;
     display: flex;
-    position: absolute;
+    position: fixed;
     right: 0;
     width: 5%;
     height: 25%;
@@ -89,6 +90,7 @@
 
   @media only screen and (max-width: 1450px) {
     .sidebar {
+      top: 23vh;
       width: 7%;
       right: 0.2em;
       padding-top: 0.2em;

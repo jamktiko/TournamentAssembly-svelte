@@ -82,6 +82,10 @@
 
 <style>
   .navbar {
+    z-index: 999;
+    position: fixed;
+    top: 17%;
+    width: 100vw;
     justify-content: space-between;
     height: 5em;
     background: linear-gradient(rgb(0, 0, 40, 1) 0%, rgba(0, 0, 40, 0.15)) 100%;

@@ -735,7 +735,8 @@
     width: 80%;
     display: flex;
     flex-direction: column;
-    margin: auto;
+    margin-top: 22vh;
+    margin-left: 10%;
     align-items: center;
     justify-content: center;
   }

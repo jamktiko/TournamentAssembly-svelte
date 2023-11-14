@@ -46,7 +46,7 @@
 <style>
   main {
     margin-left: 15%;
-    margin-top: 2em;
+    margin-top: 30vh;
     margin-bottom: 2em;
     display: flex;
     justify-content: center;

@@ -354,7 +354,6 @@
           <Tooltip
             text="Defines how many patricipants advance to the possible playoff stage."
           >
-
             <select
               id="advance"
               bind:value={config.advance}
@@ -616,7 +615,7 @@
     flex-flow: row wrap;
     padding-bottom: 1em;
     margin-left: 25%;
-    margin-top: 2em;
+    margin-top: 25vh;
     margin-bottom: 2em;
     flex-direction: column;
     width: 50%;
@@ -765,7 +764,7 @@
       padding-left: 1em;
       padding-right: 1em;
       margin-left: 10%;
-      margin-top: 4em;
+      margin-top: 25vh;
       margin-bottom: 2em;
       width: 75%;
     }
