@@ -64,8 +64,7 @@
     animation: fadeIn 1 1s ease-out;
     height: 20vh;
     background: radial-gradient(rgb(25, 6, 101) 50%, rgb(27, 7, 97) 100%);
-    filter: brightness(1) contrast(1.9) drop-shadow(0px 1px 20px #ffffff4e);
-    border-bottom: solid 5px #ffffff;
+    filter: brightness(1) contrast(1.9);
     display: flex;
     justify-content: center;
   }
