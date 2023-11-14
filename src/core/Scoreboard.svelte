@@ -1,110 +1,115 @@
 <script>
-	import { push } from "svelte-spa-router";
-	import Button from "../reusable/Button.svelte";
-	import { slide } from "svelte/transition";
-	import { fade } from "svelte/transition";
-	import { scale } from "svelte/transition";
-	import { quintOut } from "svelte/easing";
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
 
-	import { onDestroy } from "svelte";
-	import cch from "../utils/cache";
+  import { onDestroy } from 'svelte';
+  import cch from '../utils/cache';
 
-	import stateController from "../utils/stateStore";
+  import stateController from '../utils/stateStore';
 
-	import { loadFromSession } from "../utils/lib";
+  import { loadFromSession } from '../utils/lib';
 
-	let user;
-	const unsub = stateController.subscribe((userData) => (user = userData));
+  let user;
+  const unsub = stateController.subscribe((userData) => (user = userData));
 
-	if (!user.username && window.sessionStorage.getItem("user")) {
-		user = loadFromSession("user");
-		stateController.set(user);
-	}
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
+    stateController.set(user);
+  }
 
-	let gridData = [{ name: "", columns: [""] }];
+  let gridData = [{ name: '', columns: [''] }];
 
-	const intervalId = setInterval(() => {
-		if (
-			(gridData[0].name && gridData[0].columns[0]) ||
-			gridData[0].columns[0] === 0
-		) {
-			cch.saveToCache("scoreboard", gridData);
-		}
-		console.log("cached");
-	}, 10000);
+  const intervalId = setInterval(() => {
+    if (
+      (gridData[0].name && gridData[0].columns[0]) ||
+      gridData[0].columns[0] === 0
+    ) {
+      cch.saveToCache('scoreboard', gridData);
+    }
+    console.log('cached');
+  }, 10000);
 
-	onDestroy(() => {
-		clearInterval(intervalId);
-		if (unsub) unsub();
+  onDestroy(() => {
+    clearInterval(intervalId);
+    if (unsub) unsub();
 
-		if (user.state) delete user.state;
-	});
+    if (user.state) delete user.state;
+  });
 
-	if (cch.isInCache("scoreboard")) {
-		const cachedData = cch.getFromCache("scoreboard");
-		if (!Array.isArray(cachedData[0].columns)) {
-			for (let unit of cachedData) {
-				unit.columns = [unit.columns];
-			}
-		}
-		gridData = cachedData;
-	} else if (user.state) {
-		gridData = user.state;
-	}
+  if (cch.isInCache('scoreboard')) {
+    const cachedData = cch.getFromCache('scoreboard');
+    if (!Array.isArray(cachedData[0].columns)) {
+      for (let unit of cachedData) {
+        unit.columns = [unit.columns];
+      }
+    }
+    gridData = cachedData;
+  } else if (user.state) {
+    gridData = user.state;
+  }
 
-	function addRow() {
-		const numColumns = gridData[0].columns.length;
-		const newRow = {
-			name: "",
-			columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
-		};
-		gridData = [...gridData, newRow];
-	}
+  function addRow() {
+    const numColumns = gridData[0].columns.length;
+    const newRow = {
+      name: '',
+      columns: Array(numColumns).fill(''), // Create an array with the same number of empty strings as columns
+    };
+    gridData = [...gridData, newRow];
+  }
 
-	function addColumn() {
-		gridData.forEach((row) => {
-			row.columns.push("");
-		});
-		gridData = [...gridData];
-	}
+  function addColumn() {
+    gridData.forEach((row) => {
+      row.columns.push('');
+    });
+    gridData = [...gridData];
+  }
 
-	function removeRow(index) {
-		const numRows = gridData.length;
-		if (numRows > 1) {
-			gridData = gridData.filter((_, i) => i !== index);
-		}
-	}
+  function removeRow(index) {
+    const numRows = gridData.length;
+    if (numRows > 1) {
+      gridData = gridData.filter((_, i) => i !== index);
+    }
+  }
 
-	function removeColumn(index) {
-		gridData.forEach((row) => {
-			row.columns.splice(index, 1);
-		});
-		gridData = [...gridData];
-	}
+  function removeColumn(index) {
+    gridData.forEach((row) => {
+      row.columns.splice(index, 1);
+    });
+    gridData = [...gridData];
+  }
 
-	function updateRowName(index, event) {
-		gridData[index].name = event.target.value;
-	}
+  function updateRowName(index, event) {
+    gridData[index].name = event.target.value;
+  }
 
-	function updateCellValue(rowIdx, colIdx, event) {
-		gridData[rowIdx].columns[colIdx] = event.target.value;
-	}
+  function updateCellValue(rowIdx, colIdx, event) {
+    gridData[rowIdx].columns[colIdx] = event.target.value;
+  }
 
-	$: gridData = [...gridData]; // Trigger reactivity
-	let total = 0;
-	let caculator = 0;
-	function calculateRowTotal(row) {
-		return row.columns.reduce((acc, val) => {
-			const num = parseFloat(val);
-			return !isNaN(num) ? acc + num : acc;
-		}, 0);
-	}
+  $: gridData = [...gridData]; // Trigger reactivity
+  let total = 0;
+  let caculator = 0;
+  function calculateRowTotal(row) {
+    return row.columns.reduce((acc, val) => {
+      const num = parseFloat(val);
+      return !isNaN(num) ? acc + num : acc;
+    }, 0);
+  }
 
-	async function save() {
-		const res = await stateController.updateTourState(gridData, user.config.id);
+  async function save() {
+    const res = await stateController.updateTourState(
+      gridData,
+      user.config.id,
+      user.username
+    );
 
-		console.log(res);
-	}
+    console.log(res);
+  }
+
 </script>
 
 <main in:slide>
@@ -216,9 +221,10 @@
 </main>
 
 <style>
+
 	main {
 		margin-left: 15%;
-		margin-top: 2em;
+		margin-top: 25vh;
 		margin-bottom: 2em;
 		display: flex;
 		justify-content: center;

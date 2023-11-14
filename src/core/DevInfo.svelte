@@ -84,7 +84,7 @@
     justify-content: center;
     padding-bottom: 1em;
     margin-left: 15%;
-    margin-top: 2em;
+    margin-top: 22em;
     margin-bottom: 2em;
     height: 100%;
     width: 70%;

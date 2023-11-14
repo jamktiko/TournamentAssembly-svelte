@@ -612,7 +612,7 @@
 		flex-flow: row wrap;
 		padding-bottom: 1em;
 		margin-left: 25%;
-		margin-top: 2em;
+		margin-top: 25vh;
 		margin-bottom: 2em;
 		flex-direction: column;
 		width: 50%;

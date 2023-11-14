@@ -33,6 +33,7 @@
   }
 
   .image-container {
+    margin-top: 22vh;
     padding: 2em 0em;
     opacity: 0.5;
     border-radius: 40px;
