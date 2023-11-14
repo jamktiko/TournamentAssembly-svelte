@@ -51,6 +51,8 @@
     if (user.state) delete user.state;
   });
 
+
+
   let teams = [];
   let match = [];
 
@@ -106,8 +108,9 @@
       goalDiff: 0,
     };
     teams = [...teams, newPlayer];
-
+    cch.saveToCache("league", teams);
     newPlayerName = null;
+
   }
   /**
    * Adds player from the league to a match, match can only hold two players simultaneously
@@ -317,20 +320,16 @@
     showTooltip = !showTooltip;
   }
 
-  async function save() {
-    const state = {
-      teams,
-      matchResults,
-    };
+ 	async function save() {
+		const state = {
+			teams,
+			matchResults,
+		};
 
-    const res = await stateController.updateTourState(
-      state,
-      user.config.id,
-      user.username
-    );
+		const res = await stateController.updateTourState(state, user.config.id);
 
-    console.log(res);
-  }
+		console.log(res);
+	}
 
   $: console.log(teams);
 
@@ -350,6 +349,7 @@
       }
     }
   }
+
 </script>
 
 <main
