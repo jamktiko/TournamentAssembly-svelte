@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
-const StateSchema = require('./state');
-const ConfigSchema = require('./config');
 
 const TournamentSchema = new mongoose.Schema({
-  config: { type: [ConfigSchema], required: true },
-  id: { type: Number, required: true },
+  config: { type: Object, required: true },
   type: { type: String, required: true },
-  state: { type: [StateSchema], required: false },
+  owner: { type: String, required: true },
+  state: { type: Object, required: false },
 });
 
 // eslint-disable-next-line new-cap

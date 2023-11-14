@@ -4,157 +4,159 @@ import { calcId } from "./lib";
 const stateStore = writable({});
 
 const stateController = {
-  apiUrl: "http://localhost:3000/",
-  subscribe: stateStore.subscribe,
+	apiUrl: "http://localhost:3000/",
+	subscribe: stateStore.subscribe,
 
-  set(item) {
-    stateStore.set(item);
-  },
+	set(item) {
+		stateStore.set(item);
+	},
 
-  loginAsGuest() {
-    const guest = {
-      username: "guest",
-      password: null,
-      isGuest: true,
-      tournamentData: null,
-    };
-    stateStore.set(guest);
-  },
+	loginAsGuest() {
+		const guest = {
+			username: "guest",
+			password: null,
+			isGuest: true,
+			tournamentData: null,
+		};
+		stateStore.set(guest);
+	},
 
-  async customFetch(urlExt, opt) {
-    const res = await fetch(this.apiUrl + urlExt, opt);
-    const data = await res.json();
+	async customFetch(urlExt, opt) {
+		const res = await fetch(this.apiUrl + urlExt, opt);
+		const data = await res.json();
 
-    return data;
-  },
+		return data;
+	},
 
-  async register(user) {
-    const res = await this.customFetch("register", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-    console.log(res);
-    return res;
-  },
+	async register(user) {
+		const res = await this.customFetch("register", {
+			method: "POST",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(user),
+		});
+		console.log(res);
+		return res;
+	},
 
-  async login(user) {
-    const res = await this.customFetch("login", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-    console.log(res);
+	async login(user) {
+		const res = await this.customFetch("login", {
+			method: "POST",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(user),
+		});
+		console.log(res);
 
-    if (res.success) {
-      const userData = {
-        id: res.id,
-        username: res.username,
-        token: res.token,
-        tournaments: res.tournaments,
-      };
+		if (res.success) {
+			const userData = {
+				id: res.id,
+				username: res.username,
+				token: res.token,
+				tournaments: res.tournaments,
+			};
 
-      stateStore.set(userData);
-      window.sessionStorage.setItem("user", JSON.stringify(userData));
-    }
-    return res;
-  },
+			stateStore.set(userData);
+			window.sessionStorage.setItem("user", JSON.stringify(userData));
+		}
+		return res;
+	},
 
-  async createTournament(tournament, type) {
-    let user;
-    const unsub = this.subscribe((userData) => (user = userData));
-    unsub();
+	async createTournament(tournament, type) {
+		let user;
+		const unsub = this.subscribe((userData) => (user = userData));
+		unsub();
 
-    tournament.type = type;
+		tournament.type = type;
 
-    const tourData = {
-      username: user.username,
-      tournament,
-      token: user.token,
-    };
+		const tourData = {
+			username: user.username,
+			tournament,
+			token: user.token,
+		};
 
-    const opt = {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(tourData),
-    };
+		const opt = {
+			method: "POST",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(tourData),
+		};
 
-    const res = await this.customFetch("addTour", opt);
+		const res = await this.customFetch("addTour", opt);
 
-    user.tournaments.push(tournament);
-    window.sessionStorage.setItem("user", JSON.stringify(user));
+		user.tournaments.push(res.result);
+		window.sessionStorage.setItem("user", JSON.stringify(user));
 
-    return { res, id: tournament.id };
-  },
+		return res;
+	},
 
-  async updateTourState(state, id, username) {
-    let user;
-    const unsub = this.subscribe((userData) => (user = userData));
-    unsub();
+	async updateTourState(state, id) {
+		let user;
+		const unsub = this.subscribe((userData) => (user = userData));
+		unsub();
 
-    const tourData = {
-      username,
-      id,
-      state,
-      token: user.token,
-    };
+		console.log(id);
 
-    const opt = {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
+		console.log(user);
 
-      body: JSON.stringify(tourData),
-    };
+		const tourData = {
+			id,
+			state,
+			token: user.token,
+		};
 
-    const updated = user.tournaments.find((tour) => tour.id === id);
-    updated.state = state;
+		const opt = {
+			method: "POST",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
 
-    stateController.set(user);
-    window.sessionStorage.setItem("user", JSON.stringify(user));
+			body: JSON.stringify(tourData),
+		};
+		const updated = user.tournaments.find((tour) => tour._id === id);
+		updated.state = state;
 
-    const res = await this.customFetch("tourState", opt);
-    return res;
-  },
+		stateController.set(user);
+		window.sessionStorage.setItem("user", JSON.stringify(user));
 
-  async deleteTournament(id) {
-    let user;
-    const unsub = this.subscribe((userData) => (user = userData));
-    unsub();
+		const res = await this.customFetch("tourState", opt);
+		return res;
+	},
 
-    const tourData = {
-      username: user.username,
-      id,
-      token: user.token,
-    };
+	async deleteTournament(id) {
+		let user;
+		const unsub = this.subscribe((userData) => (user = userData));
+		unsub();
 
-    const opt = {
-      method: "DELETE",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
+		const tourData = {
+			username: user.username,
+			id,
+			token: user.token,
+		};
 
-      body: JSON.stringify(tourData),
-    };
-    const res = this.customFetch("delTour", opt);
+		const opt = {
+			method: "DELETE",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
 
-    stateController.set(user);
-    window.sessionStorage.setItem("user", JSON.stringify(user));
+			body: JSON.stringify(tourData),
+		};
+		const res = this.customFetch("delTour", opt);
 
-    return res;
-  },
+		stateController.set(user);
+		window.sessionStorage.setItem("user", JSON.stringify(user));
+
+		return res;
+	},
 };
 
 export default stateController;
