@@ -69,7 +69,6 @@
     }
   }
 
-  console.log(cch.isInCache("scoreboard"));
 </script>
 
 <main

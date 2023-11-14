@@ -51,6 +51,8 @@
     if (user.state) delete user.state;
   });
 
+
+
   let teams = [];
   let match = [];
 
@@ -106,8 +108,9 @@
       goalDiff: 0,
     };
     teams = [...teams, newPlayer];
-
+    cch.saveToCache("league", teams);
     newPlayerName = null;
+
   }
   /**
    * Adds player from the league to a match, match can only hold two players simultaneously
@@ -350,6 +353,7 @@
       }
     }
   }
+
 </script>
 
 <main
