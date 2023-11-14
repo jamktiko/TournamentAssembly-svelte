@@ -483,13 +483,6 @@
         </tbody>
       </table>
     </div>
-    {#if match[0] && match[1]}
-      <Match
-        {match}
-        on:winnerevent={resolve}
-        on:cancelevent={() => (match = [])}
-      />
-    {/if}
     <div class="results-button-container">
       <Tooltip
         text="Press to create a match schedule for all the league's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
@@ -506,6 +499,15 @@
         on:cClick={toggleMatches}>Show schedule</Button
       >
       <Button class="reset-button" on:cClick={resetscore}>Reset</Button>
+    </div>
+    <div class="league-match-container">
+      {#if match[0] && match[1]}
+        <Match
+          {match}
+          on:winnerevent={resolve}
+          on:cancelevent={() => (match = [])}
+        />
+      {/if}
     </div>
     <div class="results-button-container">
       {#if showResults == 0}
@@ -573,6 +575,7 @@
 
 <style>
   main {
+    margin-top: 22em;
     margin-left: 15%;
     margin-bottom: 2em;
     width: 70%;

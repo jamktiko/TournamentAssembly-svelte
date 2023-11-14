@@ -67,7 +67,7 @@
     </div>
   </div>
 </main>
-<div class="spacer"></div>
+<div class="spacer" />
 {#if openLogin}
   <LoginUser on:closeLogin={toggleLogin} />
 {/if}
@@ -81,7 +81,7 @@
 <style>
   main {
     padding-bottom: 1em;
-    margin-top: 2em;
+    margin-top: 30vh;
     margin-left: 25%;
     align-items: center;
     height: 100%;

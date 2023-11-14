@@ -224,7 +224,7 @@
   main {
     padding: 0em 2em 3em;
     margin-left: 18%;
-    margin-top: 2em;
+    margin-top: 28vh;
     margin-bottom: 2em;
     display: flex;
     justify-content: center;
