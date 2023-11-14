@@ -1,21 +1,21 @@
 <script>
-  import { onDestroy } from 'svelte';
-  import Button from '../reusable/Button.svelte';
-  import stateController from '../utils/stateStore';
-  import { push } from 'svelte-spa-router';
-  import cch from '../utils/cache';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
-  import { loadFromSession } from '../utils/lib';
+  import { onDestroy } from "svelte";
+  import Button from "../reusable/Button.svelte";
+  import stateController from "../utils/stateStore";
+  import { push } from "svelte-spa-router";
+  import cch from "../utils/cache";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
+  import { loadFromSession } from "../utils/lib";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
   console.log(user);
 
-  if (!user.username && window.sessionStorage.getItem('user')) {
-    user = loadFromSession('user');
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
     stateController.set(user);
   }
 
@@ -36,7 +36,7 @@
     }
 
     stateController.set(user);
-    if (tournament.type === 'scoreboard') {
+    if (tournament.type === "scoreboard") {
       push(`/${tournament.type}/`);
     } else {
       push(`/${tournament.type}/${configTkn}`);
@@ -57,10 +57,10 @@
   /* Function check if the window is for tablet, used for alternative playerlist */
   let isTablet = false;
   const checkScreenSize = () => {
-    isTablet = window.matchMedia('(max-width: 1450px)').matches;
+    isTablet = window.matchMedia("(max-width: 1450px)").matches;
   };
   checkScreenSize();
-  window.addEventListener('resize', checkScreenSize);
+  window.addEventListener("resize", checkScreenSize);
 </script>
 
 {#if !isTablet}
@@ -68,7 +68,7 @@
     transition:slide={{
       duration: 700,
       easing: quintOut,
-      axis: 'y',
+      axis: "y",
     }}
   >
     <div class="tournaments-header">
@@ -107,35 +107,34 @@
               <td
                 >{tournament.config.tournamentName
                   ? tournament.config.tournamentName
-                  : ''}</td
+                  : ""}</td
               >
               <td
                 >{tournament.config.tourDecider
                   ? tournament.config.tourDecider
-                  : ''}</td
+                  : ""}</td
               >
               <td
                 >{tournament.config.numberOfGroups
                   ? tournament.config.numberOfGroups
-                  : ''}</td
+                  : ""}</td
               >
               <td
                 >{tournament.config.teamsInGroup
                   ? tournament.config.teamsInGroup
-                  : ''}</td
+                  : ""}</td
               >
               <td
                 >{tournament.config.pointsPerWin
-                  ? tournament.config.pointPerWin
-                  : ''}</td
-
+                  ? tournament.config.pointsPerWin
+                  : ""}</td
               >
               <td
                 >{tournament.config.pointsPerDraw
                   ? tournament.config.pointsPerDraw
-                  : ''}</td
+                  : ""}</td
               >
-              <td>{tournament.type ? tournament.type.toUpperCase() : ''}</td>
+              <td>{tournament.type ? tournament.type.toUpperCase() : ""}</td>
 
               <td
                 ><Button
@@ -163,7 +162,7 @@
     transition:slide={{
       duration: 700,
       easing: quintOut,
-      axis: 'y',
+      axis: "y",
     }}
   >
     <div class="tablet-header">
