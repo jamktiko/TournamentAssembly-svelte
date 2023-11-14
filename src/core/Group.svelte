@@ -373,7 +373,22 @@
     players: [],
     advance: config.advance,
   };
+  
+  function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+  while (currentIndex > 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
   async function leaveGroup() {
+    //Randomizes order
+    groupWinners = shuffle(groupWinners)
+    //!!
     let pusher = 0;
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
@@ -388,6 +403,7 @@
       playoffconfig.players.push(groupWinners[pusher].name);
       pusher += 1;
     }
+
     AddCorrectAmount();
     if (user.tournaments) {
       playoffconfig.id = calcId(user.tournaments);
