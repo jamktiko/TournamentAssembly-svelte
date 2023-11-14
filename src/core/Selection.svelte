@@ -68,8 +68,6 @@
       showConfirmation('scoreboard', '/scoreboard');
     }
   }
-
-  console.log(cch.isInCache('scoreboard'));
 </script>
 
 <main
