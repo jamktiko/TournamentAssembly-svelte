@@ -73,7 +73,7 @@
   }
 
   .sidebar {
-    top: 24vh;
+    top: 25vh;
     display: flex;
     position: fixed;
     right: 0;

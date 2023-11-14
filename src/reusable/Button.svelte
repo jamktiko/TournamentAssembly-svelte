@@ -655,6 +655,11 @@
     border: none;
   }
 
+  .create-button {
+    padding: 0.5em 0.75em;
+    border-radius: 30px;
+  }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */

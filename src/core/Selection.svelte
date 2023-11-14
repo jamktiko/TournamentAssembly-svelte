@@ -278,7 +278,8 @@
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     main {
-      margin-left: 16%;
+      margin-left: 6%;
+      width: 80%;
     }
   }
 </style>
