@@ -1,27 +1,28 @@
 <script>
-  import cch from "../utils/cache";
-  import stateController from "../utils/stateStore";
-  import Button from "../reusable/Button.svelte";
-  import Match from "../reusable/Match.svelte";
-  import MatchResults from "../reusable/MatchResults.svelte";
-  import Automatches from "../reusable/Automatches.svelte";
-  import { onDestroy } from "svelte";
-  import { push } from "svelte-spa-router";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut } from "svelte/easing";
-  import Tooltip from "../reusable/Tooltip.svelte";
-  import { loadFromSession } from "../utils/lib";
+  import cch from '../utils/cache';
+  import stateController from '../utils/stateStore';
+  import Button from '../reusable/Button.svelte';
+  import Match from '../reusable/Match.svelte';
+  import MatchResults from '../reusable/MatchResults.svelte';
+  import Automatches from '../reusable/Automatches.svelte';
+  import { onDestroy } from 'svelte';
+  import { push } from 'svelte-spa-router';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
+  import Tooltip from '../reusable/Tooltip.svelte';
+  import { loadFromSession } from '../utils/lib';
 
   export let params;
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
-    stateControler.set(user);
+
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
+    stateController.set(user);
   }
 
   let match = [];
@@ -36,16 +37,16 @@
   let blacklisted = [];
 
   onDestroy(() => {
-    cch.saveToCache("groups", groups);
-    cch.saveToCache("groupsConf", config);
+    cch.saveToCache('groups', groups);
+    cch.saveToCache('groupsConf', config);
 
     if (user.state) delete user.state;
 
     if (unsub) unsub();
   });
 
-  if (cch.isInCache("groups")) {
-    groups = cch.getFromCache("groups");
+  if (cch.isInCache('groups')) {
+    groups = cch.getFromCache('groups');
   } else {
     generateGroups(config);
   }
@@ -75,7 +76,7 @@
       for (let j = 0; j < conf.teamsInGroup; j++) {
         const newParticipant = {
           id: calcId(groups[i].participants),
-          name: "",
+          name: '',
           playedMatches: 0,
           score: 0,
           wins: 0,
@@ -111,12 +112,12 @@
   function checkIfBlacklisted() {
     return blacklisted.includes(selected.id);
   }
-  let value = "";
+  let value = '';
   function updateName() {
     groups[group] = value;
   }
 
-  let sortBy = "";
+  let sortBy = '';
   let sortOrder = 1;
 
   function toggleSortOrder(column, i) {
@@ -175,7 +176,7 @@
           },
         ],
         draw: true,
-        group: "group " + (selected.id + 1),
+        group: 'group ' + (selected.id + 1),
       });
       console.log(selected.id);
     } else {
@@ -203,7 +204,7 @@
               },
             ],
             draw: false,
-            group: "group " + (selected.id + 1),
+            group: 'group ' + (selected.id + 1),
           },
         ]);
       } else {
@@ -222,18 +223,18 @@
               },
             ],
             draw: false,
-            group: "group " + (selected.id + 1),
+            group: 'group ' + (selected.id + 1),
           },
         ]);
       }
     }
     console.log(sortBy);
 
-    sortBy = "";
-    if (sortBy === "score") {
-      for (let i = 0; i < 2; i++) toggleSortOrder("score", selected.id);
+    sortBy = '';
+    if (sortBy === 'score') {
+      for (let i = 0; i < 2; i++) toggleSortOrder('score', selected.id);
     } else {
-      toggleSortOrder("score", selected.id);
+      toggleSortOrder('score', selected.id);
     }
 
     match = [];
@@ -248,9 +249,9 @@
       return b.score - a.score || b.goalDiff - a.goalDiff;
     });
 
-    let sorted = sorted2.filter((sorted2) => sorted2.name != "");
+    let sorted = sorted2.filter((sorted2) => sorted2.name != '');
     console.log(sorted);
-    let winner = "";
+    let winner = '';
     // Needs to be attached to customizations
     /*
     let a = 0;
@@ -277,7 +278,7 @@
         break;
       }
       winner = sorted[a];
-      if (winner.name == "") {
+      if (winner.name == '') {
         a += 1;
         continue;
       }
@@ -360,25 +361,40 @@
   }
 
   let playoffconfig = {
-    tournamentName: "",
-    organizerName: "",
-    numberOfGroups: "",
-    teamsInGroup: "",
-    tourDecider: "",
-    pointsPerWin: "",
-    pointsPerDraw: "",
-    numberOfRounds: "",
+    tournamentName: '',
+    organizerName: '',
+    numberOfGroups: '',
+    teamsInGroup: '',
+    tourDecider: '',
+    pointsPerWin: '',
+    pointsPerDraw: '',
+    numberOfRounds: '',
     bestOf: config.bestOf,
 
     players: [],
     advance: config.advance,
   };
+  
+  function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+  while (currentIndex > 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
   async function leaveGroup() {
+    //Randomizes order
+    groupWinners = shuffle(groupWinners)
+    //!!
     let pusher = 0;
     console.log(groupWinners);
     playoffconfig.tournamentName = config.tournamentName;
     playoffconfig.organizerName = config.organizerName;
-    playoffconfig.tourDecider = "";
+    playoffconfig.tourDecider = '';
 
     if (!playoffconfig.bestOf) {
       playoffconfig.bestOf = 1;
@@ -388,6 +404,7 @@
       playoffconfig.players.push(groupWinners[pusher].name);
       pusher += 1;
     }
+
     AddCorrectAmount();
     const tournament = {
       config: playoffconfig,
@@ -397,7 +414,7 @@
       const res = await stateController.createTournament(
         tournament,
 
-        "playoffs"
+        'playoffs'
       );
 
       user.config.id = res.result._id;
@@ -411,7 +428,7 @@
   function AddCorrectAmount() {
     if (playoffconfig.players.length == 3) {
       randomnum();
-      playoffconfig.players.push("PLAYER_" + num);
+      playoffconfig.players.push('PLAYER_' + num);
       playoffconfig.players = [...playoffconfig.players];
     }
 
@@ -427,7 +444,7 @@
         playoffconfig.players.length != 256
       ) {
         randomnum();
-        playoffconfig.players.splice(place, 0, "PLAYER_" + num);
+        playoffconfig.players.splice(place, 0, 'PLAYER_' + num);
         place += 2;
       } else {
         playoffconfig.players = [...playoffconfig.players];
@@ -457,7 +474,7 @@
     showTooltip = !showTooltip;
   }
   function resetscore() {
-    const confirm = window.confirm("All the scores will be reset!\nContinue?");
+    const confirm = window.confirm('All the scores will be reset!\nContinue?');
     if (confirm) {
       agmatches = [];
       let a = 0;
@@ -482,11 +499,12 @@
   <div class="header-container">
     <h1>{config.tournamentName}</h1>
 
-    <h3>Organized by: {config.organizerName || "-"}</h3>
+    <h3>Organized by: {config.organizerName || '-'}</h3>
     <Tooltip
       text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
     >
       <Button
+        class="export-playoffs-button"
         disabled={groupWinners.length < 2}
         on:cClick={leaveGroup}
         on:mouseenter={toggleTooltip}
@@ -520,17 +538,22 @@
         {#if selected}
           <div class="group-content">
             {#if group.name == selected.name}
-              <h2 class="group-header-focused">{group.name}</h2>
-              <Button on:cClick={() => closeGroup()}>Close</Button>
+              <Button class="focused-button" on:cClick={() => closeGroup()}
+                >Close</Button
+              >
             {:else}
-              <h2 class="group-header-unselected">{group.name}</h2>
-              <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
+              <Button
+                class="group-select-button"
+                on:cClick={() => selectGroup(group, i)}>{group.name}</Button
+              >
             {/if}
           </div>
         {:else}
           <div class="group-content">
-            <h2 class="group-header">{group.name}</h2>
-            <Button on:cClick={() => selectGroup(group, i)}>Manage</Button>
+            <Button
+              class="group-select-button"
+              on:cClick={() => selectGroup(group, i)}>{group.name}</Button
+            >
           </div>
         {/if}
       {/each}
@@ -561,20 +584,20 @@
               <th> Name </th>
               <th
                 on:click={() =>
-                  toggleSortOrder("playedMatches", selected.index)}>PL</th
+                  toggleSortOrder('playedMatches', selected.index)}>PL</th
               >
-              <th on:click={() => toggleSortOrder("score", selected.index)}
+              <th on:click={() => toggleSortOrder('score', selected.index)}
                 >Score</th
               >
-              <th on:click={() => toggleSortOrder("wins", selected.index)}>W</th
+              <th on:click={() => toggleSortOrder('wins', selected.index)}>W</th
               >
-              <th on:click={() => toggleSortOrder("draws", selected.index)}
+              <th on:click={() => toggleSortOrder('draws', selected.index)}
                 >D</th
               >
-              <th on:click={() => toggleSortOrder("losses", selected.index)}
+              <th on:click={() => toggleSortOrder('losses', selected.index)}
                 >L</th
               >
-              <th on:click={() => toggleSortOrder("goalDiff", selected.index)}
+              <th on:click={() => toggleSortOrder('goalDiff', selected.index)}
                 >GD</th
               >
             </tr>
@@ -652,7 +675,7 @@
       the results from view by toggling the SHOW/HIDE RESULTS button."
       >
         <Button class="results-toggle-button" on:cClick={toggleResults}
-          >{showResults ? "Hide Results" : "Show Results"}</Button
+          >{showResults ? 'Hide Results' : 'Show Results'}</Button
         >
       </Tooltip>
       {#if showResults}
@@ -691,14 +714,17 @@
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
         <div class="schedule-content">
-          <Tooltip
-            text="Clears and cancels the remaining schedule made for this group."
-          >
-            <Button
-              class="cancel-match-button"
-              on:cClick={() => (agmatches = [])}>Cancel matches</Button
+          <div class="buttons-container">
+            <Button on:cClick={toggleMatches}>CLOSE SCHEDULE</Button>
+            <Tooltip
+              text="Clears and cancels the remaining schedule made for this group."
             >
-          </Tooltip>
+              <Button
+                class="cancel-match-button"
+                on:cClick={() => (agmatches = [])}>Cancel matches</Button
+              >
+            </Tooltip>
+          </div>
 
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
@@ -708,9 +734,6 @@
               />
             {/each}
           </div>
-          <Button class="add-player-exit-button" on:cClick={toggleMatches}
-            >CLOSE SCHEDULE</Button
-          >
         </div>
       </div>
     {/if}{/if}
@@ -729,6 +752,7 @@
   .no-groups-icon {
     fill: #fff;
   }
+
   table {
     font-size: 1em;
     padding-left: 1em;
@@ -827,6 +851,14 @@
     grid-column: 2;
   }
 
+  .buttons-container {
+    padding-top: 1em;
+    margin: auto;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+  }
+
   #group {
     display: flex;
     justify-content: center;
@@ -838,10 +870,10 @@
   #group-manage {
     height: fit-content;
     text-transform: uppercase;
-    display: flex;
+    display: grid;
     align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
+    grid-template-rows: 1fr;
+    grid-row-gap: 1em;
     column-span: 1;
     grid-column: 1;
     margin-right: 1em;
@@ -879,17 +911,6 @@
     font-size: 3em;
   }
 
-  .group-header {
-    margin-top: 0.7em;
-    font-size: 1.6em;
-  }
-
-  .group-header-focused {
-    margin-top: 0.7em;
-    font-size: 2.1em;
-    animation: pulse 2s infinite;
-  }
-
   @keyframes pulse {
     0% {
       filter: brightness(1);
@@ -902,13 +923,6 @@
     100% {
       filter: brightness(1);
     }
-  }
-
-  .group-header-unselected {
-    margin-top: 0.7em;
-    opacity: 0.2;
-    font-size: 1.6em;
-    animation: pulse 3s infinite;
   }
 
   .save-icon {
@@ -1013,7 +1027,7 @@
     text-align: center;
   }
   /* Tablet Portrait */
-  @media only screen and (max-width: 1150px) {
+  @media only screen and (max-width: 1450px) {
     input {
       margin-bottom: 0em;
       font-size: 1.3em;
@@ -1021,7 +1035,7 @@
     }
 
     .grid-container {
-      width: 80%;
+      width: 100%;
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -1042,16 +1056,13 @@
       margin-top: 1em;
     }
 
-    .group-header-focused {
-      font-size: 1.6em;
-    }
-
     .resolve-button-container {
       justify-content: center;
-      width: 100%;
+      width: 90%;
       margin-top: 0em;
       margin-bottom: 2em;
     }
+
     .modal {
       width: 80%;
       height: auto;
@@ -1065,6 +1076,24 @@
     #match-count {
       font-size: 1em;
       scale: 1.7;
+    }
+
+    table {
+      scale: 0.9;
+      padding-bottom: 0em;
+    }
+
+    p {
+      scale: 1.1;
+    }
+
+    .group-content {
+      padding: 0em 0em;
+    }
+
+    #group-name {
+      margin-bottom: 0em;
+      margin-top: 1em;
     }
   }
 </style>

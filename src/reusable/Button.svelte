@@ -90,6 +90,23 @@
     filter: contrast(1.4);
   }
 
+  .focused-button {
+    border-radius: 40px;
+    background: linear-gradient(
+      0deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+
+    transition-duration: 0.3s;
+    cursor: pointer;
+  }
+
+  .focused-button:hover {
+    border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
+  }
+
   .footer-button {
     position: relative;
     text-transform: uppercase;
@@ -213,6 +230,8 @@
   }
 
   .back-button {
+    background: #ffffff00;
+    border: none;
     padding-left: 2.2em;
     display: flex;
     flex-direction: row;
@@ -220,8 +239,14 @@
     scale: 1;
     border-radius: 10px;
     position: absolute;
-    margin: 0.5em;
+    margin: 0.3em;
     transition-duration: 0.1s;
+    left: 0em;
+  }
+
+  .back-button:hover {
+    scale: 1.03;
+    border: none;
   }
 
   .match-add-button {
@@ -576,7 +601,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 0.25em;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.25em;
     border: solid 1px #7396ff;
     border-radius: 40px;
     background: linear-gradient(
@@ -605,6 +630,31 @@
     margin: 0.25em;
   }
 
+  .export-playoffs-button {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+  }
+
+  .settings-button {
+    background: none;
+    border: none;
+    padding-left: 2.2em;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    scale: 1;
+    border-radius: 10px;
+    position: absolute;
+    margin: 0.3em;
+    transition-duration: 0.1s;
+    right: 0;
+  }
+
+  .settings-button:hover {
+    scale: 1.03;
+    border: none;
+  }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
@@ -613,6 +663,10 @@
       margin: 0em;
       margin-top: 0em;
       left: -0.4em;
+    }
+
+    .back-button:hover {
+      scale: 0.83;
     }
 
     /* Sitewide Profile Button */
@@ -692,16 +746,33 @@
       width: auto;
       margin: 0em 0.2em;
     }
-  }
 
-  .revert-button {
-    font-size: 1.4em;
-    position: absolute;
-    text-transform: uppercase;
-    scale: 0.5;
-    border-radius: 10px;
-    transition-duration: 0.1s;
-    top: -82%;
-    left: 25%;
+    .revert-button {
+      font-size: 1.4em;
+      position: absolute;
+      text-transform: uppercase;
+      scale: 0.5;
+      border-radius: 10px;
+      transition-duration: 0.1s;
+      top: -82%;
+      left: 25%;
+    }
+
+    .group-select-button {
+      font-weight: 700;
+      font-size: 1.5em;
+      padding: 0.5em 1.4em;
+    }
+
+    .settings-button {
+      scale: 0.8;
+      margin: 0;
+      margin-top: 0em;
+      right: -0.5em;
+    }
+
+    .settings-button:hover {
+      scale: 0.83;
+    }
   }
 </style>

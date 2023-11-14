@@ -880,9 +880,9 @@
       padding-bottom: 2em;
       margin: auto;
     }
-  }
 
-  .match {
-    margin-top: 3.5em;
+    .match {
+      margin-top: 3.5em;
+    }
   }
 </style>
