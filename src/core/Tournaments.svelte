@@ -95,7 +95,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each tournaments as tournament (tournament.id)}
+          {#each tournaments as tournament (tournament._id)}
             <tr>
               <td>
                 <Button
@@ -128,7 +128,11 @@
                   ? tournament.config.pointPerWin
                   : ""}</td
               >
-              <td>{tournament.config.pointsPerDraw ? tournament.config.pointsPerDraw : ""}</td>
+              <td
+                >{tournament.config.pointsPerDraw
+                  ? tournament.config.pointsPerDraw
+                  : ""}</td
+              >
               <td>{tournament.type ? tournament.type.toUpperCase() : ""}</td>
               <td
                 ><Button
