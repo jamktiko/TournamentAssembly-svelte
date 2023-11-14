@@ -230,6 +230,8 @@
   }
 
   .back-button {
+    background: #ffffff00;
+    border: none;
     padding-left: 2.2em;
     display: flex;
     flex-direction: row;
@@ -237,8 +239,14 @@
     scale: 1;
     border-radius: 10px;
     position: absolute;
-    margin: 0.5em;
+    margin: 0.3em;
     transition-duration: 0.1s;
+    left: 0em;
+  }
+
+  .back-button:hover {
+    scale: 1.03;
+    border: none;
   }
 
   .match-add-button {
@@ -627,6 +635,26 @@
     margin-bottom: 0.25em;
   }
 
+  .settings-button {
+    background: none;
+    border: none;
+    padding-left: 2.2em;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    scale: 1;
+    border-radius: 10px;
+    position: absolute;
+    margin: 0.3em;
+    transition-duration: 0.1s;
+    right: 0;
+  }
+
+  .settings-button:hover {
+    scale: 1.03;
+    border: none;
+  }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
@@ -635,6 +663,10 @@
       margin: 0em;
       margin-top: 0em;
       left: -0.4em;
+    }
+
+    .back-button:hover {
+      scale: 0.83;
     }
 
     /* Sitewide Profile Button */
@@ -730,6 +762,17 @@
       font-weight: 700;
       font-size: 1.5em;
       padding: 0.5em 1.4em;
+    }
+
+    .settings-button {
+      scale: 0.8;
+      margin: 0;
+      margin-top: 0em;
+      right: -0.5em;
+    }
+
+    .settings-button:hover {
+      scale: 0.83;
     }
   }
 </style>
