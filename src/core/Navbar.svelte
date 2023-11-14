@@ -32,7 +32,7 @@
 <nav class="navbar" style={$$props.style}>
   <ul class="navbar-nav">
     {#if $location !== '/' && $location !== '/errorpage' && $location !== '/LoginUser' && $location !== '/Signup'}
-      {#if $location == '/selection'}
+      {#if $location == '/selection' && userData.username == 'guest' && userData.username}
         <Button class="back-button" on:cClick={() => push('/')}>
           <svg
             class="back-arrow"
@@ -41,9 +41,21 @@
             fill="#ffffff"
             viewBox="0 -960 960 960"
             width="48"><path d="M560-280 360-480l200-200v400Z" /></svg
+          >Back</Button
+        >
+      {:else if userData.username !== 'guest'}
+        {#if $location !== '/selection' && $location !== '/profile'}
+          <Button class="back-button" on:cClick={() => push('/selection')}
+            ><svg
+              class="back-arrow"
+              xmlns="http://www.w3.org/2000/svg"
+              height="48"
+              fill="#ffffff"
+              viewBox="0 -960 960 960"
+              width="48"><path d="M560-280 360-480l200-200v400Z" /></svg
+            >Back</Button
           >
-          Back
-        </Button>
+        {/if}
       {:else}
         <Button class="back-button" on:cClick={() => push('/selection')}
           ><svg
@@ -53,7 +65,7 @@
             fill="#ffffff"
             viewBox="0 -960 960 960"
             width="48"><path d="M560-280 360-480l200-200v400Z" /></svg
-          > Back</Button
+          >Back</Button
         >
       {/if}
     {/if}

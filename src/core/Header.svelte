@@ -3,7 +3,7 @@
 
   function goToSelection() {
     console.log($location);
-    if ($location !== '/' && $location !== '/DevInfo') push('/Selection');
+    if ($location !== '/' && $location !== '/devinfo') push('/selection');
   }
 </script>
 
