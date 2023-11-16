@@ -47,7 +47,7 @@
   }}
 >
   <div class="closeButton">
-    <Button on:cClick={closeLogin}>
+    <Button class="close-button" on:cClick={closeLogin}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="48"
@@ -164,6 +164,24 @@
   @media only screen and (max-width: 1450px) {
     .modal {
       margin-top: -52.5em;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    .modal {
+      margin-left: 5%;
+      padding: 1em;
+      margin-top: -85vh;
+      width: 80%;
+      max-height: 80vh;
+      border-radius: 40px;
+    }
+
+    .closeButton {
+      scale: 0.5;
+      top: -0.25em;
+      left: -1em;
     }
   }
 </style>

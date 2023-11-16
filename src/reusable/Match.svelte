@@ -218,6 +218,10 @@
   }
 
   @media only screen and (max-width: 1450px) {
+    main {
+      margin-top: 2em;
+    }
+
     .match-container {
       width: 100%;
       padding: 1em;
@@ -231,8 +235,12 @@
     }
 
     #vs-header {
-      padding-left: 0em;
-      padding-right: 0em;
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+
+    .draw-container {
+      grid-column-gap: 5em;
     }
   }
 </style>
