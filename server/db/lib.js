@@ -121,6 +121,13 @@ const lib = {
   },
 
   async addTournament(username, newTournament) {
+    if (!username) {
+      console.error('Invalid username');
+      return {
+        msg: 'Invalid username',
+        success: false,
+      };
+    }
     newTournament.owner = username;
     const result = Tournament.create(newTournament);
 
