@@ -39,7 +39,10 @@
     if (user.state) delete user.state;
   });
 
-  if (cch.isInCache("scoreboard")) {
+  console.log(user.state);
+  if (user.state) {
+    gridData = user.state;
+  } else if (cch.isInCache("scoreboard")) {
     const cachedData = cch.getFromCache("scoreboard");
     if (!Array.isArray(cachedData[0].columns)) {
       for (let unit of cachedData) {
@@ -47,8 +50,6 @@
       }
     }
     gridData = cachedData;
-  } else if (user.state) {
-    gridData = user.state;
   }
 
   function addRow() {
@@ -101,10 +102,7 @@
 
   async function save() {
     console.log(user.config.id, "id");
-    const res = await stateController.updateTourState(
-      gridData,
-      user.config.id,
-    );
+    const res = await stateController.updateTourState(gridData, user.config.id);
 
     console.log(res);
   }
