@@ -780,4 +780,23 @@
       scale: 0.83;
     }
   }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    button {
+      font-weight: 700;
+      font-size: 1.25em;
+      padding: 0.5em 1.5em;
+      border-radius: 40px;
+    }
+
+    .guest-login {
+      padding: 0.75em 1em;
+      border-radius: 40px;
+    }
+
+    .close-button {
+      border-radius: 20px;
+    }
+  }
 </style>
