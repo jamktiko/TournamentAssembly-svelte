@@ -796,7 +796,26 @@
     }
 
     .close-button {
-      border-radius: 20px;
+      padding: 0.5em 1.25em;
+      border-radius: 30px;
+    }
+
+    .profile-button {
+      background: linear-gradient(
+        129deg,
+        rgba(19, 19, 102, 1) 0%,
+        rgba(14, 5, 34, 1) 100%
+      );
+    }
+
+    /* Sitewide Logout Button */
+    .logout-button {
+      padding-right: 1.25em;
+      background: linear-gradient(
+        360deg,
+        rgb(79, 30, 43, 1) 0%,
+        rgba(14, 5, 34, 1) 100%
+      );
     }
   }
 </style>
