@@ -54,11 +54,11 @@
   }}
 >
   <div class="closeButton">
-    <Button on:cClick={closeSignup}>
+    <Button class="close-button" on:cClick={closeSignup}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="48"
-        viewBox="0 -960 960 960"
+        viewBox="0 -1080 960 960"
         width="48"
         ><path
           d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
@@ -172,6 +172,23 @@
   @media only screen and (max-width: 1450px) {
     .modal {
       margin-top: -52.5em;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    .modal {
+      margin-left: 5%;
+      padding: 1em;
+      margin-top: -85vh;
+      width: 80%;
+      max-height: 80vh;
+      border-radius: 40px;
+    }
+
+    .closeButton {
+      top: 0.25em;
+      left: -0.25em;
     }
   }
 </style>

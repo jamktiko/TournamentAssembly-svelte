@@ -394,4 +394,11 @@
       opacity: 1;
     }
   }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    #logo {
+      width: 300px;
+    }
+  }
 </style>

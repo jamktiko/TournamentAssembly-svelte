@@ -69,6 +69,14 @@
       showConfirmation("scoreboard", "/scoreboard");
     }
   }
+
+  /* Function check if the window is for phone */
+  let isPhone = false;
+  const checkScreenSize = () => {
+    isPhone = window.matchMedia('(max-width: 500px)').matches;
+  };
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
 </script>
 
 <main
@@ -126,11 +134,13 @@
         </Tooltip>
       </div>
       <div slot="footer">
-        <p>
-          Groups is a great for hosting a regular season for a league. You can
-          also use the EXPORT feature to continue playing a post-season
-          directly.
-        </p>
+        {#if !isPhone}
+          <p>
+            Groups is a great for hosting a regular season for a league. You can
+            also use the EXPORT feature to continue playing a post-season
+            directly.
+          </p>
+        {/if}
       </div>
     </Card>
     <Card
@@ -146,10 +156,12 @@
         <Button on:cClick={() => push("/customizer/playoffs")}>SELECT</Button>
       </div>
       <div slot="footer">
-        <p>
-          With playoffs you can have an elimination-style tournament to
-          determine the winner.
-        </p>
+        {#if !isPhone}
+          <p>
+            With playoffs you can have an elimination-style tournament to
+            determine the winner.
+          </p>
+        {/if}
       </div>
     </Card>
     <Card
@@ -178,10 +190,12 @@
         {/if}
       </div>
       <div slot="footer">
-        <p>
-          Scoreboard allows you to keep track of your games and competitions by
-          tracking your results each round.
-        </p>
+        {#if !isPhone}
+          <p>
+            Scoreboard allows you to keep track of your games and competitions
+            by tracking your results each round.
+          </p>
+        {/if}
       </div>
     </Card>
     <Card
@@ -211,11 +225,13 @@
         {/if}
       </div>
       <div slot="footer">
-        <p>
-          League allows you to create and manage a tournament where participants
-          play a certain number of rounds and determine a winner by the amount
-          of points.
-        </p>
+        {#if !isPhone}
+          <p>
+            League allows you to create and manage a tournament where
+            participants play a certain number of rounds and determine a winner
+            by the amount of points.
+          </p>
+        {/if}
       </div>
     </Card>
   </div>
@@ -281,6 +297,31 @@
     main {
       margin-left: 6%;
       width: 80%;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    main {
+      padding: 0em 2em 3em;
+      margin-left: 5%;
+      margin-top: 28vh;
+      width: 72.5%;
+    }
+
+    .text-container {
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0.5em;
+      font-size: 2em;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 0em;
+      font-size: 1.2em;
     }
   }
 </style>

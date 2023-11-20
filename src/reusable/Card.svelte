@@ -166,4 +166,32 @@
       font-size: 4em;
     }
   }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    .card {
+      padding: auto;
+      min-height: 0em;
+      min-width: 0em;
+    }
+
+    .header :global(h2) {
+      font-size: 2.5em;
+      margin-top: 0em;
+      margin-bottom: 0em;
+    }
+
+    .button :global(div) {
+      margin-top: 0em;
+      margin-bottom: 0em;
+    }
+
+    .player-min {
+      font-size: 1.2em;
+    }
+
+    .card-image {
+      font-size: 3.5em;
+    }
+  }
 </style>

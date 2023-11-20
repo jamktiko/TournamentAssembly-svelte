@@ -179,9 +179,8 @@
     }
 
     .closeButton {
-      scale: 0.5;
-      top: -0.25em;
-      left: -1em;
+      top: 0.25em;
+      left: -0.25em;
     }
   }
 </style>

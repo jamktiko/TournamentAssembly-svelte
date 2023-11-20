@@ -794,4 +794,33 @@
   .trash-can {
     fill: rgba(110, 0, 0);
   }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    main {
+      margin-left: 5%;
+      margin-top: 35vh;
+      width: 90%;
+    }
+
+    h1 {
+      text-transform: uppercase;
+      font-size: 1.25em;
+      margin-bottom: 2em;
+    }
+
+    select,
+    input {
+      font-size: 1.3em;
+      padding: 0.25em 2.2em;
+      border-radius: 20px;
+    }
+
+    option {
+      font-size: 1.3em;
+      padding: 0.25em 1em;
+      border-radius: 20px;
+      width: auto;
+    }
+  }
 </style>
