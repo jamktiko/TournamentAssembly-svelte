@@ -18,7 +18,7 @@ const lib = {
       return [];
     }
   },
-
+  // logs existing user in their account
   async loginUser(username, password) {
     if (!username || !password) {
       console.error('Username and password must be defined');
@@ -63,6 +63,7 @@ const lib = {
     }
   },
 
+  // registers user in the database
   async registerUser(username, password) {
     if (!username || !password) {
       console.error('Username or password must be defined');
@@ -81,6 +82,15 @@ const lib = {
         success: false,
       };
     }*/
+
+    // Check if the username is too short
+    if (username.length < 4) {
+      console.error('Username must be at least 4 characters');
+      return {
+        msg: 'Username is too short (minimum length is 4 characters)',
+        success: false,
+      };
+    }
 
     // Check for offensive words in the username
     if (filter.isProfane(username)) {
@@ -119,7 +129,7 @@ const lib = {
 
     return { token: token, username: username, success: true };
   },
-
+  // adds newly made tournament to the users tournaments
   async addTournament(username, newTournament) {
     if (!username) {
       console.error('Invalid username');
@@ -128,12 +138,13 @@ const lib = {
         success: false,
       };
     }
+    // tournaments owner is assigned to the users username so further modifications can be done to the user specific tournament
     newTournament.owner = username;
     const result = Tournament.create(newTournament);
 
     return { success: true, result: result, msg: 'Tournament created' };
   },
-
+  // deletes tournament from the user
   async delTournament(username, id) {
     if (!username) {
       console.error('Username or tournament must be correct');
@@ -167,6 +178,7 @@ const lib = {
     return updateResult;
   },
 
+  // updates the tournament state so that whenever user wants to continue the results will be saved.
   async updateTournamentState(state, id) {
     if (id !== 0 && !id) {
       console.error('Username or tournament id invalid');
