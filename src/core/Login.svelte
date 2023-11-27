@@ -167,7 +167,7 @@
   /* Mobile Phone */
   @media only screen and (max-width: 500px) {
     main {
-      margin-top: 20vh;
+      margin-top: 28vh;
       margin-left: 5%;
       width: 90%;
     }
