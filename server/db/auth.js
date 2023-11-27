@@ -13,7 +13,7 @@ function createToken(username) {
   // console.log(decodedtoken);
   return token;
 }
-
+// verifies users token so user can do certain actions.
 function verifyToken(req, res, next) {
   const token = req.body.token || req.headers['x-access-token'];
   if (token) {
@@ -39,6 +39,7 @@ function verifyToken(req, res, next) {
   }
 }
 
+// possible code to validate users email address (not used in this project).
 /*const transporter = nodemailer.createTransport({
   pool: true,
   host: 'smtp.gmail.com',
