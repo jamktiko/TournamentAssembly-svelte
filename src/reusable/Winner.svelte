@@ -475,4 +475,17 @@
       height: 42.5vh;
     }
   }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    .modal {
+      top: -62.5vh;
+      width: 90%;
+      height: 50vh;
+    }
+
+    .winner-name {
+      font-size: 3em;
+    }
+  }
 </style>

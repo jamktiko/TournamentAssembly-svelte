@@ -282,7 +282,7 @@
       width: 70%;
       margin-left: 15%;
       padding-top: 2em;
-      margin-top: 0em;
+      margin-top: 25vh;
       background-color: transparent;
     }
 
