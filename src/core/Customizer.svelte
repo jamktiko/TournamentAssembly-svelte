@@ -876,5 +876,32 @@
       border-radius: 20px;
       width: auto;
     }
+
+    .playerlist {
+      text-align: center;
+      padding: 0em;
+      width: 12.5em;
+      position: absolute;
+      top: 60vh;
+      left: 7.5%;
+    }
+
+    .fill-info-text {
+      font-size: 0.9em;
+      margin-top: 0em;
+      margin-bottom: 0.7em;
+    }
+
+    .list-header {
+      font-size: 1.1em;
+    }
+
+    .player-name {
+      font-size: 1em;
+    }
+
+    .single-player-content {
+      padding: 0em 0em;
+    }
   }
 </style>

@@ -1,29 +1,29 @@
 <script>
-  import cch from "../utils/cache";
-  import Button from "../reusable/Button.svelte";
-  import Winner from "../reusable/Winner.svelte";
-  import { push } from "svelte-spa-router";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
-  import stateController from "../utils/stateStore";
-  import { onDestroy } from "svelte";
-  import { loadFromSession } from "../utils/lib";
-  import Tooltip from "../reusable/Tooltip.svelte";
-  import Carousel from "svelte-carousel";
+  import cch from '../utils/cache';
+  import Button from '../reusable/Button.svelte';
+  import Winner from '../reusable/Winner.svelte';
+  import { push } from 'svelte-spa-router';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import stateController from '../utils/stateStore';
+  import { onDestroy } from 'svelte';
+  import { loadFromSession } from '../utils/lib';
+  import Tooltip from '../reusable/Tooltip.svelte';
+  import Carousel from 'svelte-carousel';
 
   let showMatchWinPopup = false;
-  let matchWinPopupMessage = "";
+  let matchWinPopupMessage = '';
 
   let showRoundAdvancePopup = false;
-  let roundAdvancePopupMessage = "";
+  let roundAdvancePopupMessage = '';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -46,7 +46,7 @@
   let winners = [];
   let tournamentWinner = null;
 
-  const placeholder = "Waiting for results";
+  const placeholder = 'Waiting for results';
 
   function parseContestants(contestants) {
     const parsed = [];
@@ -223,18 +223,18 @@
 
   function assignRoundNames(rounds) {
     const roundNames = [
-      "ROUND 1",
-      "ROUND 2",
-      "ROUND 3",
-      "ROUND 4",
-      "ROUND 5",
-      "ROUND 6",
+      'ROUND 1',
+      'ROUND 2',
+      'ROUND 3',
+      'ROUND 4',
+      'ROUND 5',
+      'ROUND 6',
     ];
     const specialRoundNames = [
-      "PRE-QUARTERFINALS",
-      "QUARTERFINALS",
-      "SEMIFINALS",
-      "FINALS",
+      'PRE-QUARTERFINALS',
+      'QUARTERFINALS',
+      'SEMIFINALS',
+      'FINALS',
     ];
 
     for (let i = 0; i < rounds.length; i++) {
@@ -251,7 +251,7 @@
     rounds = user.state.rounds;
     winners = user.state.winners;
 
-    console.log(winners, "winners");
+    console.log(winners, 'winners');
   } else {
     calcMatchups(contestants.length);
   }
@@ -289,7 +289,7 @@
       rounds,
     };
 
-		console.log(user.config.id,"config id");
+    console.log(user.config.id, 'config id');
 
     const res = await stateController.updateTourState(state, user.config.id);
 
@@ -319,7 +319,7 @@
   let b = 0;
 
   while (a < rounds[0].length) {
-    if (rounds[0][a].away.name[6] == "_") {
+    if (rounds[0][a].away.name[6] == '_') {
       rounds[0][a].home.score = bestOfvalue - 1;
       moveToNextRound(
         rounds[0][a].home,
@@ -334,10 +334,10 @@
   /* Function check if the window is for tablet, used for alternative playerlist */
   let isTablet = false;
   const checkScreenSize = () => {
-    isTablet = window.matchMedia("(max-width: 1450px)").matches;
+    isTablet = window.matchMedia('(max-width: 1450px)').matches;
   };
   checkScreenSize();
-  window.addEventListener("resize", checkScreenSize);
+  window.addEventListener('resize', checkScreenSize);
 </script>
 
 <main>
@@ -386,7 +386,7 @@
       transition:slide={{
         duration: 700,
         easing: quadInOut,
-        axis: "x",
+        axis: 'x',
       }}
     >
       {#each rounds as round, i}
@@ -479,7 +479,7 @@
       transition:slide={{
         duration: 700,
         easing: quadInOut,
-        axis: "x",
+        axis: 'x',
       }}
     >
       <Carousel
@@ -884,6 +884,71 @@
 
     .match {
       margin-top: 3.5em;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    .info-message {
+      font-size: 1.1em;
+    }
+
+    .round {
+      position: relative;
+      padding-top: 5em;
+      padding-left: 0em;
+      padding-right: 0em;
+      padding-bottom: 2em;
+      margin-right: 0em;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      border-radius: 40px;
+      background-color: rgba(0, 0, 0, 0.5);
+      transition-duration: 0.2s;
+    }
+
+    .match {
+      position: relative;
+      height: fit-content;
+      width: fit-content;
+      margin-top: 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      border: 1px solid #ffffff33;
+      background: linear-gradient(
+        129deg,
+        rgb(11, 11, 52, 0.5) 0%,
+        rgba(35, 27, 117, 0.5) 100%
+      );
+    }
+
+    .player-info {
+      width: 30%;
+      max-width: max-content;
+      grid-template-columns: 200px 1fr;
+    }
+
+    .player-score {
+      right: 0;
+      margin-right: 0em;
+    }
+
+    .custom-arrow-prev {
+      margin-right: 0.5em;
+      top: 1.5em;
+      left: 0.5em;
+      z-index: 9;
+    }
+
+    .custom-arrow-next {
+      margin-left: 0.5em;
+      top: 1.5em;
+      right: 0.5em;
+      z-index: 9;
     }
   }
 </style>
