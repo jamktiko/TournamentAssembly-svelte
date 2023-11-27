@@ -1196,5 +1196,21 @@
     .resolve-button-container {
       flex-direction: column;
     }
+
+    .group-MIA-container {
+      text-align: center;
+    }
+
+    .no-groups-icon {
+      fill: #fff;
+    }
+
+    h1 {
+      font-size: 2em;
+    }
+
+    p {
+      scale: 1;
+    }
   }
 </style>

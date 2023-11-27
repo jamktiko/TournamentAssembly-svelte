@@ -173,6 +173,8 @@
       padding: auto;
       min-height: 0em;
       min-width: 0em;
+      padding: 1em 1em;
+      margin: 0.2em;
     }
 
     .header :global(h2) {

@@ -817,5 +817,48 @@
         rgba(14, 5, 34, 1) 100%
       );
     }
+
+    .group-select-button {
+      font-size: 1.3em;
+    }
+
+    .expand-playerlist-button-open {
+      top: 45%;
+    }
+
+    .playoffs-buttons {
+      font-size: 1em;
+      padding: 0.25em 1.5em;
+      margin: 0.25em;
+    }
+
+    .expand-button {
+      scale: 1;
+      font-size: 1em;
+      padding: 0.05em 1em;
+    }
+
+    .remove-player-button {
+      scale: 0.5;
+      font-size: 2em;
+      padding: 0.1em 0.75em;
+    }
+
+    .add-player-button {
+      scale: 1;
+      font-size: 1em;
+      padding: 0.05em 1em;
+    }
+
+    .add-player-exit-button {
+      font-size: 1em;
+      scale: 1;
+    }
+
+    .winner-buttons {
+      margin-top: 0.5em;
+      font-size: 1.3em;
+      padding: 0.5em 1.5em;
+    }
   }
 </style>

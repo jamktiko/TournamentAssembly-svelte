@@ -620,18 +620,6 @@
       </div>
     {/if}
     <!-- Create buttons -->
-    {#if params.id == 'playoffs'}
-      <div>
-        <p class="fill-info-text">
-          Fills the game with enough placeholder players to start the game.
-        </p>
-        <Button
-          class="playoffs-buttons"
-          disabled={playerAmountOk == true}
-          on:cClick={fill}>Autofill Brackets</Button
-        >
-      </div>
-    {/if}
 
     {#if params.id == 'playoffs' && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
       <div class="createButton">
@@ -688,15 +676,7 @@
     text-transform: uppercase;
     font-size: 0.9em;
   }
-  .fill-info-text {
-    font-size: 1em;
-    text-transform: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 0.9em;
-    margin-bottom: 0.7em;
-  }
+
 
   select,
   input {
@@ -875,6 +855,33 @@
       padding: 0.25em 1em;
       border-radius: 20px;
       width: auto;
+    }
+
+    .playerlist {
+      text-align: center;
+      padding: 0em;
+      width: 12.5em;
+      position: absolute;
+      top: 60vh;
+      left: 7.5%;
+    }
+
+    .fill-info-text {
+      font-size: 0.9em;
+      margin-top: 0em;
+      margin-bottom: 0.7em;
+    }
+
+    .list-header {
+      font-size: 1.1em;
+    }
+
+    .player-name {
+      font-size: 1em;
+    }
+
+    .single-player-content {
+      padding: 0em 0em;
     }
   }
 </style>
