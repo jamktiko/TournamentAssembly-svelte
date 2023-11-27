@@ -73,7 +73,7 @@ const lib = {
       };
     }
 
-    // Validate that the username is a valid email address
+    // Validate that the username is a valid email address (not used in this project)
     /*const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     if (!emailRegex.test(username)) {
       console.error('Invalid email format');
@@ -82,6 +82,16 @@ const lib = {
         success: false,
       };
     }*/
+
+    // validate that users password is in correct format
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      console.error('Password must contain at least one number, one letter and must be at least 8 characters long');
+      return {
+        msg: 'Password must contain at least one number, one letter and must be at least 8 characters long',
+        success: false,
+      };
+    }
 
     // Check if the username is too short
     if (username.length < 4) {
