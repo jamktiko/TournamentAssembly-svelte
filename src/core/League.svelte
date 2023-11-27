@@ -826,4 +826,17 @@
       padding-bottom: 2em;
     }
   }
+    /* Mobile Phone */
+    @media only screen and (max-width: 600px) {
+    tr {
+      font-size: 0.7em;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    tr {
+      font-size: 0.55em;
+    }
+  }
+
+
 </style>
