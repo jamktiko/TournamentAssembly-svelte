@@ -58,8 +58,12 @@
     teams = cch.getFromCache('league');
 
     console.log(teams);
-  } else if (user.state) {
-    teams = user.state;
+  }
+  if (user.state) {
+    teams = user.state.teams;
+    matchResults = user.state.matchResults;
+    matchResultsR = [...matchResults].reverse();
+    console.log(matchResultsR, 'reversed');
   }
 
   let sortBy = '';
@@ -102,7 +106,7 @@
       goalDiff: 0,
     };
     teams = [...teams, newPlayer];
-
+    cch.saveToCache('league', teams);
     newPlayerName = null;
   }
   /**
@@ -235,6 +239,7 @@
         i += 1;
       }
     }
+    window.scrollTo(0, 0);
   }
   function closewindow() {
     largest = '';
@@ -313,11 +318,12 @@
   }
 
   async function save() {
-    const res = await stateController.updateTourState(
+    const state = {
       teams,
-      user.config.id,
-      user.username
-    );
+      matchResults,
+    };
+
+    const res = await stateController.updateTourState(state, user.config.id);
 
     console.log(res);
   }
@@ -325,16 +331,19 @@
   $: console.log(teams);
 
   function resetscore() {
-    agmatches = [];
-    let a = 0;
-    while (a < teams.length) {
-      teams[a].draws = 0;
-      teams[a].goalDiff = 0;
-      teams[a].losses = 0;
-      teams[a].playedMatches = 0;
-      teams[a].score = 0;
-      teams[a].wins = 0;
-      a += 1;
+    const confirm = window.confirm('All the scores will be reset!\nContinue?');
+    if (confirm) {
+      agmatches = [];
+      let a = 0;
+      while (a < teams.length) {
+        teams[a].draws = 0;
+        teams[a].goalDiff = 0;
+        teams[a].losses = 0;
+        teams[a].playedMatches = 0;
+        teams[a].score = 0;
+        teams[a].wins = 0;
+        a += 1;
+      }
     }
   }
 </script>
@@ -394,6 +403,24 @@
     {#if largest != ''}
       <Winner {config} winner={largest} on:closeevent={closewindow} />
     {/if}
+    {#if !user.isGuest && user.username}
+      <Tooltip
+        text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
+      >
+        <Button class="save-button" on:cClick={save}
+          ><svg
+            class="save-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            height="32"
+            viewBox="0 -960 960 960"
+            width="32"
+            ><path
+              d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"
+            /></svg
+          >SAVE</Button
+        >
+      </Tooltip>
+    {/if}
     <Tooltip
       text="Once you have played all the matches in the league press this button to finalize the results and declare a winner."
     >
@@ -401,13 +428,6 @@
         >FINISH LEAGUE</Button
       ></Tooltip
     >
-    {#if !user.isGuest && user.username}
-      <Tooltip
-        text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
-      >
-        <Button class="save-button" on:cClick={save}>SAVE</Button>
-      </Tooltip>
-    {/if}
     <div class="league-scoreboard-container">
       <table>
         <thead>
@@ -459,13 +479,6 @@
         </tbody>
       </table>
     </div>
-    {#if match[0] && match[1]}
-      <Match
-        {match}
-        on:winnerevent={resolve}
-        on:cancelevent={() => (match = [])}
-      />
-    {/if}
     <div class="results-button-container">
       <Tooltip
         text="Press to create a match schedule for all the league's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
@@ -482,6 +495,15 @@
         on:cClick={toggleMatches}>Show schedule</Button
       >
       <Button class="reset-button" on:cClick={resetscore}>Reset</Button>
+    </div>
+    <div class="league-match-container">
+      {#if match[0] && match[1]}
+        <Match
+          {match}
+          on:winnerevent={resolve}
+          on:cancelevent={() => (match = [])}
+        />
+      {/if}
     </div>
     <div class="results-button-container">
       {#if showResults == 0}
@@ -506,7 +528,7 @@
       <div class="results-container" transition:slide>
         <h1 class="results-header">RESULTS</h1>
         {#if matchResultsR.length === 0}
-          <p>There currently isnt any results to show.</p>
+          <p>There are currently no results to display.</p>
         {:else}
           {#each matchResultsR.slice() as matchResult}
             <MatchResults {matchResult} />
@@ -522,14 +544,17 @@
         <h1 class="list-header">MATCH SCHEDULE</h1>
         <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
         <div class="schedule-content">
-          <Tooltip
-            text="Clears and cancels the remaining schedule made for this group."
-          >
-            <Button
-              class="cancel-match-button"
-              on:cClick={() => (agmatches = [])}>Cancel matches</Button
+          <div class="buttons-container">
+            <Button on:cClick={toggleMatches}>CLOSE SCHEDULE</Button>
+            <Tooltip
+              text="Clears and cancels the remaining schedule made for this group."
             >
-          </Tooltip>
+              <Button
+                class="cancel-match-button"
+                on:cClick={() => (agmatches = [])}>Cancel matches</Button
+              >
+            </Tooltip>
+          </div>
 
           <div class="matches-container" transition:slide>
             {#each agmatches as agmatch}
@@ -539,9 +564,6 @@
               />
             {/each}
           </div>
-          <Button class="add-player-exit-button" on:cClick={toggleMatches}
-            >CLOSE SCHEDULE</Button
-          >
         </div>
       </div>
     {/if}{/if}
@@ -549,6 +571,7 @@
 
 <style>
   main {
+    margin-top: 22em;
     margin-left: 15%;
     margin-bottom: 2em;
     width: 70%;
@@ -591,7 +614,13 @@
     flex-direction: column;
     position: relative;
   }
-
+  .buttons-container {
+    padding-top: 1em;
+    margin: auto;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+  }
   input {
     text-align: center;
     color: black;
@@ -701,12 +730,13 @@
   }
 
   .list-header {
+    padding-top: 1em;
     text-transform: uppercase;
   }
 
   #match-count {
     text-transform: uppercase;
-    font-size: 0.9em;
+    font-size: 1.1em;
   }
 
   .backdrop {
@@ -760,10 +790,16 @@
     fill: rgba(110, 0, 0);
   }
 
+  .save-icon {
+    padding-right: 0.3em;
+    fill: #7396ff;
+  }
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
-    table {
-      scale: 0.8;
+    main {
+      margin-top: 25vh;
+      margin-left: 5%;
+      width: 90%;
     }
 
     .results-button-container {
@@ -781,6 +817,13 @@
       top: 30%;
       left: 10%;
       padding: 0em 0em;
+    }
+
+    .schedule-content {
+      margin: 1.8em;
+      width: 90%;
+      align-items: center;
+      padding-bottom: 2em;
     }
   }
 </style>

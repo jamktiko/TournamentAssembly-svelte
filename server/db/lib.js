@@ -1,12 +1,13 @@
-const { connect, client } = require('./conn');
-const { createToken } = require('./auth');
-const { ObjectId } = require('mongodb');
-const bcrypt = require('bcrypt');
-const Filter = require('bad-words');
+const { connect, client } = require("./conn");
+const { createToken } = require("./auth");
+const { ObjectId } = require("mongodb");
+const bcrypt = require("bcrypt");
+const Filter = require("bad-words");
 const filter = new Filter();
 
-const User = require('../models/user');
-const Tournament = require('../models/tournament');
+const User = require("../models/user");
+const Tournament = require("../models/tournament");
+const tournament = require("../models/tournament");
 
 const lib = {
   async getAll() {
@@ -75,6 +76,7 @@ const lib = {
 
     // Validate that the username is a valid email address
     /*const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+
     if (!emailRegex.test(username)) {
       console.error('Invalid email format');
       return {

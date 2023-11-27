@@ -81,7 +81,7 @@
       <div class="team-container">
         <h2 class="team-name-header">Team</h2>
         <p class="team-name">{match[1].name}</p>
-        <h3>Score</h3>
+        <h3 class="score-header">Score</h3>
         <p class="team-score">{scores[1]}</p>
       </div>
       <div class="adjust-buttons-container">
@@ -97,31 +97,33 @@
     </div>
   </div>
   <div class="draw-container">
+    <Button class="league-plus-minus-button" on:cClick={resolveMatch}
+      >CONCLUDE MATCH</Button
+    >
     {#if match[0] && match[1]}
       <Button class="cancel-match-button" on:cClick={() => dp('cancelevent')}
         >CANCEL MATCH</Button
       >
     {/if}
-    <Button class="league-plus-minus-button" on:cClick={resolveMatch}
-      >CONCLUDE MATCH</Button
-    >
   </div>
 </main>
 
 <style>
   main {
-    width: 100%;
+    margin-top: 21vh;
+    margin-left: 15%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 1em;
   }
 
   .match-container {
     width: 80%;
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    justify-content: center;
     align-items: center;
     padding: 1em;
   }
@@ -153,8 +155,13 @@
   }
 
   .draw-container {
-    flex-direction: column;
-    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: 60%;
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-column-gap: 2em;
     padding: 1em, 0em;
   }
 
@@ -211,6 +218,10 @@
   }
 
   @media only screen and (max-width: 1450px) {
+    main {
+      margin-top: 2em;
+    }
+
     .match-container {
       width: 100%;
       padding: 1em;
@@ -224,8 +235,12 @@
     }
 
     #vs-header {
-      padding-left: 0em;
-      padding-right: 0em;
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+
+    .draw-container {
+      grid-column-gap: 5em;
     }
   }
 </style>

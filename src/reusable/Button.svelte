@@ -90,6 +90,23 @@
     filter: contrast(1.4);
   }
 
+  .focused-button {
+    border-radius: 40px;
+    background: linear-gradient(
+      0deg,
+      rgba(167, 0, 0, 0.4) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+
+    transition-duration: 0.3s;
+    cursor: pointer;
+  }
+
+  .focused-button:hover {
+    border: solid 1px #5d0f0f;
+    color: rgb(255, 91, 91);
+  }
+
   .footer-button {
     position: relative;
     text-transform: uppercase;
@@ -213,6 +230,8 @@
   }
 
   .back-button {
+    background: #ffffff00;
+    border: none;
     padding-left: 2.2em;
     display: flex;
     flex-direction: row;
@@ -220,8 +239,14 @@
     scale: 1;
     border-radius: 10px;
     position: absolute;
-    margin: 0.5em;
+    margin: 0.3em;
     transition-duration: 0.1s;
+    left: 0em;
+  }
+
+  .back-button:hover {
+    scale: 1.03;
+    border: none;
   }
 
   .match-add-button {
@@ -440,7 +465,7 @@
     cursor: pointer;
     transition-duration: 0.1s;
     margin-top: 0.5em;
-    margin-bottom: 0.2em;
+    margin-bottom: 3em;
   }
 
   .league-resolve-button:hover {
@@ -571,8 +596,22 @@
   }
 
   .save-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     margin-top: 0.25em;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.25em;
+    border: solid 1px #7396ff;
+    border-radius: 40px;
+    background: linear-gradient(
+      129deg,
+      rgba(0, 0, 0, 0.227) 0%,
+      rgba(14, 5, 34, 0.5) 100%
+    );
+    color: #7396ff;
+    transition-duration: 0.1s;
+    cursor: pointer;
   }
 
   .show-winner-button {
@@ -580,6 +619,45 @@
     padding: 0.3em 1em;
     border-radius: 10px;
     text-transform: uppercase;
+  }
+
+  .carousel-button {
+    font-size: 1.1em;
+    padding: 0.25em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 0.25em;
+  }
+
+  .export-playoffs-button {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+  }
+
+  .settings-button {
+    background: none;
+    border: none;
+    padding-left: 2.2em;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    scale: 1;
+    border-radius: 10px;
+    position: absolute;
+    margin: 0.3em;
+    transition-duration: 0.1s;
+    right: 0;
+  }
+
+  .settings-button:hover {
+    scale: 1.03;
+    border: none;
+  }
+
+  .create-button {
+    padding: 0.5em 0.75em;
+    border-radius: 30px;
   }
 
   /* Tablet Portrait */
@@ -590,6 +668,10 @@
       margin: 0em;
       margin-top: 0em;
       left: -0.4em;
+    }
+
+    .back-button:hover {
+      scale: 0.83;
     }
 
     /* Sitewide Profile Button */
@@ -635,7 +717,7 @@
     }
 
     .add-player-exit-button {
-      scale: 1.5;
+      scale: 1;
     }
 
     /* Match Scoring Buttons */
@@ -668,6 +750,72 @@
       scale: 0.9;
       width: auto;
       margin: 0em 0.2em;
+    }
+
+    .revert-button {
+      font-size: 1.4em;
+      position: absolute;
+      text-transform: uppercase;
+      scale: 0.5;
+      border-radius: 10px;
+      transition-duration: 0.1s;
+      top: -82%;
+      left: 25%;
+    }
+
+    .group-select-button {
+      font-weight: 700;
+      font-size: 1.5em;
+      padding: 0.5em 1.4em;
+    }
+
+    .settings-button {
+      scale: 0.8;
+      margin: 0;
+      margin-top: 0em;
+      right: -0.5em;
+    }
+
+    .settings-button:hover {
+      scale: 0.83;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    button {
+      font-weight: 700;
+      font-size: 1.25em;
+      padding: 0.5em 1.5em;
+      border-radius: 40px;
+    }
+
+    .guest-login {
+      padding: 0.75em 1em;
+      border-radius: 40px;
+    }
+
+    .close-button {
+      padding: 0.5em 1.25em;
+      border-radius: 30px;
+    }
+
+    .profile-button {
+      background: linear-gradient(
+        129deg,
+        rgba(19, 19, 102, 1) 0%,
+        rgba(14, 5, 34, 1) 100%
+      );
+    }
+
+    /* Sitewide Logout Button */
+    .logout-button {
+      padding-right: 1.25em;
+      background: linear-gradient(
+        360deg,
+        rgb(79, 30, 43, 1) 0%,
+        rgba(14, 5, 34, 1) 100%
+      );
     }
   }
 </style>

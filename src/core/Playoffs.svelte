@@ -1,28 +1,29 @@
 <script>
-  import cch from '../utils/cache';
-  import Button from '../reusable/Button.svelte';
-  import Winner from '../reusable/Winner.svelte';
-  import { push } from 'svelte-spa-router';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
-  import stateController from '../utils/stateStore';
-  import { onDestroy } from 'svelte';
-  import { loadFromSession } from '../utils/lib';
-  import Tooltip from '../reusable/Tooltip.svelte';
+  import cch from "../utils/cache";
+  import Button from "../reusable/Button.svelte";
+  import Winner from "../reusable/Winner.svelte";
+  import { push } from "svelte-spa-router";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
+  import stateController from "../utils/stateStore";
+  import { onDestroy } from "svelte";
+  import { loadFromSession } from "../utils/lib";
+  import Tooltip from "../reusable/Tooltip.svelte";
+  import Carousel from "svelte-carousel";
 
   let showMatchWinPopup = false;
-  let matchWinPopupMessage = '';
+  let matchWinPopupMessage = "";
 
   let showRoundAdvancePopup = false;
-  let roundAdvancePopupMessage = '';
+  let roundAdvancePopupMessage = "";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem('user')) {
-    user = loadFromSession('user');
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
     stateController.set(user);
   }
 
@@ -45,7 +46,7 @@
   let winners = [];
   let tournamentWinner = null;
 
-  const placeholder = 'Waiting for results';
+  const placeholder = "Waiting for results";
 
   function parseContestants(contestants) {
     const parsed = [];
@@ -222,18 +223,18 @@
 
   function assignRoundNames(rounds) {
     const roundNames = [
-      'ROUND 1',
-      'ROUND 2',
-      'ROUND 3',
-      'ROUND 4',
-      'ROUND 5',
-      'ROUND 6',
+      "ROUND 1",
+      "ROUND 2",
+      "ROUND 3",
+      "ROUND 4",
+      "ROUND 5",
+      "ROUND 6",
     ];
     const specialRoundNames = [
-      'PRE-QUARTERFINALS',
-      'QUARTERFINALS',
-      'SEMIFINALS',
-      'FINALS',
+      "PRE-QUARTERFINALS",
+      "QUARTERFINALS",
+      "SEMIFINALS",
+      "FINALS",
     ];
 
     for (let i = 0; i < rounds.length; i++) {
@@ -250,7 +251,7 @@
     rounds = user.state.rounds;
     winners = user.state.winners;
 
-    console.log(winners, 'winners');
+    console.log(winners, "winners");
   } else {
     calcMatchups(contestants.length);
   }
@@ -288,11 +289,9 @@
       rounds,
     };
 
-    const res = await stateController.updateTourState(
-      state,
-      user.config.id,
-      user.username
-    );
+		console.log(user.config.id,"config id");
+
+    const res = await stateController.updateTourState(state, user.config.id);
 
     console.log(res);
   }
@@ -314,12 +313,13 @@
   console.log(bestOfvalue);
   function reopenWinner() {
     tournamentWinner = winarrer;
+    window.scrollTo(0, 0);
   }
   let a = 0;
   let b = 0;
 
   while (a < rounds[0].length) {
-    if (rounds[0][a].away.name[6] == '_') {
+    if (rounds[0][a].away.name[6] == "_") {
       rounds[0][a].home.score = bestOfvalue - 1;
       moveToNextRound(
         rounds[0][a].home,
@@ -330,6 +330,14 @@
     }
     a += 1;
   }
+
+  /* Function check if the window is for tablet, used for alternative playerlist */
+  let isTablet = false;
+  const checkScreenSize = () => {
+    isTablet = window.matchMedia("(max-width: 1450px)").matches;
+  };
+  checkScreenSize();
+  window.addEventListener("resize", checkScreenSize);
 </script>
 
 <main>
@@ -344,7 +352,18 @@
     <Tooltip
       text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
     >
-      <Button class="save-button" on:cClick={save}>SAVE</Button>
+      <Button class="save-button" on:cClick={save}
+        ><svg
+          class="save-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          height="32"
+          viewBox="0 -960 960 960"
+          width="32"
+          ><path
+            d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"
+          /></svg
+        >SAVE</Button
+      >
     </Tooltip>
   {/if}
   <p class="info-message">
@@ -353,104 +372,263 @@
     participant name to add a win to their series tally.
   </p>
   {#if tournamentWinner}
+    {window.scrollTo(0, 0)}
     <Winner
       config={contestantData}
       winner={tournamentWinner}
       on:closeevent={closewindow}
     />
   {/if}
-  <div
-    class="playoff-container"
-    transition:slide={{
-      duration: 700,
-      easing: quadInOut,
-      axis: 'x',
-    }}
-  >
-    {#each rounds as round, i}
-      <div class="round">
-        <h2>{round.name}</h2>
-        {#each round as match, mi}
-          <div class="match">
-            {#if i !== 0}
-              <Button
-                class="revert-button"
-                disabled={staticbutton ||
-                  match.home.name == null ||
-                  match.away.name == null ||
-                  checkifresolved(winners, i, match)}
-                on:cClick={() => revertMatch({ round: i, match: mi }, match)}
-                >UNDO MATCH</Button
+
+  {#if !isTablet}
+    <div
+      class="playoff-container"
+      transition:slide={{
+        duration: 700,
+        easing: quadInOut,
+        axis: "x",
+      }}
+    >
+      {#each rounds as round, i}
+        <div class="round">
+          <h2>{round.name}</h2>
+          {#each round as match, mi}
+            <div class="match">
+              {#if i !== 0}
+                <Button
+                  class="revert-button"
+                  disabled={staticbutton ||
+                    match.home.name == null ||
+                    match.away.name == null ||
+                    checkifresolved(winners, i, match)}
+                  on:cClick={() => revertMatch({ round: i, match: mi }, match)}
+                  >UNDO MATCH</Button
+                >
+              {/if}
+              <div
+                class="player-info"
+                on:keydown={() => {}}
+                on:click={() =>
+                  moveToNextRound(match.home, match.away, match, round)}
               >
-            {/if}
-            <div
-              class="player-info"
-              on:keydown={() => {}}
-              on:click={() =>
-                moveToNextRound(match.home, match.away, match, round)}
-            >
-              <p
-                class:match-winner={match.home &&
-                  winners.find(
-                    (id) =>
-                      (id.round === i && id.winner === match.home.id) ||
-                      tournamentWinner === match.home
-                  )}
-                class:match-loser={winners.find(
-                  (id) =>
-                    (id.round === i && id.winner === match.away.id) ||
-                    tournamentWinner === match.home
-                )}
-              >
-                {match.home ? match.home.name : placeholder}
-              </p>
-              <p class="player-score">
-                {#if winners.find((id) => (id.round === i && id.winner === match.home.id) == true)}
-                  {bestOfvalue}
-                {:else if match.home.score}
-                  {match.home.score}
-                {:else}
-                  0
-                {/if}
-              </p>
-            </div>
-            <hr class="separate-line" />
-            <div
-              class="player-info"
-              on:keydown={() => {}}
-              on:click={() =>
-                moveToNextRound(match.away, match.home, match, round)}
-            >
-              <p
-                class:match-winner={match.away &&
-                  winners.find(
+                <p
+                  class:match-winner={match.home &&
+                    winners.find(
+                      (id) =>
+                        (id.round === i && id.winner === match.home.id) ||
+                        tournamentWinner === match.home
+                    )}
+                  class:match-loser={winners.find(
                     (id) =>
                       (id.round === i && id.winner === match.away.id) ||
                       tournamentWinner === match.home
                   )}
-                class:match-loser={winners.find(
-                  (id) =>
-                    (id.round === i && id.winner === match.home.id) ||
-                    tournamentWinner === match.home
-                )}
+                >
+                  {match.home ? match.home.name : placeholder}
+                </p>
+                <p class="player-score">
+                  {#if winners.find((id) => (id.round === i && id.winner === match.home.id) == true)}
+                    {bestOfvalue}
+                  {:else if match.home.score}
+                    {match.home.score}
+                  {:else}
+                    0
+                  {/if}
+                </p>
+              </div>
+              <hr class="separate-line" />
+              <div
+                class="player-info"
+                on:keydown={() => {}}
+                on:click={() =>
+                  moveToNextRound(match.away, match.home, match, round)}
               >
-                {match.away ? match.away.name : placeholder}
-              </p>
-              <p class="player-score">
-                {#if winners.find((id) => (id.round === i && id.winner === match.away.id) == true)}
-                  {bestOfvalue}
-                {:else if match.away.score}
-                  {match.away.score}
-                {:else}
-                  0
-                {/if}
-              </p>
+                <p
+                  class:match-winner={match.away &&
+                    winners.find(
+                      (id) =>
+                        (id.round === i && id.winner === match.away.id) ||
+                        tournamentWinner === match.home
+                    )}
+                  class:match-loser={winners.find(
+                    (id) =>
+                      (id.round === i && id.winner === match.home.id) ||
+                      tournamentWinner === match.home
+                  )}
+                >
+                  {match.away ? match.away.name : placeholder}
+                </p>
+                <p class="player-score">
+                  {#if winners.find((id) => (id.round === i && id.winner === match.away.id) == true)}
+                    {bestOfvalue}
+                  {:else if match.away.score}
+                    {match.away.score}
+                  {:else}
+                    0
+                  {/if}
+                </p>
+              </div>
             </div>
+          {/each}
+        </div>
+      {/each}
+    </div>
+  {:else}
+    <div
+      class="playoff-container"
+      transition:slide={{
+        duration: 700,
+        easing: quadInOut,
+        axis: "x",
+      }}
+    >
+      <Carousel
+        let:showPrevPage
+        let:showNextPage
+        let:currentPageIndex
+        let:pagesCount
+        let:showPage
+      >
+        <div slot="dots" class="custom-dots">
+          {#each Array(pagesCount) as _, pageIndex (pageIndex)}
+            {#if rounds[pageIndex]}
+              <!-- svelte-ignore a11y-click-events-have-key-events -->
+              <Button
+                class="carousel-button"
+                on:click={() => showPage(pageIndex)}
+              >
+                <div
+                  class="carousel-button-content"
+                  class:active={currentPageIndex === pageIndex}
+                  on:click={() => showPage(pageIndex)}
+                >
+                  {rounds[pageIndex].name}
+                </div>
+              </Button>
+            {/if}
+          {/each}
+        </div>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <div
+          slot="prev"
+          on:click={showPrevPage}
+          class="custom-arrow custom-arrow-prev"
+        >
+          <svg
+            class="back-arrow"
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+            ><path
+              d="m242-200 200-280-200-280h98l200 280-200 280h-98Zm238 0 200-280-200-280h98l200 280-200 280h-98Z"
+            /></svg
+          >
+        </div>
+        {#each rounds as round, i}
+          <div class="round">
+            <h2>{round.name}</h2>
+            {#each round as match, mi}
+              <div class="match">
+                {#if i !== 0}
+                  <Button
+                    class="revert-button"
+                    disabled={staticbutton ||
+                      match.home.name == null ||
+                      match.away.name == null ||
+                      checkifresolved(winners, i, match)}
+                    on:cClick={() =>
+                      revertMatch({ round: i, match: mi }, match)}
+                    >UNDO MATCH</Button
+                  >
+                {/if}
+                <div
+                  class="player-info"
+                  on:keydown={() => {}}
+                  on:click={() =>
+                    moveToNextRound(match.home, match.away, match, round)}
+                >
+                  <p
+                    class:match-winner={match.home &&
+                      winners.find(
+                        (id) =>
+                          (id.round === i && id.winner === match.home.id) ||
+                          tournamentWinner === match.home
+                      )}
+                    class:match-loser={winners.find(
+                      (id) =>
+                        (id.round === i && id.winner === match.away.id) ||
+                        tournamentWinner === match.home
+                    )}
+                  >
+                    {match.home ? match.home.name : placeholder}
+                  </p>
+                  <p class="player-score">
+                    {#if winners.find((id) => (id.round === i && id.winner === match.home.id) == true)}
+                      {bestOfvalue}
+                    {:else if match.home.score}
+                      {match.home.score}
+                    {:else}
+                      0
+                    {/if}
+                  </p>
+                </div>
+                <hr class="separate-line" />
+                <div
+                  class="player-info"
+                  on:keydown={() => {}}
+                  on:click={() =>
+                    moveToNextRound(match.away, match.home, match, round)}
+                >
+                  <p
+                    class:match-winner={match.away &&
+                      winners.find(
+                        (id) =>
+                          (id.round === i && id.winner === match.away.id) ||
+                          tournamentWinner === match.home
+                      )}
+                    class:match-loser={winners.find(
+                      (id) =>
+                        (id.round === i && id.winner === match.home.id) ||
+                        tournamentWinner === match.home
+                    )}
+                  >
+                    {match.away ? match.away.name : placeholder}
+                  </p>
+                  <p class="player-score">
+                    {#if winners.find((id) => (id.round === i && id.winner === match.away.id) == true)}
+                      {bestOfvalue}
+                    {:else if match.away.score}
+                      {match.away.score}
+                    {:else}
+                      0
+                    {/if}
+                  </p>
+                </div>
+              </div>
+            {/each}
           </div>
         {/each}
-      </div>
-    {/each}
-  </div>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <div
+          slot="next"
+          on:click={showNextPage}
+          class="custom-arrow custom-arrow-next"
+        >
+          <svg
+            class="next-arrow"
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+            ><path
+              d="m242-200 200-280-200-280h98l200 280-200 280h-98Zm238 0 200-280-200-280h98l200 280-200 280h-98Z"
+            /></svg
+          >
+        </div>
+      </Carousel>
+    </div>
+  {/if}
   {#if showMatchWinPopup && !tournamentWinner}
     <div class="popup">
       <p class="popup-message">{matchWinPopupMessage}</p>
@@ -466,6 +644,7 @@
 
 <style>
   main {
+    margin-top: 25vh;
     overflow-x: hidden;
     display: flex;
     align-items: center;
@@ -608,6 +787,11 @@
     width: 100%;
   }
 
+  .save-icon {
+    padding-right: 0.3em;
+    fill: #7396ff;
+  }
+
   .match-winner {
     filter: drop-shadow(0px 0px 1px #9efb89);
     color: #00ff37;
@@ -620,12 +804,86 @@
     animation: none;
   }
 
+  /* Playoffs Mobile Carousel */
+  .back-arrow {
+    fill: #fff;
+    transform: rotate(180deg);
+  }
+
+  .next-arrow {
+    fill: #fff;
+  }
+
+  .custom-arrow {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    position: absolute;
+    top: 45%;
+    z-index: 10;
+  }
+
+  .custom-arrow-prev {
+    margin-right: 0.5em;
+    left: 1em;
+  }
+
+  .custom-arrow-next {
+    margin-left: 0.5em;
+    right: 1em;
+  }
+
+  .custom-dots {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1em;
+  }
+
+  .carousel-button-content {
+    height: 100%;
+    width: 100%;
+  }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     .info-message {
       margin-top: 0.5em;
       margin-bottom: 0.5em;
       width: 80%;
+    }
+
+    .playoff-container {
+      padding-left: 0em;
+      padding-right: 0em;
+      width: 75%;
+      overflow: auto;
+      overflow-anchor: none;
+      overflow-x: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0em;
+      margin-bottom: 0em;
+    }
+
+    .round {
+      height: fit-content;
+      padding-top: 5em;
+      padding-left: 0em;
+      padding-right: 0em;
+      padding-bottom: 2em;
+      margin: auto;
+    }
+
+    .match {
+      margin-top: 3.5em;
     }
   }
 </style>

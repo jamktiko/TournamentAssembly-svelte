@@ -1,67 +1,69 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import { slide } from 'svelte/transition';
-  import { fade } from 'svelte/transition';
-  import { scale } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import { slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
 
-  import { onDestroy } from 'svelte';
-  import cch from '../utils/cache';
+  import { onDestroy } from "svelte";
+  import cch from "../utils/cache";
 
-  import stateController from '../utils/stateStore';
+  import stateController from "../utils/stateStore";
 
-  import { loadFromSession } from '../utils/lib';
+  import { loadFromSession } from "../utils/lib";
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem('user')) {
-    user = loadFromSession('user');
+  if (!user.username && window.sessionStorage.getItem("user")) {
+    user = loadFromSession("user");
     stateController.set(user);
   }
 
-  let gridData = [{ name: '', columns: [''] }];
+  let gridData = [{ name: "", columns: [""] }];
 
-  onDestroy(() => {
-    if (unsub) unsub();
-
-    if (user.state) delete user.state;
-
+  const intervalId = setInterval(() => {
     if (
       (gridData[0].name && gridData[0].columns[0]) ||
       gridData[0].columns[0] === 0
     ) {
-      cch.saveToCache('scoreboard', gridData);
+      cch.saveToCache("scoreboard", gridData);
     }
+  }, 10000);
+
+  onDestroy(() => {
+    clearInterval(intervalId);
+    if (unsub) unsub();
+
+    if (user.state) delete user.state;
   });
 
-  if (cch.isInCache('scoreboard')) {
-    const cachedData = cch.getFromCache('scoreboard');
-    console.log(!Array.isArray(cachedData[0].columns));
+  console.log(user.state);
+  if (user.state) {
+    gridData = user.state;
+  } else if (cch.isInCache("scoreboard")) {
+    const cachedData = cch.getFromCache("scoreboard");
     if (!Array.isArray(cachedData[0].columns)) {
       for (let unit of cachedData) {
         unit.columns = [unit.columns];
       }
     }
     gridData = cachedData;
-  } else if (user.state) {
-    console.log(user.state, 'testing');
-    gridData = user.state;
   }
 
   function addRow() {
     const numColumns = gridData[0].columns.length;
     const newRow = {
-      name: '',
-      columns: Array(numColumns).fill(''), // Create an array with the same number of empty strings as columns
+      name: "",
+      columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
   }
 
   function addColumn() {
     gridData.forEach((row) => {
-      row.columns.push('');
+      row.columns.push("");
     });
     gridData = [...gridData];
   }
@@ -99,11 +101,8 @@
   }
 
   async function save() {
-    const res = await stateController.updateTourState(
-      gridData,
-      user.config.id,
-      user.username
-    );
+    console.log(user.config.id, "id");
+    const res = await stateController.updateTourState(gridData, user.config.id);
 
     console.log(res);
   }
@@ -122,7 +121,18 @@
   </div>
   <div class="button-container">
     {#if !user.isGuest && user.username}
-      <Button class="save-button" on:cClick={save}>SAVE</Button>
+      <Button class="save-button" on:cClick={save}
+        ><svg
+          class="save-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          height="32"
+          viewBox="0 -960 960 960"
+          width="32"
+          ><path
+            d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"
+          /></svg
+        >SAVE</Button
+      >
     {/if}
   </div>
   <div class="table-container">
@@ -209,7 +219,7 @@
 <style>
   main {
     margin-left: 15%;
-    margin-top: 2em;
+    margin-top: 25vh;
     margin-bottom: 2em;
     display: flex;
     justify-content: center;
@@ -258,7 +268,7 @@
   }
 
   /* Firefox */
-  input[type='number'] {
+  input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
   }
@@ -352,8 +362,18 @@
     fill: rgba(110, 0, 0);
   }
 
+  .save-icon {
+    padding-right: 0.3em;
+    fill: #7396ff;
+  }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
+    main {
+      margin-left: 5%;
+      width: 90%;
+    }
+
     table {
       margin: 0;
       overflow-anchor: left;

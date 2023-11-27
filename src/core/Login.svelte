@@ -67,7 +67,7 @@
     </div>
   </div>
 </main>
-
+<div class="spacer" />
 {#if openLogin}
   <LoginUser on:closeLogin={toggleLogin} />
 {/if}
@@ -81,7 +81,7 @@
 <style>
   main {
     padding-bottom: 1em;
-    margin-top: 2em;
+    margin-top: 30vh;
     margin-left: 25%;
     align-items: center;
     height: 100%;
@@ -141,6 +141,9 @@
     margin: auto;
     font-size: 1.3em;
   }
+  .spacer {
+    margin-bottom: 4%;
+  }
 
   /* Tablet Portrait */
   @media only screen and (max-width: 1150px) {
@@ -158,6 +161,38 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    main {
+      margin-top: 28vh;
+      margin-left: 5%;
+      width: 90%;
+    }
+
+    p {
+      font-size: 0.8em;
+      margin-top: 0em;
+    }
+
+    .button-container {
+      padding-top: 1em;
+      padding-bottom: 1em;
+      width: 90%;
+    }
+
+    h2 {
+      margin-bottom: 0em;
+    }
+
+    .login-buttons-container {
+      padding-bottom: 0em;
+    }
+
+    .login-ad {
+      width: 90%;
     }
   }
 </style>

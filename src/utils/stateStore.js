@@ -90,19 +90,18 @@ const stateController = {
 
     const res = await this.customFetch("addTour", opt);
 
-    user.tournaments.push(tournament);
+    user.tournaments.push(res.result);
     window.sessionStorage.setItem("user", JSON.stringify(user));
 
-    return { res, id: tournament.id };
+    return res;
   },
 
-  async updateTourState(state, id, username) {
+  async updateTourState(state, id) {
     let user;
     const unsub = this.subscribe((userData) => (user = userData));
     unsub();
 
     const tourData = {
-      username,
       id,
       state,
       token: user.token,
@@ -117,8 +116,7 @@ const stateController = {
 
       body: JSON.stringify(tourData),
     };
-
-    const updated = user.tournaments.find((tour) => tour.id === id);
+    const updated = user.tournaments.find((tour) => tour._id === id);
     updated.state = state;
 
     stateController.set(user);

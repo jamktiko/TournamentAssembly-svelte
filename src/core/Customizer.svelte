@@ -23,8 +23,6 @@
     stateController.set(user);
   }
 
-  console.log(user);
-
   onDestroy(() => {
     if (unsub) unsub();
   });
@@ -50,7 +48,7 @@
   const teamsGroups = [4, 6, 8];
   const pointsPerWin = [1, 2, 3, 4, 5];
   const pointsForDraw = [0, 1, 2];
-  const numberadvance = [1,2,3,4]
+  const numberadvance = [1, 2, 3, 4];
 
   const bestOf = [1, 3, 5, 7];
   const deciderTypes = ['Wins'];
@@ -96,17 +94,16 @@
   }
   async function setParticipants() {
     if (!user.isGuest && user.username) {
-      config.id = calcId(user.tournaments);
+      const tournament = {
+        config,
+        state: true,
+      };
+      const res = await stateController.createTournament(tournament, params.id);
+      config.id = res.result._id;
+
       user.config = config;
 
       stateController.set(user);
-
-      const tournament = {
-        config,
-        id: config.id,
-      };
-
-      const res = await stateController.createTournament(tournament, params.id);
     }
 
     switch (params.id) {
@@ -221,11 +218,19 @@
 
   /* Function check if the window is for tablet, used for alternative playerlist */
   let isTablet = false;
-  const checkScreenSize = () => {
+  const checkScreenSizeTablet = () => {
     isTablet = window.matchMedia('(max-width: 1450px)').matches;
   };
-  checkScreenSize();
-  window.addEventListener('resize', checkScreenSize);
+  checkScreenSizeTablet();
+  window.addEventListener('resize', checkScreenSizeTablet);
+
+  /* Function check if the window is a phone, used to hide tooltips */
+  let isPhone = false;
+  const checkScreenSizePhone = () => {
+    isPhone = window.matchMedia('(max-width: 500px)').matches;
+  };
+  checkScreenSizePhone();
+  window.addEventListener('resize', checkScreenSizePhone);
 
   function scrollToTop() {
     window.scrollTo({
@@ -349,25 +354,55 @@
           </select>
         </div>
         <div>
-          <label for="advance">Number advance</label>
+          <label for="advance">Number of qualifiers</label>
           <br />
-          <select
-            id="advance"
-            bind:value={config.advance}
-            on:change={handleSelection}
-          >
-            <option value=1 disabled selected>SELECT</option>
-            {#each numberadvance as numberadvance (numberadvance)}
-              <option value={numberadvance}>{numberadvance}</option>
-            {/each}
-          </select>
+          {#if !isPhone}
+            <Tooltip
+              text="Defines how many patricipants advance to the possible playoff stage."
+            >
+              <select
+                id="advance"
+                bind:value={config.advance}
+                on:change={handleSelection}
+              >
+                <option value="1" disabled selected>SELECT</option>
+                {#each numberadvance as numberadvance (numberadvance)}
+                  <option value={numberadvance}>{numberadvance}</option>
+                {/each}
+              </select>
+            </Tooltip>
+          {:else}
+            <select
+              id="advance"
+              bind:value={config.advance}
+              on:change={handleSelection}
+            >
+              <option value="1" disabled selected>SELECT</option>
+              {#each numberadvance as numberadvance (numberadvance)}
+                <option value={numberadvance}>{numberadvance}</option>
+              {/each}
+            </select>
+          {/if}
         </div>
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
-          <Tooltip
-            text="Defines how many match wins are needed in order to advance to the next round."
-          >
+          {#if !isPhone}
+            <Tooltip
+              text="Defines how many match wins are needed in order to advance to the next round in the possible playoff stage."
+            >
+              <select
+                id="roundSelection"
+                bind:value={config.bestOf}
+                on:change={handleSelection}
+              >
+                <option value="" disabled selected>SELECT</option>
+                {#each bestOf as numberRound (numberRound)}
+                  <option value={numberRound}>{numberRound}</option>
+                {/each}
+              </select>
+            </Tooltip>
+          {:else}
             <select
               id="roundSelection"
               bind:value={config.bestOf}
@@ -378,7 +413,7 @@
                 <option value={numberRound}>{numberRound}</option>
               {/each}
             </select>
-          </Tooltip>
+          {/if}
         </div>
       </div>
     {/if}
@@ -488,9 +523,22 @@
         <div>
           <label for="roundSelection">Best of X</label>
           <br />
-          <Tooltip
-            text="Defines how many match wins are needed in order to advance to the next round."
-          >
+          {#if !isPhone}
+            <Tooltip
+              text="Defines how many match wins are needed in order to advance to the next round."
+            >
+              <select
+                id="roundSelection"
+                bind:value={config.bestOf}
+                on:change={handleSelection}
+              >
+                <option value="" disabled selected>SELECT</option>
+                {#each bestOf as numberRound (numberRound)}
+                  <option value={numberRound}>{numberRound}</option>
+                {/each}
+              </select>
+            </Tooltip>
+          {:else}
             <select
               id="roundSelection"
               bind:value={config.bestOf}
@@ -501,9 +549,8 @@
                 <option value={numberRound}>{numberRound}</option>
               {/each}
             </select>
-          </Tooltip>
+          {/if}
         </div>
-        <div />
         <div class="playoffs-button-container">
           {#if isTablet}
             <p id="player-count">Player count: {config.players.length}</p>
@@ -514,14 +561,21 @@
             on:cClick={() => (playerListVisible = !playerListVisible)}
             on:cClick={() => (playerlistExpanded = true)}>Add Players</Button
           >
-          <Tooltip
-            text="Puts the players participating in random order for the playoff brackets."
-          >
+          {#if !isPhone}
+            <Tooltip
+              text="Puts the players participating in random order for the playoff brackets."
+            >
+              <Button
+                class="playoffs-buttons"
+                on:cClick={randomizePlayers(config.players)}>Randomize</Button
+              >
+            </Tooltip>
+          {:else}
             <Button
               class="playoffs-buttons"
               on:cClick={randomizePlayers(config.players)}>Randomize</Button
             >
-          </Tooltip>
+          {/if}
         </div>
       </div>
     {/if}
@@ -612,7 +666,7 @@
     flex-flow: row wrap;
     padding-bottom: 1em;
     margin-left: 25%;
-    margin-top: 2em;
+    margin-top: 25vh;
     margin-bottom: 2em;
     flex-direction: column;
     width: 50%;
@@ -761,7 +815,7 @@
       padding-left: 1em;
       padding-right: 1em;
       margin-left: 10%;
-      margin-top: 4em;
+      margin-top: 28vh;
       margin-bottom: 2em;
       width: 75%;
     }
@@ -793,5 +847,34 @@
 
   .trash-can {
     fill: rgba(110, 0, 0);
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    main {
+      margin-left: 2.5%;
+      width: 80%;
+    }
+
+    h1 {
+      text-transform: uppercase;
+      font-size: 1.25em;
+      margin-bottom: 2em;
+    }
+
+    select,
+    input {
+      width: auto;
+      font-size: 1em;
+      padding: 0.25em 2.2em;
+      border-radius: 20px;
+    }
+
+    option {
+      font-size: 1em;
+      padding: 0.25em 1em;
+      border-radius: 20px;
+      width: auto;
+    }
   }
 </style>

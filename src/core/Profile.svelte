@@ -46,7 +46,7 @@
 <style>
   main {
     margin-left: 15%;
-    margin-top: 2em;
+    margin-top: 30vh;
     margin-bottom: 2em;
     display: flex;
     justify-content: center;
@@ -86,6 +86,26 @@
       padding-bottom: 3em;
       padding-left: 1em;
       padding-right: 1em;
+    }
+
+    /* Mobile Phone */
+    @media only screen and (max-width: 500px) {
+      main {
+        margin-left: 1%;
+        margin-top: 25vh;
+        width: 90%;
+      }
+
+      p {
+        font-size: 1.1em;
+      }
+
+      .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        margin-top: 2em;
+      }
     }
   }
 </style>

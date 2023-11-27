@@ -13,7 +13,7 @@
 
 <style>
   .footer-content {
-    margin-top: 22em;
+    margin-top: 25em;
     position: sticky;
     bottom: 0%;
     font-size: 0.7em;
@@ -25,5 +25,12 @@
     border-radius: 0px;
     border-top: solid 2px #ffffff;
     background-color: rgba(0, 0, 0, 0.308);
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    .footer-content {
+      margin-top: 5em;
+    }
   }
 </style>

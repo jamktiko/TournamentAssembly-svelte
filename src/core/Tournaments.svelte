@@ -12,6 +12,7 @@
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
+  console.log(user);
 
   if (!user.username && window.sessionStorage.getItem('user')) {
     user = loadFromSession('user');
@@ -28,11 +29,10 @@
   function openTournament(tournament) {
     const configTkn = cch.tokenify(tournament.config);
 
-    console.log(tournament, 'tour');
-
     if (tournament.state) {
       user.state = tournament.state;
       user.config = tournament.config;
+      user.config.id = tournament._id;
     }
 
     stateController.set(user);
@@ -44,7 +44,7 @@
   }
 
   async function deleteTournament(id) {
-    const deleted = tournaments.find((tour) => tour.id === id);
+    const deleted = tournaments.find((tour) => tour._id === id);
     tournaments.splice(tournaments.indexOf(deleted), 1);
 
     tournaments = tournaments;
@@ -96,7 +96,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each tournaments as tournament (tournament.id)}
+          {#each tournaments as tournament}
             <tr>
               <td>
                 <Button
@@ -104,17 +104,42 @@
                   on:cClick={() => openTournament(tournament)}>Open</Button
                 >
               </td>
-              <td>{tournament.config.tournamentName}</td>
-              <td>{tournament.config.tourDecider}</td>
-              <td>{tournament.config.numberOfGroups}</td>
-              <td>{tournament.config.teamsInGroup}</td>
-              <td>{tournament.config.pointsPerWin}</td>
-              <td>{tournament.config.pointsPerDraw}</td>
-              <td>{tournament.type.toUpperCase()}</td>
+              <td
+                >{tournament.config.tournamentName
+                  ? tournament.config.tournamentName
+                  : ''}</td
+              >
+              <td
+                >{tournament.config.tourDecider
+                  ? tournament.config.tourDecider
+                  : ''}</td
+              >
+              <td
+                >{tournament.config.numberOfGroups
+                  ? tournament.config.numberOfGroups
+                  : ''}</td
+              >
+              <td
+                >{tournament.config.teamsInGroup
+                  ? tournament.config.teamsInGroup
+                  : ''}</td
+              >
+              <td
+                >{tournament.config.pointsPerWin
+                  ? tournament.config.pointsPerWin
+                  : ''}</td
+              >
+              <td
+                >{tournament.config.pointsPerDraw
+                  ? tournament.config.pointsPerDraw
+                  : ''}</td
+              >
+              <td>{tournament.type ? tournament.type.toUpperCase() : ''}</td>
+
               <td
                 ><Button
                   class="delete-player-button"
-                  on:cClick={() => deleteTournament(tournament.id)}
+                  on:cClick={() => deleteTournament(tournament._id)}
                   ><svg
                     class="trash-can"
                     xmlns="http://www.w3.org/2000/svg"
@@ -142,10 +167,13 @@
   >
     <div class="tablet-header">
       <div class="tournaments-header">
-        <h1>Tournaments & Scoreboards</h1>
+        <h1>My Tournaments</h1>
       </div>
       <div class="tournaments-description">
-        <p>Below is a list of your created Tournaments and Scoreboards</p>
+        <p>
+          Below is a list of all your saved tournaments and scoreboards. Choose
+          any of them to continue playing or delete them.
+        </p>
       </div>
     </div>
     <div class="list">
@@ -164,7 +192,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each tournaments as tournament (tournament.id)}
+          {#each tournaments as tournament (tournament._id)}
             <tr>
               <td>
                 <Button
@@ -190,7 +218,7 @@
 <style>
   main {
     margin-left: 15%;
-    margin-top: 2em;
+    margin-top: 30vh;
     margin-bottom: 2em;
     display: flex;
     justify-content: center;
@@ -280,6 +308,71 @@
     table {
       margin-top: -3em;
       scale: 0.8;
+    }
+
+    /* Mobile Phone */
+    @media only screen and (max-width: 500px) {
+      main {
+        margin-top: 25vh;
+        margin-left: 5%;
+        width: 90%;
+      }
+
+      .tablet-header {
+        text-align: center;
+        padding: 3em 2em;
+        border-radius: 40px;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      h1 {
+        text-transform: uppercase;
+        font-size: 2.5em;
+      }
+
+      p {
+        font-size: 1.1em;
+      }
+
+      .list {
+        width: 100%;
+        padding-top: 1em;
+        margin-top: 1em;
+      }
+
+      table {
+        scale: 0.4;
+        font-size: 1.4em;
+        margin: 0em 0em;
+        text-transform: uppercase;
+        border-collapse: separate;
+      }
+
+      tr {
+        height: 1em;
+      }
+
+      th {
+        text-transform: uppercase;
+        font-weight: 700;
+        background-color: rgba(0, 0, 0, 0);
+        border-bottom: 1px solid white;
+        text-align: center;
+        padding: 0em 1em;
+      }
+
+      td {
+        font-weight: 700;
+        padding: 0.5em;
+        background-color: rgba(0, 0, 0, 0);
+        text-align: center;
+        border-top: 1px solid rgb(255, 255, 255);
+        border-bottom: 1px solid rgb(255, 255, 255);
+      }
+
+      tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
     }
   }
 </style>
