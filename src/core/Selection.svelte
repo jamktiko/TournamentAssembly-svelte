@@ -330,6 +330,11 @@
       width: 72.5%;
     }
 
+    .create-container {
+      flex-direction: column;
+      width: auto;
+    }
+
     .text-container {
       text-align: center;
     }
