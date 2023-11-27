@@ -7,7 +7,7 @@ router.get("/", userController.getAll);
 
 router.post("/login", userController.loginUser);
 
-router.post("/register", verifyToken, userController.registerUser);
+router.post("/register", userController.registerUser);
 
 router.post("/addTour", verifyToken, userController.addTournament);
 

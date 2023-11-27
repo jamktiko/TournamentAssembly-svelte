@@ -62,6 +62,7 @@ const stateController = {
 
       stateStore.set(userData);
       window.sessionStorage.setItem("user", JSON.stringify(userData));
+      localStorage.clear();
     }
     return res;
   },

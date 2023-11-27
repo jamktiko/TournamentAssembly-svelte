@@ -15,16 +15,16 @@ const lib = {
       const docs = await User.find({}).toArray();
       return docs;
     } catch {
-      console.log('Couldn´t get documents');
+      console.log("Couldn´t get documents");
       return [];
     }
   },
-  // logs existing user in their account
+
   async loginUser(username, password) {
     if (!username || !password) {
-      console.error('Username and password must be defined');
+      console.error("Username and password must be defined");
       return {
-        msg: 'Username and password must be defined',
+        msg: "Username and password must be defined",
         success: false,
       };
     }
@@ -32,14 +32,14 @@ const lib = {
     const user = await User.findOne({ username });
     try {
       if (!user) {
-        console.error('User not found');
+        console.error("User not found");
         return {
-          msg: 'Username wrong or not found',
+          msg: "Username wrong or not found",
           success: false,
         };
       }
     } catch (error) {
-      console.error('Error finding user:', error);
+      console.error("Error finding user:", error);
       throw error;
     }
     // Compare the provided password with the stored hashed password
@@ -47,36 +47,38 @@ const lib = {
 
     if (passwordMatch) {
       // Passwords match, user is authenticated
+
+      const tournaments = await Tournament.find({ owner: username });
+      console.log(tournaments);
+
       return {
         id: user._id,
         username: user.username,
-        tournaments: user.tournaments,
+        tournaments: tournaments,
         token: createToken(user.username),
         success: true,
-        msg: 'Login successfull',
+        msg: "Login successfull",
       };
     } else {
-      console.error('Incorrect password');
+      console.error("Incorrect password");
       return {
-        msg: 'Incorrect password',
+        msg: "Incorrect password",
         success: false,
       };
     }
   },
 
-  // registers user in the database
   async registerUser(username, password) {
     if (!username || !password) {
-      console.error('Username or password must be defined');
+      console.error("Username or password must be defined");
       return {
-        msg: 'Username or password must be defined',
+        msg: "Username or password must be defined",
         success: false,
       };
     }
 
     // Validate that the username is a valid email address
     /*const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
-
     if (!emailRegex.test(username)) {
       console.error('Invalid email format');
       return {
@@ -84,7 +86,7 @@ const lib = {
         success: false,
       };
     }*/
-
+    
     // Check if the username is too short
     if (username.length < 4) {
       console.error('Username must be at least 4 characters');
@@ -96,9 +98,9 @@ const lib = {
 
     // Check for offensive words in the username
     if (filter.isProfane(username)) {
-      console.error('Username contains inappropriate language');
+      console.error("Username contains inappropriate language");
       return {
-        msg: 'Username contains inappropriate language',
+        msg: "Username contains inappropriate language",
         success: false,
       };
     }
@@ -107,14 +109,14 @@ const lib = {
     const existingUser = await User.findOne({ username });
     try {
       if (existingUser) {
-        console.error('Username already exists');
+        console.error("Username already exists");
         return {
-          msg: 'Username already exists',
+          msg: "Username already exists",
           success: false,
         };
       }
     } catch (error) {
-      console.error('Error registering user:', error);
+      console.error("Error registering user:", error);
       throw error;
     }
 
@@ -131,72 +133,46 @@ const lib = {
 
     return { token: token, username: username, success: true };
   },
-  // adds newly made tournament to the users tournaments
+
   async addTournament(username, newTournament) {
-    if (!username) {
-      console.error('Invalid username');
-      return {
-        msg: 'Invalid username',
-        success: false,
-      };
-    }
-    // tournaments owner is assigned to the users username so further modifications can be done to the user specific tournament
     newTournament.owner = username;
-    const result = Tournament.create(newTournament);
+    const result = await Tournament.create(newTournament);
 
-    return { success: true, result: result, msg: 'Tournament created' };
+    return { success: true, result: result, msg: "Tournament created" };
   },
-  // deletes tournament from the user
-  async delTournament(username, id) {
-    if (!username) {
-      console.error('Username or tournament must be correct');
+
+  async delTournament(id) {
+    console.log(id);
+    try {
+      const result = await Tournament.deleteOne({ _id: id });
+      console.log(result);
+      return { success: true, result: result, msg: "Tournament deleted" };
+    } catch {
       return {
-        msg: 'Username or tournament must be correct',
         success: false,
+        result: result,
+        msg: "Tournament deletion failed",
       };
     }
-
-    // Find the user by username
-    const user = await User.findOne({ username: username });
-    try {
-      if (!user) {
-        console.error('User not found');
-        return {
-          msg: 'User not found',
-          success: false,
-        };
-      }
-    } catch (error) {
-      console.error('Error finding user:', error);
-      throw error;
-    }
-
-    // Update the user's document in the database
-
-    const updateResult = await User.updateOne({ username: username, 'tournaments.id': id }, { $pull: { tournaments: { id: id } } });
-
-    console.log(updateResult);
-
-    return updateResult;
   },
 
-  // updates the tournament state so that whenever user wants to continue the results will be saved.
   async updateTournamentState(state, id) {
     if (id !== 0 && !id) {
-      console.error('Username or tournament id invalid');
+      console.error("Username or tournament id invalid");
       return {
-        msg: 'Username or tournament id invalid',
+        msg: "Username or tournament id invalid",
         success: false,
       };
     }
 
-    console.log(state);
-
     try {
-      await Tournament.findOneAndUpdate({ _id: id }, { $set: { state: state } });
-      console.log('Document updated successfully');
+      await Tournament.findOneAndUpdate(
+        { _id: id },
+        { $set: { state: state } }
+      );
+      console.log("Document updated successfully");
     } catch (error) {
-      console.error('Error updating document:', error);
+      console.error("Error updating document:", error);
       throw error;
     }
   },
@@ -205,9 +181,9 @@ const lib = {
   async updateById(id, update) {
     try {
       await User.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: update });
-      console.log('Document updated successfully');
+      console.log("Document updated successfully");
     } catch (error) {
-      console.error('Error updating document:', error);
+      console.error("Error updating document:", error);
       throw error;
     }
   },
@@ -216,15 +192,15 @@ const lib = {
   async deleteById(id) {
     try {
       await User.deleteOne({ _id: new ObjectId(id) });
-      console.log('Document deleted successfully', id);
+      console.log("Document deleted successfully", id);
       return {
-        msg: 'Document deleted successfully',
+        msg: "Document deleted successfully",
         success: true,
       };
     } catch (error) {
-      console.error('Error deleting document:', error);
+      console.error("Error deleting document:", error);
       return {
-        msg: 'Document deletion failed',
+        msg: "Document deletion failed",
         success: false,
       };
     }
