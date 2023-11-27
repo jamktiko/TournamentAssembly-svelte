@@ -86,6 +86,7 @@ const lib = {
         success: false,
       };
     }*/
+
     
     // Check if the username is too short
     if (username.length < 4) {
