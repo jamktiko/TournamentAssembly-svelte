@@ -86,7 +86,27 @@ const lib = {
         success: false,
       };
     }*/
+<<<<<<< HEAD
 
+    // Check for offensive words in the username
+    if (filter.isProfane(username)) {
+      console.error("Username contains inappropriate language");
+      return {
+        msg: "Username contains inappropriate language",
+=======
+    
+    // Check if the username is too short
+    if (username.length < 4) {
+      console.error('Username must be at least 4 characters');
+      return {
+        msg: 'Username is too short (minimum length is 4 characters)',
+>>>>>>> fb90664c9f0208acaff8f723ae86d444903ea0b0
+        success: false,
+      };
+    }
+
+<<<<<<< HEAD
+=======
     // Check for offensive words in the username
     if (filter.isProfane(username)) {
       console.error("Username contains inappropriate language");
@@ -96,6 +116,7 @@ const lib = {
       };
     }
 
+>>>>>>> fb90664c9f0208acaff8f723ae86d444903ea0b0
     // Check if the username is already taken
     const existingUser = await User.findOne({ username });
     try {
