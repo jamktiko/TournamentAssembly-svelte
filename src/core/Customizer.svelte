@@ -133,6 +133,7 @@
   function removePlayer(player) {
     config.players = config.players.filter((p) => p !== player);
     checkplayers();
+    changeables = []
   }
 
   function isValidInput(input) {
@@ -243,6 +244,20 @@
 
   function toggleTooltip() {
     showTooltip = !showTooltip;
+  }
+  let changeables = []
+  function storeobject(index){
+    changeables.push(index)
+    if (changeables.length == 2){
+      switchobjects(changeables[0], changeables[1])
+      changeables = []
+    }
+    changeables = [...changeables]
+  }
+  function switchobjects(index, index2){
+    var tempplace = config.players[index]
+    config.players[index] = config.players[index2]
+    config.players[index2] = tempplace
   }
 </script>
 
@@ -449,10 +464,18 @@
             </Button>
             {#if showPlayerlist}
               <div transition:slide>
-                {#each config.players as player}
+                {#each config.players as player, index (player)}
                   <div class="single-player-content">
-                    <div class="player-name">
-                      {player}
+                    <div class="player-name"
+                    on:keypress={storeobject(index)}
+                    on:click={storeobject(index)}>
+                       {#if index == changeables[0]}
+                  <div class="selected">
+                    {player}
+                    </div>
+                    {:else}
+                    {player}
+                  {/if}
                     </div>
                     <div>
                       <Button
@@ -475,10 +498,18 @@
           </Button>
           {#if showPlayerlist}
             <div transition:slide>
-              {#each config.players as player}
+              {#each config.players as player, index (player)}
                 <div class="single-player-content">
-                  <div class="player-name">
+                  <div class="player-name"
+                  on:keypress={storeobject(index)}
+                  on:click={storeobject(index)}>
+                  {#if index == changeables[0]}
+                  <div class="selected">
                     {player}
+                    </div>
+                    {:else}
+                    {player}
+                  {/if}
                   </div>
                   <div>
                     <Button
@@ -788,7 +819,9 @@
     font-size: 1.2em;
     overflow-x: auto;
   }
-
+  .selected {
+  opacity: 50%;
+  }
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     main {
@@ -857,4 +890,5 @@
       width: auto;
     }
   }
+
 </style>
