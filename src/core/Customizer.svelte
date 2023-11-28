@@ -82,16 +82,37 @@
         break;
     }
   }
-
+  let sameNameMessage = false
+  let sameNameTimer = 0
   function handlePlayerList(ce) {
     if (ce.detail != '.') {
-      ce.detail.forEach((i) => config.players.push(i));
-      config.players = [...config.players];
-    } else {
-      playerListVisible = false;
+      console.log(ce.detail)
+      let upcount = 0
+      let stopper = 0
+      while (upcount < config.players.length){
+        if (ce.detail == config.players[upcount]){
+          stopper = 1
+        }
+        upcount += 1
+      }
+
+      if (stopper == 0){
+        ce.detail.forEach((i) => config.players.push(i));
+        config.players = [...config.players];
+       } else {
+        sameNameMessage = true
+        sameNameTimer = setTimeout(() => {
+        sameNameMessage = false
+      }, 2000)
+       }
+      
+      }
+       else {
+          playerListVisible = false;
+        }
+      checkplayers();
     }
-    checkplayers();
-  }
+  
   async function setParticipants() {
     if (!user.isGuest && user.username) {
       const tournament = {
@@ -671,9 +692,28 @@
       </div>
     {/if}
   </div>
+  {#if sameNameMessage}
+    <div class="popup">
+      Same name can't appear twice
+    </div>
+  {/if}
 </main>
 
 <style>
+  .popup {
+    border-radius: 10px;
+    position: fixed;
+    text-align: center;
+    font-size: 1.5em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    color: white;
+    border-radius: 5px;
+    z-index: 9999;
+  }
   main {
     font-size: x-large;
     padding-top: 2em;
