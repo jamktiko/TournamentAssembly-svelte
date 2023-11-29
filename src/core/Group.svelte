@@ -1210,15 +1210,6 @@
       scale: 1;
     }
 
-    .modal {
-      width: 93.5%;
-      padding: 1em 0em;
-    }
-
-    .matches-container {
-      column-gap: 2em;
-    }
-
     #match-count {
       max-width: 10em;
       margin: auto;
@@ -1235,6 +1226,27 @@
     input {
       font-size: 1.4em;
       padding: 0.25em 0em;
+    }
+
+    .matches-container {
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .modal {
+      width: 94%;
+      padding: 1em 0em;
+      left: 3%;
+    }
+
+    .schedule-content {
+      margin: auto;
+      width: 90%;
+      align-items: center;
+      padding-bottom: 2em;
     }
   }
 </style>

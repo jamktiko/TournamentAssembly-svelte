@@ -794,6 +794,7 @@
     padding-right: 0.3em;
     fill: #7396ff;
   }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     main {
@@ -814,7 +815,7 @@
       width: 80%;
       height: 75%;
       position: absolute;
-      top: 30%;
+      top: 28vh;
       left: 10%;
       padding: 0em 0em;
     }
@@ -826,17 +827,38 @@
       padding-bottom: 2em;
     }
   }
-    /* Mobile Phone */
-    @media only screen and (max-width: 600px) {
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 600px) {
     tr {
       font-size: 0.7em;
     }
   }
+
   @media only screen and (max-width: 500px) {
     tr {
-      font-size: 0.55em;
+      font-size: 0.6em;
+    }
+
+    .matches-container {
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .modal {
+      width: 94%;
+      padding: 1em 0em;
+      left: 3%;
+    }
+
+    .schedule-content {
+      margin: auto;
+      width: 90%;
+      align-items: center;
+      padding-bottom: 2em;
     }
   }
-
-
 </style>

@@ -871,5 +871,25 @@
       scale: 0.7;
       top: -100%;
     }
+
+    .add-button {
+      font-size: 1.4em;
+      padding: 0.25em 2.2em;
+      margin: 0.25em;
+    }
+
+    .delete-round-button {
+      font-size: 1.7em;
+      padding: 0em 0.5em;
+      padding-top: 0em;
+      margin: 0em;
+    }
+
+    .delete-player-button {
+      font-size: 1.7em;
+      padding: 0em 0.25em;
+      padding-top: 0.25em;
+      margin: 0em;
+    }
   }
 </style>
