@@ -325,7 +325,7 @@
   @media only screen and (max-width: 500px) {
     main {
       padding: 0em 2em 3em;
-      margin-left: 5%;
+      margin-left: 8%;
       margin-top: 28vh;
       width: 72.5%;
     }

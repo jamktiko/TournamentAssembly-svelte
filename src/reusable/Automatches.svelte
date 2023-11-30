@@ -61,6 +61,7 @@
       blur(2px);
   }
 
+  /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     .matchup-header {
       font-size: 1.5em;

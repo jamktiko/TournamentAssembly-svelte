@@ -1035,9 +1035,8 @@
   .match-modal {
     opacity: 100%;
     position: fixed;
-    top: 0;
+    top: 28vh;
     left: 0;
-    height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
     width: 100%;
     height: 100%;
@@ -1180,10 +1179,6 @@
       text-align: center;
     }
 
-    #group {
-      display: flex;
-    }
-
     table {
       scale: 0.5;
       padding-bottom: 0em;
@@ -1247,6 +1242,15 @@
       width: 90%;
       align-items: center;
       padding-bottom: 2em;
+    }
+
+    .match-modal {
+      position: absolute;
+      top: 28vh;
+      left: 0;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      width: 100%;
     }
   }
 </style>
