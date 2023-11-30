@@ -8,7 +8,9 @@
 <div class="matches-list">
   <h1 class="card-image">{agmatch[0].name} - {agmatch[1].name}</h1>
   <h2 class="matchup-header">{agmatch[0].name} - {agmatch[1].name}</h2>
-  <Button on:cClick={() => dp('chooseevent', agmatch[0], agmatch[1])}
+  <Button
+    class="play-match-button"
+    on:cClick={() => dp('chooseevent', agmatch[0], agmatch[1])}
     >PLAY MATCH</Button
   >
 </div>

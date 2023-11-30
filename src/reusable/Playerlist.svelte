@@ -143,10 +143,16 @@
 
     .modal {
       position: absolute;
-      top: 23vh;
-      left: 15vw;
+      top: 25vh;
+      left: 22.5vw;
       padding: 1em 1em;
       border-radius: 20px;
+    }
+  }
+
+  @media only screen and (max-width: 360px) {
+    .modal {
+      left: 13.5vw;
     }
   }
 </style>
