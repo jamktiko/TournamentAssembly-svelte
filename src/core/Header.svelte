@@ -395,10 +395,20 @@
     }
   }
 
+  /* Tablet Portrait */
+  @media only screen and (max-width: 1450px) {
+    #logo {
+      width: 55vw;
+    }
+  }
+
   /* Mobile Phone */
   @media only screen and (max-width: 500px) {
     #logo {
-      width: 300px;
+      width: 80%;
+    }
+    header {
+      height: 17%;
     }
   }
 </style>
