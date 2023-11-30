@@ -934,7 +934,7 @@
 
     .player-score {
       right: 0;
-      margin-right: 0em;
+      margin-right: 0.5em;
     }
 
     .custom-arrow-prev {
@@ -949,6 +949,10 @@
       top: 1.5em;
       right: 0.5em;
       z-index: 9;
+    }
+
+    h2 {
+      top: 0px;
     }
   }
 </style>
