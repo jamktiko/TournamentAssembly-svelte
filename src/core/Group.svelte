@@ -764,44 +764,44 @@
         />
       </div>
     {/if}
-  </div>
-  {#if showmatches}
-    {#if agmatches.length > 0}
-      <div class="backdrop" on:click={toggleMatches} on:keydown />
-      <div class="modal">
-        <h1 class="list-header">MATCH SCHEDULE</h1>
-        <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
-        <div class="schedule-content">
-          <div class="buttons-container">
-            <Button on:cClick={toggleMatches}>CLOSE SCHEDULE</Button>
-            {#if !isPhone}
-              <Tooltip
-                text="Clears and cancels the remaining schedule made for this group."
-              >
+    {#if showmatches}
+      {#if agmatches.length > 0}
+        <div class="backdrop" on:click={toggleMatches} on:keydown />
+        <div class="modal">
+          <h1 class="list-header">MATCH SCHEDULE</h1>
+          <h2 id="match-count">MATCHES REMAINING: {agmatches.length}</h2>
+          <div class="schedule-content">
+            <div class="buttons-container">
+              <Button on:cClick={toggleMatches}>CLOSE SCHEDULE</Button>
+              {#if !isPhone}
+                <Tooltip
+                  text="Clears and cancels the remaining schedule made for this group."
+                >
+                  <Button
+                    class="cancel-match-button"
+                    on:cClick={() => (agmatches = [])}>Cancel matches</Button
+                  >
+                </Tooltip>
+              {:else}
                 <Button
                   class="cancel-match-button"
                   on:cClick={() => (agmatches = [])}>Cancel matches</Button
                 >
-              </Tooltip>
-            {:else}
-              <Button
-                class="cancel-match-button"
-                on:cClick={() => (agmatches = [])}>Cancel matches</Button
-              >
-            {/if}
-          </div>
+              {/if}
+            </div>
 
-          <div class="matches-container" transition:slide>
-            {#each agmatches as agmatch}
-              <Automatches
-                {agmatch}
-                on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
-              />
-            {/each}
+            <div class="matches-container" transition:slide>
+              {#each agmatches as agmatch}
+                <Automatches
+                  {agmatch}
+                  on:chooseevent={playGeneratedMatches(agmatch[0], agmatch[1])}
+                />
+              {/each}
+            </div>
           </div>
         </div>
-      </div>
-    {/if}{/if}
+      {/if}{/if}
+  </div>
 </main>
 
 <style>
@@ -1138,7 +1138,7 @@
       width: 80%;
       height: auto;
       position: absolute;
-      top: 14em;
+      top: 28vh;
       left: 3%;
       padding: 1em 3em;
       overflow-x: none;
@@ -1182,14 +1182,10 @@
 
     #group {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: none;
-      flex-direction: none;
     }
 
     table {
-      scale: 0.55;
+      scale: 0.5;
       padding-bottom: 0em;
     }
 
@@ -1198,6 +1194,7 @@
     }
 
     .group-MIA-container {
+      padding: 0em 0.5em;
       text-align: center;
     }
 
@@ -1211,6 +1208,45 @@
 
     p {
       scale: 1;
+    }
+
+    #match-count {
+      max-width: 10em;
+      margin: auto;
+    }
+
+    th {
+      font-size: 1.5em;
+    }
+
+    td {
+      font-size: 1.5em;
+    }
+
+    input {
+      font-size: 1.4em;
+      padding: 0.25em 0em;
+    }
+
+    .matches-container {
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .modal {
+      width: 94%;
+      padding: 1em 0em;
+      left: 3%;
+    }
+
+    .schedule-content {
+      margin: auto;
+      width: 90%;
+      align-items: center;
+      padding-bottom: 2em;
     }
   }
 </style>
