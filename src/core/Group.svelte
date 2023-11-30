@@ -1170,6 +1170,9 @@
 
   /* Mobile Phone */
   @media only screen and (max-width: 500px) {
+    main {
+      overflow-x: hidden;
+    }
     #group-manage {
       margin: auto;
       display: grid;
@@ -1180,12 +1183,19 @@
       text-align: center;
     }
 
+    .grid-container {
+      height: 100%;
+    }
+
     #group {
-      display: flex;
+    }
+
+    #group-view {
+      grid-column: 1;
     }
 
     table {
-      scale: 0.5;
+      scale: 0.4;
       padding-bottom: 0em;
     }
 
