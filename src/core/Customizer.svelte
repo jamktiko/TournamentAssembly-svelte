@@ -82,16 +82,35 @@
 				break;
 		}
 	}
-
+	let sameNameMessage = false;
+	let sameNameTimer = 0;
 	function handlePlayerList(ce) {
 		if (ce.detail != ".") {
-			ce.detail.forEach((i) => config.players.push(i));
-			config.players = [...config.players];
+			console.log(ce.detail);
+			let upcount = 0;
+			let stopper = 0;
+			while (upcount < config.players.length) {
+				if (ce.detail == config.players[upcount]) {
+					stopper = 1;
+				}
+				upcount += 1;
+			}
+
+			if (stopper == 0) {
+				ce.detail.forEach((i) => config.players.push(i));
+				config.players = [...config.players];
+			} else {
+				sameNameMessage = true;
+				sameNameTimer = setTimeout(() => {
+					sameNameMessage = false;
+				}, 2000);
+			}
 		} else {
 			playerListVisible = false;
 		}
 		checkplayers();
 	}
+
 	async function setParticipants() {
 		if (!user.isGuest && user.username) {
 			const tournament = {
@@ -133,6 +152,7 @@
 	function removePlayer(player) {
 		config.players = config.players.filter((p) => p !== player);
 		checkplayers();
+		changeables = [];
 	}
 
 	function isValidInput(input) {
@@ -218,11 +238,19 @@
 
 	/* Function check if the window is for tablet, used for alternative playerlist */
 	let isTablet = false;
-	const checkScreenSize = () => {
+	const checkScreenSizeTablet = () => {
 		isTablet = window.matchMedia("(max-width: 1450px)").matches;
 	};
-	checkScreenSize();
-	window.addEventListener("resize", checkScreenSize);
+	checkScreenSizeTablet();
+	window.addEventListener("resize", checkScreenSizeTablet);
+
+	/* Function check if the window is a phone, used to hide tooltips */
+	let isPhone = false;
+	const checkScreenSizePhone = () => {
+		isPhone = window.matchMedia("(max-width: 500px)").matches;
+	};
+	checkScreenSizePhone();
+	window.addEventListener("resize", checkScreenSizePhone);
 
 	function scrollToTop() {
 		window.scrollTo({
@@ -235,6 +263,21 @@
 
 	function toggleTooltip() {
 		showTooltip = !showTooltip;
+	}
+	let changeables = [];
+	function storeobject(index) {
+		console.log(index);
+		changeables.push(index);
+		if (changeables.length == 2) {
+			switchobjects(changeables[0], changeables[1]);
+			changeables = [];
+		}
+		changeables = [...changeables];
+	}
+	function switchobjects(index, index2) {
+		var tempplace = config.players[index];
+		config.players[index] = config.players[index2];
+		config.players[index2] = tempplace;
 	}
 </script>
 
@@ -348,9 +391,22 @@
 				<div>
 					<label for="advance">Number of qualifiers</label>
 					<br />
-					<Tooltip
-						text="Defines how many patricipants advance to the possible playoff stage."
-					>
+					{#if !isPhone}
+						<Tooltip
+							text="Defines how many patricipants advance to the possible playoff stage."
+						>
+							<select
+								id="advance"
+								bind:value={config.advance}
+								on:change={handleSelection}
+							>
+								<option value="1" disabled selected>SELECT</option>
+								{#each numberadvance as numberadvance (numberadvance)}
+									<option value={numberadvance}>{numberadvance}</option>
+								{/each}
+							</select>
+						</Tooltip>
+					{:else}
 						<select
 							id="advance"
 							bind:value={config.advance}
@@ -361,14 +417,27 @@
 								<option value={numberadvance}>{numberadvance}</option>
 							{/each}
 						</select>
-					</Tooltip>
+					{/if}
 				</div>
 				<div>
 					<label for="roundSelection">Best of X</label>
 					<br />
-					<Tooltip
-						text="Defines how many match wins are needed in order to advance to the next round in the possible playoff stage."
-					>
+					{#if !isPhone}
+						<Tooltip
+							text="Defines how many match wins are needed in order to advance to the next round in the possible playoff stage."
+						>
+							<select
+								id="roundSelection"
+								bind:value={config.bestOf}
+								on:change={handleSelection}
+							>
+								<option value="" disabled selected>SELECT</option>
+								{#each bestOf as numberRound (numberRound)}
+									<option value={numberRound}>{numberRound}</option>
+								{/each}
+							</select>
+						</Tooltip>
+					{:else}
 						<select
 							id="roundSelection"
 							bind:value={config.bestOf}
@@ -379,7 +448,7 @@
 								<option value={numberRound}>{numberRound}</option>
 							{/each}
 						</select>
-					</Tooltip>
+					{/if}
 				</div>
 			</div>
 		{/if}
@@ -415,10 +484,20 @@
 						</Button>
 						{#if showPlayerlist}
 							<div transition:slide>
-								{#each config.players as player}
+								{#each config.players as player, index (player)}
 									<div class="single-player-content">
-										<div class="player-name">
-											{player}
+										<div
+											class="player-name"
+											on:keypress={() => console.log("test")}
+											on:click={storeobject(index)}
+										>
+											{#if index == changeables[0]}
+												<div class="selected">
+													{player}
+												</div>
+											{:else}
+												{player}
+											{/if}
 										</div>
 										<div>
 											<Button
@@ -441,10 +520,20 @@
 					</Button>
 					{#if showPlayerlist}
 						<div transition:slide>
-							{#each config.players as player}
+							{#each config.players as player, index (player)}
 								<div class="single-player-content">
-									<div class="player-name">
-										{player}
+									<div
+										class="player-name"
+										on:keypress={storeobject(index)}
+										on:click={storeobject(index)}
+									>
+										{#if index == changeables[0]}
+											<div class="selected">
+												{player}
+											</div>
+										{:else}
+											{player}
+										{/if}
 									</div>
 									<div>
 										<Button
@@ -489,9 +578,22 @@
 				<div>
 					<label for="roundSelection">Best of X</label>
 					<br />
-					<Tooltip
-						text="Defines how many match wins are needed in order to advance to the next round."
-					>
+					{#if !isPhone}
+						<Tooltip
+							text="Defines how many match wins are needed in order to advance to the next round."
+						>
+							<select
+								id="roundSelection"
+								bind:value={config.bestOf}
+								on:change={handleSelection}
+							>
+								<option value="" disabled selected>SELECT</option>
+								{#each bestOf as numberRound (numberRound)}
+									<option value={numberRound}>{numberRound}</option>
+								{/each}
+							</select>
+						</Tooltip>
+					{:else}
 						<select
 							id="roundSelection"
 							bind:value={config.bestOf}
@@ -502,7 +604,7 @@
 								<option value={numberRound}>{numberRound}</option>
 							{/each}
 						</select>
-					</Tooltip>
+					{/if}
 				</div>
 				<div class="playoffs-button-container">
 					{#if isTablet}
@@ -514,14 +616,21 @@
 						on:cClick={() => (playerListVisible = !playerListVisible)}
 						on:cClick={() => (playerlistExpanded = true)}>Add Players</Button
 					>
-					<Tooltip
-						text="Puts the players participating in random order for the playoff brackets."
-					>
+					{#if !isPhone}
+						<Tooltip
+							text="Puts the players participating in random order for the playoff brackets."
+						>
+							<Button
+								class="playoffs-buttons"
+								on:cClick={randomizePlayers(config.players)}>Randomize</Button
+							>
+						</Tooltip>
+					{:else}
 						<Button
 							class="playoffs-buttons"
 							on:cClick={randomizePlayers(config.players)}>Randomize</Button
 						>
-					</Tooltip>
+					{/if}
 				</div>
 			</div>
 		{/if}
@@ -566,18 +675,6 @@
 			</div>
 		{/if}
 		<!-- Create buttons -->
-		{#if params.id == "playoffs"}
-			<div>
-				<p class="fill-info-text">
-					Fills the game with enough placeholder players to start the game.
-				</p>
-				<Button
-					class="playoffs-buttons"
-					disabled={playerAmountOk == true}
-					on:cClick={fill}>Autofill Brackets</Button
-				>
-			</div>
-		{/if}
 
 		{#if params.id == "playoffs" && config.tournamentName.length > 0 && config.organizerName.length > 0 && config.bestOf != 0 && config.players != null && config.players.length > 1}
 			<div class="createButton">
@@ -598,9 +695,26 @@
 			</div>
 		{/if}
 	</div>
+	{#if sameNameMessage}
+		<div class="popup">Same name can't appear twice</div>
+	{/if}
 </main>
 
 <style>
+	.popup {
+		border-radius: 10px;
+		position: fixed;
+		text-align: center;
+		font-size: 1.5em;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: rgba(0, 0, 0, 0.7);
+		padding: 20px;
+		color: white;
+		border-radius: 5px;
+		z-index: 9999;
+	}
 	main {
 		font-size: x-large;
 		padding-top: 2em;
@@ -633,15 +747,6 @@
 	#player-count {
 		text-transform: uppercase;
 		font-size: 0.9em;
-	}
-	.fill-info-text {
-		font-size: 1em;
-		text-transform: none;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin-top: 0.9em;
-		margin-bottom: 0.7em;
 	}
 
 	select,
@@ -754,14 +859,16 @@
 		font-size: 1.2em;
 		overflow-x: auto;
 	}
-
+	.selected {
+		opacity: 50%;
+	}
 	/* Tablet Portrait */
 	@media only screen and (max-width: 1450px) {
 		main {
 			padding-left: 1em;
 			padding-right: 1em;
 			margin-left: 10%;
-			margin-top: 4em;
+			margin-top: 28vh;
 			margin-bottom: 2em;
 			width: 75%;
 		}
@@ -793,5 +900,34 @@
 
 	.trash-can {
 		fill: rgba(110, 0, 0);
+	}
+
+	/* Mobile Phone */
+	@media only screen and (max-width: 500px) {
+		main {
+			margin-left: 2.5%;
+			width: 80%;
+		}
+
+		h1 {
+			text-transform: uppercase;
+			font-size: 1.25em;
+			margin-bottom: 2em;
+		}
+
+		select,
+		input {
+			width: auto;
+			font-size: 1em;
+			padding: 0.25em 2.2em;
+			border-radius: 20px;
+		}
+
+		option {
+			font-size: 1em;
+			padding: 0.25em 1em;
+			border-radius: 20px;
+			width: auto;
+		}
 	}
 </style>

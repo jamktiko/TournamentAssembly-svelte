@@ -88,12 +88,37 @@
     border: none;
   }
 
+  /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     .sidebar {
       top: 23vh;
       width: 7%;
       right: 0.2em;
       padding-top: 0.2em;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    .profile {
+      top: 20%;
+      left: 8%;
+      margin-right: 1em;
+    }
+
+    .log-out {
+      top: 30%;
+      left: 14%;
+      margin-right: 1em;
+    }
+
+    .sidebar {
+      display: flex;
+      position: fixed;
+      right: 0;
+      width: 5%;
+      height: 25%;
+      padding: 0.1em 3em;
     }
   }
 </style>

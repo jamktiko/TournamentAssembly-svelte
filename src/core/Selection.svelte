@@ -49,14 +49,13 @@
     showTooltip = !showTooltip;
   }
 
-  function createScoreboard() {
+  async function createScoreboard() {
     if (!user.username || user.isGuest) {
       showConfirmation('scoreboard', '/scoreboard');
     } else {
       const id = calcId(user.tournaments);
-      user.config = { id };
 
-      stateController.createTournament(
+      const res = await stateController.createTournament(
         {
           config: {
             id,
@@ -65,9 +64,19 @@
         },
         'scoreboard'
       );
+      user.config = { id: res.result._id };
+
       showConfirmation('scoreboard', '/scoreboard');
     }
   }
+
+  /* Function check if the window is for phone */
+  let isPhone = false;
+  const checkScreenSize = () => {
+    isPhone = window.matchMedia('(max-width: 500px)').matches;
+  };
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
 </script>
 
 <main
@@ -112,24 +121,34 @@
           on:cClick={() => showConfirmation('groups', '/customizer/groups')}
           >SELECT</Button
         >
-        <Tooltip
-          text="You have an unfinished tournament. Press to continue playing it."
-        >
-          {#if cch.isInCache('groups')}
-            <Button
-              class="continue-button"
-              on:cClick={() => push(`/groups/${cch.getToken('groupsConf')}`)}
-              >Continue</Button
-            >
-          {/if}
-        </Tooltip>
+        {#if !isPhone}
+          <Tooltip
+            text="You have an unfinished tournament. Press to continue playing it."
+          >
+            {#if cch.isInCache('groups')}
+              <Button
+                class="continue-button"
+                on:cClick={() => push(`/groups/${cch.getToken('groupsConf')}`)}
+                >Continue</Button
+              >
+            {/if}
+          </Tooltip>
+        {:else if cch.isInCache('groups')}
+          <Button
+            class="continue-button"
+            on:cClick={() => push(`/groups/${cch.getToken('groupsConf')}`)}
+            >Continue</Button
+          >
+        {/if}
       </div>
       <div slot="footer">
-        <p>
-          Groups is a great for hosting a regular season for a league. You can
-          also use the EXPORT feature to continue playing a post-season
-          directly.
-        </p>
+        {#if !isPhone}
+          <p>
+            Groups is a great for hosting a regular season for a league. You can
+            also use the EXPORT feature to continue playing a post-season
+            directly.
+          </p>
+        {/if}
       </div>
     </Card>
     <Card
@@ -145,10 +164,12 @@
         <Button on:cClick={() => push('/customizer/playoffs')}>SELECT</Button>
       </div>
       <div slot="footer">
-        <p>
-          With playoffs you can have an elimination-style tournament to
-          determine the winner.
-        </p>
+        {#if !isPhone}
+          <p>
+            With playoffs you can have an elimination-style tournament to
+            determine the winner.
+          </p>
+        {/if}
       </div>
     </Card>
     <Card
@@ -164,23 +185,30 @@
         <Button on:cClick={() => createScoreboard('scoreboard', '/scoreboard')}
           >SELECT</Button
         >
-
-        {#if cch.isInCache('scoreboard')}
-          <Tooltip
-            text="You have an unfinished tournament. Press to continue playing it."
-          >
-            <Button
-              class="continue-button"
-              on:cClick={() => push(`/scoreboard`)}>Continue</Button
+        {#if !isPhone}
+          {#if cch.isInCache('scoreboard')}
+            <Tooltip
+              text="You have an unfinished tournament. Press to continue playing it."
             >
-          </Tooltip>
+              <Button
+                class="continue-button"
+                on:cClick={() => push(`/scoreboard`)}>Continue</Button
+              >
+            </Tooltip>
+          {/if}
+        {:else if cch.isInCache('scoreboard')}
+          <Button class="continue-button" on:cClick={() => push(`/scoreboard`)}
+            >Continue</Button
+          >
         {/if}
       </div>
       <div slot="footer">
-        <p>
-          Scoreboard allows you to keep track of your games and competitions by
-          tracking your results each round.
-        </p>
+        {#if !isPhone}
+          <p>
+            Scoreboard allows you to keep track of your games and competitions
+            by tracking your results each round.
+          </p>
+        {/if}
       </div>
     </Card>
     <Card
@@ -197,24 +225,34 @@
           on:cClick={() => showConfirmation('league', '/customizer/league')}
           >SELECT</Button
         >
-        {#if cch.isInCache('league')}
-          <Tooltip
-            text="You have an unfinished tournament. Press to continue playing it."
-          >
-            <Button
-              class="continue-button"
-              on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
-              >Continue</Button
+        {#if !isPhone}
+          {#if cch.isInCache('league')}
+            <Tooltip
+              text="You have an unfinished tournament. Press to continue playing it."
             >
-          </Tooltip>
+              <Button
+                class="continue-button"
+                on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
+                >Continue</Button
+              >
+            </Tooltip>
+          {/if}
+        {:else if cch.isInCache('league')}
+          <Button
+            class="continue-button"
+            on:cClick={() => push(`/league/${cch.getToken('leagueConf')}`)}
+            >Continue</Button
+          >
         {/if}
       </div>
       <div slot="footer">
-        <p>
-          League allows you to create and manage a tournament where participants
-          play a certain number of rounds and determine a winner by the amount
-          of points.
-        </p>
+        {#if !isPhone}
+          <p>
+            League allows you to create and manage a tournament where
+            participants play a certain number of rounds and determine a winner
+            by the amount of points.
+          </p>
+        {/if}
       </div>
     </Card>
   </div>
@@ -278,7 +316,38 @@
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     main {
-      margin-left: 16%;
+      margin-left: 6%;
+      width: 80%;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    main {
+      padding: 0em 2em 3em;
+      margin-left: 5%;
+      margin-top: 28vh;
+      width: 72.5%;
+    }
+
+    .create-container {
+      flex-direction: column;
+      width: auto;
+    }
+
+    .text-container {
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0.5em;
+      font-size: 2em;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 0em;
+      font-size: 1.2em;
     }
   }
 </style>

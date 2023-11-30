@@ -19,7 +19,6 @@
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-
   if (!user.username && window.sessionStorage.getItem('user')) {
     user = loadFromSession('user');
     stateController.set(user);
@@ -374,21 +373,24 @@
     players: [],
     advance: config.advance,
   };
-  
+
   function shuffle(array) {
-  let currentIndex = array.length,  randomIndex;
-  while (currentIndex > 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
+    let currentIndex = array.length,
+      randomIndex;
+    while (currentIndex > 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+    return array;
   }
-  return array;
-}
 
   async function leaveGroup() {
     //Randomizes order
-    groupWinners = shuffle(groupWinners)
+    groupWinners = shuffle(groupWinners);
     //!!
     let pusher = 0;
     console.log(groupWinners);
@@ -493,6 +495,14 @@
   if (selected) {
     selected = [...selected];
   }
+
+  /* Function check if the window is for phone */
+  let isPhone = false;
+  const checkScreenSize = () => {
+    isPhone = window.matchMedia('(max-width: 500px)').matches;
+  };
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
 </script>
 
 <main>
@@ -500,9 +510,19 @@
     <h1>{config.tournamentName}</h1>
 
     <h3>Organized by: {config.organizerName || '-'}</h3>
-    <Tooltip
-      text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
-    >
+    {#if !isPhone}
+      <Tooltip
+        text="Once you have finished all groups stages in your tournament, you can export your tournament data to playoffs and start playing them by pressing this button."
+      >
+        <Button
+          class="export-playoffs-button"
+          disabled={groupWinners.length < 2}
+          on:cClick={leaveGroup}
+          on:mouseenter={toggleTooltip}
+          on:mouseleave={toggleTooltip}>EXPORT TO PLAYOFFS</Button
+        >
+      </Tooltip>
+    {:else}
       <Button
         class="export-playoffs-button"
         disabled={groupWinners.length < 2}
@@ -510,12 +530,27 @@
         on:mouseenter={toggleTooltip}
         on:mouseleave={toggleTooltip}>EXPORT TO PLAYOFFS</Button
       >
-    </Tooltip>
+    {/if}
 
     {#if !user.isGuest && user.username}
-      <Tooltip
-        text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
-      >
+      {#if !isPhone}
+        <Tooltip
+          text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
+        >
+          <Button class="save-button" on:cClick={() => save(groups)}
+            ><svg
+              class="save-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              height="32"
+              viewBox="0 -960 960 960"
+              width="32"
+              ><path
+                d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z"
+              /></svg
+            >SAVE</Button
+          >
+        </Tooltip>
+      {:else}
         <Button class="save-button" on:cClick={() => save(groups)}
           ><svg
             class="save-icon"
@@ -528,7 +563,7 @@
             /></svg
           >SAVE</Button
         >
-      </Tooltip>
+      {/if}
     {/if}
   </div>
 
@@ -569,15 +604,23 @@
             easing: quintOut,
           }}
         >
-          <Tooltip
-            text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
-          >
+          {#if !isPhone}
+            <Tooltip
+              text="Once you have played all the matches in this group press this button to finalize the results for the group in question."
+            >
+              <Button
+                disabled={blacklisted.includes(selected.id)}
+                class="finish-button"
+                on:cClick={() => calcWinner(selected)}>Finish this Group</Button
+              >
+            </Tooltip>
+          {:else}
             <Button
               disabled={blacklisted.includes(selected.id)}
               class="finish-button"
               on:cClick={() => calcWinner(selected)}>Finish this Group</Button
             >
-          </Tooltip>
+          {/if}
           <h2 id="group-name">{selected.name}</h2>
           <table>
             <tr>
@@ -622,16 +665,25 @@
           </table>
           <div class="resolve-button-container">
             {#if selected && !checkIfBlacklisted()}
-              <Tooltip
-                text="Press to create a match schedule for all the group's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
-              >
+              {#if !isPhone}
+                <Tooltip
+                  text="Press to create a match schedule for all the group's participants. You can see the schedule by pressing the SHOW SCHEDULE button."
+                >
+                  <Button
+                    class="schedule-create-button"
+                    disabled={agmatches.length > 0}
+                    on:cClick={() => autoCreateMatch(1)}
+                    >GENERATE A MATCH SCHEDULE</Button
+                  >
+                </Tooltip>
+              {:else}
                 <Button
                   class="schedule-create-button"
                   disabled={agmatches.length > 0}
                   on:cClick={() => autoCreateMatch(1)}
                   >GENERATE A MATCH SCHEDULE</Button
                 >
-              </Tooltip>
+              {/if}
               <Button
                 class="resolve-button"
                 disabled={agmatches.length == 0}
@@ -670,14 +722,20 @@
       {/if}
     </div>
     <div class="results-button-container">
-      <Tooltip
-        text="Below is a list of concluded matches and their results in all groups. You can hide
+      {#if !isPhone}
+        <Tooltip
+          text="Below is a list of concluded matches and their results in all groups. You can hide
       the results from view by toggling the SHOW/HIDE RESULTS button."
-      >
+        >
+          <Button class="results-toggle-button" on:cClick={toggleResults}
+            >{showResults ? 'Hide Results' : 'Show Results'}</Button
+          >
+        </Tooltip>
+      {:else}
         <Button class="results-toggle-button" on:cClick={toggleResults}
           >{showResults ? 'Hide Results' : 'Show Results'}</Button
         >
-      </Tooltip>
+      {/if}
       {#if showResults}
         <div class="flex-container" transition:slide>
           <h1 class="results-header">RESULTS</h1>
@@ -716,14 +774,21 @@
         <div class="schedule-content">
           <div class="buttons-container">
             <Button on:cClick={toggleMatches}>CLOSE SCHEDULE</Button>
-            <Tooltip
-              text="Clears and cancels the remaining schedule made for this group."
-            >
+            {#if !isPhone}
+              <Tooltip
+                text="Clears and cancels the remaining schedule made for this group."
+              >
+                <Button
+                  class="cancel-match-button"
+                  on:cClick={() => (agmatches = [])}>Cancel matches</Button
+                >
+              </Tooltip>
+            {:else}
               <Button
                 class="cancel-match-button"
                 on:cClick={() => (agmatches = [])}>Cancel matches</Button
               >
-            </Tooltip>
+            {/if}
           </div>
 
           <div class="matches-container" transition:slide>
@@ -1027,8 +1092,13 @@
   .group-content {
     text-align: center;
   }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
+    main {
+      margin-top: 28vh;
+    }
+
     input {
       margin-bottom: 0em;
       font-size: 1.3em;
@@ -1095,6 +1165,52 @@
     #group-name {
       margin-bottom: 0em;
       margin-top: 1em;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    #group-manage {
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1em;
+      margin: 0em;
+      padding: 1em;
+      text-align: center;
+    }
+
+    #group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: none;
+      flex-direction: none;
+    }
+
+    table {
+      scale: 0.55;
+      padding-bottom: 0em;
+    }
+
+    .resolve-button-container {
+      flex-direction: column;
+    }
+
+    .group-MIA-container {
+      text-align: center;
+    }
+
+    .no-groups-icon {
+      fill: #fff;
+    }
+
+    h1 {
+      font-size: 2em;
+    }
+
+    p {
+      scale: 1;
     }
   }
 </style>

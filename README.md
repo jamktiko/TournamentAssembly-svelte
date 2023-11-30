@@ -31,7 +31,7 @@ Provide detailed installation instructions. Include any setup scripts or command
 
 ## Usage
 
-Explain how to use your application. Provide examples and screenshots if possible. Describe the main features and functionalities.
+The application is designed to be intuitive and easy to use and we have taken that in to consideration during the development. From the main page you can start creating tournaments quickly by selecting "create tournament as guest" or you can sign up and create your account in order to save created tournaments.
 
 ## Features
 
@@ -63,4 +63,16 @@ Consider adding a code of conduct to encourage a welcoming and inclusive communi
 
 ## Troubleshooting
 
-Provide solutions to common issues or errors users might encounter when using your application.
+Q: I accidentally refreshed the page as a guest user, do I have to create my tournament all over again?
+
+A: No worries, we took that in to considiration and made a cache that saves users changes, however caching works only on one tournament at the time. For example if you make a playoff bracket and go to make a scoreboard, the playoff bracket won't be saved. Only the most recent tournament type will be saved into the cache as a guest user.
+
+
+Q: The wrong player advanced to the next round in the playoffs, can I undo this?
+
+A: Yes you can, there is an "undo match"-button in every round in the playoffs excluding the starting round. Let's say the wrong player advanced to the semi-finals from the quarterfinals, you just click the "undo match" button and add th right match up there.
+
+
+Q: In the groups, do I have to create a match schelude on my own?
+
+A: No, there is a button dedicated to that "Generate a match schelude", click that and our software will create a round of games for that group. If you want play multiple rounds, just press the same button again when the ongoing round is finished. 

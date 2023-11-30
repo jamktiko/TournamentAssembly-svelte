@@ -1,21 +1,21 @@
 <script>
-  import { onDestroy } from "svelte";
-  import Button from "../reusable/Button.svelte";
-  import stateController from "../utils/stateStore";
-  import { push } from "svelte-spa-router";
-  import cch from "../utils/cache";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut, elasticInOut, quadInOut } from "svelte/easing";
-  import { loadFromSession } from "../utils/lib";
+  import { onDestroy } from 'svelte';
+  import Button from '../reusable/Button.svelte';
+  import stateController from '../utils/stateStore';
+  import { push } from 'svelte-spa-router';
+  import cch from '../utils/cache';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut, elasticInOut, quadInOut } from 'svelte/easing';
+  import { loadFromSession } from '../utils/lib';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
   console.log(user);
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
@@ -36,7 +36,7 @@
     }
 
     stateController.set(user);
-    if (tournament.type === "scoreboard") {
+    if (tournament.type === 'scoreboard') {
       push(`/${tournament.type}/`);
     } else {
       push(`/${tournament.type}/${configTkn}`);
@@ -57,10 +57,10 @@
   /* Function check if the window is for tablet, used for alternative playerlist */
   let isTablet = false;
   const checkScreenSize = () => {
-    isTablet = window.matchMedia("(max-width: 1450px)").matches;
+    isTablet = window.matchMedia('(max-width: 1450px)').matches;
   };
   checkScreenSize();
-  window.addEventListener("resize", checkScreenSize);
+  window.addEventListener('resize', checkScreenSize);
 </script>
 
 {#if !isTablet}
@@ -68,7 +68,7 @@
     transition:slide={{
       duration: 700,
       easing: quintOut,
-      axis: "y",
+      axis: 'y',
     }}
   >
     <div class="tournaments-header">
@@ -107,34 +107,34 @@
               <td
                 >{tournament.config.tournamentName
                   ? tournament.config.tournamentName
-                  : ""}</td
+                  : ''}</td
               >
               <td
                 >{tournament.config.tourDecider
                   ? tournament.config.tourDecider
-                  : ""}</td
+                  : ''}</td
               >
               <td
                 >{tournament.config.numberOfGroups
                   ? tournament.config.numberOfGroups
-                  : ""}</td
+                  : ''}</td
               >
               <td
                 >{tournament.config.teamsInGroup
                   ? tournament.config.teamsInGroup
-                  : ""}</td
+                  : ''}</td
               >
               <td
                 >{tournament.config.pointsPerWin
                   ? tournament.config.pointsPerWin
-                  : ""}</td
+                  : ''}</td
               >
               <td
                 >{tournament.config.pointsPerDraw
                   ? tournament.config.pointsPerDraw
-                  : ""}</td
+                  : ''}</td
               >
-              <td>{tournament.type ? tournament.type.toUpperCase() : ""}</td>
+              <td>{tournament.type ? tournament.type.toUpperCase() : ''}</td>
 
               <td
                 ><Button
@@ -162,15 +162,18 @@
     transition:slide={{
       duration: 700,
       easing: quintOut,
-      axis: "y",
+      axis: 'y',
     }}
   >
     <div class="tablet-header">
       <div class="tournaments-header">
-        <h1>Tournaments & Scoreboards</h1>
+        <h1>My Tournaments</h1>
       </div>
       <div class="tournaments-description">
-        <p>Below is a list of your created Tournaments and Scoreboards</p>
+        <p>
+          Below is a list of all your saved tournaments and scoreboards. Choose
+          any of them to continue playing or delete them.
+        </p>
       </div>
     </div>
     <div class="list">
@@ -279,7 +282,7 @@
       width: 70%;
       margin-left: 15%;
       padding-top: 2em;
-      margin-top: 0em;
+      margin-top: 25vh;
       background-color: transparent;
     }
 
@@ -305,6 +308,71 @@
     table {
       margin-top: -3em;
       scale: 0.8;
+    }
+
+    /* Mobile Phone */
+    @media only screen and (max-width: 500px) {
+      main {
+        margin-top: 25vh;
+        margin-left: 5%;
+        width: 90%;
+      }
+
+      .tablet-header {
+        text-align: center;
+        padding: 3em 2em;
+        border-radius: 40px;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      h1 {
+        text-transform: uppercase;
+        font-size: 2.5em;
+      }
+
+      p {
+        font-size: 1.1em;
+      }
+
+      .list {
+        width: 100%;
+        padding-top: 1em;
+        margin-top: 1em;
+      }
+
+      table {
+        scale: 0.4;
+        font-size: 1.4em;
+        margin: 0em 0em;
+        text-transform: uppercase;
+        border-collapse: separate;
+      }
+
+      tr {
+        height: 1em;
+      }
+
+      th {
+        text-transform: uppercase;
+        font-weight: 700;
+        background-color: rgba(0, 0, 0, 0);
+        border-bottom: 1px solid white;
+        text-align: center;
+        padding: 0em 1em;
+      }
+
+      td {
+        font-weight: 700;
+        padding: 0.5em;
+        background-color: rgba(0, 0, 0, 0);
+        text-align: center;
+        border-top: 1px solid rgb(255, 255, 255);
+        border-bottom: 1px solid rgb(255, 255, 255);
+      }
+
+      tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
     }
   }
 </style>

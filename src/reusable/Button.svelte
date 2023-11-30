@@ -655,6 +655,11 @@
     border: none;
   }
 
+  .create-button {
+    padding: 0.5em 0.75em;
+    border-radius: 30px;
+  }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
@@ -773,6 +778,87 @@
 
     .settings-button:hover {
       scale: 0.83;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    button {
+      font-weight: 700;
+      font-size: 1.25em;
+      padding: 0.5em 1.5em;
+      border-radius: 40px;
+    }
+
+    .guest-login {
+      padding: 0.75em 1em;
+      border-radius: 40px;
+    }
+
+    .close-button {
+      padding: 0.5em 1.25em;
+      border-radius: 30px;
+    }
+
+    .profile-button {
+      background: linear-gradient(
+        129deg,
+        rgba(19, 19, 102, 1) 0%,
+        rgba(14, 5, 34, 1) 100%
+      );
+    }
+
+    /* Sitewide Logout Button */
+    .logout-button {
+      padding-right: 1.25em;
+      background: linear-gradient(
+        360deg,
+        rgb(79, 30, 43, 1) 0%,
+        rgba(14, 5, 34, 1) 100%
+      );
+    }
+
+    .group-select-button {
+      font-size: 1.3em;
+    }
+
+    .expand-playerlist-button-open {
+      top: 45%;
+    }
+
+    .playoffs-buttons {
+      font-size: 1em;
+      padding: 0.25em 1.5em;
+      margin: 0.25em;
+    }
+
+    .expand-button {
+      scale: 1;
+      font-size: 1em;
+      padding: 0.05em 1em;
+    }
+
+    .remove-player-button {
+      scale: 0.5;
+      font-size: 2em;
+      padding: 0.1em 0.75em;
+    }
+
+    .add-player-button {
+      scale: 1;
+      font-size: 1em;
+      padding: 0.05em 1em;
+    }
+
+    .add-player-exit-button {
+      font-size: 1em;
+      scale: 1;
+    }
+
+    .winner-buttons {
+      margin-top: 0.5em;
+      font-size: 1.3em;
+      padding: 0.5em 1.5em;
     }
   }
 </style>

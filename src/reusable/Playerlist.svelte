@@ -125,4 +125,28 @@
       left: 42%;
     }
   }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    h3 {
+      font-size: 1em;
+      transform: uppercase;
+      padding-bottom: 0.5em;
+    }
+
+    input {
+      margin-bottom: 1em;
+      font-size: 1em;
+      padding: 0.125em 0.25em;
+      border-radius: 10px;
+    }
+
+    .modal {
+      position: absolute;
+      top: 23vh;
+      left: 15vw;
+      padding: 1em 1em;
+      border-radius: 20px;
+    }
+  }
 </style>

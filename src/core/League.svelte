@@ -51,8 +51,6 @@
     if (user.state) delete user.state;
   });
 
-
-
   let teams = [];
   let match = [];
 
@@ -108,9 +106,8 @@
       goalDiff: 0,
     };
     teams = [...teams, newPlayer];
-    cch.saveToCache("league", teams);
+    cch.saveToCache('league', teams);
     newPlayerName = null;
-
   }
   /**
    * Adds player from the league to a match, match can only hold two players simultaneously
@@ -320,16 +317,16 @@
     showTooltip = !showTooltip;
   }
 
- 	async function save() {
-		const state = {
-			teams,
-			matchResults,
-		};
+  async function save() {
+    const state = {
+      teams,
+      matchResults,
+    };
 
-		const res = await stateController.updateTourState(state, user.config.id);
+    const res = await stateController.updateTourState(state, user.config.id);
 
-		console.log(res);
-	}
+    console.log(res);
+  }
 
   $: console.log(teams);
 
@@ -349,7 +346,6 @@
       }
     }
   }
-
 </script>
 
 <main
@@ -734,12 +730,13 @@
   }
 
   .list-header {
+    padding-top: 1em;
     text-transform: uppercase;
   }
 
   #match-count {
     text-transform: uppercase;
-    font-size: 0.9em;
+    font-size: 1.1em;
   }
 
   .backdrop {
@@ -799,8 +796,10 @@
   }
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
-    table {
-      scale: 0.8;
+    main {
+      margin-top: 25vh;
+      margin-left: 5%;
+      width: 90%;
     }
 
     .results-button-container {
@@ -819,5 +818,25 @@
       left: 10%;
       padding: 0em 0em;
     }
+
+    .schedule-content {
+      margin: 1.8em;
+      width: 90%;
+      align-items: center;
+      padding-bottom: 2em;
+    }
   }
+    /* Mobile Phone */
+    @media only screen and (max-width: 600px) {
+    tr {
+      font-size: 0.7em;
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    tr {
+      font-size: 0.55em;
+    }
+  }
+
+
 </style>

@@ -32,7 +32,7 @@
 <nav class="navbar" style={$$props.style}>
   <ul class="navbar-nav">
     {#if $location !== '/' && $location !== '/errorpage' && $location !== '/LoginUser' && $location !== '/Signup'}
-      {#if $location == '/selection' && userData.username == 'guest' && userData.username}
+      {#if ($location == '/selection' && userData.username == 'guest') || !userData.username}
         <Button class="back-button" on:cClick={() => push('/')}>
           <svg
             class="back-arrow"
@@ -147,6 +147,14 @@
   @media only screen and (max-width: 1450px) {
     .navbar {
       height: 4em;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    .settings-icon {
+      top: 18%;
+      left: 4%;
     }
   }
 </style>
