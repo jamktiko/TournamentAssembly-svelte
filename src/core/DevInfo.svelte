@@ -167,6 +167,35 @@
 
   p {
     text-transform: none;
-    font-size: 0.6em;
+    font-size: 0.7em;
+  }
+
+  @media only screen and (max-width: 1450px) {
+    .dev-card-content {
+      width: 90%;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    .dev-card-content {
+      width: 290px;
+      scale: 1;
+    }
+
+    .information-content {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .dev-pic {
+      width: 60px;
+    }
+
+    main {
+      margin-left: 5%;
+      width: 90%;
+      font-size: 0.6em;
+    }
   }
 </style>

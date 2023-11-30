@@ -146,7 +146,7 @@
   }
 
   /* Tablet Portrait */
-  @media only screen and (max-width: 1150px) {
+  @media only screen and (max-width: 1450px) {
     main {
       width: 75%;
       margin-left: 12.5%;
