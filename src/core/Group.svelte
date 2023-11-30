@@ -1179,10 +1179,6 @@
       text-align: center;
     }
 
-    #group {
-      display: flex;
-    }
-
     table {
       scale: 0.5;
       padding-bottom: 0em;

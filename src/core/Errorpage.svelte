@@ -41,9 +41,18 @@
 
   .message-container {
     padding: 0em 0em;
+    text-align: center;
   }
 
   .error-container {
     padding: 2em 0em;
+    text-align: center;
+  }
+
+  @media only screen and (max-width: 500px) {
+    img {
+      width: 400px;
+      height: auto;
+    }
   }
 </style>
