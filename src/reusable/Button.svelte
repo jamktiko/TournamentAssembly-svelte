@@ -891,5 +891,14 @@
       padding-top: 0.25em;
       margin: 0em;
     }
+
+    /* Match Scoring Buttons */
+    .cancel-match-button {
+      scale: 1.3;
+    }
+
+    .league-plus-minus-button {
+      scale: 1.3;
+    }
   }
 </style>

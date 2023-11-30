@@ -110,7 +110,7 @@
 
 <style>
   main {
-    margin-top: 21vh;
+    margin-top: 26vh;
     margin-left: 15%;
     width: 70%;
     display: flex;
@@ -217,9 +217,10 @@
     }
   }
 
+  /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     main {
-      margin-top: 2em;
+      margin-top: 0vh;
     }
 
     .match-container {
@@ -241,6 +242,30 @@
 
     .draw-container {
       grid-column-gap: 5em;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    #vs-header {
+      padding-left: 0em;
+      padding-right: 0em;
+    }
+
+    .match-container {
+      width: 100%;
+      padding: 1em;
+      margin: 0em 1em;
+    }
+
+    .team-content-container {
+      margin-top: 1em;
+      width: 35vw;
+      padding: 0.7em 0.7em;
+    }
+
+    .draw-container {
+      grid-column-gap: 4em;
     }
   }
 </style>

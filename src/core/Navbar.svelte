@@ -156,5 +156,9 @@
       top: 18%;
       left: 4%;
     }
+
+    .back-arrow {
+      top: 5%;
+    }
   }
 </style>
