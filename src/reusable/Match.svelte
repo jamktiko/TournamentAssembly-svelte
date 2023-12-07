@@ -243,4 +243,30 @@
       grid-column-gap: 5em;
     }
   }
+  @media only screen and (max-width: 500px) {
+    main {
+      margin-top: 2em;
+    }
+
+    .match-container {
+      width: 90%;
+      padding: 1em;
+      margin: 0em 1em;
+    }
+
+    .team-content-container {
+      margin-top: 1em;
+
+      padding: 0.7em 0.7em;
+    }
+
+    #vs-header {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+    }
+
+    .draw-container {
+      grid-column-gap: 2em;
+    }
+  }
 </style>
