@@ -837,6 +837,10 @@
     tr {
       font-size: 0.7em;
     }
+
+    main {
+      overflow-x: hidden;
+    }
   }
 
   @media only screen and (max-width: 600px) {
