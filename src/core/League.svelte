@@ -830,6 +830,9 @@
 
   /* Mobile Phone */
   @media only screen and (max-width: 600px) {
+    main {
+      overflow-x: hidden;
+    }
     tr {
       font-size: 0.7em;
     }
@@ -846,12 +849,15 @@
       flex-wrap: wrap;
       flex-direction: column;
       justify-content: center;
+
     }
+
 
     .modal {
       width: 94%;
       padding: 1em 0em;
       left: 3%;
+      
     }
 
     .schedule-content {

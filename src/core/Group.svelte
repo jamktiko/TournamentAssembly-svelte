@@ -593,6 +593,7 @@
         {/if}
       {/each}
     </div>
+    
     <div id="group-view">
       {#if selected}
         <div
@@ -1179,6 +1180,14 @@
       text-align: center;
     }
 
+    #group {
+      display: flex;
+      width: 100%;
+
+      margin-right: 120%;
+    }
+
+
     table {
       scale: 0.5;
       padding-bottom: 0em;
@@ -1243,6 +1252,7 @@
       align-items: center;
       padding-bottom: 2em;
     }
+
 
     .match-modal {
       position: absolute;

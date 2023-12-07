@@ -245,6 +245,7 @@
     }
   }
 
+
   /* Mobile Phone */
   @media only screen and (max-width: 500px) {
     #vs-header {
@@ -260,6 +261,7 @@
 
     .team-content-container {
       margin-top: 1em;
+
       width: 35vw;
       padding: 0.7em 0.7em;
     }
