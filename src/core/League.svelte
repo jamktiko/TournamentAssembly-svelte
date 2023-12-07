@@ -801,6 +801,7 @@
       margin-top: 25vh;
       margin-left: 5%;
       width: 90%;
+      overflow-x: hidden;
     }
 
     .results-button-container {
@@ -830,6 +831,9 @@
 
   /* Mobile Phone */
   @media only screen and (max-width: 600px) {
+    main {
+      overflow-x: hidden;
+    }
     tr {
       font-size: 0.7em;
     }
@@ -839,7 +843,7 @@
     }
   }
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 600px) {
     tr {
       font-size: 0.6em;
     }
@@ -850,12 +854,15 @@
       flex-wrap: wrap;
       flex-direction: column;
       justify-content: center;
+
     }
+
 
     .modal {
       width: 94%;
       padding: 1em 0em;
       left: 3%;
+      
     }
 
     .schedule-content {

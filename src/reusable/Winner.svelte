@@ -429,7 +429,9 @@
 
   .winner-name {
     font-size: 5em;
-    animation: 4s anim-lineUp ease-out, pulse 5s infinite;
+    animation:
+      4s anim-lineUp ease-out,
+      pulse 5s infinite;
   }
   @keyframes anim-lineUp {
     0% {
@@ -470,7 +472,7 @@
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     .modal {
-      top: -62.5%;
+      top: -55vh;
       width: 55%;
       height: 42.5vh;
     }
@@ -479,7 +481,7 @@
   /* Mobile Phone */
   @media only screen and (max-width: 500px) {
     .modal {
-      top: -62.5vh;
+      top: -65vh;
       width: 90%;
       height: 50vh;
     }

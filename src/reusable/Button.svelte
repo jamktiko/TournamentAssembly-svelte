@@ -660,6 +660,16 @@
     border-radius: 30px;
   }
 
+  .conclude-match-button {
+    scale: 1.4;
+    font-size: 1.1em;
+    padding: 0.05em 1em;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition-duration: 0.1s;
+    margin: 1em;
+  }
+
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     /* Sitewide Back Button */
@@ -722,6 +732,10 @@
 
     /* Match Scoring Buttons */
     .cancel-match-button {
+      scale: 1.5;
+    }
+
+    .conclude-match-button {
       scale: 1.5;
     }
 
@@ -863,7 +877,7 @@
     }
 
     .play-match-button {
-      font-size: 1em;
+      font-size: 1.25em;
     }
 
     .revert-button {
@@ -890,6 +904,21 @@
       padding: 0em 0.25em;
       padding-top: 0.25em;
       margin: 0em;
+    }
+
+    /* Match Scoring Buttons */
+    .cancel-match-button {
+      scale: 1.2;
+      padding: 0.05em 0.5em;
+    }
+
+    .conclude-match-button {
+      scale: 1.2;
+      padding: 0.05em 0.5em;
+    }
+
+    .league-plus-minus-button {
+      scale: 1.3;
     }
   }
 </style>
