@@ -59,3 +59,15 @@ html {
     transform: rotate(360deg);
   }
 }
+
+@media only screen and (max-width: 1450px) {
+  #bg-texture {
+    top: 20%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #bg-texture {
+    top: 20%;
+  }
+}
