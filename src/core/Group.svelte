@@ -1193,9 +1193,7 @@
 
     #group {
       display: flex;
-      width: 100%;
 
-      margin-right: 120%;
     }
 
     #group-view {
