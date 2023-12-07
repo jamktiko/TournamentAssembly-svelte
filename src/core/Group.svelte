@@ -751,6 +751,7 @@
       {/if}
     </div>
     {#if match[0] && match[1]}
+      <div class="backdrop" />
       <div
         class="match-modal"
         in:fade={{
@@ -1036,18 +1037,19 @@
   .match-modal {
     opacity: 100%;
     position: fixed;
-    top: 28vh;
+    top: 5vh;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.75);
     width: 100%;
     height: 100%;
+    z-index: 11;
   }
   .backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background: rgba(0, 0, 0, 0.83);
     z-index: 10;
   }
@@ -1073,6 +1075,7 @@
     border: solid 1px #ffffff3f;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .schedule-content {
@@ -1097,6 +1100,7 @@
   @media only screen and (max-width: 1450px) {
     main {
       margin-top: 28vh;
+      overflow-x: hidden;
     }
 
     input {
@@ -1259,7 +1263,6 @@
       top: 28vh;
       left: 0;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
       width: 100%;
     }
   }

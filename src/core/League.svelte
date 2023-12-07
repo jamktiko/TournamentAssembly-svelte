@@ -801,6 +801,7 @@
       margin-top: 25vh;
       margin-left: 5%;
       width: 90%;
+      overflow-x: hidden;
     }
 
     .results-button-container {
@@ -838,7 +839,7 @@
     }
   }
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 600px) {
     tr {
       font-size: 0.6em;
     }
