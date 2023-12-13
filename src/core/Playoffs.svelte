@@ -19,6 +19,8 @@
   let showRoundAdvancePopup = false;
   let roundAdvancePopupMessage = '';
 
+  let showsavepopup = false
+
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
@@ -284,6 +286,11 @@
   }
 
   async function save() {
+    showsavepopup = true
+    setTimeout(() => {
+       
+      showsavepopup = false;
+      }, 1000)
     const state = {
       winners,
       rounds,
@@ -294,6 +301,8 @@
     const res = await stateController.updateTourState(state, user.config.id);
 
     console.log(res);
+
+
   }
   function bestOfTransformation() {
     if (contestantData.bestOf == 3) {
@@ -350,7 +359,7 @@
   {/if}
   {#if !user.isGuest && user.username}
     <Tooltip
-      text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
+      text="Press to save any unfinished tournament progress and continue it later via the PROFILE page."
     >
       <Button class="save-button" on:cClick={save}
         ><svg
@@ -364,6 +373,11 @@
           /></svg
         >SAVE</Button
       >
+      {#if showsavepopup != false}
+      <div class="popup">
+        <p class="popup-message">Save successful</p>
+      </div>
+      {/if}
     </Tooltip>
   {/if}
   <p class="info-message">

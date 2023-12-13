@@ -461,6 +461,11 @@
   }
 
   async function save() {
+    showsavepopup = true
+    setTimeout(() => {
+       
+      showsavepopup = false;
+      }, 1000)
     const state = {
       groups,
       matchResults: matchResults,
@@ -509,6 +514,7 @@
     agmatches = []
     toggleMatches()
   }
+  let showsavepopup = false
 </script>
 
 <main>
@@ -541,7 +547,7 @@
     {#if !user.isGuest && user.username}
       {#if !isPhone}
         <Tooltip
-          text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
+          text="Press to save any unfinished tournament progress and continue it later via the PROFILE page."
         >
           <Button class="save-button" on:cClick={() => save(groups)}
             ><svg
@@ -555,6 +561,11 @@
               /></svg
             >SAVE</Button
           >
+          {#if showsavepopup != false}
+          <div class="popup">
+            <p class="popup-message">Save successful</p>
+          </div>
+          {/if}
         </Tooltip>
       {:else}
         <Button class="save-button" on:cClick={() => save(groups)}
@@ -1101,7 +1112,26 @@
   .group-content {
     text-align: center;
   }
-
+  .popup {
+    border-radius: 10px;
+    position: fixed;
+    text-align: center;
+    font-size: 1.5em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    color: white;
+    border-radius: 5px;
+    z-index: 9999;
+  }
+  .popup-message {
+    cursor: pointer;
+    color: #fff;
+    margin-left: 0.2em;
+    width: 100%;
+  }
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
     main {
