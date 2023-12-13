@@ -35,6 +35,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
       body: JSON.stringify(user),
     });
@@ -48,6 +49,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
       body: JSON.stringify(user),
     });
@@ -86,6 +88,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
       body: JSON.stringify(tourData),
     };
@@ -114,6 +117,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
 
       body: JSON.stringify(tourData),
@@ -144,6 +148,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
 
       body: JSON.stringify(tourData),
