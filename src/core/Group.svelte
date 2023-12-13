@@ -1042,7 +1042,7 @@
 
   .match-modal {
     opacity: 100%;
-    position: fixed;
+    position: absolute;
     top: 5vh;
     left: 0;
     background-color: rgba(0, 0, 0, 0.75);
