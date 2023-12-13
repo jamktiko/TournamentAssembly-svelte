@@ -49,6 +49,10 @@
     cch.saveToCache('league', teams);
     cch.saveToCache('leagueConf', config);
 
+    if(user.username) {
+      save();
+    }
+
     if (user.state) delete user.state;
   });
 

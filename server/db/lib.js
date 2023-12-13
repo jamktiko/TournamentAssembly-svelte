@@ -87,12 +87,11 @@ const lib = {
       };
     }*/
 
-    
     // Check if the username is too short
     if (username.length < 4) {
-      console.error('Username must be at least 4 characters');
+      console.error("Username must be at least 4 characters");
       return {
-        msg: 'Username is too short (minimum length is 4 characters)',
+        msg: "Username is too short (minimum length is 4 characters)",
         success: false,
       };
     }

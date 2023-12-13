@@ -8,14 +8,12 @@ Tournament Assembly was created with the intent streamlining tournament creation
 
 1. [Getting Started](#getting-started)
 2. [Prerequisites](#prerequisites)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Features](#features)
-6. [License](#license)
-7. [Acknowledgments](#acknowledgments)
-8. [Contact Information](#contact-information)
-9. [Code of Conduct](#code-of-conduct)
-10. [Troubleshooting](#troubleshooting)
+3. [Usage](#usage)
+4. [Features](#features)
+5. [License](#license)
+6. [Acknowledgments](#acknowledgments)
+7. [Contact Information](#contact-information)
+8. [Troubleshooting](#troubleshooting)
 
 ## Getting Started
 
@@ -23,11 +21,15 @@ Instructions for how to setup and run the application
 
 ## Prerequisites
 
-List any prerequisites or dependencies that users need to have installed before using your application. Include specific versions if necessary.
+- cors - https://github.com/expressjs/cors
 
-## Installation
+- body-parser - https://github.com/expressjs/body-parser
 
-Provide detailed installation instructions. Include any setup scripts or commands required. This section should guide users through the process of getting your application up and running.
+- Svelte Navigator - https://github.com/mefechoel/svelte-navigator
+
+- svelte-spa-router - https://github.com/ItalyPaleAle/svelte-spa-router
+
+- Svelte Carousel - https://vadimkorr.github.io/svelte-carousel/
 
 ## Usage
 
@@ -43,23 +45,29 @@ List of Tournament Assembly features:
 
 ## License
 
-Specify the license under which your project is released. Include a brief description of the license terms and a link to the full license text.
+This project is released under the [GNU GPL v3.0](https://opensource.org/licenses/GPL-3.0). Any changes or derivatives must also be distributed under the terms of the GPL, maintaining the open nature of the source code.
 
 ## Acknowledgments
 
-If your project uses third-party libraries, APIs, or tools, acknowledge them and provide links to their documentation or repositories.
+- cors - https://github.com/expressjs/cors#readme
+
+- cypress - https://www.cypress.io/
+
+- body-parser - https://github.com/expressjs/body-parser#readme
+
+- Svelte Navigator - https://github.com/mefechoel/svelte-navigator#readme
+
+- svelte-spa-router - https://github.com/ItalyPaleAle/svelte-spa-router#readme
+
+- Svelte Carousel - https://github.com/vadimkorr/svelte-carousel#readme
 
 ## Contact Information
 
-Jani Haakana, AA4087@student.jamk.fi
-Mikko Hämäläinen, AB7778@student.jamk.fi
-Nikolas Orava, AA3171@student.jamk.fi
-Eemi Salonen, AB6905@student.jamk.fi
-Teemu Vorho, AB7380@student.jamk.fi
-
-## Code of Conduct
-
-Consider adding a code of conduct to encourage a welcoming and inclusive community around your project.
+- Jani Haakana, AA4087@student.jamk.fi
+- Mikko Hämäläinen, AB7778@student.jamk.fi
+- Nikolas Orava, AA3171@student.jamk.fi
+- Eemi Salonen, AB6905@student.jamk.fi
+- Teemu Vorho, AB7380@student.jamk.fi
 
 ## Troubleshooting
 
@@ -67,12 +75,10 @@ Q: I accidentally refreshed the page as a guest user, do I have to create my tou
 
 A: No worries, we took that in to considiration and made a cache that saves users changes, however caching works only on one tournament at the time. For example if you make a playoff bracket and go to make a scoreboard, the playoff bracket won't be saved. Only the most recent tournament type will be saved into the cache as a guest user.
 
-
 Q: The wrong player advanced to the next round in the playoffs, can I undo this?
 
 A: Yes you can, there is an "undo match"-button in every round in the playoffs excluding the starting round. Let's say the wrong player advanced to the semi-finals from the quarterfinals, you just click the "undo match" button and add th right match up there.
 
-
 Q: In the groups, do I have to create a match schelude on my own?
 
-A: No, there is a button dedicated to that "Generate a match schelude", click that and our software will create a round of games for that group. If you want play multiple rounds, just press the same button again when the ongoing round is finished. 
+A: No, there is a button dedicated to that "Generate a match schelude", click that and our software will create a round of games for that group. If you want play multiple rounds, just press the same button again when the ongoing round is finished.

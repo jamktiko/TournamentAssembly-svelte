@@ -13,7 +13,6 @@ const stateController = {
 
   loginAsGuest() {
     const guest = {
-      username: "guest",
       password: null,
       isGuest: true,
       tournamentData: null,
@@ -34,6 +33,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
       body: JSON.stringify(user),
     });
@@ -47,6 +47,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
       body: JSON.stringify(user),
     });
@@ -85,6 +86,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
       body: JSON.stringify(tourData),
     };
@@ -113,6 +115,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
 
       body: JSON.stringify(tourData),
@@ -143,6 +146,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
 
       body: JSON.stringify(tourData),
