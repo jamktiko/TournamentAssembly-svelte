@@ -39,9 +39,14 @@
     cch.saveToCache('groups', groups);
     cch.saveToCache('groupsConf', config);
 
+    if(user.username) {
+      save();
+    }
+
     if (user.state) delete user.state;
 
     if (unsub) unsub();
+
   });
 
   if (cch.isInCache('groups')) {

@@ -1,16 +1,16 @@
 <script>
-  import { push } from 'svelte-spa-router';
-  import Button from '../reusable/Button.svelte';
-  import { scale } from 'svelte/transition';
-  import { bounceInOut, quadInOut, quintOut } from 'svelte/easing';
-  import { createEventDispatcher } from 'svelte';
+  import { push } from "svelte-spa-router";
+  import Button from "../reusable/Button.svelte";
+  import { scale } from "svelte/transition";
+  import { bounceInOut, quadInOut, quintOut } from "svelte/easing";
+  import { createEventDispatcher } from "svelte";
 
-  import stateController from '../utils/stateStore';
+  import stateController from "../utils/stateStore";
 
-  let username = '';
-  let password = '';
+  let username = "";
+  let password = "";
 
-  let invalidLogin = false;
+  let invalidLogin = "";
 
   async function login() {
     const user = {
@@ -21,16 +21,16 @@
     const res = await stateController.login(user);
 
     if (res.success) {
-      push('/profile');
+      push("/profile");
     } else {
-      invalidLogin = true;
-      setInterval(() => (invalidLogin = false), 1000);
+      invalidLogin = res.msg;
+      setInterval(() => (invalidLogin = ""), 1000);
     }
   }
 
   const dispatch = createEventDispatcher();
   function closeLogin() {
-    dispatch('closeLogin');
+    dispatch("closeLogin");
   }
 </script>
 
@@ -76,7 +76,7 @@
       bind:value={password}
     />
     {#if invalidLogin}
-      <p>Incorrect username or password!</p>
+      <p>{invalidLogin}</p>
     {/if}
     <Button class="login-confirm" on:cClick={login}>LOG IN</Button>
   </div>

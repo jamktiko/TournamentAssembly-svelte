@@ -4,7 +4,8 @@ import { calcId } from "./lib";
 const stateStore = writable({});
 
 const stateController = {
-  apiUrl: "http://localhost:3000/",
+  apiUrl:
+    "https://touras-api-env.eba-82ijsew9.eu-north-1.elasticbeanstalk.com/",
   subscribe: stateStore.subscribe,
 
   set(item) {
@@ -13,7 +14,6 @@ const stateController = {
 
   loginAsGuest() {
     const guest = {
-      username: "guest",
       password: null,
       isGuest: true,
       tournamentData: null,
@@ -34,6 +34,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
       body: JSON.stringify(user),
     });
@@ -47,6 +48,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
       body: JSON.stringify(user),
     });
@@ -85,6 +87,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
       body: JSON.stringify(tourData),
     };
@@ -113,6 +116,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
 
       body: JSON.stringify(tourData),
@@ -143,6 +147,7 @@ const stateController = {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": this.apiUrl,
       },
 
       body: JSON.stringify(tourData),
