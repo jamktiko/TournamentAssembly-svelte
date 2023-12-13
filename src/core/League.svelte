@@ -320,6 +320,11 @@
   }
 
   async function save() {
+    showsavepopup = true
+    setTimeout(() => {
+       
+      showsavepopup = false;
+      }, 1000)
     const state = {
       teams,
       matchResults,
@@ -352,6 +357,7 @@
     agmatches = []
     toggleMatches()
   }
+  let showsavepopup = false
 </script>
 
 <main
@@ -425,6 +431,11 @@
             /></svg
           >SAVE</Button
         >
+        {#if showsavepopup != false}
+        <div class="popup">
+          <p class="popup-message">Save successful</p>
+        </div>
+        {/if}
       </Tooltip>
     {/if}
     <Tooltip
@@ -573,6 +584,7 @@
         </div>
       </div>
     {/if}{/if}
+
 </main>
 
 <style>
@@ -799,6 +811,26 @@
   .save-icon {
     padding-right: 0.3em;
     fill: #7396ff;
+  }
+  .popup {
+    border-radius: 10px;
+    position: fixed;
+    text-align: center;
+    font-size: 1.5em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    color: white;
+    border-radius: 5px;
+    z-index: 9999;
+  }
+  .popup-message {
+    cursor: pointer;
+    color: #fff;
+    margin-left: 0.2em;
+    width: 100%;
   }
 
   /* Tablet Portrait */
