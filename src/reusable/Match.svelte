@@ -97,7 +97,7 @@
     </div>
   </div>
   <div class="draw-container">
-    <Button class="league-plus-minus-button" on:cClick={resolveMatch}
+    <Button class="conclude-match-button" on:cClick={resolveMatch}
       >CONCLUDE MATCH</Button
     >
     {#if match[0] && match[1]}
@@ -245,11 +245,12 @@
     }
   }
 
+
   /* Mobile Phone */
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 600px) {
     #vs-header {
-      padding-left: 0em;
-      padding-right: 0em;
+      padding-left: 0.1em;
+      padding-right: 0.1em;
     }
 
     .match-container {
@@ -260,12 +261,20 @@
 
     .team-content-container {
       margin-top: 1em;
-      width: 35vw;
+      width: 34vw;
+
       padding: 0.7em 0.7em;
     }
 
     .draw-container {
       grid-column-gap: 4em;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    .draw-container {
+      grid-template-columns: 175px 175px;
     }
   }
 </style>
