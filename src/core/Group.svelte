@@ -457,6 +457,7 @@
   let showmatches = false;
   function toggleMatches() {
     showmatches = !showmatches;
+    scroll(0,50)
   }
 
   async function save() {
@@ -503,6 +504,11 @@
   };
   checkScreenSize();
   window.addEventListener('resize', checkScreenSize);
+
+  function cancelMatches(){
+    agmatches = []
+    toggleMatches()
+  }
 </script>
 
 <main>
@@ -781,13 +787,13 @@
                 >
                   <Button
                     class="cancel-match-button"
-                    on:cClick={() => (agmatches = [])}>Cancel matches</Button
+                    on:cClick={cancelMatches}>Cancel matches</Button
                   >
                 </Tooltip>
               {:else}
                 <Button
                   class="cancel-match-button"
-                  on:cClick={() => (agmatches = [])}>Cancel matches</Button
+                  on:cClick={cancelMatches}>Cancel matches</Button
                 >
               {/if}
             </div>

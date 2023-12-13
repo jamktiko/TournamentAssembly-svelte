@@ -40,6 +40,7 @@
     } else {
       showResults = 0;
     }
+
   }
 
   let config = cch.detokenify(params.tourdata)[0];
@@ -309,6 +310,7 @@
   let showmatches = false;
   function toggleMatches() {
     showmatches = !showmatches;
+    scroll(0,50)
   }
 
   let showTooltip = false;
@@ -345,6 +347,10 @@
         a += 1;
       }
     }
+  }
+  function cancelMatches(){
+    agmatches = []
+    toggleMatches()
   }
 </script>
 
@@ -551,7 +557,7 @@
             >
               <Button
                 class="cancel-match-button"
-                on:cClick={() => (agmatches = [])}>Cancel matches</Button
+                on:cClick={cancelMatches}>Cancel matches</Button
               >
             </Tooltip>
           </div>
@@ -841,12 +847,7 @@
     main {
       overflow-x: hidden;
     }
-  }
 
-  @media only screen and (max-width: 600px) {
-    tr {
-      font-size: 0.6em;
-    }
 
     .matches-container {
       margin: auto;
