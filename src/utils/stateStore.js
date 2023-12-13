@@ -4,8 +4,7 @@ import { calcId } from "./lib";
 const stateStore = writable({});
 
 const stateController = {
-  apiUrl:
-    "https://touras-api-env.eba-82ijsew9.eu-north-1.elasticbeanstalk.com/",
+  apiUrl: "http://localhost:3000/",
   subscribe: stateStore.subscribe,
 
   set(item) {
