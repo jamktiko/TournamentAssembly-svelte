@@ -547,7 +547,7 @@
     {#if !user.isGuest && user.username}
       {#if !isPhone}
         <Tooltip
-          text="Press to save any unfinished tournament progress and continue it later via the PORFILE page."
+          text="Press to save any unfinished tournament progress and continue it later via the PROFILE page."
         >
           <Button class="save-button" on:cClick={() => save(groups)}
             ><svg
