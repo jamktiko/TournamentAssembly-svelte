@@ -14,7 +14,6 @@ const stateController = {
 
   loginAsGuest() {
     const guest = {
-      username: "guest",
       password: null,
       isGuest: true,
       tournamentData: null,
