@@ -327,19 +327,21 @@
   let a = 0;
   let b = 0;
 
-  while (a < rounds[0].length) {
+ if (winners.length == 0){ while (a < rounds[0].length) {
     if (rounds[0][a].away.name[6] == '_') {
       rounds[0][a].home.score = bestOfvalue - 1;
+
       moveToNextRound(
         rounds[0][a].home,
         rounds[0][a].away,
         rounds[0][a],
         rounds[0]
       );
+      
     }
     a += 1;
   }
-
+}
   /* Function check if the window is for tablet, used for alternative playerlist */
   let isTablet = false;
   const checkScreenSize = () => {
