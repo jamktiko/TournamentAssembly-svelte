@@ -1,36 +1,36 @@
 <script>
-  import { push } from "svelte-spa-router";
-  import Button from "../reusable/Button.svelte";
-  import { slide } from "svelte/transition";
-  import { fade } from "svelte/transition";
-  import { scale } from "svelte/transition";
-  import { quintOut } from "svelte/easing";
+  import { push } from 'svelte-spa-router';
+  import Button from '../reusable/Button.svelte';
+  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
 
-  import { onDestroy } from "svelte";
-  import cch from "../utils/cache";
+  import { onDestroy } from 'svelte';
+  import cch from '../utils/cache';
 
-  import stateController from "../utils/stateStore";
+  import stateController from '../utils/stateStore';
 
-  import { loadFromSession } from "../utils/lib";
+  import { loadFromSession } from '../utils/lib';
 
   let user;
   const unsub = stateController.subscribe((userData) => (user = userData));
 
-  if (!user.username && window.sessionStorage.getItem("user")) {
-    user = loadFromSession("user");
+  if (!user.username && window.sessionStorage.getItem('user')) {
+    user = loadFromSession('user');
     stateController.set(user);
   }
 
-  let gridData = [{ name: "", columns: [""] }];
+  let gridData = [{ name: '', columns: [''] }];
 
   const intervalId = setInterval(() => {
     if (
       (gridData[0].name && gridData[0].columns[0]) ||
       gridData[0].columns[0] === 0
     ) {
-      cch.saveToCache("scoreboard", gridData);
+      cch.saveToCache('scoreboard', gridData);
     }
-    console.log("cached");
+    console.log('cached');
   }, 10000);
 
   onDestroy(() => {
@@ -40,8 +40,8 @@
     if (user.state) delete user.state;
   });
 
-  if (cch.isInCache("scoreboard")) {
-    const cachedData = cch.getFromCache("scoreboard");
+  if (cch.isInCache('scoreboard')) {
+    const cachedData = cch.getFromCache('scoreboard');
     if (!Array.isArray(cachedData[0].columns)) {
       for (let unit of cachedData) {
         unit.columns = [unit.columns];
@@ -55,15 +55,15 @@
   function addRow() {
     const numColumns = gridData[0].columns.length;
     const newRow = {
-      name: "",
-      columns: Array(numColumns).fill(""), // Create an array with the same number of empty strings as columns
+      name: '',
+      columns: Array(numColumns).fill(''), // Create an array with the same number of empty strings as columns
     };
     gridData = [...gridData, newRow];
   }
 
   function addColumn() {
     gridData.forEach((row) => {
-      row.columns.push("");
+      row.columns.push('');
     });
     gridData = [...gridData];
   }
@@ -101,11 +101,10 @@
   }
 
   async function save() {
-    showsavepopup = true
+    showsavepopup = true;
     setTimeout(() => {
-       
       showsavepopup = false;
-      }, 1000)
+    }, 1000);
     const res = await stateController.updateTourState(
       gridData,
       user.config.id,
@@ -114,7 +113,7 @@
 
     console.log(res);
   }
-  let showsavepopup = false
+  let showsavepopup = false;
 </script>
 
 <main in:slide>
@@ -143,13 +142,13 @@
         >SAVE</Button
       >
       {#if showsavepopup != false}
-      <div class="popup">
-        <p class="popup-message">Save successful</p>
-      </div>
+        <div class="popup">
+          <p class="popup-message">Save successful</p>
+        </div>
       {/if}
     {/if}
   </div>
-  
+
   <div class="table-container">
     <table>
       <thead>
@@ -234,7 +233,7 @@
 <style>
   main {
     margin-left: 15%;
-    margin-top: 2em;
+    margin-top: 25vh;
     margin-bottom: 2em;
     display: flex;
     justify-content: center;
@@ -283,7 +282,7 @@
   }
 
   /* Firefox */
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
     appearance: textfield;
   }
@@ -403,9 +402,22 @@
   }
   /* Tablet Portrait */
   @media only screen and (max-width: 1450px) {
+    main {
+      margin-left: 2.5%;
+      width: 95%;
+    }
+
     table {
       margin: 0;
       overflow-anchor: left;
+    }
+  }
+
+  /* Mobile Phone */
+  @media only screen and (max-width: 500px) {
+    table {
+      margin-top: 2em;
+      font-size: 1em;
     }
   }
 </style>
